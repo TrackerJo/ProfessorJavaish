@@ -1,0 +1,8 @@
+.FileTile{
+    cursor: pointer;
+    font-size: small;
+}
+
+.FileTile:hover{
+    background-color: #3e4451;
+}

@@ -1,0 +1,72 @@
+.RunIcon{
+    width: 15px;
+    height: 15px;
+    margin: 0 10px;
+    cursor: pointer;
+    
+
+}
+
+.StopIcon{
+    width: 15px;
+    height: 15px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.TopBar{
+    background-color: #282c34;
+    display: flex;
+    align-items: center;
+}
+
+.ProjTitle{
+    width: 16%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+
+}
+
+.AddIcon{
+    width: 15px;
+    height: 15px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.EditIcon{
+    width: 15px;
+    height: 15px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.ProjNameDiv{
+    display: flex;
+    align-items: center;
+}
+.ProjNameInput{
+    background-color: #21252b;
+    border-radius: 1%;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    width: 100%;
+    height: 100%;
+    margin-top: 2px;
+    outline: none;
+}
+
+.SaveIcon{
+    width: 15px;
+    height: 15px;
+    margin: 0 10px;
+    cursor: pointer;
+    color: white;
+}
+
+.FileName{
+    font-size: 10px;
+}

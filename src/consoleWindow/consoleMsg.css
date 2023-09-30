@@ -1,0 +1,15 @@
+.ConsoleMsg {
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.ConsoleMsgLine{
+    color: #9aa0a6;
+}
+
+.ConsoleMsg.error{
+    color: #ff8080;
+    background-color: #4e3534;
+}
