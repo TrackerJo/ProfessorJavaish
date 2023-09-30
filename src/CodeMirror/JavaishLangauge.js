@@ -38,11 +38,18 @@ const ExpressionOptions = [
   {label: "greater than", detail: "comparison"}, {label: "less than", detail: "comparison"}, {label: "greater than or equal to", detail: "comparison"}, {label: "less than or equal to", detail: "comparison"}, {label: "equals", detail: "comparison"}, {label: "not equals", detail: "comparison"}, 
 ].map(tag => ({label: tag.label, detail: tag.detail, type: "keyword"}))
 
+const ForOptions = [
+  {label: "when", detail: "loop"}, {label: "each", detail: "loop"}
+].map(tag => ({label: tag.label, detail: tag.detail, type: "keyword"}))
+
 function Completions(context) {
   let word = context.matchBefore(/\w*/)
   console.log(word)
   let wordLength = word.to - word.from
   let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength, -1)
+  //Get all text before nodeBefore
+  let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
+  console.log(textBefore + " textBefore")
   console.log(nodeBefore.name + " nodeBefore")
   if (nodeBefore.name == "Declaration"){
     return DeclarationCompletions(context)
@@ -55,6 +62,10 @@ function Completions(context) {
     return ExpressionCompletions(context)
   }
 
+  if (nodeBefore.name == "ForStatement"){
+    return ForCompletions(context)
+  }
+
 }
 
 function KeywordCompletions(context) {
@@ -63,13 +74,39 @@ function KeywordCompletions(context) {
   let wordLength = word.to - word.from
   let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength, -1)
   let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
+  console.log(word.to - textBefore.length + " textCBefore " + word.from + " word")
   let tagBefore = /@\w*$/.exec(textBefore)
   return {
-    from: word.from,
+    from: word.to - textBefore.length,
     options: KeywordOptions,
     validFor: /^(@\w*)?$/
   }
 }
+
+function ForCompletions(context) {
+    //Get length of word before cursor to space
+    let word = context.matchBefore(/\w*/)
+  
+    //Set pastWord to the word before the word before the cursor
+  
+    let wordLength = word.to - word.from
+    let pastNode = syntaxTree(context.state).resolveInner(context.pos - wordLength - 1, -1)
+    console.log(pastNode.name + " pastWord")
+    
+    let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength, -1)
+  
+    let wordBefore = syntaxTree(context.state).resolveInner(context.pos - (wordLength - 1), 0)
+  
+    console.log(wordBefore.name + " Before")
+    
+    if(pastNode.name == "ForKW"){
+      return {
+        from: word.from,
+        options: ForOptions,
+        validFor: /^(@\w*)?$/
+      }
+    }
+  }  
 
 function DeclarationCompletions(context) {
   //Get length of word before cursor to space
