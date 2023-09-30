@@ -1,8 +1,8 @@
 import {parser} from "./parser.js"
 import {foldNodeProp, foldInside, indentNodeProp} from "@codemirror/language"
-import {styleTags, tags as t} from "@lezer/highlight"
+// import {styleTags, tags as t} from "@lezer/highlight"
 import {LRLanguage} from "@codemirror/language"
-import {completeFromList, CompletionContext} from "@codemirror/autocomplete"
+// import {completeFromList, CompletionContext} from "@codemirror/autocomplete"
 import {LanguageSupport, syntaxTree} from "@codemirror/language"
 
 
@@ -20,7 +20,8 @@ let parserWithMetadata = parser.configure({
 export const exampleLanguage = LRLanguage.define({
   parser: parserWithMetadata,
   languageData: {
-    commentTokens: {line: "//"}
+    commentTokens: {line: "//"},
+    closeBrackets: {brackets: ["(", "[", "{", "'", '"']}
   }
 })
 

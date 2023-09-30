@@ -7,7 +7,7 @@ import editIcon from '../assets/edit_icon.png'
 import saveIcon from '../assets/save_icon.png'
 
 
-function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSave, run, setRun}){
+function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode}){
    
     
     const [editProjName, setEditProjName] = useState(false)
@@ -34,10 +34,10 @@ function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSa
 
     function handleSaveFile(){
         console.log('save file')
-        let file = document.querySelector('.CodeArea')
-        let fileTxt = file.innerHTML
+        
         setCanSave(false)
-        localStorage.setItem(projName + " " + selectedFile + " code", fileTxt)
+        setSavedCode(currentCode)
+        localStorage.setItem(projName + " " + selectedFile + " code", currentCode)
 
     }
 

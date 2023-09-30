@@ -16,11 +16,13 @@ function App() {
   const [files, setFiles] = useState(["main.py", "test.py", "test2.py"])
   const [fileTxt, setFileTxt] = useState("")
   const [canSave, setCanSave] = useState(false)
-  const [savedCode, setSavedCode] = useState("")
+  const [startingCode, setStartingCode] = useState("")
   const [run, setRun] = useState(false)
   const [consoleMsgs, setConsoleMsgs] = useState([])
   const [alertMsg, setAlertMsg] = useState("")
   const [alertOpen, setAlertOpen] = useState(false)
+  const [savedCode, setSavedCode] = useState("")
+  const [currentCode, setCurrentCode] = useState("")
 
   useEffect(() => {
     setFiles(readFilesLocally())
@@ -199,18 +201,24 @@ function App() {
     }
     setSelectedFile(fileName)
     let fileTxt = readFileTxtLocally(fileName)
+    setStartingCode(fileTxt)
     setSavedCode(fileTxt)
     setCanSave(false)
    
   }
 
+  function allowSave(code){
+    setCanSave(true)
+    setCurrentCode(code)
+  }
+
   return (
     <>
-     <TopBar addFile={addFile} projName={projName} setProjName={setProjName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun}/>
+     <TopBar addFile={addFile} projName={projName} setProjName={setProjName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={currentCode}/>
       <div className='Windows'> 
         <FilesWindow handleSelectFile={handleSelectedFile} files={files}/>
         <div className='RightWindows'>
-          <CodeWindow selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} savedCode={savedCode} run={run} setSavedCode={setSavedCode}/>
+          <CodeWindow allowSave={allowSave} startingCode={startingCode} savedCode={savedCode}/>
           <ConsoleWindow consoleMsgs={consoleMsgs}/>
         </div>
          

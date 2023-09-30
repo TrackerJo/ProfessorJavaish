@@ -1,14 +1,16 @@
-import {useRef, useEffect} from 'react'
+import {useRef, useEffect, useState} from 'react'
 
 import {basicSetup, EditorView} from "codemirror"
+import {keymap} from '@codemirror/view'
 import {EditorState, Compartment} from "@codemirror/state"
 import {python} from "@codemirror/lang-python"
 import { example } from './JavaishLangauge';
+import {indentWithTab} from "@codemirror/commands"
 import './JavaishEditor.css'
 
 import {tags} from "@lezer/highlight"
 import {HighlightStyle, syntaxHighlighting} from "@codemirror/language"
-import { oneDarkHighlightStyle, oneDarkTheme } from '@codemirror/theme-one-dark';
+import { oneDarkTheme } from '@codemirror/theme-one-dark';
 
 const myHighlightStyle = HighlightStyle.define([
   {tag: tags.keyword, color: "#c678dd"},
@@ -25,10 +27,13 @@ const myHighlightStyle = HighlightStyle.define([
 ])
 
 
-export const Editor = () => {
+function Editor({startingCode, codeChanged, savedCode})  {
     const editor = useRef();
-
-    
+    const [syncVal, setSyncVal] = useState("");
+    function getCode(){
+      return editor.current.firstChild.textContent
+    }
+  
   
     useEffect(() => {
     //   const startState = EditorState.create({
@@ -43,8 +48,12 @@ export const Editor = () => {
           basicSetup,
           syntaxHighlighting(myHighlightStyle),
           language.of(example()),
+          keymap.of([indentWithTab]),
           tabSize.of(EditorState.tabSize.of(8)),
-          oneDarkTheme
+          oneDarkTheme, 
+          EditorView.updateListener.of(function(e) {
+            setSyncVal(e.state.doc.toString());
+        })
       ]
       })
   
@@ -52,14 +61,30 @@ export const Editor = () => {
       state,
       parent: editor.current
       })
+
+
     
-  
+      view.dispatch({
+        changes: {from: 0, insert: startingCode}
+      })
+
+      // console.log(getCode())
       //const view = new EditorView({ state: startState, parent: editor.current });
   
       return () => {
         view.destroy();
       };
-    }, []);
-  
+    }, [startingCode]);
+
+    useEffect(() => {
+      console.log(syncVal)
+      if(syncVal != savedCode){
+        codeChanged(syncVal)
+      }
+    }, [syncVal])
+   
+
     return <div ref={editor} className='CodeEditor'></div>;
-  };
+  }
+
+export default Editor
