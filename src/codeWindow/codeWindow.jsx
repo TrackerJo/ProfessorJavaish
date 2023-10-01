@@ -15,7 +15,7 @@ function CodeWindow({startingCode, allowSave, savedCode, run, selectedFile}){
 
     useEffect(() => {
         console.log("selected file changed")
-        console.log(startingCode)
+        
         setCode(startingCode)
         document.querySelector('.Code').innerHTML = startingCode
     }, [selectedFile])

@@ -7,7 +7,7 @@ function SelectProject({setProjName, setFiles, readFilesLocally}){
 
     useEffect(() => {
         let projects = localStorage.getItem("projects")
-        console.log(projects)
+       
         if(projects != null){
             projects = JSON.parse(projects)
             setProjects(projects)
@@ -16,7 +16,7 @@ function SelectProject({setProjName, setFiles, readFilesLocally}){
     }, [])
 
     function handleSelectProj(){
-        console.log(selectedProj)
+        
         setProjName(selectedProj)
         setFiles(readFilesLocally())
         localStorage.setItem("currentProj", selectedProj)

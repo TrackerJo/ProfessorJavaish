@@ -29,7 +29,7 @@ const myHighlightStyle = HighlightStyle.define([
 
 function Editor({startingCode, codeChanged, savedCode, canEdit})  {
     const editor = useRef();
-    const [syncVal, setSyncVal] = useState("");
+    const [syncVal, setSyncVal] = useState(startingCode);
     function getCode(){
       return editor.current.firstChild.textContent
     }
@@ -78,7 +78,10 @@ function Editor({startingCode, codeChanged, savedCode, canEdit})  {
     }, [startingCode]);
 
     useEffect(() => {
-      console.log(syncVal)
+      console.log("sync val changed")
+      console.log(syncVal + " - Sync Val")
+      console.log(savedCode + " - Saved Code")
+
       if(syncVal != savedCode){
         codeChanged(syncVal)
       }
