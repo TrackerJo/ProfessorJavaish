@@ -2,12 +2,15 @@ import './fileTile.css'
 
 function FileTile({fileName, handleSelectFile}){
 
-    function handleClick(){
+    function handleClick(e){
+        document.querySelector('.selected')?.classList.remove('selected')
+        e.target.classList.add('selected')
         handleSelectFile(fileName)
+
     }
     return (
         <div className='FileTile' onClick={handleClick}>
-            <p>{fileName}</p>
+            {fileName}
         </div>
     )
 }

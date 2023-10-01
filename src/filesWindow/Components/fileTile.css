@@ -1,8 +1,16 @@
 .FileTile{
     cursor: pointer;
     font-size: small;
+
+ 
 }
 
 .FileTile:hover{
     background-color: #3e4451;
+}
+
+.FileTile.selected{
+    background-color: #323842;
+    /* Outline */
+    border: 1px solid #3e4452;
 }

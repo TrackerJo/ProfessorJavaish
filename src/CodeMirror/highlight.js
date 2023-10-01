@@ -14,7 +14,7 @@ export const highlighting = styleTags({
    "Minus": tags.arithmeticOperator,
    "Multiply": tags.arithmeticOperator,
    "Divide": tags.arithmeticOperator,
-   "VarName": tags.variableName,
+   
    
    "LetKW": tags.keyword,
    "Equal": tags.logicOperator,
@@ -47,7 +47,9 @@ export const highlighting = styleTags({
   "ForWhen": tags.keyword,
   "ForEach": tags.keyword,
   "FunctionKW": tags.keyword,
-  "FunctionCall": tags.name,
-  "FunctionName": tags.name,
+  "VarName": tags.variableName,
+  "FunctionCall/VarName": tags.name,
+  "FunctionDeclaration/VarName": tags.name,
+
   
 })

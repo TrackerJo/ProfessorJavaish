@@ -7,6 +7,7 @@ import CodeWindow from './codeWindow/codeWindow'
 import TopBar from './topBar/topBar'
 import ConsoleWindow from './consoleWindow/consoleWindow'
 import Alert from './Modals/alert'
+import SelectProject from './SelectProject/SelectProject'
 
 
 
@@ -25,26 +26,50 @@ function App() {
   const [currentCode, setCurrentCode] = useState("")
 
   useEffect(() => {
-    setFiles(readFilesLocally())
+    let selectedProj = localStorage.getItem("currentProj")
+    if(selectedProj != null){
+      setProjName(selectedProj)
+      setFiles(readFilesLocally())
+    } else {
+      let selectProjDialog = document.querySelector('.SelectProject')
+      selectProjDialog.showModal()
+    }
+
+    
    
 
   }, [])
 
-    
-  function showAlert(msg){
-     setAlertMsg(msg)
-      setAlertOpen(true)
-      let alertD = document.querySelector('.Alert')
-      alertD.showModal()
-    // setTimeout(() => {
-    //   alert(msg)
-    // }, 5)
-    console.log(document.querySelector('.ConsoleArea').children)
-    
-    alert(msg)
+  useEffect(() => {
+    keybinds()
+  }, [selectedFile])
 
+  function keybinds(){
+    document.addEventListener('keydown', (e) => {
+      
+      if(e.keyCode == 8 && e.metaKey){
+        let proj = localStorage.getItem("currentProj")
+        let project = JSON.parse(localStorage.getItem("projects-" + proj))
+        let files = project.files
+        let newFiles = []
+        for(let i = 0; i < files.length; i++){
+          
+          if(files[i].name != selectedFile){
+            newFiles.push(files[i])
+          }
+        }
+        project.files = newFiles
+        localStorage.setItem("projects-" + proj, JSON.stringify(project))
+        setFiles(readFilesLocally())
+        setSelectedFile("")
+        setStartingCode("")
+        setSavedCode("")
+        setCanSave(false)
+      }
+    })
   }
-  window.showAlert = showAlert;
+    
+  
 
   function closeAlert(){
     let alert = document.querySelector('.Alert')
@@ -67,8 +92,7 @@ function App() {
     }
 
     let nConsoleMsgs = [...getConsoleMsgs(), consoleMsg]
-    console.log(nConsoleMsgs)
-    console.log(getConsoleMsgs())
+    
     let consoleArea = document.querySelector('.ConsoleArea')
     let consoleMsgDiv = document.createElement('div')
     consoleMsgDiv.className = 'ConsoleMsg normal' 
@@ -83,7 +107,6 @@ function App() {
     consoleArea.appendChild(consoleMsgDiv)
 
     await setConsoleMsgs(nConsoleMsgs)
-    console.log(consoleMsgs)
   }
   window.addConsoleLog = addConsoleLog;
 
@@ -96,8 +119,7 @@ function App() {
     }
 
     let nConsoleMsgs = [...getConsoleMsgs(), consoleMsg]
-    console.log(nConsoleMsgs)
-    console.log(getConsoleMsgs())
+ 
     let consoleArea = document.querySelector('.ConsoleArea')
     let consoleMsgDiv = document.createElement('div')
     consoleMsgDiv.className = 'ConsoleMsg error' 
@@ -112,7 +134,7 @@ function App() {
     consoleArea.appendChild(consoleMsgDiv)
 
     await setConsoleMsgs(nConsoleMsgs)
-    console.log(consoleMsgs)
+
     setRun(false)
   }
   window.addConsoleError = addConsoleError;
@@ -122,13 +144,12 @@ function App() {
     let msgs = []
     let consoleArea = document.querySelector('.ConsoleArea')
     let children = consoleArea.children
-    console.log(consoleArea)
-    console.log(children.length)
+
 
     for(let i = 0; i < children.length; i++){
       let msg = children[i].innerHTML
       let type = children[i].className.split(" ")[1]
-      console.log(msg + " " + type)
+      
       msgs.push({
         msg: msg,
         type: type
@@ -152,44 +173,61 @@ function App() {
       setSelectedFile(fileName)
       let nFiles = [...files, fileName]
       setFiles(nFiles)
-      saveFilesLocally(nFiles)
+      saveFileLocally(fileName, "")
       
     }
   }
 
-  function saveFilesLocally(files){
-    let lFiles = []
-    for(let i = 0; i < files.length; i++){
-      lFiles.push( projName + " " + files[i])
+  function saveFileLocally(fileName, code){
+    let project = JSON.parse(localStorage.getItem("projects-" + projName))
+    let filesList = project.files
+    let file = {
+      name: fileName,
+      code: code
     }
-
-    localStorage.setItem('files', JSON.stringify(lFiles))
+    filesList.push(file)
+    project.files = filesList
+    localStorage.setItem("projects-" + projName, JSON.stringify(project))
   }
 
-  function readFilesLocally(){
-    let lFiles = localStorage.getItem('files')
-    if(lFiles != null){
-      let lFiles = JSON.parse(localStorage.getItem('files'))
 
-      let files = []
-      for(let i = 0; i < lFiles.length; i++){
-        files.push(lFiles[i].split(" ")[1])
+  function readFilesLocally(){
+    let selectedProj = localStorage.getItem("currentProj")
+    let project = localStorage.getItem("projects-" + selectedProj)
+    if(project != null){
+      project = JSON.parse(project)
+      let files = project.files
+      let fileNames = []
+      for(let i = 0; i < files.length; i++){
+        fileNames.push(files[i].name)
       }
-      return files
+      
+      return fileNames
     }
     return []
     
   }
 
   function readFileTxtLocally(fileName){
-    let fileTxt = localStorage.getItem(projName + " " + fileName + " code")
-    if(fileTxt != null){
-      return fileTxt
+    let project = localStorage.getItem("projects-" + projName)
+    if(project != null){
+      project = JSON.parse(project)
+      let files = project.files
+      for(let i = 0; i < files.length; i++){
+        if(files[i].name == fileName){
+          return files[i].code
+        }
+      }
     }
+      
     return ""
   }
 
   function handleSelectedFile(fileName){
+    
+    if(selectedFile == fileName){
+      return
+    }
     if(canSave){
       let save = window.confirm("Save file?")
       if(save){
@@ -204,6 +242,7 @@ function App() {
     setStartingCode(fileTxt)
     setSavedCode(fileTxt)
     setCanSave(false)
+    
    
   }
 
@@ -214,11 +253,13 @@ function App() {
 
   return (
     <>
+    
+    <SelectProject setProjName={setProjName} setFiles={setFiles} readFilesLocally={readFilesLocally}/>
      <TopBar addFile={addFile} projName={projName} setProjName={setProjName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={currentCode}/>
       <div className='Windows'> 
         <FilesWindow handleSelectFile={handleSelectedFile} files={files}/>
         <div className='RightWindows'>
-          <CodeWindow allowSave={allowSave} startingCode={startingCode} savedCode={savedCode}/>
+          <CodeWindow allowSave={allowSave} startingCode={startingCode} savedCode={savedCode} run={run} selectedFile={selectedFile}/>
           <ConsoleWindow consoleMsgs={consoleMsgs}/>
         </div>
          

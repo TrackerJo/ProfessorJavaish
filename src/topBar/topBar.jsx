@@ -24,7 +24,7 @@ function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSa
         setTimeout(() => {
 
             main()
-            setRun(false)
+            //setRun(false)
         }, 50)
 
        
@@ -32,12 +32,26 @@ function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSa
         
     }
 
+    function finishRun(){
+        setRun(false)
+    }
+    window.finishRun = finishRun
+
     function handleSaveFile(){
         console.log('save file')
         
         setCanSave(false)
         setSavedCode(currentCode)
-        localStorage.setItem(projName + " " + selectedFile + " code", currentCode)
+        let project = JSON.parse(localStorage.getItem("projects-" + projName))
+        let files = project.files
+        for(let i = 0; i < files.length; i++){
+            if(files[i].name == selectedFile){
+                files[i].code = currentCode
+            }
+        }
+        project.files = files
+        localStorage.setItem("projects-" + projName, JSON.stringify(project))
+
 
     }
 

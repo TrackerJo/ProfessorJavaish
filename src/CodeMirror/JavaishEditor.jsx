@@ -27,7 +27,7 @@ const myHighlightStyle = HighlightStyle.define([
 ])
 
 
-function Editor({startingCode, codeChanged, savedCode})  {
+function Editor({startingCode, codeChanged, savedCode, canEdit})  {
     const editor = useRef();
     const [syncVal, setSyncVal] = useState("");
     function getCode(){
@@ -53,7 +53,8 @@ function Editor({startingCode, codeChanged, savedCode})  {
           oneDarkTheme, 
           EditorView.updateListener.of(function(e) {
             setSyncVal(e.state.doc.toString());
-        })
+        }),
+        EditorView.editable.of(canEdit),
       ]
       })
   
@@ -82,6 +83,9 @@ function Editor({startingCode, codeChanged, savedCode})  {
         codeChanged(syncVal)
       }
     }, [syncVal])
+
+    //Disable editting
+  
    
 
     return <div ref={editor} className='CodeEditor'></div>;
