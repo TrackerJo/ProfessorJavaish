@@ -2,3 +2,7 @@
     width: 100%;
     height: 100%;
 }
+
+.cm-focusLine{
+    background-color: #6699ff21 !important;
+}

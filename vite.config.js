@@ -12,18 +12,19 @@ const root = resolve(__dirname, 'src')
 const outDir = resolve(__dirname, 'dist')
 
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
   root,
   plugins: [react()],
+  publicDir: "build",
   base: '/ProfessorJava/',
   build: {
     outDir,
+
     emptyOutDir: true,
     rollupOptions: {
-      assetFileNames: ({name}) => {
-        return 'assets/[name]-[hash][extname]';
-      },
+
       input: {
         index: resolve(root,  'index.html'),
        

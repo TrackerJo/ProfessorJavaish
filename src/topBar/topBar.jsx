@@ -6,6 +6,7 @@ import stopIcon from '../assets/stop_icon.png'
 import editIcon from '../assets/edit_icon.png'
 import saveIcon from '../assets/save_icon.png'
 
+import callMain from '../javaish.mjs'
 
 function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode}){
    
@@ -23,7 +24,7 @@ function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSa
         //Wait 1 second for the server to start
         setTimeout(() => {
 
-            main()
+            callMain();
             //setRun(false)
         }, 50)
 
@@ -65,7 +66,9 @@ function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSa
         document.addEventListener('keydown', (e) => {
           if(e.metaKey && e.key == "s"){
             e.preventDefault()
-            handleSaveFile()
+            if(canSave){
+                handleSaveFile()
+            }
           }
         }
         )

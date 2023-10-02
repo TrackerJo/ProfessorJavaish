@@ -13,3 +13,9 @@
     color: #ff8080;
     background-color: #4e3534;
 }
+
+.ConsoleMsgLine:hover{
+    cursor: pointer;
+    /* Underline text */
+    text-decoration: underline;
+}

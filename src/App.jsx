@@ -6,7 +6,7 @@ import FilesWindow from './filesWindow/filesWindow'
 import CodeWindow from './codeWindow/codeWindow'
 import TopBar from './topBar/topBar'
 import ConsoleWindow from './consoleWindow/consoleWindow'
-import Alert from './Modals/alert'
+
 import SelectProject from './SelectProject/SelectProject'
 
 
@@ -103,6 +103,27 @@ function App() {
     let consoleMsgLine = document.createElement('div')
     consoleMsgLine.className = 'ConsoleMsgLine'
     consoleMsgLine.innerHTML = "Line: " + message[1]
+    console.log("Adding click event")
+    consoleMsgLine.onclick = () => {
+      let code = document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content')
+      console.log("CLICK")
+      let lines = code.children
+      console.log(lines)
+      for(let i = 0; i < lines.length; i++){
+        console.log(i + 1 + " " + message[1] )
+        console.log(i + 1 == parseInt(message[1]))
+       if(i + 1 == parseInt(message[1])){
+          console.log("Scrolling to line " + i)
+          lines[i].scrollIntoView()
+        
+          document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-activeLine').classList.remove('cm-activeLine')
+          lines[i].classList.add('cm-activeLine')
+          lines[i].classList.add('cm-focusLine')
+          //Set focus to line
+          
+        }
+      }
+    }
     consoleMsgDiv.appendChild(consoleMsgLine)
     consoleArea.appendChild(consoleMsgDiv)
 
@@ -130,6 +151,27 @@ function App() {
     let consoleMsgLine = document.createElement('div')
     consoleMsgLine.className = 'ConsoleMsgLine'
     consoleMsgLine.innerHTML = "Line: " + message[1]
+    consoleMsgLine.onclick = () => {
+      let code = document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content')
+      console.log("CLICK")
+      let lines = code.children
+      console.log(lines)
+      for(let i = 0; i < lines.length; i++){
+        console.log(i + 1 + " " + message[1] )
+        console.log(i + 1 == parseInt(message[1]))
+       if(i + 1 == parseInt(message[1])){
+          console.log("Scrolling to line " + i)
+          lines[i].scrollIntoView()
+        
+          document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-activeLine').classList.remove('cm-activeLine')
+          lines[i].classList.add('cm-activeLine')
+          //Set focus to line
+          lines[i].classList.add('cm-focusLine')
+          
+        }
+      }
+    }
+    
     consoleMsgDiv.appendChild(consoleMsgLine)
     consoleArea.appendChild(consoleMsgDiv)
 

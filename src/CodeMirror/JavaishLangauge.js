@@ -45,21 +45,32 @@ const ForOptions = [
 
 function Completions(context) {
   let word = context.matchBefore(/\w*/)
-  console.log(word)
+  console.log(word.text + " word")
+  //See if made new line
+  let madeNewLine = false
+  let textBefore = context.state.sliceDoc(context.pos - word.text.length, context.pos)
+  console.log(textBefore + " textBefore")
   let wordLength = word.to - word.from
-  let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength, -1)
+  let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength - 1, -1)
+  let currentNode = syntaxTree(context.state).resolveInner(context.pos, -1)
   //Get all text before nodeBefore
-  let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
+  //let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
+  //See if made new line
+  console.log(textBefore.split("\n") + " Split")
+  let textBeforeLines = textBefore.split("\n")
+  textBefore = textBeforeLines[textBeforeLines.length - 1]
   console.log(textBefore + " textBefore")
   console.log(nodeBefore.name + " nodeBefore")
-  if (nodeBefore.name == "Declaration"){
+  console.log(currentNode.name + " currentNode")
+  if (nodeBefore.name == "LetKW"){
     return DeclarationCompletions(context)
   }
-  if (nodeBefore.name == "Program" || nodeBefore.name == "⚠"){
+  if (nodeBefore.name == "Program" || nodeBefore.name == "⚠" || nodeBefore.name =="Period"){
+    console.log("f")
     return KeywordCompletions(context)
   }
 
-  if (nodeBefore.name == "BinaryExpression"){
+  if (nodeBefore.name == "BinaryExpression" || nodeBefore.name == "Equal"){
     return ExpressionCompletions(context)
   }
 
@@ -75,6 +86,12 @@ function KeywordCompletions(context) {
   let wordLength = word.to - word.from
   let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength, -1)
   let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
+  //Get all text before nodeBefore
+  
+  //See if made new line
+  console.log(textBefore.split("\n") + " Split")
+  let textBeforeLines = textBefore.split("\n")
+  textBefore = textBeforeLines[textBeforeLines.length - 1]
   console.log(word.to - textBefore.length + " textCBefore " + word.from + " word")
   let tagBefore = /@\w*$/.exec(textBefore)
   return {

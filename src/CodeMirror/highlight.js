@@ -47,9 +47,16 @@ export const highlighting = styleTags({
   "ForWhen": tags.keyword,
   "ForEach": tags.keyword,
   "FunctionKW": tags.keyword,
+  "ToKW": tags.keyword,
+  "ByKW": tags.keyword,
+  "ReturnKW": tags.keyword,
+  "FromKW": tags.keyword,
   "VarName": tags.variableName,
   "FunctionCall/VarName": tags.name,
   "FunctionDeclaration/VarName": tags.name,
+  "Arguments/FunctionCall/VarName": tags.name,
+  "FunctionCall/FunctionCall/VarName": tags.name,
+
 
   
 })
