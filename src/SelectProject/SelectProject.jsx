@@ -68,12 +68,7 @@ function SelectProject({setProjName, setFiles, readFilesLocally}){
             <br />
             <button className="CreateProjectButton" onClick={handleShowCreateProj}>Create Project</button>
         </dialog>
-        <dialog className="CreateProject">
-            <div className="CreateProject">Select Project</div>
-            <input type="text" className='CreateProjectInput' onChange={(e) => setSelectedProj(e.target.value)}/>
-            <br />
-            <button className="CreateProjectButton" onClick={handleCreateProj}>Create Project</button>
-        </dialog>
+       
         </>
     )
 }

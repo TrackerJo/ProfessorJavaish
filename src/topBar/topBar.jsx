@@ -11,7 +11,7 @@ import callMain from '../javaish.mjs'
 
 
 
-function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode}){
+function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, exitProj}){
    
     
     const [editProjName, setEditProjName] = useState(false)
@@ -108,14 +108,14 @@ function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSa
     }
 
     function handleBackButton(){
-        let selectProjDialog = document.querySelector('.SelectProject')
-      selectProjDialog.showModal()
+       exitProj()
     }
     
     return (
         <div className='TopBar'>
-            <img src={backIcon} className='BackIcon' alt='Back' onClick={handleBackButton}/>
+            
             <div className='ProjTitle'> 
+                <img src={backIcon} className='BackIcon' alt='Back' onClick={handleBackButton}/>
                 <div className='ProjNameDiv'>
                     <h2 className='ProjName'>{projName}</h2>
                     {/* <img src={editIcon} alt="edit" className='EditIcon' onClick={handleEditProjName}/> */}

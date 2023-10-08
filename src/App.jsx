@@ -8,13 +8,14 @@ import TopBar from './topBar/topBar'
 import ConsoleWindow from './consoleWindow/consoleWindow'
 
 import SelectProject from './SelectProject/SelectProject'
+import WelcomeWindow from './welcomeWindow/welcomeWindow'
 
 
 
 function App() {
   const [selectedFile, setSelectedFile] = useState("")
-  const [projName, setProjName] = useState("Test")
-  const [files, setFiles] = useState(["main.py", "test.py", "test2.py"])
+  const [projName, setProjName] = useState("")
+  const [files, setFiles] = useState([])
   const [fileTxt, setFileTxt] = useState("")
   const [canSave, setCanSave] = useState(false)
   const [startingCode, setStartingCode] = useState("")
@@ -24,17 +25,15 @@ function App() {
   const [alertOpen, setAlertOpen] = useState(false)
   const [savedCode, setSavedCode] = useState("")
   const [currentCode, setCurrentCode] = useState("")
+  const [showWelcome, setShowWelcome] = useState(true)
 
   useEffect(() => {
     let selectedProj = localStorage.getItem("currentProj")
-    if(selectedProj != null){
+    if(selectedProj != null && selectedProj != ""){
       setProjName(selectedProj)
       setFiles(readFilesLocally())
-    } else {
-      let selectProjDialog = document.querySelector('.SelectProject')
-      selectProjDialog.showModal()
-    }
-
+      setShowWelcome(false)
+    } 
     
    
 
@@ -294,30 +293,29 @@ function App() {
     setCurrentCode(code)
   }
 
+  function exitProj(){
+    setProjName("")
+    setFiles([])
+    setSelectedFile("")
+    localStorage.setItem("currentProj", "")
+    setShowWelcome(true)
+  }
+
   return (
     <>
     
-    <SelectProject setProjName={setProjName} setFiles={setFiles} readFilesLocally={readFilesLocally}/>
-     <TopBar addFile={addFile} projName={projName} setProjName={setProjName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={currentCode}/>
+    
+     {projName != "" ? <TopBar addFile={addFile} projName={projName} setProjName={setProjName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={currentCode} exitProj={exitProj}/> : null}
       <div className='Windows'> 
         <FilesWindow handleSelectFile={handleSelectedFile} files={files}/>
         <div className='RightWindows'>
-          <CodeWindow allowSave={allowSave} startingCode={startingCode} savedCode={savedCode} run={run} selectedFile={selectedFile}/>
+          {showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFilesLocally={readFilesLocally} setShowWelcome={setShowWelcome}/> : <CodeWindow allowSave={allowSave} startingCode={startingCode} savedCode={savedCode} run={run} selectedFile={selectedFile}/> }
+          
           <ConsoleWindow consoleMsgs={consoleMsgs}/>
         </div>
          
       </div>
-      {<dialog className="Alert">
-        
-          <p>
-            {alertMsg}
-          </p>
-          <div>
-            
-            <button onClick={closeAlert} >Close</button>
-          </div>
-        
-      </dialog>}
+      
       
     </>
   )
