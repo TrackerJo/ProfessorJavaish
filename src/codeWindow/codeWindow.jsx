@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from 'react'
 import './codeWindow.css'
-import TopBar from '../topBar/topBar'
+
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css';
 import { example } from '../CodeMirror/JavaishLangauge';
 import Editor from '../CodeMirror/JavaishEditor';
+import CodeTopBar from './topbar';
 
-function CodeWindow({startingCode, allowSave, savedCode, run, selectedFile}){
+function CodeWindow({startingCode, setCanSave, savedCode, run, selectedFile, canSave, projName, setRun, setSavedCode}){
    const [code, setCode] = useState(startingCode)
 
     useEffect(() => {
@@ -21,7 +22,7 @@ function CodeWindow({startingCode, allowSave, savedCode, run, selectedFile}){
     }, [selectedFile])
     
     function codeChanged(code){
-       allowSave(code)
+       setCanSave(true)
         setCode(code)
 
     }
@@ -32,6 +33,7 @@ function CodeWindow({startingCode, allowSave, savedCode, run, selectedFile}){
         <>
         
         <div className='CodeWindow'>
+                <CodeTopBar projName={projName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={code}/>
                 {selectedFile != "" ? <Editor startingCode={startingCode} codeChanged={codeChanged} savedCode={savedCode} canEdit={!run}/> : <p>Please select a file to edit</p>}
                <div className='Code'>{code}</div>
             

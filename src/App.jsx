@@ -9,6 +9,7 @@ import ConsoleWindow from './consoleWindow/consoleWindow'
 
 import SelectProject from './SelectProject/SelectProject'
 import WelcomeWindow from './welcomeWindow/welcomeWindow'
+import { createUserData } from './firebase/database'
 
 
 
@@ -24,7 +25,6 @@ function App() {
   const [alertMsg, setAlertMsg] = useState("")
   const [alertOpen, setAlertOpen] = useState(false)
   const [savedCode, setSavedCode] = useState("")
-  const [currentCode, setCurrentCode] = useState("")
   const [showWelcome, setShowWelcome] = useState(true)
 
   useEffect(() => {
@@ -34,6 +34,7 @@ function App() {
       setFiles(readFilesLocally())
       setShowWelcome(false)
     } 
+    createUserData("test", "test", "test");
     
    
 
@@ -288,10 +289,7 @@ function App() {
    
   }
 
-  function allowSave(code){
-    setCanSave(true)
-    setCurrentCode(code)
-  }
+
 
   function exitProj(){
     setProjName("")
@@ -303,13 +301,10 @@ function App() {
 
   return (
     <>
-    
-    
-     {projName != "" ? <TopBar addFile={addFile} projName={projName} setProjName={setProjName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={currentCode} exitProj={exitProj}/> : null}
       <div className='Windows'> 
-        <FilesWindow handleSelectFile={handleSelectedFile} files={files}/>
+        <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj}/>
         <div className='RightWindows'>
-          {showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFilesLocally={readFilesLocally} setShowWelcome={setShowWelcome}/> : <CodeWindow allowSave={allowSave} startingCode={startingCode} savedCode={savedCode} run={run} selectedFile={selectedFile}/> }
+          {showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFilesLocally={readFilesLocally} setShowWelcome={setShowWelcome}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile}/> }
           
           <ConsoleWindow consoleMsgs={consoleMsgs}/>
         </div>
