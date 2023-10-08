@@ -56,6 +56,7 @@ export const highlighting = styleTags({
   "FunctionDeclaration/VarName": tags.name,
   "Arguments/FunctionCall/VarName": tags.name,
   "FunctionCall/FunctionCall/VarName": tags.name,
+  "Bang": tags.operator,
 
 
   

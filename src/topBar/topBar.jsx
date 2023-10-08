@@ -5,8 +5,11 @@ import addIcon from '../assets/add_icon.png'
 import stopIcon from '../assets/stop_icon.png'
 import editIcon from '../assets/edit_icon.png'
 import saveIcon from '../assets/save_icon.png'
-
+import backIcon from '../assets/back_icon.png'
 import callMain from '../javaish.mjs'
+
+
+
 
 function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode}){
    
@@ -60,12 +63,13 @@ function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSa
         saveShortcut()
        
     
-      }, [])
+      }, [canSave])
     
       function saveShortcut(){
         document.addEventListener('keydown', (e) => {
           if(e.metaKey && e.key == "s"){
             e.preventDefault()
+            console.log('save shortcut')
             if(canSave){
                 handleSaveFile()
             }
@@ -102,10 +106,16 @@ function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSa
     function handleAddFile(){
         addFile()
     }
+
+    function handleBackButton(){
+        let selectProjDialog = document.querySelector('.SelectProject')
+      selectProjDialog.showModal()
+    }
     
     return (
         <div className='TopBar'>
-            <div className='ProjTitle'>
+            <img src={backIcon} className='BackIcon' alt='Back' onClick={handleBackButton}/>
+            <div className='ProjTitle'> 
                 <div className='ProjNameDiv'>
                     <h2 className='ProjName'>{projName}</h2>
                     {/* <img src={editIcon} alt="edit" className='EditIcon' onClick={handleEditProjName}/> */}

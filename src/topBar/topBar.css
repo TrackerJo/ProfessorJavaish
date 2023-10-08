@@ -21,11 +21,10 @@
 }
 
 .ProjTitle{
-    width: 16%;
+    width: 15%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 10px;
 
 }
 
@@ -69,4 +68,11 @@
 
 .FileName{
     font-size: 10px;
+}
+
+.BackIcon{
+    width: 10px;
+    height: 15px;
+    margin: 0 10px;
+    cursor: pointer;
 }

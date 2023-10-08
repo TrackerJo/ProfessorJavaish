@@ -10,6 +10,7 @@ function SelectProject({setProjName, setFiles, readFilesLocally}){
        
         if(projects != null){
             projects = JSON.parse(projects)
+            console.log(projects)
             setProjects(projects)
             setSelectedProj(projects[0])
         }
@@ -18,8 +19,10 @@ function SelectProject({setProjName, setFiles, readFilesLocally}){
     function handleSelectProj(){
         
         setProjName(selectedProj)
-        setFiles(readFilesLocally())
         localStorage.setItem("currentProj", selectedProj)
+        setFiles(readFilesLocally())
+        console.log(selectedProj + " - selectedproj dialog")
+        
         let selectProjDialog = document.querySelector('.SelectProject')
         selectProjDialog.close()
     }
@@ -36,6 +39,7 @@ function SelectProject({setProjName, setFiles, readFilesLocally}){
         if(projects == null){
             projects = []
         }
+        projects = JSON.parse(projects)
         projects.push(selectedProj)
         console.log(projects)
         localStorage.setItem("projects", JSON.stringify(projects))

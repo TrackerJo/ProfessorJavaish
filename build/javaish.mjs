@@ -22337,5 +22337,9 @@ export default function callMain(){
     main()
 }
 
-
+console.log("callMain")
+function test(){
+    main()
+}
+window.test = test
 //# sourceMappingURL=classes.js.map

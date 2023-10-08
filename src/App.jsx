@@ -235,6 +235,7 @@ function App() {
 
   function readFilesLocally(){
     let selectedProj = localStorage.getItem("currentProj")
+    console.log(selectedProj + " - selected proj")
     let project = localStorage.getItem("projects-" + selectedProj)
     if(project != null){
       project = JSON.parse(project)
