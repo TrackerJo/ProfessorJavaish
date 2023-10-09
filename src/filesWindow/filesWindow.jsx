@@ -8,14 +8,17 @@ function FilesWindow({handleSelectFile, files, addFile, projName, setProjName, e
     
     
     return (
-        <div className='Files'>
+        <div className='FilesWindow'>
             <FilesTopBar addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj}/>
-            {files.map((file, index) => {
-                return (
-                   <FileTile fileName={file} key={index} handleSelectFile={handleSelectFile}/>
-                )
-            })
-            }
+            <div className='Files'>
+                {files.map((file, index) => {
+                    return (
+                    <FileTile fileName={file} key={index} handleSelectFile={handleSelectFile}/>
+                    )
+                })}
+            </div>
+            
+            
         </div>
     )
 }

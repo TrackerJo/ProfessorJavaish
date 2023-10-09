@@ -5,12 +5,13 @@ import stopIcon from '../assets/stop_icon.png'
 import saveIcon from '../assets/save_icon.png'
 import account from '../assets/account.png'
 import callMain from '../javaish.mjs'
+import AccountPopup from '../AccountPopup/accountPopup'
 
 
 
 
 function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode}){
-   
+    const [showAccPopup, setShowAccPopup] = useState(false)
     
    
  
@@ -59,6 +60,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
 
     useEffect(() => {
         saveShortcut()
+        console.log('canSave:', canSave)
        
     
       }, [canSave])
@@ -76,16 +78,28 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         )
       }
 
+      function handleAccClick() {
+        setShowAccPopup(true)
+      }
+
     
     return (
+        <>
+        
         <div className='CodeTopBar'>
-            { selectedFile != "" ? <img src={run ? stopIcon : playIcon} alt="run" className={run ? 'StopIcon' : 'RunIcon'} onClick={handleRun}/> : null}
-            {canSave ? <img src={saveIcon} alt="save" className='SaveIcon' onClick={handleSaveFile}/> : null}
-            {projName != "" ? <p className='FileName'>Editting: {selectedFile}</p> : null}
+            <div className='CodeBarLeft'>
+                { selectedFile != "" ? <img src={run ? stopIcon : playIcon} alt="run" className={run ? 'StopIcon' : 'RunIcon'} onClick={handleRun}/> : null}
+                {canSave ? <img src={saveIcon} alt="save" className='SaveIcon' onClick={handleSaveFile}/> : null}
+                {selectedFile != "" ? <p className='FileName'>Editting: {selectedFile}</p> : null}
+            </div>
             <div className='TopBarRight'>
-                <img src={account} alt="Account" className='AccountIcon'/>
+                <div className='AccountDiv'>
+                    <img src={account} alt="Account" className='AccountIcon' onClick={handleAccClick}/>
+                    {showAccPopup ? <AccountPopup setShowAccPopup={setShowAccPopup}/> : null}
+                </div>
             </div>
         </div>
+        </>
     )
 }
 

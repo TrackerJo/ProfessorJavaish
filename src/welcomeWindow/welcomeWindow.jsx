@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import './welcomeWindow.css'
+import CodeTopBar from '../codeWindow/topbar'
 
 
 
@@ -59,7 +60,7 @@ function WelcomeWindow({setProjName, setFiles, readFilesLocally, setShowWelcome}
     
     return (
         <>
-        
+        <CodeTopBar projName={""} selectedFile={""} canSave={false} setCanSave={() => {}} run={false} setRun={() => {}} setSavedCode={() => {}} currentCode={""}/>
         <div className='WelcomeWindow'>
                 <h1>Welcome to Professor Java!</h1>
                 <p>Professor Java is a simple IDE for a custom language Javaish.
