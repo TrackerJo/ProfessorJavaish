@@ -40,3 +40,16 @@
     margin-top: 2px;
     outline: none;
 }
+
+.CloudSaveIcon{
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    color: white;
+}
+
+.ProjIcons{
+    display: flex;
+    align-items: center;
+}

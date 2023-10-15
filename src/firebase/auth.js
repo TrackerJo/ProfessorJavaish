@@ -7,35 +7,17 @@ const auth = getAuth(app);
 export async function createUser(full_name, email, password){
     
     console.log("Emal: " + email + " Password: " + password)
-    await createUserWithEmailAndPassword(auth,email, password)
-    .then(async (userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        updateProfile(auth.currentUser, {
-            displayName: full_name
-          }).then(async() => {
-            // Profile updated!
-            //Add user to database
-          
-
-            await createUserData(full_name, email, user.uid)
-        
-            console.log("User created successfully")
-            
-          }).catch((error) => {
-            // An error occurred
-            alert("Error when updating profile. Look in console for more info.")
-            console.log("Recieved error: " + error.message + " with error code " + error.code + " when updating profile.")
-          });
-       
-        
+    let user = (await createUserWithEmailAndPassword(auth,email, password)).user;
+    await updateProfile(auth.currentUser, {
+      displayName: full_name
     })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert("Error when registering account. Look in console for more info.")
-        console.log("Recieved error: " + errorMessage + " with error code " + errorCode + " when registering account.")
-    });
+
+    await createUserData(full_name, email, user.uid)
+    
+    console.log("User created successfully")
+    return user;
+      
+    
     
 }
 
@@ -45,11 +27,22 @@ export async function signIn(email, password){
    await signInWithEmailAndPassword(auth, email, password)
     console.log("Signed in successfully")
     await setPersistence(auth, browserSessionPersistence)
-    return signInWithEmailAndPassword(auth, email, password);
+    let user = await signInWithEmailAndPassword(auth, email, password);
+    return user
 }
 
 export async function signOutUser(){
  
     await signOut(auth);
     console.log("Signed out successfully")
+}
+
+export async function isLoggedIn(){
+  let loggedIn = await auth.currentUser != null;
+    return loggedIn;
+}
+
+export async function getCurrentUser(){
+  let user = await auth.currentUser;
+  return user;
 }

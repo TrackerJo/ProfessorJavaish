@@ -4,32 +4,47 @@ import CodeTopBar from '../codeWindow/topbar'
 
 
 
-function WelcomeWindow({setProjName, setFiles, readFilesLocally, setShowWelcome}){
+function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUser, projects, readFBFiles}){
    
-    const [projects, setProjects] = useState([])
-    const [createProjName, setCreateProjName] = useState("")
     
-    useEffect(() => {
-        let projects = localStorage.getItem("projects")
-       
-        if(projects != null){
-            projects = JSON.parse(projects)
-            console.log(projects)
-            setProjects(projects)
-            
-        }
-    }, [])
+    const [createProjName, setCreateProjName] = useState("")
 
-    function handleSelectProj(e){
+    useEffect(() => {
+        console.log('projects changed')
+        console.log(projects)
+    }, [projects])
+    
+    async function handleSelectProj(e){
         let selectedProj = e.target.innerHTML
-        setProjName(selectedProj)
+        console.log(selectedProj)
         localStorage.setItem("currentProj", selectedProj)
-        setFiles(readFilesLocally())
+        let lcoalProj = localStorage.getItem("projects-" + selectedProj)
+        setProjName(selectedProj)
+        if(lcoalProj == null){
+            let fbFiles = await readFBFiles()
+            console.log(fbFiles + " - " + selectedProj)
+            let project = {
+                name: selectedProj,
+                files: fbFiles,
+                synced: true,
+                firebase: true,
+                loadedFiles: false
+            }
+            console.log(JSON.stringify(project))
+            localStorage.setItem("projects-" + selectedProj, JSON.stringify(project))
+        }
+        let files = await readFiles()
+        console.log(files)
+        //Check if proj is in firebase
+      
+       
+        
+        setFiles(files)
         console.log(selectedProj + " - selectedproj dialog")
         setShowWelcome(false)
     }
 
-    function handleCreateProj(){
+    async function handleCreateProj(){
 
         let projects = localStorage.getItem("projects")
         if(projects == null){
@@ -41,14 +56,16 @@ function WelcomeWindow({setProjName, setFiles, readFilesLocally, setShowWelcome}
         localStorage.setItem("projects", JSON.stringify(projects))
         let project = {
             name: createProjName,
-            files: []
+            files: [],
+            synced: false
         }
         localStorage.setItem("projects-" + createProjName, JSON.stringify(project))
         let createProjDialog = document.querySelector('.CreateProject')
         createProjDialog.close()
         setProjName(createProjName)
         localStorage.setItem("currentProj", createProjName)
-        setFiles(readFilesLocally())
+        let files = await readFiles()
+        setFiles(files)
         setShowWelcome(false)
     }
 
@@ -60,7 +77,7 @@ function WelcomeWindow({setProjName, setFiles, readFilesLocally, setShowWelcome}
     
     return (
         <>
-        <CodeTopBar projName={""} selectedFile={""} canSave={false} setCanSave={() => {}} run={false} setRun={() => {}} setSavedCode={() => {}} currentCode={""}/>
+        <CodeTopBar projName={""} selectedFile={""} canSave={false} setCanSave={() => {}} run={false} setRun={() => {}} setSavedCode={() => {}} currentCode={""} loadUser={loadUser}/>
         <div className='WelcomeWindow'>
                 <h1>Welcome to Professor Java!</h1>
                 <p>Professor Java is a simple IDE for a custom language Javaish.
@@ -71,7 +88,7 @@ function WelcomeWindow({setProjName, setFiles, readFilesLocally, setShowWelcome}
                 <label className='ProjectsLabel'>Projects: </label>
                 <div className='Projects'>
                     {projects.map((project) => {
-                        return <p key={project} onClick={handleSelectProj} className='ProjectLabel'>{project}</p>
+                        return <label key={project} onClick={handleSelectProj} className='ProjectLabel'>{project}</label>
                     })}
                     <a className='CreateProjectBtn' onClick={handleShowCreateProj}>Create New Project...</a>
                     </div>

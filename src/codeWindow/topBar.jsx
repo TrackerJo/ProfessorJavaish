@@ -10,7 +10,8 @@ import AccountPopup from '../AccountPopup/accountPopup'
 
 
 
-function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode}){
+
+function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave}){
     const [showAccPopup, setShowAccPopup] = useState(false)
     
    
@@ -46,15 +47,17 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         setCanSave(false)
         setSavedCode(currentCode)
         let project = JSON.parse(localStorage.getItem("projects-" + projName))
+        project.synced = false
         let files = project.files
         for(let i = 0; i < files.length; i++){
             if(files[i].name == selectedFile){
                 files[i].code = currentCode
+                files[i].synced = false
             }
         }
         project.files = files
         localStorage.setItem("projects-" + projName, JSON.stringify(project))
-
+        setCanCloudSave(true)
 
     }
 
@@ -79,7 +82,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
       }
 
       function handleAccClick() {
-        setShowAccPopup(true)
+        setShowAccPopup(!showAccPopup)
       }
 
     
@@ -90,12 +93,13 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
             <div className='CodeBarLeft'>
                 { selectedFile != "" ? <img src={run ? stopIcon : playIcon} alt="run" className={run ? 'StopIcon' : 'RunIcon'} onClick={handleRun}/> : null}
                 {canSave ? <img src={saveIcon} alt="save" className='SaveIcon' onClick={handleSaveFile}/> : null}
+                
                 {selectedFile != "" ? <p className='FileName'>Editting: {selectedFile}</p> : null}
             </div>
             <div className='TopBarRight'>
                 <div className='AccountDiv'>
                     <img src={account} alt="Account" className='AccountIcon' onClick={handleAccClick}/>
-                    {showAccPopup ? <AccountPopup setShowAccPopup={setShowAccPopup}/> : null}
+                    {showAccPopup ? <AccountPopup setShowAccPopup={setShowAccPopup} loadUser={loadUser}/> : null}
                 </div>
             </div>
         </div>

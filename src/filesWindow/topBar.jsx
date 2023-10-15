@@ -4,12 +4,12 @@ import './topBar.css'
 import addIcon from '../assets/add_icon.png'
 
 import backIcon from '../assets/back_icon.png'
+import cloudSaveIcon from '../assets/cloud_save_icon.png'
 
 
 
 
-
-function FilesTopBar({addFile, projName, setProjName, exitProj}){
+function FilesTopBar({addFile, projName, setProjName, exitProj, canCloudSave, cloudSave}){
    
     
     const [editProjName, setEditProjName] = useState(false)
@@ -42,8 +42,8 @@ function FilesTopBar({addFile, projName, setProjName, exitProj}){
         addFile()
     }
 
-    function handleBackButton(){
-       exitProj()
+    async function handleBackButton(){
+       await exitProj()
     }
     
     return (
@@ -54,8 +54,11 @@ function FilesTopBar({addFile, projName, setProjName, exitProj}){
                     <h2 className='ProjName'>{projName}</h2>
                     {/* <img src={editIcon} alt="edit" className='EditIcon' onClick={handleEditProjName}/> */}
                 </div>
-
-                <img src={addIcon} alt="add" className='AddIcon' onClick={handleAddFile}/>
+                <div className='ProjIcons'>
+                    {canCloudSave ? <img src={cloudSaveIcon} alt="cloud save" className='CloudSaveIcon' onClick={cloudSave}/> : null}
+                    <img src={addIcon} alt="add" className='AddIcon' onClick={handleAddFile}/>
+                </div>
+                
             </div> : null}
             
         </div>
