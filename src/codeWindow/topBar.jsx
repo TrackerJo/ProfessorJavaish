@@ -4,9 +4,9 @@ import playIcon from '../assets/play_icon.png'
 import stopIcon from '../assets/stop_icon.png'
 import saveIcon from '../assets/save_icon.png'
 import account from '../assets/account.png'
-import callMain from '../javaish.mjs'
-import AccountPopup from '../AccountPopup/accountPopup'
 
+import AccountPopup from '../AccountPopup/accountPopup'
+import callMain from '../javaish.mjs'
 
 
 
@@ -15,7 +15,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
     const [showAccPopup, setShowAccPopup] = useState(false)
     
    
- 
+    
  
     async function handleRun(){
         await setRun(!run)
@@ -25,12 +25,9 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         }
         document.querySelector('.ConsoleArea').innerHTML = ""
         //Wait 1 second for the server to start
-        setTimeout(() => {
-
-            callMain();
-            //setRun(false)
-        }, 50)
-
+        document.getElementById("root").classList.add("run")
+       callMain(true)
+       
        
        
         
@@ -38,6 +35,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
 
     function finishRun(){
         setRun(false)
+        document.getElementById("root").classList.remove("run")
     }
     window.finishRun = finishRun
 

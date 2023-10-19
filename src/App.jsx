@@ -34,7 +34,7 @@ function App() {
   const [canCloudSave, setCanCloudSave] = useState(false)
 
   useEffect(() => {
-    
+   
   
     function loadAuth(){
      
