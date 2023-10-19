@@ -43,6 +43,7 @@ function AccountPopup({setShowAccPopup, loadUser}){
         }
         console.log(e.target)
         if(!popup.contains(e.target) && !popup.contains(e.target.parentNode) && !popup.contains(e.target.parentNode.parentNode)){
+            console.log('click away')
             handleClose()
         }
        

@@ -81,7 +81,9 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
       }
 
       function handleAccClick() {
+        console.log('Clicked Acc Popup: ' + !showAccPopup)
         setShowAccPopup(!showAccPopup)
+        
       }
 
       function handleConvert(){
@@ -99,6 +101,10 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         return escapedHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
       }
 
+      function hideAccPopup(show){
+        console.log('hide acc popup')
+        setShowAccPopup(show)
+        }
     
     return (
         <>
@@ -114,7 +120,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
             <div className='TopBarRight'>
                 <div className='AccountDiv'>
                     <img src={account} alt="Account" className='AccountIcon' onClick={handleAccClick}/>
-                    {showAccPopup ? <AccountPopup setShowAccPopup={setShowAccPopup} loadUser={loadUser}/> : null}
+                    {showAccPopup ? <AccountPopup setShowAccPopup={hideAccPopup} loadUser={loadUser}/> : null}
                 </div>
             </div>
         </div>
