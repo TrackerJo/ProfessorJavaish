@@ -501,6 +501,12 @@ function App() {
   }
 
   async function loadFBUser(){
+    //Check if logged in
+    let loggedIn = await isLoggedIn()
+    if(!loggedIn){
+      loadProjects()
+      return
+    }
     let uProjects = await getUserProjects()
     console.log(uProjects)
     if(uProjects == null){
@@ -534,7 +540,7 @@ function App() {
       <div className='Windows'> 
         <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj} canCloudSave={canCloudSave} cloudSave={syncProj}/>
         <div className='RightWindows'>
-          {showInfoWindow ?  <InfoWindow closeInfoWinow={closeInfoWinow}/> : showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadFBUser} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles} showInfoWindow={handleShowInfoWindow}/> : showConvertWindow ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles}/>}
+          {showInfoWindow ?  <InfoWindow closeInfoWinow={closeInfoWinow}/> : showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadProjects} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles} showInfoWindow={handleShowInfoWindow}/> : showConvertWindow ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles}/>}
           
           {!showWelcome && !showConvertWindow ? <ConsoleWindow consoleMsgs={consoleMsgs}/> : null}
         </div>

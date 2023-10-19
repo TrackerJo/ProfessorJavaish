@@ -92,6 +92,7 @@ function AccountPopup({setShowAccPopup, loadUser}){
     async function handleSignOut(){
         await signOutUser()
         setSignedIn(false)
+        loadUser()
     }
 
   
