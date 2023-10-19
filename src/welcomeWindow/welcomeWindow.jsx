@@ -4,7 +4,7 @@ import CodeTopBar from '../codeWindow/topbar'
 
 
 
-function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUser, projects, readFBFiles, setLoadingFiles}){
+function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUser, projects, readFBFiles, setLoadingFiles, showInfoWindow}){
    
     
     const [createProjName, setCreateProjName] = useState("")
@@ -85,7 +85,7 @@ function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUs
                 <p>Professor Java is a simple IDE for a custom language Javaish.
                     It is designed to be a simple way to learn the basics of programming.
                     To get started, create a new project or open an existing one.
-                    If you want to learn more about the language, click <a className='InfoLink'>here</a>
+                    If you want to learn more about the language, click <a className='InfoLink' onClick={showInfoWindow}>here</a>
                 </p>
                 <label className='ProjectsLabel'>Projects: </label>
                 <div className='Projects'>
