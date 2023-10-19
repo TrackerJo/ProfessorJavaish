@@ -35,6 +35,7 @@ function App() {
   const [canCloudSave, setCanCloudSave] = useState(false)
   const [convertedCode, setConvertedCode] = useState("")
   const [showConvertWindow, setShowConvertWindow] = useState(false)
+  const [loadingFiles, setLoadingFiles] = useState(false)
 
   useEffect(() => {
    
@@ -81,6 +82,8 @@ function App() {
   }
   let selectedProj = localStorage.getItem("currentProj")
   if(selectedProj != null && selectedProj != ""){
+    setShowWelcome(false)
+    setLoadingFiles(true)
     setProjName(selectedProj)
     //Check if proj is in firebase
     let localProj = localStorage.getItem("projects-" + selectedProj)
@@ -105,7 +108,8 @@ function App() {
           
     let files = await readFiles()
     setFiles(files)
-    setShowWelcome(false)
+    setLoadingFiles(false)
+    
   } 
   
 
@@ -519,7 +523,7 @@ function App() {
       <div className='Windows'> 
         <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj} canCloudSave={canCloudSave} cloudSave={syncProj}/>
         <div className='RightWindows'>
-          {showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadFBUser} projects={projects} readFBFiles={readFBFiles}/> : showConvertWindow ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow}/>}
+          {showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadFBUser} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles}/> : showConvertWindow ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles}/>}
           
           <ConsoleWindow consoleMsgs={consoleMsgs}/>
         </div>

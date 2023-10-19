@@ -4,7 +4,7 @@ import CodeTopBar from '../codeWindow/topbar'
 
 
 
-function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUser, projects, readFBFiles}){
+function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUser, projects, readFBFiles, setLoadingFiles}){
    
     
     const [createProjName, setCreateProjName] = useState("")
@@ -15,6 +15,8 @@ function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUs
     }, [projects])
     
     async function handleSelectProj(e){
+        setShowWelcome(false)
+        setLoadingFiles(true)
         let selectedProj = e.target.innerHTML
         console.log(selectedProj)
         localStorage.setItem("currentProj", selectedProj)
@@ -41,7 +43,7 @@ function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUs
         
         setFiles(files)
         console.log(selectedProj + " - selectedproj dialog")
-        setShowWelcome(false)
+        setLoadingFiles(false)
     }
 
     async function handleCreateProj(){
