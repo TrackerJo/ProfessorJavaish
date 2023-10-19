@@ -3,7 +3,7 @@
     width: 20%;
     height: 100%;
     background-color: #21252b;
-    
+    position: relative;
 }
 
 .ProjName{
@@ -11,4 +11,32 @@
     margin: 0;
     height: 24px;
     font-size: medium;
+}
+
+.FilesWindowMini {
+    display: block;
+    width: 5%;
+    height: 100%;
+    background-color: #21252b;
+    position: relative;
+}
+
+.BackIconMini{
+    width: 20px;
+    height: 25px;
+    margin: 10px 10px;
+    cursor: pointer;
+}
+
+.MinimizeIcon{
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.FilesBottom{
+    position: absolute;
+    bottom: 2px;
+    right: 0px;
 }
