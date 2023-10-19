@@ -1025,49 +1025,52 @@
             $rt_globals.console.log($rt_ustr($args[0]));
             if (!jl_String_contains($rt_str($root.className), $rt_s(2))) {
                 $CodeArea = tj_Variables__init_();
-                $body = tj_Parser_parse(tj_Parser__init_($code, $CodeArea));
-                $root = new tj_Translator;
-                $root.$lineNumber = 0;
-                $root.$tabCount = 2;
-                $root.$javaLines = ju_ArrayList__init_();
-                $root.$javaImports = ju_ArrayList__init_();
-                $root.$javaMain = ju_ArrayList__init_();
-                $root.$publicVarDeclarations = ju_ArrayList__init_();
-                $root.$usedJOptionPane = 0;
-                $root.$usedList = 0;
-                $root.$globalVariables = $CodeArea;
-                tj_Translator_interpretFunction($root, $body.$body, null, null, $rt_s(3), 1, 1);
+                $root = tj_Parser_parse(tj_Parser__init_($code, $CodeArea));
+                $code = new tj_Translator;
+                $code.$lineNumber = 0;
+                $code.$tabCount = 2;
+                $code.$javaLines = ju_ArrayList__init_();
+                $code.$javaImports = ju_ArrayList__init_();
+                $code.$javaMain = ju_ArrayList__init_();
+                $code.$publicVarDeclarations = ju_ArrayList__init_();
+                $code.$usedJOptionPane = 0;
+                $code.$usedList = 0;
+                $code.$globalVariables = $CodeArea;
+                tj_Translator_interpretFunction($code, $root.$body, null, null, $rt_s(3), 1, 1);
                 $CodeArea = ju_ArrayList__init_();
-                $body = ju_AbstractList_iterator($root.$javaImports);
-                while (ju_AbstractList$1_hasNext($body)) {
-                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($body));
+                $root = ju_AbstractList_iterator($code.$javaImports);
+                while (ju_AbstractList$1_hasNext($root)) {
+                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
                 }
                 ju_ArrayList_add($CodeArea, $rt_s(4));
-                $body = ju_AbstractList_iterator($root.$publicVarDeclarations);
-                while (ju_AbstractList$1_hasNext($body)) {
-                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($body));
+                $root = ju_AbstractList_iterator($code.$publicVarDeclarations);
+                while (ju_AbstractList$1_hasNext($root)) {
+                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
                 }
                 ju_ArrayList_add($CodeArea, $rt_s(5));
-                $body = ju_AbstractList_iterator($root.$javaMain);
-                while (ju_AbstractList$1_hasNext($body)) {
-                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($body));
+                $root = ju_AbstractList_iterator($code.$javaMain);
+                while (ju_AbstractList$1_hasNext($root)) {
+                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
                 }
                 ju_ArrayList_add($CodeArea, $rt_s(6));
-                $body = ju_AbstractList_iterator($root.$javaLines);
-                while (ju_AbstractList$1_hasNext($body)) {
-                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($body));
+                $root = ju_AbstractList_iterator($code.$javaLines);
+                while (ju_AbstractList$1_hasNext($root)) {
+                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
                 }
                 ju_ArrayList_add($CodeArea, $rt_s(7));
                 $result = $rt_s(8);
                 $CodeArea = ju_AbstractList_iterator($CodeArea);
                 while (ju_AbstractList$1_hasNext($CodeArea)) {
-                    $body = ju_AbstractList$1_next($CodeArea);
-                    $root = new jl_StringBuilder;
-                    jl_AbstractStringBuilder__init_($root);
-                    jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($root, $result), $body), 10);
-                    $result = jl_AbstractStringBuilder_toString($root);
+                    $root = ju_AbstractList$1_next($CodeArea);
+                    $code = new jl_StringBuilder;
+                    jl_AbstractStringBuilder__init_($code);
+                    jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($code, $result), $root), 10);
+                    $result = jl_AbstractStringBuilder_toString($code);
                 }
                 $rt_globals.console.log($rt_ustr($result));
+                $CodeArea = $body.querySelector(".ConvertedCode");
+                $body = $rt_ustr($result);
+                $CodeArea.textContent = $body;
                 $rt_globals.finishRun();
                 return;
             }

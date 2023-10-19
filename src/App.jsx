@@ -12,6 +12,7 @@ import WelcomeWindow from './welcomeWindow/welcomeWindow'
 import { createProject, createUserData, getUserProject, getUserProjects, updateProjFiles } from './firebase/database'
 import { isLoggedIn } from './firebase/auth'
 import { getFileCode, setFileCode } from './firebase/storage'
+import ConvertWindow from './convertWindow/convertWindow'
 
 
 
@@ -32,6 +33,8 @@ function App() {
   const [loadedProjs, setLoadedProjs] = useState(false)
   const [gettingCode, setGettingCode] = useState(false)
   const [canCloudSave, setCanCloudSave] = useState(false)
+  const [convertedCode, setConvertedCode] = useState("")
+  const [showConvertWindow, setShowConvertWindow] = useState(false)
 
   useEffect(() => {
    
@@ -183,8 +186,11 @@ function App() {
        if(i + 1 == parseInt(message[1])){
           console.log("Scrolling to line " + i)
           lines[i].scrollIntoView()
-        
+          
           document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-activeLine').classList.remove('cm-activeLine')
+          if(document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-focusLine') != null){
+            document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-focusLine').classList.remove('cm-focusLine')
+          }
           lines[i].classList.add('cm-activeLine')
           lines[i].classList.add('cm-focusLine')
           //Set focus to line
@@ -232,6 +238,9 @@ function App() {
           lines[i].scrollIntoView()
         
           document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-activeLine').classList.remove('cm-activeLine')
+          if(document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-focusLine') != null){
+            document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-focusLine').classList.remove('cm-focusLine')
+          }
           lines[i].classList.add('cm-activeLine')
           //Set focus to line
           lines[i].classList.add('cm-focusLine')
@@ -500,12 +509,17 @@ function App() {
     return projNames
   }
 
+  function closeConvertedCodeWindow(){
+    setShowConvertWindow(false)
+    setStartingCode(savedCode)
+  }
+
   return (
     <>
       <div className='Windows'> 
         <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj} canCloudSave={canCloudSave} cloudSave={syncProj}/>
         <div className='RightWindows'>
-          {showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadFBUser} projects={projects} readFBFiles={readFBFiles}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave}/> }
+          {showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadFBUser} projects={projects} readFBFiles={readFBFiles}/> : showConvertWindow ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow}/>}
           
           <ConsoleWindow consoleMsgs={consoleMsgs}/>
         </div>

@@ -7,7 +7,7 @@ import { example } from '../CodeMirror/JavaishLangauge';
 import Editor from '../CodeMirror/JavaishEditor';
 import CodeTopBar from './topbar';
 
-function CodeWindow({startingCode, setCanSave, savedCode, run, selectedFile, canSave, projName, setRun, setSavedCode, loadUser, gettingCode, setCanCloudSave}){
+function CodeWindow({startingCode, setCanSave, savedCode, run, selectedFile, canSave, projName, setRun, setSavedCode, loadUser, gettingCode, setCanCloudSave, setConvertedCode, setShowConvertedWindow}){
    const [code, setCode] = useState(startingCode)
 
     useEffect(() => {
@@ -31,11 +31,12 @@ function CodeWindow({startingCode, setCanSave, savedCode, run, selectedFile, can
     
     return (
         <>
-        <CodeTopBar projName={projName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={code} loadUser={loadUser} setCanCloudSave={setCanCloudSave}/>
+        <CodeTopBar projName={projName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={code} loadUser={loadUser} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertedWindow}/>
         <div className='CodeWindow'>
                 
                 {gettingCode ? <p>Getting code...</p> : selectedFile != "" ? <Editor startingCode={startingCode} codeChanged={codeChanged} savedCode={savedCode} canEdit={!run}/> : <p>Please select a file to edit</p>}
                <div className='Code'>{code}</div>
+               <div className='ConvertedCode'></div>
             
             
         </div>

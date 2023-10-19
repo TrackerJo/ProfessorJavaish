@@ -3,6 +3,7 @@ import './topBar.css'
 import playIcon from '../assets/play_icon.png'
 import stopIcon from '../assets/stop_icon.png'
 import saveIcon from '../assets/save_icon.png'
+import convertIcon from '../assets/convert_icon.png'
 import account from '../assets/account.png'
 
 import AccountPopup from '../AccountPopup/accountPopup'
@@ -11,7 +12,7 @@ import callMain from '../javaish.mjs'
 
 
 
-function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave}){
+function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave, setConvertedCode, setShowConvertedWindow}){
     const [showAccPopup, setShowAccPopup] = useState(false)
     
    
@@ -27,7 +28,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         //Wait 1 second for the server to start
         document.getElementById("root").classList.add("run")
        callMain(true)
-       
+       document.getElementById("root").classList.remove("run")
        
        
         
@@ -35,7 +36,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
 
     function finishRun(){
         setRun(false)
-        document.getElementById("root").classList.remove("run")
+       
     }
     window.finishRun = finishRun
 
@@ -83,6 +84,21 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         setShowAccPopup(!showAccPopup)
       }
 
+      function handleConvert(){
+        if(canSave){
+            handleSaveFile()
+        }
+        callMain(true)
+        let convertedCode = document.querySelector('.ConvertedCode').textContent
+        
+        setConvertedCode(convertedCode)
+        setShowConvertedWindow(true)
+      }
+
+      function unescapeHTML(escapedHTML) {
+        return escapedHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+      }
+
     
     return (
         <>
@@ -93,6 +109,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
                 {canSave ? <img src={saveIcon} alt="save" className='SaveIcon' onClick={handleSaveFile}/> : null}
                 
                 {selectedFile != "" ? <p className='FileName'>Editting: {selectedFile}</p> : null}
+                {selectedFile != "" ? <img src={convertIcon} alt='convert' className='ConvertIcon' onClick={handleConvert}/> : null}
             </div>
             <div className='TopBarRight'>
                 <div className='AccountDiv'>
