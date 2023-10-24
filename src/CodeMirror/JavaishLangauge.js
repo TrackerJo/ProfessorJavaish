@@ -43,39 +43,71 @@ const ForOptions = [
   {label: "when", detail: "loop"}, {label: "each", detail: "loop"}
 ].map(tag => ({label: tag.label, detail: tag.detail, type: "keyword"}))
 
+function removeTabs(text){
+  let newText = ""
+  let readText = false
+  for(let i = 0; i < text.length; i++){
+    console.log(text[i] + " text[i]")
+    if(text[i] == "" && !readText){
+      newText += text[i]
+    }
+    else if(text[i] != " "){
+      newText += text[i]
+      readText = true
+    }
+  }
+  return newText
+}
+
+function wordsMatch(word, text){
+  for (let I = 0; I < word.length; I++) {
+    const element = word[I];
+    if(element != text[I]){
+      return false
+    }
+
+    
+  }
+  return true
+}
+
 function Completions(context) {
   let word = context.matchBefore(/\w*/)
+  //Match before start of line
+  let line = context.state.doc.lineAt(context.pos)
+  
+  let firstWord = context.state.doc.lineAt(line.from).text.split(" ")[0]
+ //console.log(line.text + " line")
   console.log(word.text + " word")
-  //See if made new line
-  let madeNewLine = false
+  console.log(removeTabs(line.text) + " line no tabs")
+  console.log(wordsMatch(word.text,removeTabs(line.text)) + " Line Match")
+  // console.log(firstWord + " firstWord")
+  let charsPast = context.pos - line.from
   let textBefore = context.state.sliceDoc(context.pos - word.text.length, context.pos)
-  console.log(textBefore + " textBefore")
+  //console.log(textBefore + " textBefore")
   let wordLength = word.to - word.from
   let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength - 1, -1)
   let currentNode = syntaxTree(context.state).resolveInner(context.pos, -1)
-  //Get all text before nodeBefore
-  //let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
-  //See if made new line
-  console.log(textBefore.split("\n") + " Split")
-  let textBeforeLines = textBefore.split("\n")
-  textBefore = textBeforeLines[textBeforeLines.length - 1]
-  console.log(textBefore + " textBefore")
-  console.log(nodeBefore.name + " nodeBefore")
-  console.log(currentNode.name + " currentNode")
+  let firstNode = syntaxTree(context.state).resolveInner(context.pos - charsPast + 1, -1)
+  // console.log(nodeBefore.name + " nodeBefore")
+  // console.log(currentNode.name + " currentNode")
+  // console.log(firstNode.name + " firstNode")
   if (nodeBefore.name == "LetKW"){
     return DeclarationCompletions(context)
   }
-  if (nodeBefore.name == "Program" || nodeBefore.name == "⚠" || nodeBefore.name =="Period"){
+  if (nodeBefore.name == "Program" || nodeBefore.name == "⚠" || nodeBefore.name =="Period" || wordsMatch(word.text,removeTabs(line.text)) ){
     console.log("f")
     return KeywordCompletions(context)
   }
 
-  if (nodeBefore.name == "BinaryExpression" || nodeBefore.name == "Equal"){
-    return ExpressionCompletions(context)
+  
+
+  if (firstNode.name == "ForKW"){
+    return ForCompletions(context)
   }
 
-  if (nodeBefore.name == "ForStatement"){
-    return ForCompletions(context)
+  if (nodeBefore.name == "Number" || nodeBefore.name == "VarName" || nodeBefore.name == "String"){
+    return ExpressionCompletions(context)
   }
 
 }
@@ -104,18 +136,25 @@ function KeywordCompletions(context) {
 function ForCompletions(context) {
     //Get length of word before cursor to space
     let word = context.matchBefore(/\w*/)
-  
     //Set pastWord to the word before the word before the cursor
   
     let wordLength = word.to - word.from
     let pastNode = syntaxTree(context.state).resolveInner(context.pos - wordLength - 1, -1)
-    console.log(pastNode.name + " pastWord")
+    console.log(pastNode.name + " pastNode")
     
-    let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength, -1)
+    let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength - 2, -1)
   
     let wordBefore = syntaxTree(context.state).resolveInner(context.pos - (wordLength - 1), 0)
+
+    let line = context.state.doc.lineAt(context.pos)
+    let secondWord = context.state.doc.lineAt(line.from).text.split(" ")[1]
+    //console.log (secondWord + " secondWord")
+    let lineWords = context.state.doc.lineAt(line.from).text.split(" ")
+    let pastWord = lineWords[lineWords.length - 2]
+    let past2Word = lineWords[lineWords.length - 3]
+    
   
-    console.log(wordBefore.name + " Before")
+    console.log(pastWord + " PastWord")
     
     if(pastNode.name == "ForKW"){
       return {
@@ -124,6 +163,31 @@ function ForCompletions(context) {
         validFor: /^(@\w*)?$/
       }
     }
+    if(secondWord == "when"){
+      console.log(nodeBefore.name + " nodeBefore")
+      console.log(context.pos + " pos")
+      console.log(wordLength + " wordLength")
+      if(nodeBefore.name == "ConditionalExpression"){
+        return {
+          from: word.from,
+          options: [{label: "increment", detail: "loop", type: "keyword"}],
+          validFor: /^(@\w*)?$/
+        }
+      }
+      
+      if(past2Word == "increment" && pastNode.name == "VarName"){
+        return {
+          from: word.from,
+          options: [{label: "by", detail: "loop", type: "keyword"}],
+          validFor: /^(@\w*)?$/
+        }
+      }
+
+      if ((pastNode.name == "Number" || pastNode.name == "VarName" || pastNode.name == "String") && pastWord != "increment"){
+        return ExpressionCompletions(context)
+      }
+    }
+    
   }  
 
 function DeclarationCompletions(context) {

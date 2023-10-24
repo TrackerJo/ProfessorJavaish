@@ -76,9 +76,9 @@ function Editor({startingCode, codeChanged, savedCode, canEdit})  {
     }, [startingCode]);
 
     useEffect(() => {
-      console.log("sync val changed")
-      console.log(syncVal + " - Sync Val")
-      console.log(savedCode + " - Saved Code")
+      // console.log("sync val changed")
+      // console.log(syncVal + " - Sync Val")
+      // console.log(savedCode + " - Saved Code")
 
       if(syncVal != savedCode){
         codeChanged(syncVal)

@@ -44,7 +44,7 @@ function App() {
   
     function loadAuth(){
      
-        console.log("Projects loaded")
+        //console.log("Projects loaded")
         //Wait 100 ms
         setTimeout(() => {
           loadProjects()
@@ -62,21 +62,21 @@ function App() {
 
  async function loadProjects(){
   let loggedIn = await isLoggedIn()
-  console.log(loggedIn)
+  //console.log(loggedIn)
   let fbProjects = []
   if(loggedIn){
     fbProjects = await loadFBUser()
   }
   let sProjects = localStorage.getItem("projects")
-  console.log(sProjects)
+  //console.log(sProjects)
       
   if(sProjects != null){
     sProjects = JSON.parse(sProjects)
-      console.log(sProjects)
-      console.log(projects)
+      //console.log(sProjects)
+      //console.log(projects)
       setProjects([...fbProjects, ...sProjects])
       let newProj = [...fbProjects, ...sProjects]
-      console.log(newProj)
+      //console.log(newProj)
 
       
   } else {
@@ -89,10 +89,10 @@ function App() {
     setProjName(selectedProj)
     //Check if proj is in firebase
     let localProj = localStorage.getItem("projects-" + selectedProj)
-    console.log("Reading if proj is in firebase")
+    //console.log("Reading if proj is in firebase")
    localProj = JSON.parse(localProj)
     if(localProj.firebase && loggedIn){
-      console.log("Loading from fb")
+      //console.log("Loading from fb")
       let fbFiles = await readFBFiles()
       let project = {
           name: selectedProj,
@@ -101,7 +101,7 @@ function App() {
           firebase: true,
           loadedFiles: false
       }
-      console.log(JSON.stringify(project))
+      //console.log(JSON.stringify(project))
       localStorage.setItem("projects-" + selectedProj, JSON.stringify(project))
     } else if(localProj.firebase){
       alert("You are not logged in. Please log in to access your cloud projects")
@@ -118,32 +118,40 @@ function App() {
  }
 
   useEffect(() => {
-    keybinds()
+    if(selectedFile != ""){
+      keybinds()
+    }
   }, [selectedFile])
 
-  function keybinds(){
-    document.addEventListener('keydown', (e) => {
-      
-      if(e.keyCode == 8 && e.metaKey){
-        let proj = localStorage.getItem("currentProj")
-        let project = JSON.parse(localStorage.getItem("projects-" + proj))
-        let files = project.files
-        let newFiles = []
-        for(let i = 0; i < files.length; i++){
-          
-          if(files[i].name != selectedFile){
-            newFiles.push(files[i])
-          }
+  function deleteSelectedFile(e){
+    if(e.keyCode == 8 && e.metaKey){
+      let proj = localStorage.getItem("currentProj")
+      let project = JSON.parse(localStorage.getItem("projects-" + proj))
+      let files = project.files
+      let newFiles = []
+      for(let i = 0; i < files.length; i++){
+        console.log(files[i].name + " " + selectedFile)
+        if(files[i].name != selectedFile){
+          console.log("Adding file " + files[i].name)
+          newFiles.push(files[i])
         }
-        project.files = newFiles
-        localStorage.setItem("projects-" + proj, JSON.stringify(project))
-        setFiles(readFilesLocally())
-        setSelectedFile("")
-        setStartingCode("")
-        setSavedCode("")
-        setCanSave(false)
       }
-    })
+      project.files = newFiles
+      localStorage.setItem("projects-" + proj, JSON.stringify(project))
+      setFiles(readFilesLocally())
+      setSelectedFile("")
+      setStartingCode("")
+      setSavedCode("")
+      setCanSave(false)
+    }
+  }
+
+  function keybinds(){
+    document.onkeydown = null
+    document.onkeydown = deleteSelectedFile
+    
+     
+    
   }
     
   
@@ -161,7 +169,7 @@ function App() {
   window.hasClosedAlert = hasClosedAlert;
 
   async function addConsoleLog(message){
-    console.log("Adding console log - " + message)
+   //console.log("Adding console log - " + message)
     let consoleMsg = {
       msg: message[0],
       type: "normal",
@@ -180,17 +188,17 @@ function App() {
     let consoleMsgLine = document.createElement('div')
     consoleMsgLine.className = 'ConsoleMsgLine'
     consoleMsgLine.innerHTML = "Line: " + message[1]
-    console.log("Adding click event")
+    //console.log("Adding click event")
     consoleMsgLine.onclick = () => {
       let code = document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content')
-      console.log("CLICK")
+      //console.log("CLICK")
       let lines = code.children
-      console.log(lines)
+      //console.log(lines)
       for(let i = 0; i < lines.length; i++){
-        console.log(i + 1 + " " + message[1] )
-        console.log(i + 1 == parseInt(message[1]))
+        //console.log(i + 1 + " " + message[1] )
+        //console.log(i + 1 == parseInt(message[1]))
        if(i + 1 == parseInt(message[1])){
-          console.log("Scrolling to line " + i)
+          //console.log("Scrolling to line " + i)
           lines[i].scrollIntoView()
           
           document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-activeLine').classList.remove('cm-activeLine')
@@ -212,7 +220,7 @@ function App() {
   window.addConsoleLog = addConsoleLog;
 
   async function addConsoleError(message){
-    console.log("Adding console log - " + message)
+    //console.log("Adding console log - " + message)
     let consoleMsg = {
       msg: message[0],
       type: "error",
@@ -233,14 +241,14 @@ function App() {
     consoleMsgLine.innerHTML = "Line: " + message[1]
     consoleMsgLine.onclick = () => {
       let code = document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content')
-      console.log("CLICK")
+      //console.log("CLICK")
       let lines = code.children
-      console.log(lines)
+      //console.log(lines)
       for(let i = 0; i < lines.length; i++){
-        console.log(i + 1 + " " + message[1] )
-        console.log(i + 1 == parseInt(message[1]))
+        //console.log(i + 1 + " " + message[1] )
+        //console.log(i + 1 == parseInt(message[1]))
        if(i + 1 == parseInt(message[1])){
-          console.log("Scrolling to line " + i)
+          //console.log("Scrolling to line " + i)
           lines[i].scrollIntoView()
         
           document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-activeLine').classList.remove('cm-activeLine')
@@ -319,14 +327,14 @@ function App() {
   }
 
   async function readFBFiles(){
-    console.log("Reading files from firebase")
+    //console.log("Reading files from firebase")
     let files = []
     let projName = localStorage.getItem("currentProj")
     let proj = await getUserProject(projName)
     let projFiles = proj.files
-    console.log(projFiles)
+    //console.log(projFiles)
     for (const file of projFiles) {
-      console.log(file)
+      //console.log(file)
       let fileName = file.split("/")[1]
       let filePath = projName + "/" + fileName
       let fileTxt = await getFileCode(filePath)
@@ -337,8 +345,8 @@ function App() {
       }
       files.push(fileObj)
     }
-    console.log("Read files from firebase")
-    console.log(files)
+    //console.log("Read files from firebase")
+    //console.log(files)
     return files
   }
 
@@ -351,13 +359,13 @@ function App() {
 
   function readFilesLocally(){
     let selectedProj = localStorage.getItem("currentProj")
-    console.log(selectedProj + " - selected proj")
+    //console.log(selectedProj + " - selected proj")
     let project = localStorage.getItem("projects-" + selectedProj)
     if(project != null){
       project = JSON.parse(project)
-      console.log(project)
+      //console.log(project)
       let files = project.files
-      console.log(files)
+      //console.log(files)
       let fileNames = []
       for(let i = 0; i < files.length; i++){
         fileNames.push(files[i].name)
@@ -391,20 +399,33 @@ function App() {
     }
     if(canSave){
       let save = window.confirm("Save file?")
+      let projName = localStorage.getItem("currentProj")
       if(save){
-        let file = document.querySelector('.CodeArea')
-        let fileTxt = file.innerHTML
+        let file = document.querySelector('.Code')
+        let currentCode = file.textContent
         setCanSave(false)
-        localStorage.setItem(projName + " " + selectedFile + " code", fileTxt)
+        setSavedCode(currentCode)
+        let project = JSON.parse(localStorage.getItem("projects-" + projName))
+        project.synced = false
+        let files = project.files
+        for(let i = 0; i < files.length; i++){
+            if(files[i].name == selectedFile){
+                files[i].code = currentCode
+                files[i].synced = false
+            }
+        }
+        project.files = files
+        localStorage.setItem("projects-" + projName, JSON.stringify(project))
+        setCanCloudSave(true)
       }
     }
     setSelectedFile(fileName)
     setGettingCode(true)
-    let projName = localStorage.getItem("currentProj")
+    
     let filePath = projName + "/" + fileName
     //Check if file exists locally
     let localProj = localStorage.getItem("projects-" + projName)
-    console.log(localProj)
+    //console.log(localProj)
     if(localProj == null || localProj.firebase){
       let fileTxt = await getFileCode(filePath)
       setStartingCode(fileTxt)
@@ -424,9 +445,9 @@ function App() {
     let projName = localStorage.getItem("currentProj")
     let filePath = projName + "/" + fileName
     let fileTxt = readFileTxtLocally(fileName)
-    // console.log(fileTxt)
+    // //console.log(fileTxt)
     let userProj = await getUserProject(projName)
-    // console.log(userProj)
+    // //console.log(userProj)
     let files = userProj.files
     if(files.includes(filePath)){
       //Update File
@@ -465,6 +486,28 @@ function App() {
   async function exitProj(){
     let projName = localStorage.getItem("currentProj")
     let proj = JSON.parse(localStorage.getItem("projects-" + projName))
+    if(canSave){
+      let save = window.confirm("Save file?")
+      if(save){
+        let file = document.querySelector('.Code')
+        let currentCode = file.textContent
+       
+        setSavedCode(currentCode)
+        let project = JSON.parse(localStorage.getItem("projects-" + projName))
+        project.synced = false
+        let files = project.files
+        for(let i = 0; i < files.length; i++){
+            if(files[i].name == selectedFile){
+                files[i].code = currentCode
+                files[i].synced = false
+            }
+        }
+        project.files = files
+        localStorage.setItem("projects-" + projName, JSON.stringify(project))
+        setCanCloudSave(true)
+      }
+      setCanSave(false)
+    }
     let loggedIn = await isLoggedIn()
     //TODO - check if synced
     if(loggedIn){
@@ -474,7 +517,7 @@ function App() {
         proj.firebase = true
       }
       if(!proj.synced){
-        console.log("Syncing project")
+        //console.log("Syncing project")
         await syncProj()
         proj.synced = true
       }
@@ -508,7 +551,7 @@ function App() {
       return
     }
     let uProjects = await getUserProjects()
-    console.log(uProjects)
+    //console.log(uProjects)
     if(uProjects == null){
       return
     }
@@ -516,7 +559,7 @@ function App() {
     for(let i = 0; i < uProjects.length; i++){
       projNames.push(uProjects[i].name)
     }
-    console.log(projNames)
+    //console.log(projNames)
     setProjects(...projects, projNames)
     return projNames
   }

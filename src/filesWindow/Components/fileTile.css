@@ -1,7 +1,10 @@
 .FileTile{
     cursor: pointer;
     font-size: small;
-
+    /* Add cutoff */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
  
 }
 

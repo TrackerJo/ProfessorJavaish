@@ -5,6 +5,7 @@ import addIcon from '../assets/add_icon.png'
 
 import backIcon from '../assets/back_icon.png'
 import cloudSaveIcon from '../assets/cloud_save_icon.png'
+import { isLoggedIn } from '../firebase/auth'
 
 
 
@@ -13,6 +14,15 @@ function FilesTopBar({addFile, projName, setProjName, exitProj, canCloudSave, cl
    
     
     const [editProjName, setEditProjName] = useState(false)
+    const [loggedIn, setLoggedIn] = useState(false)
+
+    useEffect(() => {
+        async function loadAuth(){
+            let signedIn = await isLoggedIn()
+            setLoggedIn(signedIn)
+        }
+        loadAuth()
+    })
  
     function handleEditProjName(){
         
@@ -55,7 +65,7 @@ function FilesTopBar({addFile, projName, setProjName, exitProj, canCloudSave, cl
                     {/* <img src={editIcon} alt="edit" className='EditIcon' onClick={handleEditProjName}/> */}
                 </div>
                 <div className='ProjIcons'>
-                    {canCloudSave ? <img src={cloudSaveIcon} alt="cloud save" className='CloudSaveIcon' onClick={cloudSave}/> : null}
+                    {canCloudSave && loggedIn ? <img src={cloudSaveIcon} alt="cloud save" className='CloudSaveIcon' onClick={cloudSave}/> : null}
                     <img src={addIcon} alt="add" className='AddIcon' onClick={handleAddFile}/>
                 </div>
                 

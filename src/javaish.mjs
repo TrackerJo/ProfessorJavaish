@@ -994,22 +994,22 @@
     }
     var t_Client = $rt_classWithoutFields();
     function t_Client_main($args) {
-        var $body, $root, $code, $CodeArea, $result, var$7, $ptr, $tmp;
+        var $body, $root, $code, $CodeArea, $projName, $result, var$8, $ptr, $tmp;
         $ptr = 0;
         if ($rt_resuming()) {
             var $thread = $rt_nativeThread();
-            $ptr = $thread.pop();var$7 = $thread.pop();$result = $thread.pop();$CodeArea = $thread.pop();$code = $thread.pop();$root = $thread.pop();$body = $thread.pop();$args = $thread.pop();
+            $ptr = $thread.pop();var$8 = $thread.pop();$result = $thread.pop();$projName = $thread.pop();$CodeArea = $thread.pop();$code = $thread.pop();$root = $thread.pop();$body = $thread.pop();$args = $thread.pop();
         }
         main: while (true) { switch ($ptr) {
         case 0:
             jl_Integer__clinit_();
             jl_Character__clinit_();
             otcic_StdoutOutputStream__clinit_();
+            jur_AbstractSet__clinit_();
             jl_Float__clinit_();
             jl_Boolean__clinit_();
             otcit_FloatSynthesizer__clinit_();
             otcit_FloatAnalyzer__clinit_();
-            jur_AbstractSet__clinit_();
             jnc_CoderResult__clinit_();
             jl_AbstractStringBuilder$Constants__clinit_();
             jl_Long__clinit_();
@@ -1024,41 +1024,49 @@
             $rt_globals.console.log($rt_ustr(jl_AbstractStringBuilder_toString($CodeArea)));
             $rt_globals.console.log($rt_ustr($args[0]));
             if (!jl_String_contains($rt_str($root.className), $rt_s(2))) {
-                $CodeArea = tj_Variables__init_();
-                $root = tj_Parser_parse(tj_Parser__init_($code, $CodeArea));
-                $code = new tj_Translator;
-                $code.$lineNumber = 0;
-                $code.$tabCount = 2;
-                $code.$javaLines = ju_ArrayList__init_();
-                $code.$javaImports = ju_ArrayList__init_();
-                $code.$javaMain = ju_ArrayList__init_();
-                $code.$publicVarDeclarations = ju_ArrayList__init_();
-                $code.$usedJOptionPane = 0;
-                $code.$usedList = 0;
-                $code.$globalVariables = $CodeArea;
-                tj_Translator_interpretFunction($code, $root.$body, null, null, $rt_s(3), 1, 1);
+                $projName = $rt_str($body.querySelector(".FileTile.selected").textContent);
+                $rt_globals.console.log($rt_ustr((jl_String_split($projName, $rt_s(3))).data[0]));
+                $CodeArea = (jl_String_split($projName, $rt_s(3))).data[0];
+                $root = tj_Variables__init_();
+                $code = tj_Parser_parse(tj_Parser__init_($code, $root));
+                $projName = new tj_Translator;
+                $projName.$lineNumber = 0;
+                $projName.$tabCount = 2;
+                $projName.$javaLines = ju_ArrayList__init_();
+                $projName.$javaImports = ju_ArrayList__init_();
+                $projName.$javaMain = ju_ArrayList__init_();
+                $projName.$publicVarDeclarations = ju_ArrayList__init_();
+                $projName.$usedJOptionPane = 0;
+                $projName.$usedList = 0;
+                $projName.$globalVariables = $root;
+                $projName.$projName = $CodeArea;
+                tj_Translator_interpretFunction($projName, $code.$body, null, null, $rt_s(4), 1, 1);
                 $CodeArea = ju_ArrayList__init_();
-                $root = ju_AbstractList_iterator($code.$javaImports);
+                $root = ju_AbstractList_iterator($projName.$javaImports);
                 while (ju_AbstractList$1_hasNext($root)) {
                     ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
                 }
-                ju_ArrayList_add($CodeArea, $rt_s(4));
-                $root = ju_AbstractList_iterator($code.$publicVarDeclarations);
-                while (ju_AbstractList$1_hasNext($root)) {
-                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
-                }
-                ju_ArrayList_add($CodeArea, $rt_s(5));
-                $root = ju_AbstractList_iterator($code.$javaMain);
-                while (ju_AbstractList$1_hasNext($root)) {
-                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
-                }
-                ju_ArrayList_add($CodeArea, $rt_s(6));
-                $root = ju_AbstractList_iterator($code.$javaLines);
+                $root = $projName.$projName;
+                $result = new jl_StringBuilder;
+                jl_AbstractStringBuilder__init_($result);
+                jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($result, $rt_s(5)), $root), $rt_s(6));
+                ju_ArrayList_add($CodeArea, jl_AbstractStringBuilder_toString($result));
+                $root = ju_AbstractList_iterator($projName.$publicVarDeclarations);
                 while (ju_AbstractList$1_hasNext($root)) {
                     ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
                 }
                 ju_ArrayList_add($CodeArea, $rt_s(7));
-                $result = $rt_s(8);
+                $root = ju_AbstractList_iterator($projName.$javaMain);
+                while (ju_AbstractList$1_hasNext($root)) {
+                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
+                }
+                ju_ArrayList_add($CodeArea, $rt_s(8));
+                $root = ju_AbstractList_iterator($projName.$javaLines);
+                while (ju_AbstractList$1_hasNext($root)) {
+                    ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
+                }
+                ju_ArrayList_add($CodeArea, $rt_s(9));
+                $result = $rt_s(10);
                 $CodeArea = ju_AbstractList_iterator($CodeArea);
                 while (ju_AbstractList$1_hasNext($CodeArea)) {
                     $root = ju_AbstractList$1_next($CodeArea);
@@ -1079,14 +1087,14 @@
             $root = new tj_Interpreter;
             $root.$lineNumber0 = 0;
             $root.$globalVariables0 = $CodeArea;
-            $result = $body.$body;
+            $projName = $body.$body;
             $body = null;
             $code = null;
-            $CodeArea = $rt_s(8);
-            var$7 = 1;
+            $CodeArea = $rt_s(10);
+            var$8 = 1;
             $ptr = 1;
         case 1:
-            tj_Interpreter_interpretFunction($root, $result, $body, $code, $CodeArea, var$7);
+            tj_Interpreter_interpretFunction($root, $projName, $body, $code, $CodeArea, var$8);
             if ($rt_suspending()) {
                 break main;
             }
@@ -1094,7 +1102,7 @@
             return;
         default: $rt_invalidPointer();
         }}
-        $rt_nativeThread().push($args, $body, $root, $code, $CodeArea, $result, var$7, $ptr);
+        $rt_nativeThread().push($args, $body, $root, $code, $CodeArea, $projName, $result, var$8, $ptr);
     }
     function t_Client_onLoad$js_body$_3() {
         $rt_globals.document.addEventListener("DOMContentLoaded", function() {
@@ -1481,7 +1489,7 @@
     }
     function jl_String_valueOf($obj) {
         jl_String_$callClinit();
-        return $obj === null ? $rt_s(9) : $obj.$toString();
+        return $obj === null ? $rt_s(11) : $obj.$toString();
     }
     function jl_String_valueOf0($i) {
         var var$2;
@@ -1529,7 +1537,7 @@
         var var$2, var$3, var$4, var$5, var$6, var$7, var$8, var$9, var$10, var$11, var$12;
         if ($regex === null) {
             $regex = new jl_NullPointerException;
-            jl_Throwable__init_0($regex, $rt_s(10));
+            jl_Throwable__init_0($regex, $rt_s(12));
             $rt_throw($regex);
         }
         jur_AbstractSet_counter = 1;
@@ -1557,7 +1565,7 @@
         if (!jur_Lexer_isEmpty(var$2.$lexemes)) {
             $regex = new jur_PatternSyntaxException;
             var$2 = var$2.$lexemes;
-            jur_PatternSyntaxException__init_($regex, $rt_s(8), var$2.$orig, var$2.$curToc);
+            jur_PatternSyntaxException__init_($regex, $rt_s(10), var$2.$orig, var$2.$curToc);
             $rt_throw($regex);
         }
         if (var$2.$needsBackRefReplacement)
@@ -1594,7 +1602,7 @@
         var$9 = 0;
         if (!jl_String_length($this)) {
             var$4 = $rt_createArray(jl_String, 1);
-            var$4.data[0] = $rt_s(8);
+            var$4.data[0] = $rt_s(10);
         } else {
             while (true) {
                 var$11 = jl_String_length(var$3.$string);
@@ -1671,13 +1679,13 @@
         var var$3, var$4, var$5, var$6, var$7, var$8, var$9, var$10, var$11;
         if ($s === null) {
             $s = new jl_NumberFormatException;
-            jl_Throwable__init_0($s, $rt_s(11));
+            jl_Throwable__init_0($s, $rt_s(13));
             $rt_throw($s);
         }
         var$3 = jl_String_length($s);
         if (0 == var$3) {
             $s = new jl_NumberFormatException;
-            jl_Throwable__init_0($s, $rt_s(12));
+            jl_Throwable__init_0($s, $rt_s(14));
             $rt_throw($s);
         }
         if ($radix >= 2 && $radix <= 36) {
@@ -1712,7 +1720,7 @@
                             $s = jl_String_valueOf(jl_String_substring($s, 0, var$3));
                             var$10 = new jl_StringBuilder;
                             jl_AbstractStringBuilder__init_(var$10);
-                            jl_StringBuilder_append(jl_StringBuilder_append(var$10, $rt_s(13)), $s);
+                            jl_StringBuilder_append(jl_StringBuilder_append(var$10, $rt_s(15)), $s);
                             jl_Throwable__init_0(var$9, jl_AbstractStringBuilder_toString(var$10));
                             $rt_throw(var$9);
                         }
@@ -1721,7 +1729,7 @@
                             $s = jl_String_valueOf(jl_String_substring($s, 0, var$3));
                             var$10 = new jl_StringBuilder;
                             jl_AbstractStringBuilder__init_(var$10);
-                            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$10, $rt_s(14)), $radix), $rt_s(15)), $s);
+                            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$10, $rt_s(16)), $radix), $rt_s(17)), $s);
                             jl_Throwable__init_0(var$9, jl_AbstractStringBuilder_toString(var$10));
                             $rt_throw(var$9);
                         }
@@ -1747,14 +1755,14 @@
             var$10 = jl_String_valueOf(jl_String_substring($s, 0, var$3));
             var$11 = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_(var$11);
-            jl_StringBuilder_append(jl_StringBuilder_append(var$11, $rt_s(16)), var$10);
+            jl_StringBuilder_append(jl_StringBuilder_append(var$11, $rt_s(18)), var$10);
             jl_Throwable__init_0(var$9, jl_AbstractStringBuilder_toString(var$11));
             $rt_throw(var$9);
         }
         $s = new jl_NumberFormatException;
         var$9 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$9);
-        jl_StringBuilder_append0(jl_StringBuilder_append(var$9, $rt_s(17)), $radix);
+        jl_StringBuilder_append0(jl_StringBuilder_append(var$9, $rt_s(19)), $radix);
         jl_Throwable__init_0($s, jl_AbstractStringBuilder_toString(var$9));
         $rt_throw($s);
     }
@@ -2167,7 +2175,7 @@
         jl_AbstractStringBuilder__init_($this);
     }
     function jl_StringBuilder_append($this, $obj) {
-        jl_StringBuilder_insert($this, $this.$length0, $obj === null ? $rt_s(9) : $obj.$toString());
+        jl_StringBuilder_insert($this, $this.$length0, $obj === null ? $rt_s(11) : $obj.$toString());
         return $this;
     }
     function jl_StringBuilder_append1($this, $string) {
@@ -2183,7 +2191,7 @@
         return $this;
     }
     function jl_StringBuilder_append3($this, $b) {
-        jl_StringBuilder_insert($this, $this.$length0, !$b ? $rt_s(18) : $rt_s(19));
+        jl_StringBuilder_insert($this, $this.$length0, !$b ? $rt_s(20) : $rt_s(21));
         return $this;
     }
     function jl_StringBuilder_delete($this, $start, $end) {
@@ -2262,7 +2270,7 @@
         if (var$1 >= 0 && var$1 <= $this.$length0) {
             a: {
                 if (var$2 === null)
-                    var$2 = $rt_s(9);
+                    var$2 = $rt_s(11);
                 else if (jl_String_isEmpty(var$2))
                     break a;
                 jl_AbstractStringBuilder_ensureCapacity($this, $this.$length0 + jl_String_length(var$2) | 0);
@@ -2387,7 +2395,7 @@
             $rt_throw($src);
         }
         $dest = new jl_NullPointerException;
-        jl_Throwable__init_0($dest, $rt_s(20));
+        jl_Throwable__init_0($dest, $rt_s(22));
         $rt_throw($dest);
     }
     function jl_System_fastArraycopy($src, $srcPos, $dest, $destPos, $length) {
@@ -2515,22 +2523,22 @@
                     var$5 = (-1);
                     switch (jl_String_hashCode($type)) {
                         case -1838656495:
-                            if (!jl_String_equals($type, $rt_s(21)))
+                            if (!jl_String_equals($type, $rt_s(23)))
                                 break b;
                             var$5 = 3;
                             break b;
                         case 72655:
-                            if (!jl_String_equals($type, $rt_s(22)))
+                            if (!jl_String_equals($type, $rt_s(24)))
                                 break b;
                             var$5 = 0;
                             break b;
                         case 66988604:
-                            if (!jl_String_equals($type, $rt_s(23)))
+                            if (!jl_String_equals($type, $rt_s(25)))
                                 break b;
                             var$5 = 1;
                             break b;
                         case 782694408:
-                            if (!jl_String_equals($type, $rt_s(24)))
+                            if (!jl_String_equals($type, $rt_s(26)))
                                 break b;
                             var$5 = 2;
                             break b;
@@ -2588,7 +2596,7 @@
         }
         $body = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($body);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($body, $rt_s(25)), $name), $rt_s(26));
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($body, $rt_s(27)), $name), $rt_s(28));
         $body = jl_AbstractStringBuilder_toString($body);
         $args = $rt_createArray(jl_String, 2);
         var$7 = $args.data;
@@ -2601,7 +2609,7 @@
         $body = new jl_RuntimeException;
         var$6 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$6);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(25)), $name), $rt_s(26));
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(27)), $name), $rt_s(28));
         jl_Throwable__init_0($body, jl_AbstractStringBuilder_toString(var$6));
         $rt_throw($body);
     }
@@ -2618,22 +2626,22 @@
             var$5 = (-1);
             switch (jl_String_hashCode($i)) {
                 case -1838656495:
-                    if (!jl_String_equals($i, $rt_s(21)))
+                    if (!jl_String_equals($i, $rt_s(23)))
                         break a;
                     var$5 = 3;
                     break a;
                 case 72655:
-                    if (!jl_String_equals($i, $rt_s(22)))
+                    if (!jl_String_equals($i, $rt_s(24)))
                         break a;
                     var$5 = 0;
                     break a;
                 case 66988604:
-                    if (!jl_String_equals($i, $rt_s(23)))
+                    if (!jl_String_equals($i, $rt_s(25)))
                         break a;
                     var$5 = 1;
                     break a;
                 case 782694408:
-                    if (!jl_String_equals($i, $rt_s(24)))
+                    if (!jl_String_equals($i, $rt_s(26)))
                         break a;
                     var$5 = 2;
                     break a;
@@ -2654,7 +2662,7 @@
                             if ($t === tj_JavaishVal$JavaishType_FLOAT)
                                 $i_0.$value0 = $value;
                             else if ($value.$getType() !== tj_JavaishVal$JavaishType_INT)
-                                tj_Error_TypeMismatch($rt_s(27), $value.$typeString(), $lineNumber);
+                                tj_Error_TypeMismatch($rt_s(29), $value.$typeString(), $lineNumber);
                             else
                                 $i_0.$value0 = tj_JavaishFloat__init_((tj_JavaishInt_getValue($value)).$value);
                         }
@@ -2670,7 +2678,7 @@
                             if ($t === tj_JavaishVal$JavaishType_BOOLEAN)
                                 $i_0.$value1 = $value;
                             else
-                                tj_Error_TypeMismatch($rt_s(28), $value.$typeString(), $lineNumber);
+                                tj_Error_TypeMismatch($rt_s(30), $value.$typeString(), $lineNumber);
                         }
                     }
                     break b;
@@ -2684,7 +2692,7 @@
                             if ($i_0 === tj_JavaishVal$JavaishType_STRING)
                                 $i.$value2 = $value;
                             else
-                                tj_Error_TypeMismatch($rt_s(29), $value.$typeString(), $lineNumber);
+                                tj_Error_TypeMismatch($rt_s(31), $value.$typeString(), $lineNumber);
                         }
                     }
                     break b;
@@ -2700,7 +2708,7 @@
                     if ($t === tj_JavaishVal$JavaishType_INT)
                         $i_0.$value3 = $value;
                     else
-                        tj_Error_TypeMismatch($rt_s(30), $value.$typeString(), $lineNumber);
+                        tj_Error_TypeMismatch($rt_s(32), $value.$typeString(), $lineNumber);
                 }
             }
         }
@@ -2713,22 +2721,22 @@
             var$4 = (-1);
             switch (jl_String_hashCode(var$3)) {
                 case -1838656495:
-                    if (!jl_String_equals(var$3, $rt_s(21)))
+                    if (!jl_String_equals(var$3, $rt_s(23)))
                         break a;
                     var$4 = 3;
                     break a;
                 case 72655:
-                    if (!jl_String_equals(var$3, $rt_s(22)))
+                    if (!jl_String_equals(var$3, $rt_s(24)))
                         break a;
                     var$4 = 0;
                     break a;
                 case 66988604:
-                    if (!jl_String_equals(var$3, $rt_s(23)))
+                    if (!jl_String_equals(var$3, $rt_s(25)))
                         break a;
                     var$4 = 1;
                     break a;
                 case 782694408:
-                    if (!jl_String_equals(var$3, $rt_s(24)))
+                    if (!jl_String_equals(var$3, $rt_s(26)))
                         break a;
                     var$4 = 2;
                     break a;
@@ -2785,22 +2793,22 @@
             var$3 = (-1);
             switch (jl_String_hashCode($i)) {
                 case -1618721555:
-                    if (!jl_String_equals($i, $rt_s(31)))
+                    if (!jl_String_equals($i, $rt_s(33)))
                         break a;
                     var$3 = 0;
                     break a;
                 case -1087271889:
-                    if (!jl_String_equals($i, $rt_s(32)))
+                    if (!jl_String_equals($i, $rt_s(34)))
                         break a;
                     var$3 = 3;
                     break a;
                 case 318725286:
-                    if (!jl_String_equals($i, $rt_s(33)))
+                    if (!jl_String_equals($i, $rt_s(35)))
                         break a;
                     var$3 = 2;
                     break a;
                 case 675960026:
-                    if (!jl_String_equals($i, $rt_s(34)))
+                    if (!jl_String_equals($i, $rt_s(36)))
                         break a;
                     var$3 = 1;
                     break a;
@@ -2862,22 +2870,22 @@
                     $lineNumber = (-1);
                     switch (jl_String_hashCode($v)) {
                         case -1618721555:
-                            if (!jl_String_equals($v, $rt_s(31)))
+                            if (!jl_String_equals($v, $rt_s(33)))
                                 break b;
                             $lineNumber = 0;
                             break b;
                         case -1087271889:
-                            if (!jl_String_equals($v, $rt_s(32)))
+                            if (!jl_String_equals($v, $rt_s(34)))
                                 break b;
                             $lineNumber = 3;
                             break b;
                         case 318725286:
-                            if (!jl_String_equals($v, $rt_s(33)))
+                            if (!jl_String_equals($v, $rt_s(35)))
                                 break b;
                             $lineNumber = 2;
                             break b;
                         case 675960026:
-                            if (!jl_String_equals($v, $rt_s(34)))
+                            if (!jl_String_equals($v, $rt_s(36)))
                                 break b;
                             $lineNumber = 1;
                             break b;
@@ -2889,7 +2897,7 @@
                         break;
                     case 1:
                         if (!($value instanceof tj_JavaishFloatList)) {
-                            tj_Error_TypeMismatch($rt_s(35), $value.$typeString(), 0);
+                            tj_Error_TypeMismatch($rt_s(37), $value.$typeString(), 0);
                             break a;
                         }
                         $v = $value;
@@ -2901,7 +2909,7 @@
                         break a;
                     case 2:
                         if (!($value instanceof tj_JavaishBooleanList)) {
-                            tj_Error_TypeMismatch($rt_s(36), $value.$typeString(), 0);
+                            tj_Error_TypeMismatch($rt_s(38), $value.$typeString(), 0);
                             break a;
                         }
                         $v = $value;
@@ -2913,7 +2921,7 @@
                         break a;
                     case 3:
                         if (!($value instanceof tj_JavaishStringList)) {
-                            tj_Error_TypeMismatch($rt_s(37), $value.$typeString(), 0);
+                            tj_Error_TypeMismatch($rt_s(39), $value.$typeString(), 0);
                             break a;
                         }
                         $v = $value;
@@ -2927,7 +2935,7 @@
                         break a;
                 }
                 if (!($value instanceof tj_JavaishIntList))
-                    tj_Error_TypeMismatch($rt_s(38), $value.$typeString(), 0);
+                    tj_Error_TypeMismatch($rt_s(40), $value.$typeString(), 0);
                 else {
                     $v = $value;
                     $type = $this.$intLists;
@@ -2969,7 +2977,7 @@
     function tj_Parser_removeIndents($this, $line) {
         var $i, $rString, $readingIndents, $c, var$6;
         $i = 0;
-        $rString = $rt_s(8);
+        $rString = $rt_s(10);
         $readingIndents = 1;
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
@@ -2990,430 +2998,435 @@
         return $rString;
     }
     function tj_Parser_parse($this) {
-        var $parents, $lines, var$3, var$4, $expression, $declaration, $varName, $columnVar, $varType, $varValue, $expressionType, $dec, $parent, $condition, $columnIC, $boolExpression, $parentE, $conditionE, $columnE, $boolExpressionE, $forVarName, $forListName, $forCondition, $forIncrementVar, $forIncrementVal, $columnFC, $columnFIV, $forConditionExpression, $forIncrementExpression, $whileCondition, $columnW, $whileBoolExpression, $returnVal, $hasReturn, $columnRe, $returnExpression, $returnStmt, $returnStmt2,
-        $addVarName, $addChange, $columnA, $addExpression, $addStmt, $subtractVarName, $subtractChange, $columnS, $subtractExpression, $subtractStmt, $multiplyVarName, $multiplyChange, $columnM, $multiplyExpression, $multiplyStmt, $divideVarName, $divideChange, $columnD, $divideExpression, $divideStmt, $functionName, $functionArgs, $forLoop, $arguments, $i, $argName, $argumentsArr, $removeAllVarName, $removeAllValue, $columnRAll, $removeAllExpression, $removeAllStmt, $removeVarName, $removeValue, $columnR, $removeValExpression,
-        $removeStmt, $removeAtVarName, $removeAtLocation, $columnRA, $removeAtExpression, $removeAtStmt, $assignment, $columnVarA, $expressionA, $assignmentStmt, $functionCallName, $functionArgExpressions, $words, $arg, $argType, $columnArg, $printStmt, $functionCallStmt, $showMsgBoxStmt, $columnC;
+        var $parents, $lines, var$3, var$4, $expression, $commentStmt, $declaration, $varName, $columnVar, $varType, $varValue, $expressionType, $dec, $parent, $condition, $columnIC, $boolExpression, $parentE, $conditionE, $columnE, $boolExpressionE, $forVarName, $forListName, $forCondition, $forIncrementVar, $forIncrementVal, $columnFC, $columnFIV, $forConditionExpression, $forIncrementExpression, $whileCondition, $columnW, $whileBoolExpression, $returnVal, $hasReturn, $columnRe, $returnExpression, $returnStmt,
+        $returnStmt2, $addVarName, $addChange, $columnA, $addExpression, $addStmt, $subtractVarName, $subtractChange, $columnS, $subtractExpression, $subtractStmt, $multiplyVarName, $multiplyChange, $columnM, $multiplyExpression, $multiplyStmt, $divideVarName, $divideChange, $columnD, $divideExpression, $divideStmt, $functionName, $functionArgs, $forLoop, $arguments, $i, $argName, $argumentsArr, $removeAllVarName, $removeAllValue, $columnRAll, $removeAllExpression, $removeAllStmt, $removeVarName, $removeValue,
+        $columnR, $removeValExpression, $removeStmt, $removeAtVarName, $removeAtLocation, $columnRA, $removeAtExpression, $removeAtStmt, $assignment, $columnVarA, $expressionA, $assignmentStmt, $functionCallName, $functionArgExpressions, $words, $arg, $argType, $columnArg, $printStmt, $functionCallStmt, $showMsgBoxStmt, $columnC;
         $parents = ju_ArrayList__init_();
         ju_ArrayList_add($parents, $this.$classStmt);
-        $lines = (jl_String_split($this.$source, $rt_s(39))).data;
+        $lines = (jl_String_split($this.$source, $rt_s(41))).data;
         var$3 = $lines.length;
         var$4 = 0;
         while (var$4 < var$3) {
             a: {
                 $expression = tj_Parser_removeIndents($this, $lines[var$4]);
                 $this.$lineNumber1 = $this.$lineNumber1 + 1 | 0;
-                if (!jl_String_isEmpty(jl_String_trim($expression)) && !jl_String_startsWith0($expression, $rt_s(40))) {
-                    b: {
-                        $declaration = (jl_String_split($expression, $rt_s(41))).data;
-                        $varName = $declaration[0];
-                        $columnVar = (-1);
-                        switch (jl_String_hashCode($varName)) {
-                            case -2060248300:
-                                if (!jl_String_equals($varName, $rt_s(42)))
+                if (!jl_String_isEmpty(jl_String_trim($expression))) {
+                    if (jl_String_startsWith0($expression, $rt_s(42))) {
+                        $commentStmt = tj_CommentStmt__init_($this.$lineNumber1, $expression);
+                        tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $commentStmt);
+                    } else {
+                        b: {
+                            $declaration = (jl_String_split($expression, $rt_s(43))).data;
+                            $varName = $declaration[0];
+                            $columnVar = (-1);
+                            switch (jl_String_hashCode($varName)) {
+                                case -2060248300:
+                                    if (!jl_String_equals($varName, $rt_s(44)))
+                                        break b;
+                                    $columnVar = 9;
                                     break b;
-                                $columnVar = 9;
-                                break b;
-                            case -1331463047:
-                                if (!jl_String_equals($varName, $rt_s(43)))
+                                case -1331463047:
+                                    if (!jl_String_equals($varName, $rt_s(45)))
+                                        break b;
+                                    $columnVar = 11;
                                     break b;
-                                $columnVar = 11;
-                                break b;
-                            case -934610812:
-                                if (!jl_String_equals($varName, $rt_s(44)))
+                                case -934610812:
+                                    if (!jl_String_equals($varName, $rt_s(46)))
+                                        break b;
+                                    $columnVar = 14;
                                     break b;
-                                $columnVar = 14;
-                                break b;
-                            case -934396624:
-                                if (!jl_String_equals($varName, $rt_s(45)))
+                                case -934396624:
+                                    if (!jl_String_equals($varName, $rt_s(47)))
+                                        break b;
+                                    $columnVar = 6;
                                     break b;
-                                $columnVar = 6;
-                                break b;
-                            case -512823337:
-                                if (!jl_String_equals($varName, $rt_s(46)))
+                                case -512823337:
+                                    if (!jl_String_equals($varName, $rt_s(48)))
+                                        break b;
+                                    $columnVar = 15;
                                     break b;
-                                $columnVar = 15;
-                                break b;
-                            case 125:
-                                if (!jl_String_equals($varName, $rt_s(7)))
+                                case 125:
+                                    if (!jl_String_equals($varName, $rt_s(9)))
+                                        break b;
+                                    $columnVar = 1;
                                     break b;
-                                $columnVar = 1;
-                                break b;
-                            case 3357:
-                                if (!jl_String_equals($varName, $rt_s(47)))
+                                case 3357:
+                                    if (!jl_String_equals($varName, $rt_s(49)))
+                                        break b;
+                                    $columnVar = 2;
                                     break b;
-                                $columnVar = 2;
-                                break b;
-                            case 96417:
-                                if (!jl_String_equals($varName, $rt_s(48)))
+                                case 96417:
+                                    if (!jl_String_equals($varName, $rt_s(50)))
+                                        break b;
+                                    $columnVar = 8;
                                     break b;
-                                $columnVar = 8;
-                                break b;
-                            case 101577:
-                                if (!jl_String_equals($varName, $rt_s(49)))
+                                case 101577:
+                                    if (!jl_String_equals($varName, $rt_s(51)))
+                                        break b;
+                                    $columnVar = 4;
                                     break b;
-                                $columnVar = 4;
-                                break b;
-                            case 107035:
-                                if (!jl_String_equals($varName, $rt_s(50)))
+                                case 107035:
+                                    if (!jl_String_equals($varName, $rt_s(52)))
+                                        break b;
+                                    $columnVar = 0;
                                     break b;
-                                $columnVar = 0;
-                                break b;
-                            case 113101617:
-                                if (!jl_String_equals($varName, $rt_s(51)))
+                                case 113101617:
+                                    if (!jl_String_equals($varName, $rt_s(53)))
+                                        break b;
+                                    $columnVar = 5;
                                     break b;
-                                $columnVar = 5;
-                                break b;
-                            case 118556470:
-                                if (!jl_String_equals($varName, $rt_s(52)))
+                                case 118556470:
+                                    if (!jl_String_equals($varName, $rt_s(54)))
+                                        break b;
+                                    $columnVar = 3;
                                     break b;
-                                $columnVar = 3;
-                                break b;
-                            case 653829668:
-                                if (!jl_String_equals($varName, $rt_s(53)))
+                                case 653829668:
+                                    if (!jl_String_equals($varName, $rt_s(55)))
+                                        break b;
+                                    $columnVar = 10;
                                     break b;
-                                $columnVar = 10;
-                                break b;
-                            case 1098475774:
-                                if (!jl_String_equals($varName, $rt_s(54)))
+                                case 1098475774:
+                                    if (!jl_String_equals($varName, $rt_s(56)))
+                                        break b;
+                                    $columnVar = 7;
                                     break b;
-                                $columnVar = 7;
-                                break b;
-                            case 1282345597:
-                                if (!jl_String_equals($varName, $rt_s(55)))
+                                case 1282345597:
+                                    if (!jl_String_equals($varName, $rt_s(57)))
+                                        break b;
+                                    $columnVar = 13;
                                     break b;
-                                $columnVar = 13;
-                                break b;
-                            case 1380938712:
-                                if (!jl_String_equals($varName, $rt_s(56)))
+                                case 1380938712:
+                                    if (!jl_String_equals($varName, $rt_s(58)))
+                                        break b;
+                                    $columnVar = 12;
                                     break b;
-                                $columnVar = 12;
-                                break b;
-                            default:
+                                default:
+                            }
                         }
-                    }
-                    switch ($columnVar) {
-                        case 0:
-                            c: {
-                                $declaration = (tj_Parser_parseDeclaration($this, $expression)).data;
-                                $varName = $declaration[0];
-                                $varType = tj_Parser_getType($this, $declaration[1]);
-                                $varValue = $declaration[2];
-                                $expressionType = jl_System_out();
-                                $dec = jl_StringBuilder__init_();
-                                jl_StringBuilder_append(jl_StringBuilder_append($dec, $rt_s(57)), $varValue);
-                                ji_PrintStream_println($expressionType, jl_StringBuilder_toString($dec));
-                                tj_Expression$ExpressionReturnType_$callClinit();
-                                $expressionType = tj_Expression$ExpressionReturnType_STRING;
-                                tj_Parser$1_$callClinit();
-                                switch (tj_Parser$1_$SwitchMap$trackerjo$javaish$JavaishVal$JavaishType.data[jl_Enum_ordinal($varType)]) {
-                                    case 1:
-                                        $expressionType = tj_Expression$ExpressionReturnType_STRING;
-                                        break c;
-                                    case 2:
-                                        $expressionType = tj_Expression$ExpressionReturnType_INT;
-                                        break c;
-                                    case 3:
-                                        $expressionType = tj_Expression$ExpressionReturnType_FLOAT;
-                                        break c;
-                                    case 4:
-                                        $expressionType = tj_Expression$ExpressionReturnType_BOOL;
-                                        break c;
-                                    case 5:
-                                        $expressionType = tj_Expression$ExpressionReturnType_INTLIST;
-                                        break c;
-                                    case 6:
-                                        $expressionType = tj_Expression$ExpressionReturnType_FLOATLIST;
-                                        break c;
-                                    case 7:
-                                        $expressionType = tj_Expression$ExpressionReturnType_STRINGLIST;
-                                        break c;
-                                    case 8:
-                                        $expressionType = tj_Expression$ExpressionReturnType_BOOLEANLIST;
-                                        break c;
-                                    default:
+                        switch ($columnVar) {
+                            case 0:
+                                c: {
+                                    $declaration = (tj_Parser_parseDeclaration($this, $expression)).data;
+                                    $varName = $declaration[0];
+                                    $varType = tj_Parser_getType($this, $declaration[1]);
+                                    $varValue = $declaration[2];
+                                    $expressionType = jl_System_out();
+                                    $dec = jl_StringBuilder__init_();
+                                    jl_StringBuilder_append(jl_StringBuilder_append($dec, $rt_s(59)), $varValue);
+                                    ji_PrintStream_println($expressionType, jl_StringBuilder_toString($dec));
+                                    tj_Expression$ExpressionReturnType_$callClinit();
+                                    $expressionType = tj_Expression$ExpressionReturnType_STRING;
+                                    tj_Parser$1_$callClinit();
+                                    switch (tj_Parser$1_$SwitchMap$trackerjo$javaish$JavaishVal$JavaishType.data[jl_Enum_ordinal($varType)]) {
+                                        case 1:
+                                            $expressionType = tj_Expression$ExpressionReturnType_STRING;
+                                            break c;
+                                        case 2:
+                                            $expressionType = tj_Expression$ExpressionReturnType_INT;
+                                            break c;
+                                        case 3:
+                                            $expressionType = tj_Expression$ExpressionReturnType_FLOAT;
+                                            break c;
+                                        case 4:
+                                            $expressionType = tj_Expression$ExpressionReturnType_BOOL;
+                                            break c;
+                                        case 5:
+                                            $expressionType = tj_Expression$ExpressionReturnType_INTLIST;
+                                            break c;
+                                        case 6:
+                                            $expressionType = tj_Expression$ExpressionReturnType_FLOATLIST;
+                                            break c;
+                                        case 7:
+                                            $expressionType = tj_Expression$ExpressionReturnType_STRINGLIST;
+                                            break c;
+                                        case 8:
+                                            $expressionType = tj_Expression$ExpressionReturnType_BOOLEANLIST;
+                                            break c;
+                                        default:
+                                    }
                                 }
-                            }
-                            $columnVar = jl_String_indexOf1($expression, $varValue);
-                            $expression = tj_Expression__init_($varValue, $expressionType, $this.$lineNumber1, $columnVar);
-                            $dec = tj_DeclarationStmt__init_($this.$lineNumber1, $varName, $varType, $expression);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $dec);
-                            break a;
-                        case 1:
-                            $parent = ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0);
-                            $columnVar = $declaration.length;
-                            if ($columnVar > 2 && jl_String_equals($declaration[1], $rt_s(58)) && jl_String_equals($declaration[2], $rt_s(47))) {
-                                ju_ArrayList_remove($parents, ju_ArrayList_size($parents) - 1 | 0);
-                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $parent);
-                                $condition = tj_Parser_parseElseIf($this, $expression, $rt_s(47));
-                                $columnIC = jl_String_indexOf1($expression, $condition);
-                                $boolExpression = new tj_Expression;
-                                tj_Expression$ExpressionReturnType_$callClinit();
-                                tj_Expression__init_0($boolExpression, $condition, tj_Expression$ExpressionReturnType_BOOL, $this.$lineNumber1, $columnIC);
-                                ju_ArrayList_add($parents, tj_ElseIfStmt__init_($this.$lineNumber1, $boolExpression));
+                                $columnVar = jl_String_indexOf1($expression, $varValue);
+                                $expression = tj_Expression__init_($varValue, $expressionType, $this.$lineNumber1, $columnVar);
+                                $dec = tj_DeclarationStmt__init_($this.$lineNumber1, $varName, $varType, $expression);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $dec);
                                 break a;
-                            }
-                            if ($columnVar > 1 && jl_String_equals($declaration[1], $rt_s(58))) {
+                            case 1:
+                                $parent = ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0);
+                                $columnVar = $declaration.length;
+                                if ($columnVar > 2 && jl_String_equals($declaration[1], $rt_s(60)) && jl_String_equals($declaration[2], $rt_s(49))) {
+                                    ju_ArrayList_remove($parents, ju_ArrayList_size($parents) - 1 | 0);
+                                    tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $parent);
+                                    $condition = tj_Parser_parseElseIf($this, $expression, $rt_s(49));
+                                    $columnIC = jl_String_indexOf1($expression, $condition);
+                                    $boolExpression = new tj_Expression;
+                                    tj_Expression$ExpressionReturnType_$callClinit();
+                                    tj_Expression__init_0($boolExpression, $condition, tj_Expression$ExpressionReturnType_BOOL, $this.$lineNumber1, $columnIC);
+                                    ju_ArrayList_add($parents, tj_ElseIfStmt__init_($this.$lineNumber1, $boolExpression));
+                                    break a;
+                                }
+                                if ($columnVar > 1 && jl_String_equals($declaration[1], $rt_s(60))) {
+                                    ju_ArrayList_remove($parents, ju_ArrayList_size($parents) - 1 | 0);
+                                    tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $parent);
+                                    ju_ArrayList_add($parents, tj_ElseStmt__init_($this.$lineNumber1));
+                                    break a;
+                                }
                                 ju_ArrayList_remove($parents, ju_ArrayList_size($parents) - 1 | 0);
                                 tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $parent);
+                                break a;
+                            case 2:
+                                break;
+                            case 3:
+                                $parentE = ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0);
+                                ju_ArrayList_remove($parents, ju_ArrayList_size($parents) - 1 | 0);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $parentE);
+                                if ($declaration.length > 1 && jl_String_equals($declaration[1], $rt_s(49))) {
+                                    $conditionE = tj_Parser_parseElseIf($this, $expression, $rt_s(49));
+                                    $columnE = jl_String_indexOf1($expression, $conditionE);
+                                    $boolExpressionE = new tj_Expression;
+                                    tj_Expression$ExpressionReturnType_$callClinit();
+                                    tj_Expression__init_0($boolExpressionE, $conditionE, tj_Expression$ExpressionReturnType_BOOL, $this.$lineNumber1, $columnE);
+                                    ju_ArrayList_add($parents, tj_ElseIfStmt__init_($this.$lineNumber1, $boolExpressionE));
+                                    break a;
+                                }
                                 ju_ArrayList_add($parents, tj_ElseStmt__init_($this.$lineNumber1));
                                 break a;
-                            }
-                            ju_ArrayList_remove($parents, ju_ArrayList_size($parents) - 1 | 0);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $parent);
-                            break a;
-                        case 2:
-                            break;
-                        case 3:
-                            $parentE = ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0);
-                            ju_ArrayList_remove($parents, ju_ArrayList_size($parents) - 1 | 0);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $parentE);
-                            if ($declaration.length > 1 && jl_String_equals($declaration[1], $rt_s(47))) {
-                                $conditionE = tj_Parser_parseElseIf($this, $expression, $rt_s(47));
-                                $columnE = jl_String_indexOf1($expression, $conditionE);
-                                $boolExpressionE = new tj_Expression;
-                                tj_Expression$ExpressionReturnType_$callClinit();
-                                tj_Expression__init_0($boolExpressionE, $conditionE, tj_Expression$ExpressionReturnType_BOOL, $this.$lineNumber1, $columnE);
-                                ju_ArrayList_add($parents, tj_ElseIfStmt__init_($this.$lineNumber1, $boolExpressionE));
-                                break a;
-                            }
-                            ju_ArrayList_add($parents, tj_ElseStmt__init_($this.$lineNumber1));
-                            break a;
-                        case 4:
-                            if (!jl_String_equals($declaration[1], $rt_s(59))) {
-                                if (!jl_String_equals($declaration[1], $rt_s(60)))
+                            case 4:
+                                if (!jl_String_equals($declaration[1], $rt_s(61))) {
+                                    if (!jl_String_equals($declaration[1], $rt_s(62)))
+                                        break a;
+                                    $declaration = (tj_Parser_parseForEach($this, $expression)).data;
+                                    $forVarName = $declaration[0];
+                                    $forListName = $declaration[1];
+                                    ju_ArrayList_add($parents, tj_ForEachStmt__init_($this.$lineNumber1, $forVarName, $forListName));
                                     break a;
-                                $declaration = (tj_Parser_parseForEach($this, $expression)).data;
-                                $forVarName = $declaration[0];
-                                $forListName = $declaration[1];
-                                ju_ArrayList_add($parents, tj_ForEachStmt__init_($this.$lineNumber1, $forVarName, $forListName));
-                                break a;
-                            }
-                            $declaration = (tj_Parser_parseForWhen($this, $expression)).data;
-                            $forCondition = $declaration[0];
-                            $forIncrementVar = $declaration[2];
-                            $forIncrementVal = $declaration[1];
-                            $varName = jl_System_out();
-                            $varType = jl_StringBuilder__init_();
-                            jl_StringBuilder_append(jl_StringBuilder_append($varType, $rt_s(61)), $forCondition);
-                            ji_PrintStream_println($varName, jl_StringBuilder_toString($varType));
-                            $columnFC = jl_String_indexOf1($expression, $forCondition);
-                            $columnFIV = jl_String_indexOf1($expression, $forIncrementVal);
-                            $forConditionExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($forConditionExpression, $forCondition, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnFC);
-                            $forIncrementExpression = tj_Expression__init_($forIncrementVal, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnFIV);
-                            ju_ArrayList_add($parents, tj_ForWhenStmt__init_($this.$lineNumber1, $forConditionExpression, $forIncrementExpression, $forIncrementVar));
-                            break a;
-                        case 5:
-                            $whileCondition = tj_Parser_parseLoop($this, $expression, $rt_s(51));
-                            $columnW = jl_String_indexOf1($expression, $whileCondition);
-                            $whileBoolExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($whileBoolExpression, $whileCondition, tj_Expression$ExpressionReturnType_BOOL, $this.$lineNumber1, $columnW);
-                            ju_ArrayList_add($parents, tj_WhileStmt__init_($this.$lineNumber1, $whileBoolExpression));
-                            break a;
-                        case 6:
-                            $returnVal = tj_Parser_parseReturn($this, $expression);
-                            $hasReturn = $returnVal === $rt_s(8) ? 0 : 1;
-                            $columnRe = jl_String_indexOf1($expression, $returnVal);
-                            $returnExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($returnExpression, $returnVal, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnRe);
-                            $returnStmt = tj_ReturnStmt__init_($this.$lineNumber1, $returnExpression, $hasReturn);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $returnStmt);
-                            break a;
-                        case 7:
-                            $returnStmt2 = new tj_ReturnStmt;
-                            $columnIC = $this.$lineNumber1;
-                            $varType = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($varType, $rt_s(8), tj_Expression$ExpressionReturnType_STRING, $columnIC, 0);
-                            tj_ReturnStmt__init_0($returnStmt2, $columnIC, $varType, 0);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $returnStmt2);
-                            break a;
-                        case 8:
-                            $declaration = (tj_Parser_parseMutationAS($this, $expression, $rt_s(48))).data;
-                            $addVarName = $declaration[0];
-                            $addChange = $declaration[1];
-                            $columnA = jl_String_indexOf1($expression, $addChange);
-                            $addExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($addExpression, $addChange, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnA);
-                            $addStmt = new tj_MutationStmt;
-                            $columnVar = $this.$lineNumber1;
-                            tj_Statements$MutationType_$callClinit();
-                            tj_MutationStmt__init_($addStmt, $columnVar, $addVarName, $addExpression, tj_Statements$MutationType_ADD);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $addStmt);
-                            break a;
-                        case 9:
-                            $declaration = (tj_Parser_parseMutationAS($this, $expression, $rt_s(42))).data;
-                            $subtractVarName = $declaration[0];
-                            $subtractChange = $declaration[1];
-                            $columnS = jl_String_indexOf1($expression, $subtractChange);
-                            $subtractExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($subtractExpression, $subtractChange, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnS);
-                            $subtractStmt = new tj_MutationStmt;
-                            $columnVar = $this.$lineNumber1;
-                            tj_Statements$MutationType_$callClinit();
-                            tj_MutationStmt__init_($subtractStmt, $columnVar, $subtractVarName, $subtractExpression, tj_Statements$MutationType_SUBTRACT);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $subtractStmt);
-                            break a;
-                        case 10:
-                            $declaration = (tj_Parser_parseMutationMD($this, $expression, $rt_s(53))).data;
-                            $multiplyVarName = $declaration[1];
-                            $multiplyChange = $declaration[0];
-                            $columnM = jl_String_indexOf1($expression, $multiplyChange);
-                            $multiplyExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($multiplyExpression, $multiplyChange, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnM);
-                            $multiplyStmt = new tj_MutationStmt;
-                            $columnVar = $this.$lineNumber1;
-                            tj_Statements$MutationType_$callClinit();
-                            tj_MutationStmt__init_($multiplyStmt, $columnVar, $multiplyVarName, $multiplyExpression, tj_Statements$MutationType_MULTIPLY);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $multiplyStmt);
-                            break a;
-                        case 11:
-                            $declaration = (tj_Parser_parseMutationMD($this, $expression, $rt_s(43))).data;
-                            $divideVarName = $declaration[1];
-                            $divideChange = $declaration[0];
-                            $columnD = jl_String_indexOf1($expression, $divideChange);
-                            $divideExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($divideExpression, $divideChange, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnD);
-                            $divideStmt = new tj_MutationStmt;
-                            $columnVar = $this.$lineNumber1;
-                            tj_Statements$MutationType_$callClinit();
-                            tj_MutationStmt__init_($divideStmt, $columnVar, $divideVarName, $divideExpression, tj_Statements$MutationType_DIVIDE);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $divideStmt);
-                            break a;
-                        case 12:
-                            $declaration = (tj_Parser_parseFunction($this, $expression)).data;
-                            $functionName = $declaration[0];
-                            $functionArgs = jl_String_split($declaration[1], $rt_s(62));
-                            $forLoop = $functionArgs.data;
-                            if ($forLoop.length == 1 && jl_String_equals($forLoop[0], $rt_s(8)))
-                                $functionArgs = $rt_createArray(jl_String, 0);
-                            $arguments = ju_ArrayList__init_();
-                            $i = 0;
-                            while (true) {
-                                $forLoop = $functionArgs.data;
-                                if ($i >= $forLoop.length)
-                                    break;
-                                if (!jl_String_isEmpty($forLoop[$i])) {
-                                    $forLoop = (jl_String_split($forLoop[$i], $rt_s(63))).data;
-                                    if ($forLoop.length != 2) {
-                                        $parents = new jl_RuntimeException;
-                                        $varName = $declaration[1];
-                                        $columnVar = $this.$lineNumber1;
-                                        $varType = jl_StringBuilder__init_();
-                                        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($varType, $rt_s(64)), $varName), $rt_s(65)), $columnVar);
-                                        jl_RuntimeException__init_2($parents, jl_StringBuilder_toString($varType));
-                                        $rt_throw($parents);
-                                    }
-                                    $argName = $forLoop[1];
-                                    ju_ArrayList_add($arguments, tj_Argument__init_(tj_Parser_getType($this, $forLoop[0]), $argName));
                                 }
-                                $i = $i + 1 | 0;
-                            }
-                            $argumentsArr = ju_AbstractCollection_toArray($arguments, $rt_createArray(tj_Argument, ju_ArrayList_size($arguments)));
-                            ju_ArrayList_add($parents, tj_FunctionStmt__init_($this.$lineNumber1, $functionName, $argumentsArr));
-                            break a;
-                        case 13:
-                            $declaration = (tj_Parser_parseRemoveFrom($this, $expression, $rt_s(55))).data;
-                            $removeAllVarName = $declaration[0];
-                            $removeAllValue = $declaration[1];
-                            $columnRAll = jl_String_indexOf1($expression, $removeAllValue);
-                            $removeAllExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($removeAllExpression, $removeAllValue, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnRAll);
-                            $removeAllStmt = tj_RemoveAllFromStmt__init_($this.$lineNumber1, $removeAllVarName, $removeAllExpression);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $removeAllStmt);
-                            break a;
-                        case 14:
-                            $declaration = (tj_Parser_parseRemoveFrom($this, $expression, $rt_s(44))).data;
-                            $removeVarName = $declaration[0];
-                            $removeValue = $declaration[1];
-                            $columnR = jl_String_indexOf1($expression, $removeValue);
-                            $removeValExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($removeValExpression, $removeValue, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnR);
-                            $removeStmt = tj_RemoveFromStmt__init_($this.$lineNumber1, $removeValExpression, $removeVarName);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $removeStmt);
-                            break a;
-                        case 15:
-                            $declaration = (tj_Parser_parseRemoveAt($this, $expression)).data;
-                            $removeAtVarName = $declaration[0];
-                            $removeAtLocation = $declaration[1];
-                            $columnRA = jl_String_indexOf1($expression, $removeAtLocation);
-                            $removeAtExpression = new tj_Expression;
-                            tj_Expression$ExpressionReturnType_$callClinit();
-                            tj_Expression__init_0($removeAtExpression, $removeAtLocation, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnRA);
-                            $removeAtStmt = tj_RemoveAtStmt__init_($this.$lineNumber1, $removeAtExpression, $removeAtVarName);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $removeAtStmt);
-                            break a;
-                        default:
-                            if (ju_AbstractCollection_contains($this.$variableNames, $declaration[0]) && !(!jl_String_equals(tj_Parser_nextWord($this, $expression, jl_String_length($declaration[0]) + 1 | 0), $rt_s(66)) && !jl_String_equals(tj_Parser_nextWord($this, $expression, jl_String_length($declaration[0]) + 1 | 0), $rt_s(67)))) {
-                                $assignment = tj_Parser_parseAssignment($this, $expression, $declaration[0]);
-                                $columnVarA = jl_String_indexOf1($expression, $assignment);
-                                $expressionA = new tj_Expression;
+                                $declaration = (tj_Parser_parseForWhen($this, $expression)).data;
+                                $forCondition = $declaration[0];
+                                $forIncrementVar = $declaration[2];
+                                $forIncrementVal = $declaration[1];
+                                $varName = jl_System_out();
+                                $varType = jl_StringBuilder__init_();
+                                jl_StringBuilder_append(jl_StringBuilder_append($varType, $rt_s(63)), $forCondition);
+                                ji_PrintStream_println($varName, jl_StringBuilder_toString($varType));
+                                $columnFC = jl_String_indexOf1($expression, $forCondition);
+                                $columnFIV = jl_String_indexOf1($expression, $forIncrementVal);
+                                $forConditionExpression = new tj_Expression;
                                 tj_Expression$ExpressionReturnType_$callClinit();
-                                tj_Expression__init_0($expressionA, $assignment, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnVarA);
-                                $assignmentStmt = tj_AssignmentStmt__init_($this.$lineNumber1, $declaration[0], $expressionA);
-                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $assignmentStmt);
+                                tj_Expression__init_0($forConditionExpression, $forCondition, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnFC);
+                                $forIncrementExpression = tj_Expression__init_($forIncrementVal, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnFIV);
+                                ju_ArrayList_add($parents, tj_ForWhenStmt__init_($this.$lineNumber1, $forConditionExpression, $forIncrementExpression, $forIncrementVar));
                                 break a;
-                            }
-                            if (!tj_Parser_possibleFunctionName($this, $declaration[0])) {
-                                tj_Error_UnexpectedStmt($expression, $this.$lineNumber1);
+                            case 5:
+                                $whileCondition = tj_Parser_parseLoop($this, $expression, $rt_s(53));
+                                $columnW = jl_String_indexOf1($expression, $whileCondition);
+                                $whileBoolExpression = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($whileBoolExpression, $whileCondition, tj_Expression$ExpressionReturnType_BOOL, $this.$lineNumber1, $columnW);
+                                ju_ArrayList_add($parents, tj_WhileStmt__init_($this.$lineNumber1, $whileBoolExpression));
                                 break a;
-                            }
-                            $declaration = (tj_Parser_parseFunctionCall($this, $expression)).data;
-                            $functionCallName = $declaration[0];
-                            $forLoop = (jl_String_split($declaration[1], $rt_s(62))).data;
-                            $columnVar = $forLoop.length;
-                            $functionArgExpressions = $rt_createArray(tj_Expression, $columnVar);
-                            $words = $functionArgExpressions.data;
-                            $i = 0;
-                            while ($i < $columnVar) {
-                                if (!jl_String_isEmpty($forLoop[$i])) {
-                                    $arg = $forLoop[$i];
-                                    tj_Expression$ExpressionReturnType_$callClinit();
-                                    $argType = tj_Expression$ExpressionReturnType_STRING;
-                                    $columnArg = jl_String_indexOf1($expression, $arg);
-                                    $words[$i] = tj_Expression__init_($arg, $argType, $this.$lineNumber1, $columnArg);
+                            case 6:
+                                $returnVal = tj_Parser_parseReturn($this, $expression);
+                                $hasReturn = $returnVal === $rt_s(10) ? 0 : 1;
+                                $columnRe = jl_String_indexOf1($expression, $returnVal);
+                                $returnExpression = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($returnExpression, $returnVal, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnRe);
+                                $returnStmt = tj_ReturnStmt__init_($this.$lineNumber1, $returnExpression, $hasReturn);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $returnStmt);
+                                break a;
+                            case 7:
+                                $returnStmt2 = new tj_ReturnStmt;
+                                $columnIC = $this.$lineNumber1;
+                                $varType = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($varType, $rt_s(10), tj_Expression$ExpressionReturnType_STRING, $columnIC, 0);
+                                tj_ReturnStmt__init_0($returnStmt2, $columnIC, $varType, 0);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $returnStmt2);
+                                break a;
+                            case 8:
+                                $declaration = (tj_Parser_parseMutationAS($this, $expression, $rt_s(50))).data;
+                                $addVarName = $declaration[0];
+                                $addChange = $declaration[1];
+                                $columnA = jl_String_indexOf1($expression, $addChange);
+                                $addExpression = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($addExpression, $addChange, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnA);
+                                $addStmt = new tj_MutationStmt;
+                                $columnVar = $this.$lineNumber1;
+                                tj_Statements$MutationType_$callClinit();
+                                tj_MutationStmt__init_($addStmt, $columnVar, $addVarName, $addExpression, tj_Statements$MutationType_ADD);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $addStmt);
+                                break a;
+                            case 9:
+                                $declaration = (tj_Parser_parseMutationAS($this, $expression, $rt_s(44))).data;
+                                $subtractVarName = $declaration[0];
+                                $subtractChange = $declaration[1];
+                                $columnS = jl_String_indexOf1($expression, $subtractChange);
+                                $subtractExpression = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($subtractExpression, $subtractChange, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnS);
+                                $subtractStmt = new tj_MutationStmt;
+                                $columnVar = $this.$lineNumber1;
+                                tj_Statements$MutationType_$callClinit();
+                                tj_MutationStmt__init_($subtractStmt, $columnVar, $subtractVarName, $subtractExpression, tj_Statements$MutationType_SUBTRACT);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $subtractStmt);
+                                break a;
+                            case 10:
+                                $declaration = (tj_Parser_parseMutationMD($this, $expression, $rt_s(55))).data;
+                                $multiplyVarName = $declaration[1];
+                                $multiplyChange = $declaration[0];
+                                $columnM = jl_String_indexOf1($expression, $multiplyChange);
+                                $multiplyExpression = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($multiplyExpression, $multiplyChange, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnM);
+                                $multiplyStmt = new tj_MutationStmt;
+                                $columnVar = $this.$lineNumber1;
+                                tj_Statements$MutationType_$callClinit();
+                                tj_MutationStmt__init_($multiplyStmt, $columnVar, $multiplyVarName, $multiplyExpression, tj_Statements$MutationType_MULTIPLY);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $multiplyStmt);
+                                break a;
+                            case 11:
+                                $declaration = (tj_Parser_parseMutationMD($this, $expression, $rt_s(45))).data;
+                                $divideVarName = $declaration[1];
+                                $divideChange = $declaration[0];
+                                $columnD = jl_String_indexOf1($expression, $divideChange);
+                                $divideExpression = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($divideExpression, $divideChange, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnD);
+                                $divideStmt = new tj_MutationStmt;
+                                $columnVar = $this.$lineNumber1;
+                                tj_Statements$MutationType_$callClinit();
+                                tj_MutationStmt__init_($divideStmt, $columnVar, $divideVarName, $divideExpression, tj_Statements$MutationType_DIVIDE);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $divideStmt);
+                                break a;
+                            case 12:
+                                $declaration = (tj_Parser_parseFunction($this, $expression)).data;
+                                $functionName = $declaration[0];
+                                $functionArgs = jl_String_split($declaration[1], $rt_s(64));
+                                $forLoop = $functionArgs.data;
+                                if ($forLoop.length == 1 && jl_String_equals($forLoop[0], $rt_s(10)))
+                                    $functionArgs = $rt_createArray(jl_String, 0);
+                                $arguments = ju_ArrayList__init_();
+                                $i = 0;
+                                while (true) {
+                                    $forLoop = $functionArgs.data;
+                                    if ($i >= $forLoop.length)
+                                        break;
+                                    if (!jl_String_isEmpty($forLoop[$i])) {
+                                        $forLoop = (jl_String_split($forLoop[$i], $rt_s(65))).data;
+                                        if ($forLoop.length != 2) {
+                                            $parents = new jl_RuntimeException;
+                                            $varName = $declaration[1];
+                                            $columnVar = $this.$lineNumber1;
+                                            $varType = jl_StringBuilder__init_();
+                                            jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($varType, $rt_s(66)), $varName), $rt_s(67)), $columnVar);
+                                            jl_RuntimeException__init_2($parents, jl_StringBuilder_toString($varType));
+                                            $rt_throw($parents);
+                                        }
+                                        $argName = $forLoop[1];
+                                        ju_ArrayList_add($arguments, tj_Argument__init_(tj_Parser_getType($this, $forLoop[0]), $argName));
+                                    }
+                                    $i = $i + 1 | 0;
                                 }
-                                $i = $i + 1 | 0;
-                            }
-                            if (jl_String_equals($functionCallName, $rt_s(68))) {
+                                $argumentsArr = ju_AbstractCollection_toArray($arguments, $rt_createArray(tj_Argument, ju_ArrayList_size($arguments)));
+                                ju_ArrayList_add($parents, tj_FunctionStmt__init_($this.$lineNumber1, $functionName, $argumentsArr));
+                                break a;
+                            case 13:
+                                $declaration = (tj_Parser_parseRemoveFrom($this, $expression, $rt_s(57))).data;
+                                $removeAllVarName = $declaration[0];
+                                $removeAllValue = $declaration[1];
+                                $columnRAll = jl_String_indexOf1($expression, $removeAllValue);
+                                $removeAllExpression = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($removeAllExpression, $removeAllValue, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnRAll);
+                                $removeAllStmt = tj_RemoveAllFromStmt__init_($this.$lineNumber1, $removeAllVarName, $removeAllExpression);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $removeAllStmt);
+                                break a;
+                            case 14:
+                                $declaration = (tj_Parser_parseRemoveFrom($this, $expression, $rt_s(46))).data;
+                                $removeVarName = $declaration[0];
+                                $removeValue = $declaration[1];
+                                $columnR = jl_String_indexOf1($expression, $removeValue);
+                                $removeValExpression = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($removeValExpression, $removeValue, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnR);
+                                $removeStmt = tj_RemoveFromStmt__init_($this.$lineNumber1, $removeValExpression, $removeVarName);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $removeStmt);
+                                break a;
+                            case 15:
+                                $declaration = (tj_Parser_parseRemoveAt($this, $expression)).data;
+                                $removeAtVarName = $declaration[0];
+                                $removeAtLocation = $declaration[1];
+                                $columnRA = jl_String_indexOf1($expression, $removeAtLocation);
+                                $removeAtExpression = new tj_Expression;
+                                tj_Expression$ExpressionReturnType_$callClinit();
+                                tj_Expression__init_0($removeAtExpression, $removeAtLocation, tj_Expression$ExpressionReturnType_NUMBER, $this.$lineNumber1, $columnRA);
+                                $removeAtStmt = tj_RemoveAtStmt__init_($this.$lineNumber1, $removeAtExpression, $removeAtVarName);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $removeAtStmt);
+                                break a;
+                            default:
+                                if (ju_AbstractCollection_contains($this.$variableNames, $declaration[0]) && !(!jl_String_equals(tj_Parser_nextWord($this, $expression, jl_String_length($declaration[0]) + 1 | 0), $rt_s(68)) && !jl_String_equals(tj_Parser_nextWord($this, $expression, jl_String_length($declaration[0]) + 1 | 0), $rt_s(69)))) {
+                                    $assignment = tj_Parser_parseAssignment($this, $expression, $declaration[0]);
+                                    $columnVarA = jl_String_indexOf1($expression, $assignment);
+                                    $expressionA = new tj_Expression;
+                                    tj_Expression$ExpressionReturnType_$callClinit();
+                                    tj_Expression__init_0($expressionA, $assignment, tj_Expression$ExpressionReturnType_STRING, $this.$lineNumber1, $columnVarA);
+                                    $assignmentStmt = tj_AssignmentStmt__init_($this.$lineNumber1, $declaration[0], $expressionA);
+                                    tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $assignmentStmt);
+                                    break a;
+                                }
+                                if (!tj_Parser_possibleFunctionName($this, $declaration[0])) {
+                                    tj_Error_UnexpectedStmt($expression, $this.$lineNumber1);
+                                    break a;
+                                }
+                                $declaration = (tj_Parser_parseFunctionCall($this, $expression)).data;
+                                $functionCallName = $declaration[0];
+                                $forLoop = (jl_String_split($declaration[1], $rt_s(64))).data;
+                                $columnVar = $forLoop.length;
+                                $functionArgExpressions = $rt_createArray(tj_Expression, $columnVar);
+                                $words = $functionArgExpressions.data;
+                                $i = 0;
+                                while ($i < $columnVar) {
+                                    if (!jl_String_isEmpty($forLoop[$i])) {
+                                        $arg = $forLoop[$i];
+                                        tj_Expression$ExpressionReturnType_$callClinit();
+                                        $argType = tj_Expression$ExpressionReturnType_STRING;
+                                        $columnArg = jl_String_indexOf1($expression, $arg);
+                                        $words[$i] = tj_Expression__init_($arg, $argType, $this.$lineNumber1, $columnArg);
+                                    }
+                                    $i = $i + 1 | 0;
+                                }
+                                if (jl_String_equals($functionCallName, $rt_s(70))) {
+                                    $columnVar = $words.length;
+                                    if ($columnVar != 1)
+                                        tj_Error_ArgumentLengthMismatch($rt_s(70), $this.$lineNumber1, 1, $columnVar);
+                                    if (jl_String_equals($declaration[1], $rt_s(10)))
+                                        tj_Error_ArgumentLengthMismatch($rt_s(70), $this.$lineNumber1, 1, 0);
+                                    $printStmt = tj_PrintStmt__init_($this.$lineNumber1, $words[0]);
+                                    tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $printStmt);
+                                    break a;
+                                }
+                                if (!jl_String_equals($functionCallName, $rt_s(71))) {
+                                    $functionCallStmt = tj_CallStmt__init_($this.$lineNumber1, $functionCallName, $functionArgExpressions);
+                                    tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $functionCallStmt);
+                                    break a;
+                                }
                                 $columnVar = $words.length;
                                 if ($columnVar != 1)
-                                    tj_Error_ArgumentLengthMismatch($rt_s(68), $this.$lineNumber1, 1, $columnVar);
-                                if (jl_String_equals($declaration[1], $rt_s(8)))
-                                    tj_Error_ArgumentLengthMismatch($rt_s(68), $this.$lineNumber1, 1, 0);
-                                $printStmt = tj_PrintStmt__init_($this.$lineNumber1, $words[0]);
-                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $printStmt);
+                                    tj_Error_ArgumentLengthMismatch($rt_s(71), $this.$lineNumber1, 1, $columnVar);
+                                if (jl_String_equals($declaration[1], $rt_s(10)))
+                                    tj_Error_ArgumentLengthMismatch($rt_s(71), $this.$lineNumber1, 1, 0);
+                                $showMsgBoxStmt = tj_ShowMsgBoxStmt__init_($this.$lineNumber1, $words[0]);
+                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $showMsgBoxStmt);
                                 break a;
-                            }
-                            if (!jl_String_equals($functionCallName, $rt_s(69))) {
-                                $functionCallStmt = tj_CallStmt__init_($this.$lineNumber1, $functionCallName, $functionArgExpressions);
-                                tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $functionCallStmt);
-                                break a;
-                            }
-                            $columnVar = $words.length;
-                            if ($columnVar != 1)
-                                tj_Error_ArgumentLengthMismatch($rt_s(69), $this.$lineNumber1, 1, $columnVar);
-                            if (jl_String_equals($declaration[1], $rt_s(8)))
-                                tj_Error_ArgumentLengthMismatch($rt_s(69), $this.$lineNumber1, 1, 0);
-                            $showMsgBoxStmt = tj_ShowMsgBoxStmt__init_($this.$lineNumber1, $words[0]);
-                            tj_Statements_addStatement(ju_ArrayList_get($parents, ju_ArrayList_size($parents) - 1 | 0), $showMsgBoxStmt);
-                            break a;
+                        }
+                        $condition = tj_Parser_parseLoop($this, $expression, $rt_s(49));
+                        $columnC = jl_String_indexOf1($expression, $condition);
+                        $boolExpression = new tj_Expression;
+                        tj_Expression$ExpressionReturnType_$callClinit();
+                        tj_Expression__init_0($boolExpression, $condition, tj_Expression$ExpressionReturnType_BOOL, $this.$lineNumber1, $columnC);
+                        ju_ArrayList_add($parents, tj_IfStmt__init_($this.$lineNumber1, $boolExpression));
                     }
-                    $condition = tj_Parser_parseLoop($this, $expression, $rt_s(47));
-                    $columnC = jl_String_indexOf1($expression, $condition);
-                    $boolExpression = new tj_Expression;
-                    tj_Expression$ExpressionReturnType_$callClinit();
-                    tj_Expression__init_0($boolExpression, $condition, tj_Expression$ExpressionReturnType_BOOL, $this.$lineNumber1, $columnC);
-                    ju_ArrayList_add($parents, tj_IfStmt__init_($this.$lineNumber1, $boolExpression));
                 }
             }
             var$4 = var$4 + 1 | 0;
@@ -3428,9 +3441,9 @@
         $readingVar = 0;
         $readingString = 0;
         $readPeriod = 0;
-        $rString = $rt_s(8);
-        $varName = $rt_s(8);
-        $value = $rt_s(8);
+        $rString = $rt_s(10);
+        $varName = $rt_s(10);
+        $value = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             $hasNext = $i >= (jl_String_length($line) - 1 | 0) ? 0 : 1;
@@ -3446,14 +3459,14 @@
                 if (jl_String_equals($rString, $type) && $readingId) {
                     $readingId = 0;
                     $readingValue = 1;
-                    $rString = $rt_s(8);
-                } else if ($readingValue && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(70))) {
+                    $rString = $rt_s(10);
+                } else if ($readingValue && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(72))) {
                     $readingValue = 0;
                     $readingVar = 1;
                     $value = $rString;
-                    $rString = $rt_s(8);
-                } else if (jl_String_equals($varName, $rt_s(8)) && $readingVar && jl_String_equals($rString, $rt_s(70)))
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
+                } else if (jl_String_equals($varName, $rt_s(10)) && $readingVar && jl_String_equals($rString, $rt_s(72)))
+                    $rString = $rt_s(10);
                 else {
                     var$15 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$15);
@@ -3463,7 +3476,7 @@
             } else if ($c == 46 && !$readingString && !$hasNext) {
                 $readPeriod = 1;
                 $varName = $rString;
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             } else {
                 var$14 = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_(var$14);
@@ -3484,9 +3497,9 @@
         $readingVar = 0;
         $readingString = 0;
         $readPeriod = 0;
-        $rString = $rt_s(8);
-        $varName = $rt_s(8);
-        $location = $rt_s(8);
+        $rString = $rt_s(10);
+        $varName = $rt_s(10);
+        $location = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             $hasNext = $i >= (jl_String_length($line) - 1 | 0) ? 0 : 1;
@@ -3499,17 +3512,17 @@
                 jl_AbstractStringBuilder_append(jl_StringBuilder_append(var$13, $rString), $c);
                 $rString = jl_AbstractStringBuilder_toString(var$13);
             } else if ($c == 32 && !$readingString) {
-                if (jl_String_equals($rString, $rt_s(46)) && $readingId) {
+                if (jl_String_equals($rString, $rt_s(48)) && $readingId) {
                     $readingId = 0;
                     $readingVar = 1;
-                    $rString = $rt_s(8);
-                } else if ($readingVar && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(71))) {
+                    $rString = $rt_s(10);
+                } else if ($readingVar && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(73))) {
                     $readingVar = 0;
                     $readingLocation = 1;
                     $varName = $rString;
-                    $rString = $rt_s(8);
-                } else if (jl_String_equals($location, $rt_s(8)) && $readingLocation && jl_String_equals($rString, $rt_s(71)))
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
+                } else if (jl_String_equals($location, $rt_s(10)) && $readingLocation && jl_String_equals($rString, $rt_s(73)))
+                    $rString = $rt_s(10);
                 else {
                     var$13 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$13);
@@ -3519,7 +3532,7 @@
             } else if ($c == 46 && !$readingString && !$hasNext) {
                 $readPeriod = 1;
                 $location = $rString;
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             } else {
                 var$13 = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_(var$13);
@@ -3534,10 +3547,10 @@
     }
     function tj_Parser_possibleFunctionName($this, $name) {
         var $functionName;
-        if (!jl_String_contains($name, $rt_s(72)))
+        if (!jl_String_contains($name, $rt_s(74)))
             return 0;
-        $functionName = (jl_String_split($name, $rt_s(73))).data[0];
-        if (!ju_AbstractCollection_contains($this.$variableNames, $functionName) && !jl_String_contains($functionName, $rt_s(41)) && jl_String_length($functionName))
+        $functionName = (jl_String_split($name, $rt_s(75))).data[0];
+        if (!ju_AbstractCollection_contains($this.$variableNames, $functionName) && !jl_String_contains($functionName, $rt_s(43)) && jl_String_length($functionName))
             return 1;
         return 0;
     }
@@ -3549,9 +3562,9 @@
         $readingVar = 0;
         $readingList = 0;
         $readingString = 0;
-        $rString = $rt_s(8);
-        $varName = $rt_s(8);
-        $listName = $rt_s(8);
+        $rString = $rt_s(10);
+        $varName = $rt_s(10);
+        $listName = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             if ($c == 34) {
@@ -3561,34 +3574,34 @@
                 jl_AbstractStringBuilder_append(jl_StringBuilder_append(var$12, $rString), $c);
                 $rString = jl_AbstractStringBuilder_toString(var$12);
             } else if ($c == 32 && !$readingString) {
-                if ($readingId && jl_String_equals($rString, $rt_s(49))) {
+                if ($readingId && jl_String_equals($rString, $rt_s(51))) {
                     $readingId = 0;
                     $readingEach = 1;
-                    $rString = $rt_s(8);
-                } else if ($readingEach && jl_String_equals($rString, $rt_s(60))) {
+                    $rString = $rt_s(10);
+                } else if ($readingEach && jl_String_equals($rString, $rt_s(62))) {
                     $readingEach = 0;
                     $readingVar = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if ($readingVar) {
                     $readingVar = 0;
                     $varName = $rString;
-                    $rString = $rt_s(8);
-                } else if (jl_String_equals($rString, $rt_s(74)) && !$readingList) {
+                    $rString = $rt_s(10);
+                } else if (jl_String_equals($rString, $rt_s(76)) && !$readingList) {
                     $readingList = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if ($readingList) {
                     $readingList = 0;
                     $listName = $rString;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else {
                     var$12 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$12);
                     jl_AbstractStringBuilder_append(jl_StringBuilder_append(var$12, $rString), $c);
                     $rString = jl_AbstractStringBuilder_toString(var$12);
                 }
-            } else if ($c == 123 && !$readingString && jl_String_equals($listName, $rt_s(8))) {
+            } else if ($c == 123 && !$readingString && jl_String_equals($listName, $rt_s(10))) {
                 $listName = $rString;
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             } else {
                 var$12 = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_(var$12);
@@ -3610,10 +3623,10 @@
         $readingString = 0;
         $readingExpression = 0;
         $parenCount = 0;
-        $rString = $rt_s(8);
-        $condition = $rt_s(8);
-        $increment = $rt_s(8);
-        $incrementVar = $rt_s(8);
+        $rString = $rt_s(10);
+        $condition = $rt_s(10);
+        $increment = $rt_s(10);
+        $incrementVar = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             if ($c == 34) {
@@ -3651,40 +3664,40 @@
             } else {
                 var$17 = $rt_compare($c, 32);
                 if (!var$17 && !$readingString && !$readingExpression) {
-                    if ($readingId && jl_String_equals($rString, $rt_s(49))) {
+                    if ($readingId && jl_String_equals($rString, $rt_s(51))) {
                         $readingId = 0;
                         $readingWhen = 1;
-                        $rString = $rt_s(8);
-                    } else if ($readingWhen && jl_String_equals($rString, $rt_s(59))) {
+                        $rString = $rt_s(10);
+                    } else if ($readingWhen && jl_String_equals($rString, $rt_s(61))) {
                         $readingWhen = 0;
                         $readingCondition = 1;
-                        $rString = $rt_s(8);
-                    } else if ($readingCondition && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(75))) {
+                        $rString = $rt_s(10);
+                    } else if ($readingCondition && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(77))) {
                         $readingCondition = 0;
                         $condition = $rString;
-                        $rString = $rt_s(8);
-                    } else if (jl_String_equals($rString, $rt_s(75))) {
+                        $rString = $rt_s(10);
+                    } else if (jl_String_equals($rString, $rt_s(77))) {
                         $readingIncrementVar = 1;
-                        $rString = $rt_s(8);
-                    } else if ($readingIncrementVar && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(76))) {
+                        $rString = $rt_s(10);
+                    } else if ($readingIncrementVar && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(78))) {
                         $readingIncrementVar = 0;
                         $readingIncrementVal = 1;
                         $i = $i + 3 | 0;
                         $incrementVar = $rString;
-                        $rString = $rt_s(8);
+                        $rString = $rt_s(10);
                     } else if ($readingIncrementVal) {
                         $readingIncrementVal = 0;
                         $increment = $rString;
-                        $rString = $rt_s(8);
+                        $rString = $rt_s(10);
                     } else {
                         var$16 = new jl_StringBuilder;
                         jl_AbstractStringBuilder__init_(var$16);
                         jl_AbstractStringBuilder_append(jl_StringBuilder_append(var$16, $rString), $c);
                         $rString = jl_AbstractStringBuilder_toString(var$16);
                     }
-                } else if ($c == 123 && !$readingString && jl_String_equals($increment, $rt_s(8)) && !$readingExpression) {
+                } else if ($c == 123 && !$readingString && jl_String_equals($increment, $rt_s(10)) && !$readingExpression) {
                     $increment = $rString;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if (!var$17 && $readingExpression) {
                     var$16 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$16);
@@ -3708,27 +3721,27 @@
         $readingElse = 0;
         $readingId = 0;
         $readingCondition = 0;
-        $rString = $rt_s(8);
-        $condition = $rt_s(8);
+        $rString = $rt_s(10);
+        $condition = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             if ($c == 32 && !$readingCondition) {
-                if (jl_String_equals($rString, $rt_s(7)) && $readingBracket) {
+                if (jl_String_equals($rString, $rt_s(9)) && $readingBracket) {
                     $readingBracket = 0;
                     $readingElse = 1;
-                    $rString = $rt_s(8);
-                } else if (jl_String_equals($rString, $rt_s(58)) && $readingElse) {
+                    $rString = $rt_s(10);
+                } else if (jl_String_equals($rString, $rt_s(60)) && $readingElse) {
                     $readingElse = 0;
                     $readingId = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if ($readingId && jl_String_equals($rString, $id)) {
                     $readingId = 0;
                     $readingCondition = 1;
-                    $rString = $rt_s(8);
-                } else if ($readingBracket && jl_String_equals($rString, $rt_s(52))) {
+                    $rString = $rt_s(10);
+                } else if ($readingBracket && jl_String_equals($rString, $rt_s(54))) {
                     $readingBracket = 0;
                     $readingId = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 }
             } else if ($c != 123) {
                 var$11 = new jl_StringBuilder;
@@ -3737,7 +3750,7 @@
                 $rString = jl_AbstractStringBuilder_toString(var$11);
             } else {
                 $condition = jl_String_charAt($rString, jl_String_length($rString) - 1 | 0) != 32 ? $rString : jl_String_substring($rString, 0, jl_String_length($rString) - 1 | 0);
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             }
             $i = $i + 1 | 0;
         }
@@ -3750,8 +3763,8 @@
         $readingValue = 0;
         $readingString = 0;
         $readPeriod = 0;
-        $rString = $rt_s(8);
-        $varValue = $rt_s(8);
+        $rString = $rt_s(10);
+        $varValue = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             $hasNext = $i >= (jl_String_length($line) - 1 | 0) ? 0 : 1;
@@ -3766,10 +3779,10 @@
             } else if ($c == 32 && !$readingString) {
                 if ($readingName) {
                     $readingName = 0;
-                    $rString = $rt_s(8);
-                } else if (!$readingName && !$readingValue && !(!jl_String_equals($rString, $rt_s(67)) && !jl_String_equals($rString, $rt_s(66)))) {
+                    $rString = $rt_s(10);
+                } else if (!$readingName && !$readingValue && !(!jl_String_equals($rString, $rt_s(69)) && !jl_String_equals($rString, $rt_s(68)))) {
                     $readingValue = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else {
                     $varName = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_($varName);
@@ -3780,7 +3793,7 @@
                 $readingValue = 0;
                 $readPeriod = 1;
                 $varValue = $rString;
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             } else {
                 $varName = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_($varName);
@@ -3799,9 +3812,9 @@
         $readingName = 1;
         $readingString = 0;
         $readPeriod = 0;
-        $rString = $rt_s(8);
-        $functionName = $rt_s(8);
-        $args = $rt_s(8);
+        $rString = $rt_s(10);
+        $functionName = $rt_s(10);
+        $args = $rt_s(10);
         $functionDepth = 0;
         while ($i < jl_String_length($line)) {
             a: {
@@ -3819,7 +3832,7 @@
                     if ($readingName) {
                         $readingName = 0;
                         $functionName = $rString;
-                        $rString = $rt_s(8);
+                        $rString = $rt_s(10);
                         break a;
                     }
                     var$11 = new jl_StringBuilder;
@@ -3832,7 +3845,7 @@
                     $functionDepth = $functionDepth + 1 | 0;
                     $readingName = 0;
                     $functionName = $rString;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                     break a;
                 }
                 var$13 = $rt_compare($c, 40);
@@ -3849,7 +3862,7 @@
                     jl_AbstractStringBuilder__init_(var$11);
                     jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$11, $args), $rString), 44);
                     $args = jl_AbstractStringBuilder_toString(var$11);
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                     break a;
                 }
                 var$14 = $rt_compare($c, 41);
@@ -3866,7 +3879,7 @@
                     jl_AbstractStringBuilder__init_(var$11);
                     jl_StringBuilder_append(jl_StringBuilder_append(var$11, $args), $rString);
                     $args = jl_AbstractStringBuilder_toString(var$11);
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                     break a;
                 }
                 if ($c == 46 && !$readingString) {
@@ -3899,49 +3912,49 @@
         $readingName = 0;
         $readingArgType = 0;
         $readingArgName = 0;
-        $rString = $rt_s(8);
-        $functionName = $rt_s(8);
-        $args = $rt_s(8);
-        $argType = $rt_s(8);
+        $rString = $rt_s(10);
+        $functionName = $rt_s(10);
+        $args = $rt_s(10);
+        $argType = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             var$12 = $rt_compare($c, 32);
             if (!var$12) {
-                if (jl_String_equals($rString, $rt_s(56)) && $readingId) {
+                if (jl_String_equals($rString, $rt_s(58)) && $readingId) {
                     $readingId = 0;
                     $readingName = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if ($readingName) {
                     $readingName = 0;
                     $readingArgType = 1;
                     $functionName = $rString;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if ($readingArgType) {
                     $readingArgType = 0;
                     $readingArgName = 1;
                     $argType = $rString;
-                    $rString = $rt_s(8);
-                } else if ($readingArgName && jl_String_contains($rString, $rt_s(62))) {
+                    $rString = $rt_s(10);
+                } else if ($readingArgName && jl_String_contains($rString, $rt_s(64))) {
                     var$13 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$13);
                     $args = jl_StringBuilder_append(jl_StringBuilder_append(var$13, $args), $argType);
                     jl_AbstractStringBuilder_append($args, 58);
                     jl_AbstractStringBuilder_append(jl_StringBuilder_append($args, $rString), 44);
                     $args = jl_AbstractStringBuilder_toString(var$13);
-                    $argType = $rt_s(8);
+                    $argType = $rt_s(10);
                     $readingArgType = 1;
                     $readingArgName = 0;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 }
             } else if ($readingName && $c == 40) {
                 $readingName = 0;
                 $readingArgType = 1;
                 $functionName = $rString;
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             } else {
                 var$14 = $rt_compare($c, 41);
                 if (!var$14) {
-                    if (!jl_String_equals($rString, $rt_s(8))) {
+                    if (!jl_String_equals($rString, $rt_s(10))) {
                         var$15 = new jl_StringBuilder;
                         jl_AbstractStringBuilder__init_(var$15);
                         var$13 = jl_StringBuilder_append(jl_StringBuilder_append(var$15, $args), $argType);
@@ -3951,7 +3964,7 @@
                     }
                     $readingArgType = 0;
                     $readingArgName = 0;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if (!(!var$12 && $c == 40 && !var$14)) {
                     var$13 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$13);
@@ -3971,12 +3984,12 @@
         $readingVar = 0;
         $readingString = 0;
         $readPeriod = 0;
-        $id = $rt_s(77);
-        if (jl_String_equals($type, $rt_s(42)))
-            $id = $rt_s(70);
-        $rString = $rt_s(8);
-        $varName = $rt_s(8);
-        $change = $rt_s(8);
+        $id = $rt_s(79);
+        if (jl_String_equals($type, $rt_s(44)))
+            $id = $rt_s(72);
+        $rString = $rt_s(10);
+        $varName = $rt_s(10);
+        $change = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             $hasNext = $i >= (jl_String_length($line) - 1 | 0) ? 0 : 1;
@@ -3992,14 +4005,14 @@
                 if (jl_String_equals($rString, $type) && $readingType) {
                     $readingType = 0;
                     $readingChange = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if ($readingChange && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $id)) {
                     $readingChange = 0;
                     $readingVar = 1;
                     $change = $rString;
-                    $rString = $rt_s(8);
-                } else if (jl_String_equals($varName, $rt_s(8)) && $readingVar && jl_String_equals($rString, $id))
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
+                } else if (jl_String_equals($varName, $rt_s(10)) && $readingVar && jl_String_equals($rString, $id))
+                    $rString = $rt_s(10);
                 else {
                     var$15 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$15);
@@ -4009,7 +4022,7 @@
             } else if ($c == 46 && !$readingString && !$hasNext) {
                 $readPeriod = 1;
                 $varName = $rString;
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             } else {
                 var$15 = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_(var$15);
@@ -4030,9 +4043,9 @@
         $readingVar = 0;
         $readingString = 0;
         $readPeriod = 0;
-        $rString = $rt_s(8);
-        $varName = $rt_s(8);
-        $change = $rt_s(8);
+        $rString = $rt_s(10);
+        $varName = $rt_s(10);
+        $change = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             $hasNext = $i >= (jl_String_length($line) - 1 | 0) ? 0 : 1;
@@ -4048,14 +4061,14 @@
                 if (jl_String_equals($rString, $type) && $readingType) {
                     $readingType = 0;
                     $readingVar = 1;
-                    $rString = $rt_s(8);
-                } else if ($readingVar && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(76))) {
+                    $rString = $rt_s(10);
+                } else if ($readingVar && jl_String_equals(tj_Parser_nextWord($this, $line, $i + 1 | 0), $rt_s(78))) {
                     $readingVar = 0;
                     $readingChange = 1;
                     $change = $rString;
-                    $rString = $rt_s(8);
-                } else if (jl_String_equals($varName, $rt_s(8)) && $readingChange && jl_String_equals($rString, $rt_s(76)))
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
+                } else if (jl_String_equals($varName, $rt_s(10)) && $readingChange && jl_String_equals($rString, $rt_s(78)))
+                    $rString = $rt_s(10);
                 else {
                     var$15 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$15);
@@ -4065,7 +4078,7 @@
             } else if ($c == 46 && !$readingString && !$hasNext) {
                 $readPeriod = 1;
                 $varName = $rString;
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             } else {
                 var$14 = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_(var$14);
@@ -4080,7 +4093,7 @@
     }
     function tj_Parser_nextWord($this, $line, $i) {
         var $rString, $c, var$5;
-        $rString = $rt_s(8);
+        $rString = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             if ($c == 32)
@@ -4098,17 +4111,17 @@
         $i = 0;
         $readingId = 1;
         $readPeriod = 0;
-        $rString = $rt_s(8);
-        $returnVal = $rt_s(8);
+        $rString = $rt_s(10);
+        $returnVal = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             $hasNext = $i >= (jl_String_length($line) - 1 | 0) ? 0 : 1;
             if ($hasNext)
                 jl_String_charAt($line, $i + 1 | 0);
             if ($c == 32) {
-                if ($readingId && jl_String_equals($rString, $rt_s(45))) {
+                if ($readingId && jl_String_equals($rString, $rt_s(47))) {
                     $readingId = 0;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else {
                     var$9 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$9);
@@ -4118,7 +4131,7 @@
             } else if ($c == 46 && !$hasNext) {
                 $readPeriod = 1;
                 $returnVal = $rString;
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             } else {
                 var$9 = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_(var$9);
@@ -4136,15 +4149,15 @@
         $i = 0;
         $readingId = 1;
         $readingCondition = 0;
-        $rString = $rt_s(8);
-        $condition = $rt_s(8);
+        $rString = $rt_s(10);
+        $condition = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             if ($c == 32 && !$readingCondition) {
                 if ($readingId && jl_String_equals($rString, $id)) {
                     $readingId = 0;
                     $readingCondition = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 }
             } else if ($c != 123) {
                 var$9 = new jl_StringBuilder;
@@ -4153,7 +4166,7 @@
                 $rString = jl_AbstractStringBuilder_toString(var$9);
             } else {
                 $condition = jl_String_charAt($rString, jl_String_length($rString) - 1 | 0) != 32 ? $rString : jl_String_substring($rString, 0, jl_String_length($rString) - 1 | 0);
-                $rString = $rt_s(8);
+                $rString = $rt_s(10);
             }
             $i = $i + 1 | 0;
         }
@@ -4168,10 +4181,10 @@
         $readingValue = 0;
         $readingString = 0;
         $readPeriod = 0;
-        $varName = $rt_s(8);
-        $varType = $rt_s(8);
-        $varValue = $rt_s(8);
-        $rString = $rt_s(8);
+        $varName = $rt_s(10);
+        $varType = $rt_s(10);
+        $varValue = $rt_s(10);
+        $rString = $rt_s(10);
         while ($i < jl_String_length($line)) {
             $c = jl_String_charAt($line, $i);
             $hasNext = $i >= (jl_String_length($line) - 1 | 0) ? 0 : 1;
@@ -4179,27 +4192,27 @@
             if ($hasNext)
                 $nextChar = jl_String_charAt($line, $i + 1 | 0);
             if ($c == 32 && !$readingValue) {
-                if ($readingId && jl_String_equals($rString, $rt_s(50))) {
+                if ($readingId && jl_String_equals($rString, $rt_s(52))) {
                     $readingId = 0;
                     $readingType = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if ($readingType) {
                     $readingType = 0;
                     $readingName = 1;
                     $varType = $rString;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 } else if ($readingName) {
                     $readingName = 0;
                     $varName = $rString;
-                    $rString = $rt_s(8);
-                } else if (!jl_String_equals($rString, $rt_s(67)) && !jl_String_equals($rString, $rt_s(78))) {
+                    $rString = $rt_s(10);
+                } else if (!jl_String_equals($rString, $rt_s(69)) && !jl_String_equals($rString, $rt_s(80))) {
                     var$16 = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_(var$16);
                     jl_AbstractStringBuilder_append(jl_StringBuilder_append(var$16, $rString), $c);
                     $rString = jl_AbstractStringBuilder_toString(var$16);
                 } else {
                     $readingValue = 1;
-                    $rString = $rt_s(8);
+                    $rString = $rt_s(10);
                 }
             } else if ($c == 34) {
                 if ($readingString) {
@@ -4236,7 +4249,7 @@
         $i = $this.$lineNumber1;
         $line = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($line);
-        jl_StringBuilder_append0(jl_StringBuilder_append($line, $rt_s(79)), $i);
+        jl_StringBuilder_append0(jl_StringBuilder_append($line, $rt_s(81)), $i);
         $line = jl_AbstractStringBuilder_toString($line);
         var$18 = $rt_createArray(jl_String, 2);
         var$19 = var$18.data;
@@ -4249,7 +4262,7 @@
         $line = new jl_RuntimeException;
         var$16 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$16);
-        jl_StringBuilder_append0(jl_StringBuilder_append(var$16, $rt_s(79)), $i);
+        jl_StringBuilder_append0(jl_StringBuilder_append(var$16, $rt_s(81)), $i);
         jl_Throwable__init_0($line, jl_AbstractStringBuilder_toString(var$16));
         $rt_throw($line);
     }
@@ -4259,42 +4272,42 @@
             var$2 = (-1);
             switch (jl_String_hashCode($type)) {
                 case -1808118735:
-                    if (!jl_String_equals($type, $rt_s(29)))
+                    if (!jl_String_equals($type, $rt_s(31)))
                         break a;
                     var$2 = 0;
                     break a;
                 case -1383386164:
-                    if (!jl_String_equals($type, $rt_s(80)))
+                    if (!jl_String_equals($type, $rt_s(82)))
                         break a;
                     var$2 = 7;
                     break a;
                 case -766441794:
-                    if (!jl_String_equals($type, $rt_s(81)))
+                    if (!jl_String_equals($type, $rt_s(83)))
                         break a;
                     var$2 = 6;
                     break a;
                 case 104431:
-                    if (!jl_String_equals($type, $rt_s(82)))
+                    if (!jl_String_equals($type, $rt_s(84)))
                         break a;
                     var$2 = 1;
                     break a;
                 case 3029738:
-                    if (!jl_String_equals($type, $rt_s(83)))
+                    if (!jl_String_equals($type, $rt_s(85)))
                         break a;
                     var$2 = 3;
                     break a;
                 case 97526364:
-                    if (!jl_String_equals($type, $rt_s(84)))
+                    if (!jl_String_equals($type, $rt_s(86)))
                         break a;
                     var$2 = 2;
                     break a;
                 case 100361105:
-                    if (!jl_String_equals($type, $rt_s(85)))
+                    if (!jl_String_equals($type, $rt_s(87)))
                         break a;
                     var$2 = 5;
                     break a;
                 case 1859653459:
-                    if (!jl_String_equals($type, $rt_s(86)))
+                    if (!jl_String_equals($type, $rt_s(88)))
                         break a;
                     var$2 = 4;
                     break a;
@@ -4340,6 +4353,7 @@
         a.$publicVarDeclarations = null;
         a.$usedJOptionPane = 0;
         a.$usedList = 0;
+        a.$projName = null;
         a.$globalVariables = null;
     }
     function tj_Translator_interpretFunction($this, $statements, $args, $params, $name, $isGlobal, $doTranslate) {
@@ -4349,13 +4363,13 @@
         if (!$doTranslate)
             $javaPrinter = ju_ArrayList__init_();
         $funcJavaLine = $this.$javaLines.$size0;
-        if (!jl_String_equals($name, $rt_s(3)) && $doTranslate) {
+        if (!jl_String_equals($name, $rt_s(4)) && $doTranslate) {
             $javaPrinter = $this.$javaLines;
             $this.$tabCount = $this.$tabCount - 1 | 0;
             $arg = tj_Translator_addTabCount($this);
             $returnVal = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($returnVal);
-            jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($returnVal, $arg), $rt_s(87)), $name), 40);
+            jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($returnVal, $arg), $rt_s(89)), $name), 40);
             $val = jl_AbstractStringBuilder_toString($returnVal);
             $i = 0;
             while (true) {
@@ -4375,14 +4389,14 @@
                 if ($i != ($i_0 - 1 | 0)) {
                     $arg = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_($arg);
-                    jl_StringBuilder_append(jl_StringBuilder_append($arg, $val), $rt_s(88));
+                    jl_StringBuilder_append(jl_StringBuilder_append($arg, $val), $rt_s(90));
                     $val = jl_AbstractStringBuilder_toString($arg);
                 }
                 $i = $i + 1 | 0;
             }
             $arg = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($arg);
-            jl_StringBuilder_append(jl_StringBuilder_append($arg, $val), $rt_s(89));
+            jl_StringBuilder_append(jl_StringBuilder_append($arg, $val), $rt_s(91));
             ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($arg));
             $this.$tabCount = $this.$tabCount + 1 | 0;
         }
@@ -4419,7 +4433,7 @@
             }
         }
         $returnVal = tj_Translator_interpretBody($this, $statements, $localVariables, $isGlobal, $javaPrinter);
-        if (!jl_String_equals($name, $rt_s(3)) && $doTranslate) {
+        if (!jl_String_equals($name, $rt_s(4)) && $doTranslate) {
             $this.$tabCount = $this.$tabCount - 1 | 0;
             $arg = tj_Translator_addTabCount($this);
             $statements = new jl_StringBuilder;
@@ -4427,12 +4441,12 @@
             jl_AbstractStringBuilder_append(jl_StringBuilder_append($statements, $arg), 125);
             ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($statements));
         }
-        if ($returnVal !== null && !jl_String_equals($name, $rt_s(3)) && $doTranslate) {
+        if ($returnVal !== null && !jl_String_equals($name, $rt_s(4)) && $doTranslate) {
             $arg = tj_Translator_addTabCount($this);
             $localVariables = $returnVal.$typeString();
             $statements = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($statements);
-            $arg = jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($statements, $arg), $rt_s(90)), $localVariables);
+            $arg = jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($statements, $arg), $rt_s(92)), $localVariables);
             jl_AbstractStringBuilder_append($arg, 32);
             jl_AbstractStringBuilder_append(jl_StringBuilder_append($arg, $name), 40);
             $name = jl_AbstractStringBuilder_toString($statements);
@@ -4454,14 +4468,14 @@
                 if ($i_1 != ($doTranslate - 1 | 0)) {
                     $statements = new jl_StringBuilder;
                     jl_AbstractStringBuilder__init_($statements);
-                    jl_StringBuilder_append(jl_StringBuilder_append($statements, $name), $rt_s(88));
+                    jl_StringBuilder_append(jl_StringBuilder_append($statements, $name), $rt_s(90));
                     $name = jl_AbstractStringBuilder_toString($statements);
                 }
                 $i_1 = $i_1 + 1 | 0;
             }
             $statements = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($statements);
-            jl_StringBuilder_append(jl_StringBuilder_append($statements, $name), $rt_s(89));
+            jl_StringBuilder_append(jl_StringBuilder_append($statements, $name), $rt_s(91));
             $statements = jl_AbstractStringBuilder_toString($statements);
             ju_ArrayList_checkIndex($javaPrinter, $funcJavaLine);
             $javaPrinter.$array.data[$funcJavaLine] = $statements;
@@ -4497,7 +4511,7 @@
                         var$10 = tj_Translator_addTabCount($this);
                         var$11 = new jl_StringBuilder;
                         jl_AbstractStringBuilder__init_(var$11);
-                        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$11, var$10), $funcVariables), $rt_s(91)), $statement), 59);
+                        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$11, var$10), $funcVariables), $rt_s(93)), $statement), 59);
                         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString(var$11));
                         if (tj_Variables_isVariable($localVariables, $funcVariables))
                             tj_Variables_setVariableValue($localVariables, $funcVariables, $statements, $this.$lineNumber);
@@ -4505,6 +4519,15 @@
                             tj_Variables_setVariableValue($this.$globalVariables, $funcVariables, $statements, $this.$lineNumber);
                         break a;
                     case 2:
+                        $statements = $statement;
+                        $funcVariables = tj_Translator_addTabCount($this);
+                        $statement = $statements.$comment;
+                        $statements = new jl_StringBuilder;
+                        jl_AbstractStringBuilder__init_($statements);
+                        jl_StringBuilder_append(jl_StringBuilder_append($statements, $funcVariables), $statement);
+                        ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($statements));
+                        break a;
+                    case 3:
                         $statements = $statement;
                         $statement = $statements.$name12;
                         var$12 = $statements.$params.data;
@@ -4520,13 +4543,13 @@
                             if ($funcVariables === null) {
                                 $funcVariables = new jl_StringBuilder;
                                 jl_AbstractStringBuilder__init_($funcVariables);
-                                jl_StringBuilder_append(jl_StringBuilder_append($funcVariables, $statements), $rt_s(92));
+                                jl_StringBuilder_append(jl_StringBuilder_append($funcVariables, $statements), $rt_s(94));
                                 $statements = jl_AbstractStringBuilder_toString($funcVariables);
                             } else {
                                 $funcVariables = tj_Translator_translateExpression($this, $funcVariables, $localVariables, $isGlobal, $javaPrinter);
                                 $statement = new jl_StringBuilder;
                                 jl_AbstractStringBuilder__init_($statement);
-                                jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($statement, $statements), $funcVariables), $rt_s(88));
+                                jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($statement, $statements), $funcVariables), $rt_s(90));
                                 $statements = jl_AbstractStringBuilder_toString($statement);
                             }
                             var$14 = var$14 + 1 | 0;
@@ -4534,17 +4557,17 @@
                         $statements = jl_String_substring($statements, 0, jl_String_length($statements) - 2 | 0);
                         $funcVariables = new jl_StringBuilder;
                         jl_AbstractStringBuilder__init_($funcVariables);
-                        jl_StringBuilder_append(jl_StringBuilder_append($funcVariables, $statements), $rt_s(93));
+                        jl_StringBuilder_append(jl_StringBuilder_append($funcVariables, $statements), $rt_s(95));
                         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($funcVariables));
                         break a;
-                    case 3:
-                        break;
                     case 4:
+                        break;
+                    case 5:
                         var$10 = $statement.$body;
                         $funcVariables = ju_ArrayList_get($javaPrinter, $javaPrinter.$size0 - 1 | 0);
                         $statement = new jl_StringBuilder;
                         jl_AbstractStringBuilder__init_($statement);
-                        jl_StringBuilder_append(jl_StringBuilder_append($statement, $funcVariables), $rt_s(94));
+                        jl_StringBuilder_append(jl_StringBuilder_append($statement, $funcVariables), $rt_s(96));
                         $statements = jl_AbstractStringBuilder_toString($statement);
                         ju_ArrayList_remove($javaPrinter, $javaPrinter.$size0 - 1 | 0);
                         ju_ArrayList_add($javaPrinter, $statements);
@@ -4557,14 +4580,14 @@
                         jl_AbstractStringBuilder_append(jl_StringBuilder_append($funcVariables, $statements), 125);
                         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($funcVariables));
                         break a;
-                    case 5:
+                    case 6:
                         $statements = $statement;
                         $funcVariables = $statements.$condition;
                         var$10 = $statements.$body;
                         $statements = tj_Translator_translateExpression($this, $funcVariables, $localVariables, $isGlobal, $javaPrinter);
                         $funcVariables = new jl_StringBuilder;
                         jl_AbstractStringBuilder__init_($funcVariables);
-                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($funcVariables, $rt_s(95)), $statements), $rt_s(96));
+                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($funcVariables, $rt_s(97)), $statements), $rt_s(98));
                         $statement = jl_AbstractStringBuilder_toString($funcVariables);
                         $statements = ju_ArrayList_get($javaPrinter, $javaPrinter.$size0 - 1 | 0);
                         $funcVariables = new jl_StringBuilder;
@@ -4582,45 +4605,45 @@
                         jl_AbstractStringBuilder_append(jl_StringBuilder_append($funcVariables, $statements), 125);
                         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($funcVariables));
                         break a;
-                    case 6:
+                    case 7:
                         tj_Translator_evalMutation($this, $statement, $localVariables, $isGlobal, $javaPrinter);
                         break a;
-                    case 7:
+                    case 8:
                         tj_Translator_evalReturn($this, $statement, $localVariables, $returnVal, $isGlobal, $javaPrinter);
                         break a;
-                    case 8:
+                    case 9:
                         tj_Translator_evalFunction($this, $statement, $localVariables, $isGlobal);
                         break a;
-                    case 9:
+                    case 10:
                         tj_Translator_evalIf($this, $statement, $localVariables, $isGlobal, $pastResult, $javaPrinter);
                         break a;
-                    case 10:
+                    case 11:
                         tj_Translator_evalWhile($this, $statement, $localVariables, $isGlobal, $javaPrinter);
                         break a;
-                    case 11:
+                    case 12:
                         tj_Translator_evalForEach($this, $statement, $localVariables, $isGlobal, $javaPrinter);
                         break a;
-                    case 12:
+                    case 13:
                         tj_Translator_evalForWhen($this, $statement, $localVariables, $isGlobal, $javaPrinter);
                         break a;
-                    case 13:
+                    case 14:
                         $statements = tj_Translator_translateExpression($this, $statement.$value14, $localVariables, $isGlobal, $javaPrinter);
                         $funcVariables = tj_Translator_addTabCount($this);
                         $statement = new jl_StringBuilder;
                         jl_AbstractStringBuilder__init_($statement);
-                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($statement, $funcVariables), $rt_s(97)), $statements), $rt_s(93));
+                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($statement, $funcVariables), $rt_s(99)), $statements), $rt_s(95));
                         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($statement));
                         break a;
-                    case 14:
+                    case 15:
                         tj_Translator_evalShowMsgBox($this, $statement, $localVariables, $isGlobal, $javaPrinter);
                         break a;
-                    case 15:
+                    case 16:
                         tj_Translator_evalRemoveAt($this, $statement, $localVariables, $isGlobal, $javaPrinter);
                         break a;
-                    case 16:
+                    case 17:
                         tj_Translator_evalRemoveFrom($this, $statement, $localVariables, $isGlobal, $javaPrinter);
                         break a;
-                    case 17:
+                    case 18:
                         tj_Translator_evalRemoveAllFrom($this, $statement, $localVariables, $isGlobal, $javaPrinter);
                         break a;
                     default:
@@ -4671,7 +4694,7 @@
                                     case 2:
                                         $valNot = tj_Translator_evalExpression($this, $elmt.$expression, $localVariables, $isGlobal);
                                         if (!($valNot instanceof tj_JavaishBoolean)) {
-                                            tj_Error_TypeMismatch($rt_s(28), $valNot.$typeString(), $this.$lineNumber);
+                                            tj_Error_TypeMismatch($rt_s(30), $valNot.$typeString(), $this.$lineNumber);
                                             break b;
                                         }
                                         $expression = jl_Boolean_booleanValue(tj_JavaishBoolean_getValue($valNot)) != 1 ? tj_JavaishBoolean__init_(jl_Boolean_valueOf(1)) : tj_JavaishBoolean__init_(jl_Boolean_valueOf(0));
@@ -4725,14 +4748,14 @@
                                                             throw $$e;
                                                         }
                                                     }
-                                                    tj_Error_UnableToParse($rt_s(27), $this.$lineNumber, $expressionElmt.$typeString());
+                                                    tj_Error_UnableToParse($rt_s(29), $this.$lineNumber, $expressionElmt.$typeString());
                                                     $newVal = $expressionElmt;
                                                     break g;
                                                 case 2:
                                                     $newVal = jl_System_out();
                                                     $floatElmt = $val.$typeString();
                                                     $expression = jl_StringBuilder__init_();
-                                                    jl_StringBuilder_append(jl_StringBuilder_append($expression, $rt_s(98)), $floatElmt);
+                                                    jl_StringBuilder_append(jl_StringBuilder_append($expression, $rt_s(100)), $floatElmt);
                                                     ji_PrintStream_println($newVal, jl_StringBuilder_toString($expression));
                                                     if ($val instanceof tj_JavaishInt) {
                                                         $newVal = $val;
@@ -4755,7 +4778,7 @@
                                                                 $valF = $val;
                                                                 $integer = tj_JavaishString_getValue($valF);
                                                                 $expression = jl_StringBuilder__init_();
-                                                                jl_StringBuilder_append(jl_StringBuilder_append($expression, $rt_s(98)), $integer);
+                                                                jl_StringBuilder_append(jl_StringBuilder_append($expression, $rt_s(100)), $integer);
                                                                 $expression = jl_StringBuilder_toString($expression);
                                                                 $expressionElmt = $val;
                                                                 ji_PrintStream_println($floatElmt, $expression);
@@ -4772,7 +4795,7 @@
                                                             throw $$e;
                                                         }
                                                     }
-                                                    tj_Error_UnableToParse($expressionElmt.$typeString(), $this.$lineNumber, $rt_s(30));
+                                                    tj_Error_UnableToParse($expressionElmt.$typeString(), $this.$lineNumber, $rt_s(32));
                                                     $newVal = $expressionElmt;
                                                     break g;
                                                 case 3:
@@ -4814,7 +4837,7 @@
                                                             throw $$e;
                                                         }
                                                     }
-                                                    tj_Error_UnableToParse($rt_s(29), $this.$lineNumber, $expressionElmt.$typeString());
+                                                    tj_Error_UnableToParse($rt_s(31), $this.$lineNumber, $expressionElmt.$typeString());
                                                     $newVal = $expressionElmt;
                                                     break g;
                                                 case 4:
@@ -4840,7 +4863,7 @@
                                                             throw $$e;
                                                         }
                                                     }
-                                                    tj_Error_UnableToParse($rt_s(28), $this.$lineNumber, $expressionElmt.$typeString());
+                                                    tj_Error_UnableToParse($rt_s(30), $this.$lineNumber, $expressionElmt.$typeString());
                                                     $newVal = $expressionElmt;
                                                     break g;
                                                 default:
@@ -4981,7 +5004,7 @@
                                             $expression = tj_Variables_getVariableValue($this.$globalVariables, $arrayName);
                                         }
                                         if (!($expression instanceof tj_JavaishListVal)) {
-                                            tj_Error_TypeMismatch($rt_s(99), $expression.$typeString(), $this.$lineNumber);
+                                            tj_Error_TypeMismatch($rt_s(101), $expression.$typeString(), $this.$lineNumber);
                                             return null;
                                         }
                                         $listL = tj_JavaishListVal_getValue($expression);
@@ -5026,7 +5049,7 @@
                     $listVal = $elmt;
                     $index = tj_Translator_evalExpression($this, tj_ListValElmt_getIndex($listVal), $localVariables, $isGlobal);
                     if (!($index instanceof tj_JavaishInt)) {
-                        tj_Error_TypeMismatch($rt_s(30), $index.$typeString(), $this.$lineNumber);
+                        tj_Error_TypeMismatch($rt_s(32), $index.$typeString(), $this.$lineNumber);
                         return null;
                     }
                     $expression = $index;
@@ -5067,7 +5090,7 @@
                         while (ju_AbstractList$1_hasNext($expression)) {
                             $listValI = ju_AbstractList$1_next($expression);
                             if (!($listValI instanceof tj_JavaishInt)) {
-                                tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber);
+                                tj_Error_TypeMismatch($rt_s(32), $listValI.$typeString(), $this.$lineNumber);
                                 return null;
                             }
                             ju_ArrayList_add($intList, $listValI);
@@ -5078,14 +5101,14 @@
                                 $total = tj_JavaishListVal__init_($intListVal);
                                 break b;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber);
                             break b;
                         }
                         if ($operation === null) {
                             $compVal = tj_JavaishListVal__init_($intListVal);
                             break b;
                         }
-                        tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber);
+                        tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber);
                         break b;
                     case 6:
                         $floatList = ju_ArrayList__init_();
@@ -5093,7 +5116,7 @@
                         while (ju_AbstractList$1_hasNext($expression)) {
                             $listValI = ju_AbstractList$1_next($expression);
                             if (!($listValI instanceof tj_JavaishFloat)) {
-                                tj_Error_TypeMismatch($rt_s(27), $listValI.$typeString(), $this.$lineNumber);
+                                tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber);
                                 return null;
                             }
                             ju_ArrayList_add($floatList, $listValI);
@@ -5104,14 +5127,14 @@
                                 $total = tj_JavaishListVal__init_($floatListVal);
                                 break b;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber);
                             break b;
                         }
                         if ($operation === null) {
                             $compVal = tj_JavaishListVal__init_($floatListVal);
                             break b;
                         }
-                        tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber);
+                        tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber);
                         break b;
                     case 7:
                         $stringList = ju_ArrayList__init_();
@@ -5119,7 +5142,7 @@
                         while (ju_AbstractList$1_hasNext($expression)) {
                             $listValI = ju_AbstractList$1_next($expression);
                             if (!($listValI instanceof tj_JavaishString)) {
-                                tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber);
+                                tj_Error_TypeMismatch($rt_s(31), $listValI.$typeString(), $this.$lineNumber);
                                 return null;
                             }
                             ju_ArrayList_add($stringList, $listValI);
@@ -5130,14 +5153,14 @@
                                 $total = tj_JavaishListVal__init_($stringListVal);
                                 break b;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber);
                             break b;
                         }
                         if ($operation === null) {
                             $compVal = tj_JavaishListVal__init_($stringListVal);
                             break b;
                         }
-                        tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber);
+                        tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber);
                         break b;
                     case 8:
                         $booleanList = ju_ArrayList__init_();
@@ -5145,7 +5168,7 @@
                         while (ju_AbstractList$1_hasNext($expression)) {
                             $listValI = ju_AbstractList$1_next($expression);
                             if (!($listValI instanceof tj_JavaishBoolean)) {
-                                tj_Error_TypeMismatch($rt_s(28), $listValI.$typeString(), $this.$lineNumber);
+                                tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber);
                                 return null;
                             }
                             ju_ArrayList_add($booleanList, $listValI);
@@ -5156,14 +5179,14 @@
                                 $total = tj_JavaishListVal__init_($booleanListVal);
                                 break b;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber);
                             break b;
                         }
                         if ($operation === null) {
                             $compVal = tj_JavaishListVal__init_($booleanListVal);
                             break b;
                         }
-                        tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber);
+                        tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber);
                         break b;
                     default:
                 }
@@ -5230,10 +5253,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break a;
                         }
-                        tj_Error_TypeMismatch($rt_s(28), $rt_s(100), $this.$lineNumber);
+                        tj_Error_TypeMismatch($rt_s(30), $rt_s(102), $this.$lineNumber);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(29), $rt_s(101), $this.$lineNumber);
+                    tj_Error_TypeMismatch($rt_s(31), $rt_s(103), $this.$lineNumber);
                     return null;
                 case 2:
                     $comparison = $left.$getType();
@@ -5287,10 +5310,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break a;
                         }
-                        tj_Error_TypeMismatch($rt_s(28), $rt_s(100), $this.$lineNumber);
+                        tj_Error_TypeMismatch($rt_s(30), $rt_s(102), $this.$lineNumber);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(29), $rt_s(101), $this.$lineNumber);
+                    tj_Error_TypeMismatch($rt_s(31), $rt_s(103), $this.$lineNumber);
                     return null;
                 case 3:
                     $comparison = $left.$getType();
@@ -5328,10 +5351,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break a;
                         }
-                        tj_Error_TypeMismatch($rt_s(102), $rt_s(28), $this.$lineNumber);
+                        tj_Error_TypeMismatch($rt_s(104), $rt_s(30), $this.$lineNumber);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber);
                     return null;
                 case 4:
                     $comparison = $left.$getType();
@@ -5369,10 +5392,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break a;
                         }
-                        tj_Error_TypeMismatch($rt_s(102), $rt_s(28), $this.$lineNumber);
+                        tj_Error_TypeMismatch($rt_s(104), $rt_s(30), $this.$lineNumber);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber);
                     return null;
                 case 5:
                     $comparison = $left.$getType();
@@ -5410,10 +5433,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break a;
                         }
-                        tj_Error_TypeMismatch($rt_s(102), $rt_s(28), $this.$lineNumber);
+                        tj_Error_TypeMismatch($rt_s(104), $rt_s(30), $this.$lineNumber);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber);
                     return null;
                 case 6:
                     $comparison = $left.$getType();
@@ -5451,10 +5474,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break a;
                         }
-                        tj_Error_TypeMismatch($rt_s(102), $rt_s(28), $this.$lineNumber);
+                        tj_Error_TypeMismatch($rt_s(104), $rt_s(30), $this.$lineNumber);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber);
                     return null;
                 default:
             }
@@ -5463,7 +5486,7 @@
     }
     function tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter) {
         var $expr, var$6, var$7, var$8, $elmt, $castExpr, var$11, $cast, $val, $expressionElmt, $floatElmt, $integer, $string, $function, $params, $funcExpr, var$21, $inputLine, $listVal, $index, $listName, $list, $type, $listExpressions, $listExpr, $arrayName;
-        $expr = $rt_s(8);
+        $expr = $rt_s(10);
         var$6 = (tj_Expression_getElements($expression)).data;
         var$7 = var$6.length;
         var$8 = 0;
@@ -5474,13 +5497,13 @@
                 switch (tj_Translator$1_$SwitchMap$trackerjo$javaish$Element$ElementType.data[jl_Enum_ordinal(tj_Element_getType($elmt))]) {
                     case 1:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(103));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(105));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 2:
                         $castExpr = tj_Translator_translateExpression($this, $elmt.$expression, $localVariables, $isGlobal, $javaPrinter);
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(104)), $castExpr);
+                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(106)), $castExpr);
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 3:
@@ -5497,26 +5520,13 @@
                             $expression = jl_System_out();
                             $expressionElmt = $val.$typeString();
                             $floatElmt = jl_StringBuilder__init_();
-                            jl_StringBuilder_append(jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append($floatElmt, $rt_s(105)), $castExpr), 32), $expressionElmt);
+                            jl_StringBuilder_append(jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append($floatElmt, $rt_s(107)), $castExpr), 32), $expressionElmt);
                             ji_PrintStream_println($expression, jl_StringBuilder_toString($floatElmt));
                             switch (tj_Translator$1_$SwitchMap$trackerjo$javaish$JavaishVal$JavaishType.data[jl_Enum_ordinal($cast.$castType)]) {
                                 case 1:
                                     if ($val instanceof tj_JavaishFloat)
                                         break b;
                                     if ($val instanceof tj_JavaishInt) {
-                                        $expression = jl_StringBuilder__init_();
-                                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(106)), $castExpr);
-                                        $expr = jl_StringBuilder_toString($expression);
-                                        break b;
-                                    }
-                                    if (!($val instanceof tj_JavaishString))
-                                        break b;
-                                    $expression = jl_StringBuilder__init_();
-                                    jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(107)), $castExpr), 41);
-                                    $expr = jl_StringBuilder_toString($expression);
-                                    break b;
-                                case 2:
-                                    if ($val instanceof tj_JavaishFloat) {
                                         $expression = jl_StringBuilder__init_();
                                         jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(108)), $castExpr);
                                         $expr = jl_StringBuilder_toString($expression);
@@ -5528,11 +5538,24 @@
                                     jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(109)), $castExpr), 41);
                                     $expr = jl_StringBuilder_toString($expression);
                                     break b;
+                                case 2:
+                                    if ($val instanceof tj_JavaishFloat) {
+                                        $expression = jl_StringBuilder__init_();
+                                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(110)), $castExpr);
+                                        $expr = jl_StringBuilder_toString($expression);
+                                        break b;
+                                    }
+                                    if (!($val instanceof tj_JavaishString))
+                                        break b;
+                                    $expression = jl_StringBuilder__init_();
+                                    jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(111)), $castExpr), 41);
+                                    $expr = jl_StringBuilder_toString($expression);
+                                    break b;
                                 case 3:
                                     if ($val instanceof tj_JavaishString)
                                         break b;
                                     $expression = jl_StringBuilder__init_();
-                                    jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(110)), $castExpr), 41);
+                                    jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(112)), $castExpr), 41);
                                     $expr = jl_StringBuilder_toString($expression);
                                     break b;
                                 case 4:
@@ -5541,7 +5564,7 @@
                                     if (!($val instanceof tj_JavaishString))
                                         break b;
                                     $expression = jl_StringBuilder__init_();
-                                    jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(111)), $castExpr), 41);
+                                    jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(113)), $castExpr), 41);
                                     $expr = jl_StringBuilder_toString($expression);
                                     break b;
                                 default:
@@ -5549,17 +5572,17 @@
                         }
                         $expression = jl_System_out();
                         $cast = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($cast, $rt_s(105)), $expr);
+                        jl_StringBuilder_append(jl_StringBuilder_append($cast, $rt_s(107)), $expr);
                         ji_PrintStream_println($expression, jl_StringBuilder_toString($cast));
                         break a;
                     case 5:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(112));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(114));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 6:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(113));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(115));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 7:
@@ -5570,19 +5593,19 @@
                         break a;
                     case 8:
                         $floatElmt = $elmt;
-                        $expression = tj_JavaishFloat_getValue(tj_JavaishFloat__init_(tj_FloatElmt_getValue($floatElmt)));
-                        $cast = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($cast, $expr), $expression);
-                        $expr = jl_StringBuilder_toString($cast);
+                        $val = tj_JavaishFloat_getValue(tj_JavaishFloat__init_(tj_FloatElmt_getValue($floatElmt)));
+                        $expression = jl_StringBuilder__init_();
+                        jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $val), 102);
+                        $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 9:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(114));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(116));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 10:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(115));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(117));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 11:
@@ -5594,37 +5617,37 @@
                         break a;
                     case 12:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(116));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(118));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 13:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(117));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(119));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 14:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(118));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(120));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 15:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(119));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(121));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 16:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(120));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(122));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 17:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(121));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(123));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 18:
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(122));
+                        jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $rt_s(124));
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 19:
@@ -5653,16 +5676,16 @@
                         var$11 = $params.length;
                         var$21 = 0;
                         while (var$21 < var$11) {
-                            $expression = tj_Translator_translateExpression($this, $params[var$21], $localVariables, $isGlobal, $javaPrinter);
-                            $cast = jl_StringBuilder__init_();
-                            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($cast, $funcExpr), $expression), $rt_s(88));
-                            $funcExpr = jl_StringBuilder_toString($cast);
+                            $val = tj_Translator_translateExpression($this, $params[var$21], $localVariables, $isGlobal, $javaPrinter);
+                            $expression = jl_StringBuilder__init_();
+                            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $funcExpr), $val), $rt_s(90));
+                            $funcExpr = jl_StringBuilder_toString($expression);
                             var$21 = var$21 + 1 | 0;
                         }
-                        $expression = jl_String_substring($funcExpr, 0, jl_String_length($funcExpr) - 2 | 0);
-                        $cast = jl_StringBuilder__init_();
-                        jl_StringBuilder_append2(jl_StringBuilder_append($cast, $expression), 41);
-                        $expression = jl_StringBuilder_toString($cast);
+                        $cast = jl_String_substring($funcExpr, 0, jl_String_length($funcExpr) - 2 | 0);
+                        $expression = jl_StringBuilder__init_();
+                        jl_StringBuilder_append2(jl_StringBuilder_append($expression, $cast), 41);
+                        $expression = jl_StringBuilder_toString($expression);
                         $cast = jl_StringBuilder__init_();
                         jl_StringBuilder_append(jl_StringBuilder_append($cast, $expr), $expression);
                         $expr = jl_StringBuilder_toString($cast);
@@ -5678,7 +5701,7 @@
                         $index = tj_Translator_translateExpression($this, tj_ListValElmt_getIndex($listVal), $localVariables, $isGlobal, $javaPrinter);
                         $listName = tj_ListValElmt_getListName($listVal);
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $listName), $rt_s(123)), $index), 41);
+                        jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $listName), $rt_s(125)), $index), 41);
                         $expr = jl_StringBuilder_toString($expression);
                         break a;
                     case 24:
@@ -5686,23 +5709,23 @@
                         $type = tj_Translator_typeToString($this, tj_ListElmt_getListType($list));
                         $listExpressions = tj_ListElmt_getList($list);
                         $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $rt_s(124)), $type), $rt_s(125));
+                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $rt_s(126)), $type), $rt_s(127));
                         $listExpr = jl_StringBuilder_toString($expression);
                         if (!$this.$usedList) {
-                            ju_ArrayList_add($this.$javaImports, $rt_s(126));
-                            ju_ArrayList_add($this.$javaImports, $rt_s(127));
+                            ju_ArrayList_add($this.$javaImports, $rt_s(128));
+                            ju_ArrayList_add($this.$javaImports, $rt_s(129));
                             $this.$usedList = 1;
                         }
-                        $expression = ju_AbstractList_iterator($listExpressions);
-                        while (ju_AbstractList$1_hasNext($expression)) {
-                            $cast = tj_Translator_translateExpression($this, ju_AbstractList$1_next($expression), $localVariables, $isGlobal, $javaPrinter);
-                            $val = jl_StringBuilder__init_();
-                            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($val, $listExpr), $cast), $rt_s(88));
-                            $listExpr = jl_StringBuilder_toString($val);
+                        $castExpr = ju_AbstractList_iterator($listExpressions);
+                        while (ju_AbstractList$1_hasNext($castExpr)) {
+                            $expression = tj_Translator_translateExpression($this, ju_AbstractList$1_next($castExpr), $localVariables, $isGlobal, $javaPrinter);
+                            $cast = jl_StringBuilder__init_();
+                            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($cast, $listExpr), $expression), $rt_s(90));
+                            $listExpr = jl_StringBuilder_toString($cast);
                         }
                         $expression = jl_String_substring($listExpr, 0, jl_String_length($listExpr) - 2 | 0);
                         $cast = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append($cast, $expression), $rt_s(128));
+                        jl_StringBuilder_append(jl_StringBuilder_append($cast, $expression), $rt_s(130));
                         $expression = jl_StringBuilder_toString($cast);
                         $cast = jl_StringBuilder__init_();
                         jl_StringBuilder_append(jl_StringBuilder_append($cast, $expr), $expression);
@@ -5710,9 +5733,9 @@
                         break a;
                     case 25:
                         $arrayName = tj_ArrayLengthElmt_getArrayName($elmt);
-                        $expression = jl_StringBuilder__init_();
-                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $expr), $arrayName), $rt_s(129));
-                        $expr = jl_StringBuilder_toString($expression);
+                        $cast = jl_StringBuilder__init_();
+                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($cast, $expr), $arrayName), $rt_s(131));
+                        $expr = jl_StringBuilder_toString($cast);
                         break a;
                     default:
                 }
@@ -5733,7 +5756,7 @@
                     var$5 = $total instanceof tj_JavaishString;
                     if (var$5) {
                         if (!($val2 instanceof tj_JavaishString)) {
-                            tj_Error_TypeMismatch($rt_s(29), $val2.$typeString(), $this.$lineNumber);
+                            tj_Error_TypeMismatch($rt_s(31), $val2.$typeString(), $this.$lineNumber);
                             return null;
                         }
                         $result = new tj_JavaishString;
@@ -5746,7 +5769,7 @@
                     }
                     if ($val2 instanceof tj_JavaishString) {
                         if (!var$5) {
-                            tj_Error_TypeMismatch($rt_s(29), $total.$typeString(), $this.$lineNumber);
+                            tj_Error_TypeMismatch($rt_s(31), $total.$typeString(), $this.$lineNumber);
                             return null;
                         }
                         $result = new tj_JavaishString;
@@ -5796,7 +5819,7 @@
                         $result = tj_JavaishFloat__init_(jl_Integer_intValue(tj_JavaishInt_getValue($total)) * jl_Float_floatValue(tj_JavaishFloat_getValue($val2)));
                         break a;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber);
                     return null;
                 case 9:
                     if (!($total instanceof tj_JavaishString) && !($val2 instanceof tj_JavaishString)) {
@@ -5819,7 +5842,7 @@
                         $result = tj_JavaishFloat__init_(jl_Integer_intValue(tj_JavaishInt_getValue($total)) / jl_Float_floatValue(tj_JavaishFloat_getValue($val2)));
                         break a;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber);
                     return null;
                 case 10:
                     if (!($total instanceof tj_JavaishString) && !($val2 instanceof tj_JavaishString)) {
@@ -5842,7 +5865,7 @@
                         $result = tj_JavaishFloat__init_(jl_Integer_intValue(tj_JavaishInt_getValue($total)) - jl_Float_floatValue(tj_JavaishFloat_getValue($val2)));
                         break a;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber);
                     return null;
                 default:
             }
@@ -5858,7 +5881,7 @@
         $value = jl_String_valueOf($declaration.$value15);
         $expr = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($expr);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expr, $rt_s(130)), $list), $rt_s(131)), var$8), $rt_s(132)), $value);
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expr, $rt_s(132)), $list), $rt_s(133)), var$8), $rt_s(134)), $value);
         ji_PrintStream_println($line, jl_AbstractStringBuilder_toString($expr));
         $value = tj_Translator_evalExpression($this, $declaration.$value15, $localVariables, $isGlobal);
         $expr = tj_Translator_translateExpression($this, $declaration.$value15, $localVariables, $isGlobal, $javaPrinter);
@@ -5869,7 +5892,7 @@
             $listVal = tj_Translator_addTabCount($this);
             $javaPrinter = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($javaPrinter);
-            jl_StringBuilder_append(jl_StringBuilder_append($javaPrinter, $listVal), $rt_s(90));
+            jl_StringBuilder_append(jl_StringBuilder_append($javaPrinter, $listVal), $rt_s(92));
             $line = jl_AbstractStringBuilder_toString($javaPrinter);
             $javaPrinter = $this.$publicVarDeclarations;
         }
@@ -5882,20 +5905,20 @@
                 jl_AbstractStringBuilder__init_($listVal);
                 $list = jl_StringBuilder_append(jl_StringBuilder_append($listVal, $line), $list_0);
                 jl_AbstractStringBuilder_append($list, 32);
-                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$8), $rt_s(91)), $expr), 59);
+                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$8), $rt_s(93)), $expr), 59);
                 ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($listVal));
             } else {
                 var$8 = tj_Translator_typeToString($this, ($value.$getValue8()).$list.$getType());
                 $listVal = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_($listVal);
-                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($listVal, $rt_s(133)), var$8), 62);
+                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($listVal, $rt_s(135)), var$8), 62);
                 $list_0 = jl_AbstractStringBuilder_toString($listVal);
                 var$8 = $declaration.$name13;
                 $listVal = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_($listVal);
                 $list = jl_StringBuilder_append(jl_StringBuilder_append($listVal, $line), $list_0);
                 jl_AbstractStringBuilder_append($list, 32);
-                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$8), $rt_s(91)), $expr), 59);
+                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$8), $rt_s(93)), $expr), 59);
                 ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($listVal));
             }
             if (!$isGlobal) {
@@ -5919,9 +5942,9 @@
             $list_0 = $declaration.$name13;
             $listVal = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($listVal);
-            $list = jl_StringBuilder_append(jl_StringBuilder_append($listVal, $line), $rt_s(27));
+            $list = jl_StringBuilder_append(jl_StringBuilder_append($listVal, $line), $rt_s(29));
             jl_AbstractStringBuilder_append($list, 32);
-            jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, $list_0), $rt_s(91)), $expr), 59);
+            jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, $list_0), $rt_s(93)), $expr), 59);
             ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($listVal));
             if (!$isGlobal)
                 tj_Variables_addVariable($localVariables, $declaration.$name13, $type, tj_JavaishFloat__init_((tj_JavaishInt_getValue($value)).$value), $this.$lineNumber);
@@ -5935,14 +5958,14 @@
                 $value = tj_Translator_typeToString($this, $list_0.$getType());
                 $listVal = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_($listVal);
-                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($listVal, $rt_s(133)), $value), 62);
+                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($listVal, $rt_s(135)), $value), 62);
                 var$8 = jl_AbstractStringBuilder_toString($listVal);
                 $value = $declaration.$name13;
                 $listVal = new jl_StringBuilder;
                 jl_AbstractStringBuilder__init_($listVal);
                 $list = jl_StringBuilder_append(jl_StringBuilder_append($listVal, $line), var$8);
                 jl_AbstractStringBuilder_append($list, 32);
-                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, $value), $rt_s(91)), $expr), 59);
+                jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, $value), $rt_s(93)), $expr), 59);
                 ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($listVal));
                 if (!$isGlobal)
                     tj_Variables_addList($localVariables, $declaration.$name13, $type, $list_0, $this.$lineNumber);
@@ -5982,7 +6005,7 @@
                         ju_ArrayList_add($paramVals, tj_JavaishInt__init_0(0));
                         break a;
                     case 3:
-                        ju_ArrayList_add($paramVals, tj_JavaishString__init_0($rt_s(8)));
+                        ju_ArrayList_add($paramVals, tj_JavaishString__init_0($rt_s(10)));
                         break a;
                     case 4:
                         ju_ArrayList_add($paramVals, tj_JavaishBoolean__init_(jl_Boolean_valueOf(0)));
@@ -6005,7 +6028,7 @@
         $ifStmt = tj_Translator_addTabCount($this);
         $condition = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($condition);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($condition, $ifStmt), $rt_s(134)), $conditionString), $rt_s(96));
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($condition, $ifStmt), $rt_s(136)), $conditionString), $rt_s(98));
         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($condition));
         $this.$tabCount = $this.$tabCount + 1 | 0;
         tj_Translator_interpretBody($this, $body, $localVariables, 0, $javaPrinter);
@@ -6022,7 +6045,7 @@
         var$6 = tj_Translator_addTabCount($this);
         $condition = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($condition);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($condition, var$6), $rt_s(135)), $condString), $rt_s(96));
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($condition, var$6), $rt_s(137)), $condString), $rt_s(98));
         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($condition));
         $this.$tabCount = $this.$tabCount + 1 | 0;
         tj_Translator_interpretBody($this, $whileStmt.$body, $localVariables, 0, $javaPrinter);
@@ -6049,19 +6072,19 @@
         $list = var$7.$getType();
         tj_JavaishVal$JavaishType_$callClinit();
         if ($list !== tj_JavaishVal$JavaishType_LIST) {
-            tj_Error_TypeMismatch($rt_s(99), var$7.$typeString(), $this.$lineNumber);
+            tj_Error_TypeMismatch($rt_s(101), var$7.$typeString(), $this.$lineNumber);
             return;
         }
         $list = var$7.$list;
         if ($list.$getType() === tj_JavaishVal$JavaishType_STRINGLIST) {
             if (!$isGlobal)
-                tj_Variables_addVariable($localVariables, $tempVarName, tj_JavaishVal$JavaishType_STRING, tj_JavaishString__init_0($rt_s(8)), $this.$lineNumber);
+                tj_Variables_addVariable($localVariables, $tempVarName, tj_JavaishVal$JavaishType_STRING, tj_JavaishString__init_0($rt_s(10)), $this.$lineNumber);
             else
-                tj_Variables_addVariable($this.$globalVariables, $tempVarName, tj_JavaishVal$JavaishType_STRING, tj_JavaishString__init_0($rt_s(8)), $this.$lineNumber);
+                tj_Variables_addVariable($this.$globalVariables, $tempVarName, tj_JavaishVal$JavaishType_STRING, tj_JavaishString__init_0($rt_s(10)), $this.$lineNumber);
             var$7 = tj_Translator_addTabCount($this);
             $list = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($list);
-            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$7), $rt_s(136)), $tempVarName), $rt_s(137)), $listName), $rt_s(96));
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$7), $rt_s(138)), $tempVarName), $rt_s(139)), $listName), $rt_s(98));
             ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($list));
             $this.$tabCount = $this.$tabCount + 1 | 0;
             tj_Translator_interpretBody($this, $foreachStmt.$body, $localVariables, 0, $javaPrinter);
@@ -6079,7 +6102,7 @@
             var$7 = tj_Translator_addTabCount($this);
             $list = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($list);
-            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$7), $rt_s(138)), $tempVarName), $rt_s(137)), $listName), $rt_s(96));
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$7), $rt_s(140)), $tempVarName), $rt_s(139)), $listName), $rt_s(98));
             ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($list));
             $this.$tabCount = $this.$tabCount + 1 | 0;
             tj_Translator_interpretBody($this, $foreachStmt.$body, $localVariables, 0, $javaPrinter);
@@ -6097,7 +6120,7 @@
             var$7 = tj_Translator_addTabCount($this);
             $list = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($list);
-            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$7), $rt_s(139)), $tempVarName), $rt_s(137)), $listName), $rt_s(96));
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$7), $rt_s(141)), $tempVarName), $rt_s(139)), $listName), $rt_s(98));
             ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($list));
             $this.$tabCount = $this.$tabCount + 1 | 0;
             tj_Translator_interpretBody($this, $foreachStmt.$body, $localVariables, 0, $javaPrinter);
@@ -6109,7 +6132,7 @@
             ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($foreachStmt));
         } else {
             if ($list.$getType() !== tj_JavaishVal$JavaishType_FLOATLIST) {
-                tj_Error_TypeMismatch($rt_s(99), var$7.$typeString(), $this.$lineNumber);
+                tj_Error_TypeMismatch($rt_s(101), var$7.$typeString(), $this.$lineNumber);
                 return;
             }
             if (!$isGlobal)
@@ -6119,7 +6142,7 @@
             var$7 = tj_Translator_addTabCount($this);
             $list = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($list);
-            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$7), $rt_s(140)), $tempVarName), $rt_s(137)), $listName), $rt_s(96));
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($list, var$7), $rt_s(142)), $tempVarName), $rt_s(139)), $listName), $rt_s(98));
             ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($list));
             $this.$tabCount = $this.$tabCount + 1 | 0;
             tj_Translator_interpretBody($this, $foreachStmt.$body, $localVariables, 0, $javaPrinter);
@@ -6144,16 +6167,16 @@
         $incExpr = tj_Translator_translateExpression($this, $forwhenStmt.$increment, $localVariables, $isGlobal, $javaPrinter);
         var$9 = tj_Translator_addTabCount($this);
         if ($newVar)
-            var$10 = $rt_s(141);
+            var$10 = $rt_s(143);
         else {
             var$11 = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_(var$11);
-            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$11, $rt_s(142)), $incVarName), $rt_s(143));
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$11, $rt_s(144)), $incVarName), $rt_s(145));
             var$10 = jl_AbstractStringBuilder_toString(var$11);
         }
         $condition = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($condition);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($condition, var$9), $rt_s(144)), var$10), $condString), $rt_s(141)), $incVarName), $rt_s(145)), $incExpr), $rt_s(96));
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($condition, var$9), $rt_s(146)), var$10), $condString), $rt_s(143)), $incVarName), $rt_s(147)), $incExpr), $rt_s(98));
         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($condition));
         $this.$tabCount = $this.$tabCount + 1 | 0;
         tj_Translator_interpretBody($this, $forwhenStmt.$body, $localVariables, 0, $javaPrinter);
@@ -6171,29 +6194,29 @@
             return;
         if (!$this.$usedJOptionPane) {
             $this.$usedJOptionPane = 1;
-            ju_ArrayList_add($this.$javaImports, $rt_s(146));
+            ju_ArrayList_add($this.$javaImports, $rt_s(148));
         }
         $showMsgStmt = tj_Translator_addTabCount($this);
         $localVariables = tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter);
         $value = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($value);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($value, $showMsgStmt), $rt_s(147)), $localVariables), $rt_s(93));
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($value, $showMsgStmt), $rt_s(149)), $localVariables), $rt_s(95));
         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($value));
     }
     function tj_Translator_evalShowInputBox($this, $showInputBoxElmt, $localVariables, $isGlobal, $javaPrinter) {
         var $value, $expression;
-        ji_PrintStream_println(jl_System_out(), $rt_s(148));
-        $value = $rt_s(8);
+        ji_PrintStream_println(jl_System_out(), $rt_s(150));
+        $value = $rt_s(10);
         $expression = $showInputBoxElmt.$value17;
         if ($expression !== null)
             $value = tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter);
         if (!$this.$usedJOptionPane) {
             $this.$usedJOptionPane = 1;
-            ju_ArrayList_add($this.$javaImports, $rt_s(146));
+            ju_ArrayList_add($this.$javaImports, $rt_s(148));
         }
         $showInputBoxElmt = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($showInputBoxElmt);
-        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($showInputBoxElmt, $rt_s(149)), $value), 41);
+        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($showInputBoxElmt, $rt_s(151)), $value), 41);
         $localVariables = jl_AbstractStringBuilder_toString($showInputBoxElmt);
         ji_PrintStream_println(jl_System_out(), $localVariables);
         return $localVariables;
@@ -6202,7 +6225,7 @@
         var $expression, $value, $expr;
         $expression = $returnStmt.$value18;
         $value = null;
-        $expr = $rt_s(8);
+        $expr = $rt_s(10);
         if ($returnStmt.$hasReturn0) {
             $value = tj_Translator_evalExpression($this, $expression, $localVariables, $isGlobal);
             $localVariables = tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter);
@@ -6217,30 +6240,105 @@
         $returnStmt = tj_Translator_addTabCount($this);
         $localVariables = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($localVariables);
-        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($localVariables, $returnStmt), $rt_s(45)), $expr), 59);
+        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($localVariables, $returnStmt), $rt_s(47)), $expr), 59);
         ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($localVariables));
     }
     function tj_Translator_evalMutation($this, $mutationStmt, $localVariables, $isGlobal, $javaPrinter) {
-        var $type, $name, $varType, $value, $newVal, $list;
+        var $type, $name, $varType, $value, $list, $expression, $exprJustOne, $elements, $line, $integer, $newVal;
         $type = $mutationStmt.$mutationType;
         $name = $mutationStmt.$varName;
         $varType = tj_Variables_getVariableType($this.$globalVariables, $name);
         $value = tj_Translator_evalExpression($this, $mutationStmt.$value19, $localVariables, $isGlobal);
         tj_JavaishVal$JavaishType_$callClinit();
         if ($varType !== tj_JavaishVal$JavaishType_STRINGLIST && $varType !== tj_JavaishVal$JavaishType_BOOLEANLIST && $varType !== tj_JavaishVal$JavaishType_INTLIST && $varType !== tj_JavaishVal$JavaishType_FLOATLIST) {
-            $mutationStmt = tj_Variables_isVariable($localVariables, $name) ? tj_Variables_getVariableValue($localVariables, $name) : tj_Variables_getVariableValue($this.$globalVariables, $name);
-            if ($mutationStmt === null) {
+            $list = tj_Variables_isVariable($localVariables, $name) ? tj_Variables_getVariableValue($localVariables, $name) : tj_Variables_getVariableValue($this.$globalVariables, $name);
+            if ($list === null) {
                 tj_Error_VariableNotDeclared($name, $this.$lineNumber);
                 return;
             }
-            if ($mutationStmt.$getType() === tj_JavaishVal$JavaishType_STRING) {
+            if ($list.$getType() === tj_JavaishVal$JavaishType_STRING) {
                 tj_Statements$MutationType_$callClinit();
                 if ($type !== tj_Statements$MutationType_ADD) {
-                    tj_Error_CantPerformMutation($mutationStmt.$typeString(), $this.$lineNumber);
+                    tj_Error_CantPerformMutation($list.$typeString(), $this.$lineNumber);
                     return;
                 }
             }
-            $newVal = tj_Translator_performOperation($this, tj_Translator_mutationTypeToOperator($this, $type), $mutationStmt, $value);
+            $expression = $mutationStmt.$value19;
+            $exprJustOne = 0;
+            $elements = $expression.$elements.data;
+            if ($elements.length == 1) {
+                $line = $elements[0].$type1;
+                tj_Element$ElementType_$callClinit();
+                if ($line === tj_Element$ElementType_INTEGER && $elements[0].$value20 == 1)
+                    $exprJustOne = 1;
+            }
+            a: {
+                $line = tj_Translator_addTabCount($this);
+                tj_Translator$1_$callClinit();
+                switch (tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$MutationType.data[$type.$ordinal0]) {
+                    case 1:
+                        if ($exprJustOne) {
+                            $mutationStmt = new jl_StringBuilder;
+                            jl_AbstractStringBuilder__init_($mutationStmt);
+                            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($mutationStmt, $line), $name), $rt_s(152));
+                            $line = jl_AbstractStringBuilder_toString($mutationStmt);
+                            break a;
+                        }
+                        $integer = tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter);
+                        $mutationStmt = new jl_StringBuilder;
+                        jl_AbstractStringBuilder__init_($mutationStmt);
+                        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($mutationStmt, $line), $name), $rt_s(147)), $integer), 59);
+                        $line = jl_AbstractStringBuilder_toString($mutationStmt);
+                        break a;
+                    case 2:
+                        if ($exprJustOne) {
+                            $mutationStmt = new jl_StringBuilder;
+                            jl_AbstractStringBuilder__init_($mutationStmt);
+                            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($mutationStmt, $line), $name), $rt_s(153));
+                            $line = jl_AbstractStringBuilder_toString($mutationStmt);
+                            break a;
+                        }
+                        $integer = tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter);
+                        $mutationStmt = new jl_StringBuilder;
+                        jl_AbstractStringBuilder__init_($mutationStmt);
+                        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($mutationStmt, $line), $name), $rt_s(154)), $integer), 59);
+                        $line = jl_AbstractStringBuilder_toString($mutationStmt);
+                        break a;
+                    case 3:
+                        if (!$exprJustOne) {
+                            $mutationStmt = tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter);
+                            $expression = new jl_StringBuilder;
+                            jl_AbstractStringBuilder__init_($expression);
+                            jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $line), $name), $rt_s(155)), $mutationStmt), 59);
+                            $line = jl_AbstractStringBuilder_toString($expression);
+                            break a;
+                        }
+                        $expression = tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter);
+                        $integer = new jl_StringBuilder;
+                        jl_AbstractStringBuilder__init_($integer);
+                        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($integer, $line), $name), $rt_s(155)), $expression), 59);
+                        $line = jl_AbstractStringBuilder_toString($integer);
+                        break a;
+                    case 4:
+                        if (!$exprJustOne) {
+                            $mutationStmt = tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter);
+                            $expression = new jl_StringBuilder;
+                            jl_AbstractStringBuilder__init_($expression);
+                            jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $line), $name), $rt_s(156)), $mutationStmt), 59);
+                            $line = jl_AbstractStringBuilder_toString($expression);
+                            break a;
+                        }
+                        $mutationStmt = tj_Translator_translateExpression($this, $expression, $localVariables, $isGlobal, $javaPrinter);
+                        $expression = new jl_StringBuilder;
+                        jl_AbstractStringBuilder__init_($expression);
+                        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($expression, $line), $name), $rt_s(156)), $mutationStmt), 59);
+                        $line = jl_AbstractStringBuilder_toString($expression);
+                        break a;
+                    default:
+                }
+            }
+            ju_ArrayList_add($javaPrinter, $line);
+            $newVal = tj_Translator_performOperation($this, tj_Translator_mutationTypeToOperator($this, $type), $list, $value);
             if (tj_Variables_isVariable($localVariables, $name)) {
                 tj_Variables_setVariableValue($localVariables, $name, $newVal, $this.$lineNumber);
                 return;
@@ -6248,12 +6346,18 @@
             tj_Variables_setVariableValue($this.$globalVariables, $name, $newVal, $this.$lineNumber);
             return;
         }
-        $mutationStmt = tj_Variables_isVariable($localVariables, $name) ? (tj_Variables_getList($localVariables, $name)).$list : (tj_Variables_getList($this.$globalVariables, $name)).$list;
-        if ($mutationStmt === null) {
+        $expression = tj_Variables_isVariable($localVariables, $name) ? (tj_Variables_getList($localVariables, $name)).$list : (tj_Variables_getList($this.$globalVariables, $name)).$list;
+        if ($expression === null) {
             tj_Error_VariableNotDeclared($name, $this.$lineNumber);
             return;
         }
-        $list = tj_Translator_performListOperation($this, tj_Translator_mutationTypeToOperator($this, $type), $mutationStmt, $value, 0);
+        $list = tj_Translator_performListOperation($this, tj_Translator_mutationTypeToOperator($this, $type), $expression, $value, 0);
+        $expression = tj_Translator_addTabCount($this);
+        $mutationStmt = tj_Translator_translateExpression($this, $mutationStmt.$value19, $localVariables, $isGlobal, $javaPrinter);
+        $type = new jl_StringBuilder;
+        jl_AbstractStringBuilder__init_($type);
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($type, $expression), $name), $rt_s(157)), $mutationStmt), $rt_s(95));
+        ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($type));
         if (tj_Variables_isVariable($localVariables, $name)) {
             tj_Variables_setVariableValue($localVariables, $name, tj_JavaishListVal__init_($list), $this.$lineNumber);
             return;
@@ -6267,7 +6371,7 @@
         $index = tj_Translator_evalExpression($this, $removeAtStmt.$location, $localVariables, $isGlobal);
         tj_JavaishVal$JavaishType_$callClinit();
         if ($varType !== tj_JavaishVal$JavaishType_STRINGLIST && $varType !== tj_JavaishVal$JavaishType_BOOLEANLIST && $varType !== tj_JavaishVal$JavaishType_INTLIST && $varType !== tj_JavaishVal$JavaishType_FLOATLIST) {
-            tj_Error_TypeMismatch($rt_s(99), $varType.$name0, $this.$lineNumber);
+            tj_Error_TypeMismatch($rt_s(101), $varType.$name0, $this.$lineNumber);
             return;
         }
         $varType = tj_Variables_isVariable($localVariables, $name) ? (tj_Variables_getList($localVariables, $name)).$list : (tj_Variables_getList($this.$globalVariables, $name)).$list;
@@ -6276,12 +6380,17 @@
             return;
         }
         if ($index.$getType() !== tj_JavaishVal$JavaishType_INT) {
-            tj_Error_TypeMismatch($rt_s(30), $index.$typeString(), $this.$lineNumber);
+            tj_Error_TypeMismatch($rt_s(32), $index.$typeString(), $this.$lineNumber);
             return;
         }
         $indexVal = (tj_JavaishInt_getValue($index)).$value;
         tj_Translator$Operator_$callClinit();
         $list = tj_Translator_performListOperation($this, tj_Translator$Operator_REMOVEAT, $varType, null, $indexVal);
+        $removeAtStmt = tj_Translator_addTabCount($this);
+        $varType = new jl_StringBuilder;
+        jl_AbstractStringBuilder__init_($varType);
+        jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($varType, $removeAtStmt), $name), $rt_s(158)), $indexVal), $rt_s(95));
+        ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($varType));
         if (tj_Variables_isVariable($localVariables, $name)) {
             tj_Variables_setVariableValue($localVariables, $name, tj_JavaishListVal__init_($list), $this.$lineNumber);
             return;
@@ -6289,26 +6398,41 @@
         tj_Variables_setVariableValue($this.$globalVariables, $name, tj_JavaishListVal__init_($list), $this.$lineNumber);
     }
     function tj_Translator_evalRemoveFrom($this, $removeFromStmt, $localVariables, $isGlobal, $javaPrinter) {
-        var $name, $varType, $value, $list;
+        var $name, $varType, $value, var$8, $list, var$10;
         $name = $removeFromStmt.$listName0;
         $varType = tj_Variables_getVariableType($this.$globalVariables, $name);
-        $value = tj_Translator_evalExpression($this, $removeFromStmt.$value20, $localVariables, $isGlobal);
+        $value = tj_Translator_evalExpression($this, $removeFromStmt.$value21, $localVariables, $isGlobal);
         tj_JavaishVal$JavaishType_$callClinit();
         if ($varType !== tj_JavaishVal$JavaishType_STRINGLIST && $varType !== tj_JavaishVal$JavaishType_BOOLEANLIST && $varType !== tj_JavaishVal$JavaishType_INTLIST && $varType !== tj_JavaishVal$JavaishType_FLOATLIST)
             return;
-        $removeFromStmt = tj_Variables_isVariable($localVariables, $name) ? (tj_Variables_getList($localVariables, $name)).$list : (tj_Variables_getList($this.$globalVariables, $name)).$list;
-        if ($removeFromStmt === null) {
+        var$8 = tj_Variables_isVariable($localVariables, $name) ? (tj_Variables_getList($localVariables, $name)).$list : (tj_Variables_getList($this.$globalVariables, $name)).$list;
+        if (var$8 === null) {
             tj_Error_VariableNotDeclared($name, $this.$lineNumber);
             return;
         }
         tj_Translator$Operator_$callClinit();
-        $list = tj_Translator_performListOperation($this, tj_Translator$Operator_REMOVEFROM, $removeFromStmt, $value, 0);
-        $removeFromStmt = jl_System_out();
-        $javaPrinter = $list.$listString();
-        $varType = new jl_StringBuilder;
-        jl_AbstractStringBuilder__init_($varType);
-        jl_StringBuilder_append(jl_StringBuilder_append($varType, $rt_s(150)), $javaPrinter);
-        ji_PrintStream_println($removeFromStmt, jl_AbstractStringBuilder_toString($varType));
+        $list = tj_Translator_performListOperation($this, tj_Translator$Operator_REMOVEFROM, var$8, $value, 0);
+        var$10 = jl_System_out();
+        var$8 = $list.$listString();
+        $value = new jl_StringBuilder;
+        jl_AbstractStringBuilder__init_($value);
+        jl_StringBuilder_append(jl_StringBuilder_append($value, $rt_s(159)), var$8);
+        ji_PrintStream_println(var$10, jl_AbstractStringBuilder_toString($value));
+        if ($varType !== tj_JavaishVal$JavaishType_INTLIST) {
+            var$8 = tj_Translator_addTabCount($this);
+            $removeFromStmt = tj_Translator_translateExpression($this, $removeFromStmt.$value21, $localVariables, $isGlobal, $javaPrinter);
+            var$10 = new jl_StringBuilder;
+            jl_AbstractStringBuilder__init_(var$10);
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$10, var$8), $name), $rt_s(158)), $removeFromStmt), $rt_s(95));
+            ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString(var$10));
+        } else {
+            var$8 = tj_Translator_addTabCount($this);
+            $value = tj_Translator_translateExpression($this, $removeFromStmt.$value21, $localVariables, $isGlobal, $javaPrinter);
+            $removeFromStmt = new jl_StringBuilder;
+            jl_AbstractStringBuilder__init_($removeFromStmt);
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($removeFromStmt, var$8), $name), $rt_s(160)), $value), $rt_s(161));
+            ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($removeFromStmt));
+        }
         if (tj_Variables_isVariable($localVariables, $name)) {
             tj_Variables_setVariableValue($localVariables, $name, tj_JavaishListVal__init_($list), $this.$lineNumber);
             return;
@@ -6316,26 +6440,32 @@
         tj_Variables_setVariableValue($this.$globalVariables, $name, tj_JavaishListVal__init_($list), $this.$lineNumber);
     }
     function tj_Translator_evalRemoveAllFrom($this, $removeAllFromStmt, $localVariables, $isGlobal, $javaPrinter) {
-        var $name, $varType, $value, $list;
+        var $name, $varType, $value, var$8, $list, var$10;
         $name = $removeAllFromStmt.$listName1;
         $varType = tj_Variables_getVariableType($this.$globalVariables, $name);
-        $value = tj_Translator_evalExpression($this, $removeAllFromStmt.$value21, $localVariables, $isGlobal);
+        $value = tj_Translator_evalExpression($this, $removeAllFromStmt.$value22, $localVariables, $isGlobal);
         tj_JavaishVal$JavaishType_$callClinit();
         if ($varType !== tj_JavaishVal$JavaishType_STRINGLIST && $varType !== tj_JavaishVal$JavaishType_BOOLEANLIST && $varType !== tj_JavaishVal$JavaishType_INTLIST && $varType !== tj_JavaishVal$JavaishType_FLOATLIST)
             return;
-        $removeAllFromStmt = tj_Variables_isVariable($localVariables, $name) ? (tj_Variables_getList($localVariables, $name)).$list : (tj_Variables_getList($this.$globalVariables, $name)).$list;
-        if ($removeAllFromStmt === null) {
+        var$8 = tj_Variables_isVariable($localVariables, $name) ? (tj_Variables_getList($localVariables, $name)).$list : (tj_Variables_getList($this.$globalVariables, $name)).$list;
+        if (var$8 === null) {
             tj_Error_VariableNotDeclared($name, $this.$lineNumber);
             return;
         }
         tj_Translator$Operator_$callClinit();
-        $list = tj_Translator_performListOperation($this, tj_Translator$Operator_REMOVEALLFROM, $removeAllFromStmt, $value, 0);
-        $removeAllFromStmt = jl_System_out();
-        $javaPrinter = $list.$listString();
+        $list = tj_Translator_performListOperation($this, tj_Translator$Operator_REMOVEALLFROM, var$8, $value, 0);
+        $value = jl_System_out();
+        var$10 = $list.$listString();
         $varType = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_($varType);
-        jl_StringBuilder_append(jl_StringBuilder_append($varType, $rt_s(150)), $javaPrinter);
-        ji_PrintStream_println($removeAllFromStmt, jl_AbstractStringBuilder_toString($varType));
+        jl_StringBuilder_append(jl_StringBuilder_append($varType, $rt_s(159)), var$10);
+        ji_PrintStream_println($value, jl_AbstractStringBuilder_toString($varType));
+        var$8 = tj_Translator_addTabCount($this);
+        $value = tj_Translator_translateExpression($this, $removeAllFromStmt.$value22, $localVariables, $isGlobal, $javaPrinter);
+        $removeAllFromStmt = new jl_StringBuilder;
+        jl_AbstractStringBuilder__init_($removeAllFromStmt);
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($removeAllFromStmt, var$8), $name), $rt_s(162)), $value), $rt_s(161));
+        ju_ArrayList_add($javaPrinter, jl_AbstractStringBuilder_toString($removeAllFromStmt));
         if (tj_Variables_isVariable($localVariables, $name)) {
             tj_Variables_setVariableValue($localVariables, $name, tj_JavaishListVal__init_($list), $this.$lineNumber);
             return;
@@ -6386,6 +6516,10 @@
                     ju_ArrayList_add($stringListVal, $val);
                     $result = tj_JavaishStringList__init_($stringListVal);
                     break a;
+                case 8:
+                case 9:
+                case 10:
+                    break;
                 case 11:
                     $operation = $list.$getType();
                     tj_JavaishVal$JavaishType_$callClinit();
@@ -6492,7 +6626,7 @@
                     $list = jl_String_valueOf(tj_JavaishInt_getType($intVal));
                     $index = ju_ArrayList_size($intListVal);
                     $val = jl_StringBuilder__init_();
-                    jl_StringBuilder_append0(jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append($val, $rt_s(151)), $list), 32), $index);
+                    jl_StringBuilder_append0(jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append($val, $rt_s(163)), $list), 32), $index);
                     ji_PrintStream_println($operation, jl_StringBuilder_toString($val));
                     break a;
                 case 13:
@@ -6559,12 +6693,9 @@
                     }
                     $result = tj_JavaishStringList__init_($stringListVal);
                     break a;
-                case 8:
-                case 9:
-                case 10:
-                    break;
                 default:
             }
+            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $list.$typeString(), $this.$lineNumber);
         }
         return $result;
     }
@@ -6593,29 +6724,29 @@
             case 1:
                 break;
             case 2:
-                return $rt_s(82);
-            case 3:
-                return $rt_s(29);
-            case 4:
-                return $rt_s(152);
-            case 5:
-                return $rt_s(82);
-            case 6:
                 return $rt_s(84);
+            case 3:
+                return $rt_s(31);
+            case 4:
+                return $rt_s(164);
+            case 5:
+                return $rt_s(84);
+            case 6:
+                return $rt_s(86);
             case 7:
-                return $rt_s(29);
+                return $rt_s(31);
             case 8:
-                return $rt_s(152);
+                return $rt_s(164);
             case 9:
-                return $rt_s(99);
+                return $rt_s(101);
             default:
                 return null;
         }
-        return $rt_s(84);
+        return $rt_s(86);
     }
     function tj_Translator_addTabCount($this) {
         var $tabs, $i, var$3;
-        $tabs = $rt_s(8);
+        $tabs = $rt_s(10);
         $i = 0;
         while ($i < $this.$tabCount) {
             var$3 = new jl_StringBuilder;
@@ -6725,12 +6856,12 @@
         $rt_nativeThread().push($this, $statements, $funcVariables, $isGlobal, $pastResult, $localVariables, $returnVal, $statement, $ptr);
     }
     function tj_Interpreter_interpretStmt($this, $stmt, $localVariables, $isGlobal, $pastResult, $returnVal) {
-        var $assignment, var$7, $call, var$9, var$10, var$11, $declaration, $elseifStmt, $mutationStmt, $returnStmt, $ifStmt, $whileStmt, $foreachStmt, $forwhenStmt, $printStmt, $removeAtStmt, $removeFromStmt, $removeAllFromStmt, $function, var$25, $$je, $ptr, $tmp;
+        var $assignment, var$7, $call, var$9, var$10, var$11, $declaration, $elseifStmt, $mutationStmt, $returnStmt, $function, $ifStmt, $whileStmt, $foreachStmt, $forwhenStmt, $printStmt, $showMsgBoxStmt, $removeAtStmt, $removeFromStmt, $removeAllFromStmt, $ptr, $tmp;
         $ptr = 0;
         if ($rt_resuming()) {
             var $thread = $rt_nativeThread();
-            $ptr = $thread.pop();var$25 = $thread.pop();$function = $thread.pop();$removeAllFromStmt = $thread.pop();$removeFromStmt = $thread.pop();$removeAtStmt = $thread.pop();$printStmt = $thread.pop();$forwhenStmt = $thread.pop();$foreachStmt = $thread.pop();$whileStmt = $thread.pop();$ifStmt = $thread.pop();$returnStmt = $thread.pop();$mutationStmt = $thread.pop();$elseifStmt = $thread.pop();$declaration = $thread.pop();var$11 = $thread.pop();var$10 = $thread.pop();var$9 = $thread.pop();$call = $thread.pop();var$7
-            = $thread.pop();$assignment = $thread.pop();$returnVal = $thread.pop();$pastResult = $thread.pop();$isGlobal = $thread.pop();$localVariables = $thread.pop();$stmt = $thread.pop();$this = $thread.pop();
+            $ptr = $thread.pop();$removeAllFromStmt = $thread.pop();$removeFromStmt = $thread.pop();$removeAtStmt = $thread.pop();$showMsgBoxStmt = $thread.pop();$printStmt = $thread.pop();$forwhenStmt = $thread.pop();$foreachStmt = $thread.pop();$whileStmt = $thread.pop();$ifStmt = $thread.pop();$function = $thread.pop();$returnStmt = $thread.pop();$mutationStmt = $thread.pop();$elseifStmt = $thread.pop();$declaration = $thread.pop();var$11 = $thread.pop();var$10 = $thread.pop();var$9 = $thread.pop();$call
+            = $thread.pop();var$7 = $thread.pop();$assignment = $thread.pop();$returnVal = $thread.pop();$pastResult = $thread.pop();$isGlobal = $thread.pop();$localVariables = $thread.pop();$stmt = $thread.pop();$this = $thread.pop();
         }
         main: while (true) { switch ($ptr) {
         case 0:
@@ -6741,89 +6872,94 @@
                 var$7 = (-1);
                 switch (jl_String_hashCode($assignment)) {
                     case -2131401768:
-                        if (!jl_String_equals($assignment, $rt_s(153)))
-                            break a;
-                        var$7 = 7;
-                        break a;
-                    case -1881067216:
-                        if (!jl_String_equals($assignment, $rt_s(154)))
-                            break a;
-                        var$7 = 6;
-                        break a;
-                    case 2333:
-                        if (!jl_String_equals($assignment, $rt_s(155)))
+                        if (!jl_String_equals($assignment, $rt_s(165)))
                             break a;
                         var$7 = 8;
                         break a;
-                    case 2060894:
-                        if (!jl_String_equals($assignment, $rt_s(156)))
+                    case -1881067216:
+                        if (!jl_String_equals($assignment, $rt_s(166)))
                             break a;
-                        var$7 = 1;
+                        var$7 = 7;
                         break a;
-                    case 2131257:
-                        if (!jl_String_equals($assignment, $rt_s(157)))
-                            break a;
-                        var$7 = 3;
-                        break a;
-                    case 40300074:
-                        if (!jl_String_equals($assignment, $rt_s(158)))
-                            break a;
-                        var$7 = 10;
-                        break a;
-                    case 40843107:
-                        if (!jl_String_equals($assignment, $rt_s(159)))
-                            break a;
-                        var$7 = 11;
-                        break a;
-                    case 76397197:
-                        if (!jl_String_equals($assignment, $rt_s(160)))
-                            break a;
-                        var$7 = 12;
-                        break a;
-                    case 82563857:
-                        if (!jl_String_equals($assignment, $rt_s(161)))
+                    case 2333:
+                        if (!jl_String_equals($assignment, $rt_s(167)))
                             break a;
                         var$7 = 9;
                         break a;
-                    case 124455258:
-                        if (!jl_String_equals($assignment, $rt_s(162)))
+                    case 2060894:
+                        if (!jl_String_equals($assignment, $rt_s(168)))
                             break a;
                         var$7 = 2;
                         break a;
-                    case 269804471:
-                        if (!jl_String_equals($assignment, $rt_s(163)))
-                            break a;
-                        var$7 = 14;
-                        break a;
-                    case 1511355085:
-                        if (!jl_String_equals($assignment, $rt_s(164)))
-                            break a;
-                        var$7 = 0;
-                        break a;
-                    case 1584208430:
-                        if (!jl_String_equals($assignment, $rt_s(165)))
-                            break a;
-                        var$7 = 15;
-                        break a;
-                    case 1648263849:
-                        if (!jl_String_equals($assignment, $rt_s(166)))
-                            break a;
-                        var$7 = 5;
-                        break a;
-                    case 1735465895:
-                        if (!jl_String_equals($assignment, $rt_s(167)))
-                            break a;
-                        var$7 = 16;
-                        break a;
-                    case 2011295719:
-                        if (!jl_String_equals($assignment, $rt_s(168)))
-                            break a;
-                        var$7 = 13;
-                        break a;
-                    case 2048140310:
+                    case 2131257:
                         if (!jl_String_equals($assignment, $rt_s(169)))
                             break a;
                         var$7 = 4;
+                        break a;
+                    case 40300074:
+                        if (!jl_String_equals($assignment, $rt_s(170)))
+                            break a;
+                        var$7 = 11;
+                        break a;
+                    case 40843107:
+                        if (!jl_String_equals($assignment, $rt_s(171)))
+                            break a;
+                        var$7 = 12;
+                        break a;
+                    case 76397197:
+                        if (!jl_String_equals($assignment, $rt_s(172)))
+                            break a;
+                        var$7 = 13;
+                        break a;
+                    case 82563857:
+                        if (!jl_String_equals($assignment, $rt_s(173)))
+                            break a;
+                        var$7 = 10;
+                        break a;
+                    case 124455258:
+                        if (!jl_String_equals($assignment, $rt_s(174)))
+                            break a;
+                        var$7 = 3;
+                        break a;
+                    case 269804471:
+                        if (!jl_String_equals($assignment, $rt_s(175)))
+                            break a;
+                        var$7 = 15;
+                        break a;
+                    case 1511355085:
+                        if (!jl_String_equals($assignment, $rt_s(176)))
+                            break a;
+                        var$7 = 1;
+                        break a;
+                    case 1584208430:
+                        if (!jl_String_equals($assignment, $rt_s(177)))
+                            break a;
+                        var$7 = 16;
+                        break a;
+                    case 1648263849:
+                        if (!jl_String_equals($assignment, $rt_s(178)))
+                            break a;
+                        var$7 = 6;
+                        break a;
+                    case 1668381247:
+                        if (!jl_String_equals($assignment, $rt_s(179)))
+                            break a;
+                        var$7 = 0;
+                        break a;
+                    case 1735465895:
+                        if (!jl_String_equals($assignment, $rt_s(180)))
+                            break a;
+                        var$7 = 17;
+                        break a;
+                    case 2011295719:
+                        if (!jl_String_equals($assignment, $rt_s(181)))
+                            break a;
+                        var$7 = 14;
+                        break a;
+                    case 2048140310:
+                        if (!jl_String_equals($assignment, $rt_s(182)))
+                            break a;
+                        var$7 = 5;
                         break a;
                     default:
                 }
@@ -6831,10 +6967,12 @@
             b: {
                 switch (var$7) {
                     case 0:
+                        break;
+                    case 1:
                         $stmt = $stmt.$value13;
                         $ptr = 1;
                         continue main;
-                    case 1:
+                    case 2:
                         $call = $stmt;
                         $assignment = $call.$name12;
                         var$9 = $call.$params;
@@ -6854,39 +6992,39 @@
                                 var$11 = 0;
                                 if (var$11 < var$7) {
                                     $returnVal = var$9[var$11];
-                                    $ptr = 20;
+                                    $ptr = 19;
                                     continue main;
                                 }
                                 var$9 = ju_AbstractCollection_toArray($pastResult, $rt_createArray(tj_JavaishVal, $pastResult.$size0));
                                 $isGlobal = 0;
-                                $ptr = 19;
+                                $ptr = 18;
                                 continue main;
                             }
                             tj_Error_FunctionNotDeclared($assignment, $this.$lineNumber0);
                         }
                         break b;
-                    case 2:
+                    case 3:
                         $declaration = $stmt;
                         $ptr = 2;
                         continue main;
-                    case 3:
+                    case 4:
                         $stmt = $stmt.$body;
                         if ($pastResult.$pastResult == 1)
                             break b;
                         $isGlobal = 0;
                         $ptr = 14;
                         continue main;
-                    case 4:
+                    case 5:
                         $elseifStmt = $stmt;
                         $returnVal = $elseifStmt.$condition;
                         $stmt = $elseifStmt.$body;
                         $ptr = 3;
                         continue main;
-                    case 5:
+                    case 6:
                         $mutationStmt = $stmt;
                         $ptr = 4;
                         continue main;
-                    case 6:
+                    case 7:
                         $returnStmt = $stmt;
                         $pastResult = $returnStmt.$value18;
                         $stmt = null;
@@ -6897,57 +7035,57 @@
                         }
                         $ptr = 15;
                         continue main;
-                    case 7:
-                        break;
                     case 8:
+                        $function = $stmt;
+                        $localVariables = $function.$name14;
+                        var$9 = $function.$args0;
+                        $stmt = $function.$body;
+                        if (!$isGlobal)
+                            tj_Error_FunctionNotGlobal($localVariables, $this.$lineNumber0);
+                        else
+                            tj_Variables_addFunction($this.$globalVariables0, $localVariables, $stmt, var$9, $this.$lineNumber0);
+                        break b;
+                    case 9:
                         $ifStmt = $stmt;
                         $returnVal = $ifStmt.$condition0;
                         $stmt = $ifStmt.$body;
                         $ptr = 5;
                         continue main;
-                    case 9:
+                    case 10:
                         $whileStmt = $stmt;
                         $ptr = 6;
                         continue main;
-                    case 10:
+                    case 11:
                         $foreachStmt = $stmt;
                         $ptr = 7;
                         continue main;
-                    case 11:
+                    case 12:
                         $forwhenStmt = $stmt;
                         $ptr = 8;
                         continue main;
-                    case 12:
+                    case 13:
                         $printStmt = $stmt;
                         $ptr = 9;
                         continue main;
-                    case 13:
-                        $stmt = tj_ShowMsgBoxStmt_getValue($stmt);
+                    case 14:
+                        $showMsgBoxStmt = $stmt;
                         $ptr = 10;
                         continue main;
-                    case 14:
+                    case 15:
                         $removeAtStmt = $stmt;
                         $ptr = 11;
                         continue main;
-                    case 15:
+                    case 16:
                         $removeFromStmt = $stmt;
                         $ptr = 12;
                         continue main;
-                    case 16:
+                    case 17:
                         $removeAllFromStmt = $stmt;
                         $ptr = 13;
                         continue main;
                     default:
                         break b;
                 }
-                $function = $stmt;
-                $localVariables = $function.$name14;
-                var$9 = $function.$args0;
-                $stmt = $function.$body;
-                if (!$isGlobal)
-                    tj_Error_FunctionNotGlobal($localVariables, $this.$lineNumber0);
-                else
-                    tj_Variables_addFunction($this.$globalVariables0, $localVariables, $stmt, var$9, $this.$lineNumber0);
             }
             return;
         case 1:
@@ -6968,18 +7106,18 @@
                 break main;
             }
             $returnVal = $tmp;
-            $declaration = $returnVal;
-            $elseifStmt = jl_System_out();
-            $call = $declaration.$value22;
+            $returnVal = $returnVal;
+            $assignment = jl_System_out();
+            $elseifStmt = $returnVal.$value23;
             $isGlobal = $pastResult.$pastResult;
-            $returnVal = new jl_StringBuilder;
-            jl_AbstractStringBuilder__init_($returnVal);
-            jl_StringBuilder_append3(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($returnVal, $rt_s(170)), $call), $rt_s(171)), $isGlobal);
-            ji_PrintStream_println($elseifStmt, jl_AbstractStringBuilder_toString($returnVal));
-            if ($pastResult.$pastResult != 1 && $declaration.$value22.$value23 == 1) {
+            $call = new jl_StringBuilder;
+            jl_AbstractStringBuilder__init_($call);
+            jl_StringBuilder_append3(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($call, $rt_s(183)), $elseifStmt), $rt_s(184)), $isGlobal);
+            ji_PrintStream_println($assignment, jl_AbstractStringBuilder_toString($call));
+            if ($pastResult.$pastResult != 1 && $returnVal.$value23.$value24 == 1) {
                 $pastResult.$pastResult = 1;
                 $isGlobal = 0;
-                $ptr = 18;
+                $ptr = 17;
                 continue main;
             }
             return;
@@ -6995,7 +7133,7 @@
                 break main;
             }
             $returnVal = $tmp;
-            if ($returnVal.$value22.$value23 != 1) {
+            if ($returnVal.$value23.$value24 != 1) {
                 $pastResult.$pastResult = 0;
                 return;
             }
@@ -7028,28 +7166,9 @@
             }
             return;
         case 10:
-            $tmp = tj_Interpreter_evalExpression($this, $stmt, $localVariables, $isGlobal);
+            tj_Interpreter_evalShowMsgBox($this, $showMsgBoxStmt, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
-            }
-            $stmt = $tmp;
-            if ($stmt !== null) {
-                try {
-                    juc_TimeUnit_$callClinit();
-                    $localVariables = juc_TimeUnit_MILLISECONDS;
-                    var$25 = Long_fromInt(100);
-                    $ptr = 17;
-                    continue main;
-                } catch ($$e) {
-                    $$je = $rt_wrapException($$e);
-                    if ($$je instanceof jl_InterruptedException) {
-                        $localVariables = $$je;
-                    } else {
-                        throw $$e;
-                    }
-                }
-                $localVariables.$printStackTrace();
-                $rt_globals.alert($rt_ustr(($stmt.$getValue8()).$toString()));
             }
             return;
         case 11:
@@ -7092,38 +7211,18 @@
             }
             return;
         case 17:
-            a: {
-                try {
-                    juc_TimeUnit_sleep($localVariables, var$25);
-                    if ($rt_suspending()) {
-                        break main;
-                    }
-                    break a;
-                } catch ($$e) {
-                    $$je = $rt_wrapException($$e);
-                    if ($$je instanceof jl_InterruptedException) {
-                        $localVariables = $$je;
-                    } else {
-                        throw $$e;
-                    }
-                }
-                $localVariables.$printStackTrace();
-            }
-            $rt_globals.alert($rt_ustr(($stmt.$getValue8()).$toString()));
-            return;
-        case 18:
             tj_Interpreter_interpretBody($this, $stmt, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
             return;
-        case 19:
+        case 18:
             tj_Interpreter_interpretFunction($this, $stmt, var$10, var$9, $assignment, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
             return;
-        case 20:
+        case 19:
             $tmp = tj_Interpreter_evalExpression($this, $returnVal, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
@@ -7137,11 +7236,11 @@
             }
             var$9 = ju_AbstractCollection_toArray($pastResult, $rt_createArray(tj_JavaishVal, $pastResult.$size0));
             $isGlobal = 0;
-            $ptr = 19;
+            $ptr = 18;
             continue main;
         default: $rt_invalidPointer();
         }}
-        $rt_nativeThread().push($this, $stmt, $localVariables, $isGlobal, $pastResult, $returnVal, $assignment, var$7, $call, var$9, var$10, var$11, $declaration, $elseifStmt, $mutationStmt, $returnStmt, $ifStmt, $whileStmt, $foreachStmt, $forwhenStmt, $printStmt, $removeAtStmt, $removeFromStmt, $removeAllFromStmt, $function, var$25, $ptr);
+        $rt_nativeThread().push($this, $stmt, $localVariables, $isGlobal, $pastResult, $returnVal, $assignment, var$7, $call, var$9, var$10, var$11, $declaration, $elseifStmt, $mutationStmt, $returnStmt, $function, $ifStmt, $whileStmt, $foreachStmt, $forwhenStmt, $printStmt, $showMsgBoxStmt, $removeAtStmt, $removeFromStmt, $removeAllFromStmt, $ptr);
     }
     function tj_Interpreter_evalExpression($this, $expression, $localVariables, $isGlobal) {
         var $total, $operation, $comparison, $compVal, $isComp, var$9, var$10, var$11, $elmt, $listLength, $result, $bool, $valB, $cast, $floatElmt, $valF, $integer, $valI, $string, $valS, $function, $body, $args, $params, $paramVals, var$29, $param, $paramValsArr, $showInputBox, $listVal, $arrayName, $listL, $length, $resultO, $variable, $list, $type, $listExpressions, $listVals, $val, $listExpression, $intList, $listValI, $intListVal, $floatList, $floatListVal, $stringList, $stringListVal, $booleanList, $booleanListVal,
@@ -7175,127 +7274,127 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -2131401768:
-                            if (!jl_String_equals($expression, $rt_s(153)))
+                            if (!jl_String_equals($expression, $rt_s(165)))
                                 break b;
                             $listLength = 20;
                             break b;
                         case -1838656495:
-                            if (!jl_String_equals($expression, $rt_s(21)))
+                            if (!jl_String_equals($expression, $rt_s(23)))
                                 break b;
                             $listLength = 18;
                             break b;
                         case -1618932450:
-                            if (!jl_String_equals($expression, $rt_s(172)))
+                            if (!jl_String_equals($expression, $rt_s(185)))
                                 break b;
                             $listLength = 9;
                             break b;
                         case -1583968932:
-                            if (!jl_String_equals($expression, $rt_s(173)))
+                            if (!jl_String_equals($expression, $rt_s(186)))
                                 break b;
                             $listLength = 11;
                             break b;
                         case -1310359912:
-                            if (!jl_String_equals($expression, $rt_s(174)))
+                            if (!jl_String_equals($expression, $rt_s(187)))
                                 break b;
                             $listLength = 5;
                             break b;
                         case -1112834937:
-                            if (!jl_String_equals($expression, $rt_s(175)))
+                            if (!jl_String_equals($expression, $rt_s(188)))
                                 break b;
                             $listLength = 10;
                             break b;
                         case -715433377:
-                            if (!jl_String_equals($expression, $rt_s(176)))
+                            if (!jl_String_equals($expression, $rt_s(189)))
                                 break b;
                             $listLength = 24;
                             break b;
                         case -466959748:
-                            if (!jl_String_equals($expression, $rt_s(177)))
+                            if (!jl_String_equals($expression, $rt_s(190)))
                                 break b;
                             $listLength = 19;
                             break b;
                         case 2531:
-                            if (!jl_String_equals($expression, $rt_s(178)))
+                            if (!jl_String_equals($expression, $rt_s(191)))
                                 break b;
                             $listLength = 16;
                             break b;
                         case 64951:
-                            if (!jl_String_equals($expression, $rt_s(179)))
+                            if (!jl_String_equals($expression, $rt_s(192)))
                                 break b;
                             $listLength = 0;
                             break b;
                         case 77491:
-                            if (!jl_String_equals($expression, $rt_s(180)))
+                            if (!jl_String_equals($expression, $rt_s(193)))
                                 break b;
                             $listLength = 14;
                             break b;
                         case 2044650:
-                            if (!jl_String_equals($expression, $rt_s(181)))
+                            if (!jl_String_equals($expression, $rt_s(194)))
                                 break b;
                             $listLength = 1;
                             break b;
                         case 2061119:
-                            if (!jl_String_equals($expression, $rt_s(182)))
+                            if (!jl_String_equals($expression, $rt_s(195)))
                                 break b;
                             $listLength = 2;
                             break b;
                         case 2336926:
-                            if (!jl_String_equals($expression, $rt_s(183)))
+                            if (!jl_String_equals($expression, $rt_s(196)))
                                 break b;
                             $listLength = 23;
                             break b;
                         case 2459034:
-                            if (!jl_String_equals($expression, $rt_s(184)))
+                            if (!jl_String_equals($expression, $rt_s(197)))
                                 break b;
                             $listLength = 17;
                             break b;
                         case 66219796:
-                            if (!jl_String_equals($expression, $rt_s(185)))
+                            if (!jl_String_equals($expression, $rt_s(198)))
                                 break b;
                             $listLength = 4;
                             break b;
                         case 66988604:
-                            if (!jl_String_equals($expression, $rt_s(23)))
+                            if (!jl_String_equals($expression, $rt_s(25)))
                                 break b;
                             $listLength = 6;
                             break b;
                         case 73363536:
-                            if (!jl_String_equals($expression, $rt_s(186)))
+                            if (!jl_String_equals($expression, $rt_s(199)))
                                 break b;
                             $listLength = 12;
                             break b;
                         case 360410235:
-                            if (!jl_String_equals($expression, $rt_s(187)))
+                            if (!jl_String_equals($expression, $rt_s(200)))
                                 break b;
                             $listLength = 8;
                             break b;
                         case 899970467:
-                            if (!jl_String_equals($expression, $rt_s(188)))
+                            if (!jl_String_equals($expression, $rt_s(201)))
                                 break b;
                             $listLength = 22;
                             break b;
                         case 972152550:
-                            if (!jl_String_equals($expression, $rt_s(189)))
+                            if (!jl_String_equals($expression, $rt_s(202)))
                                 break b;
                             $listLength = 7;
                             break b;
                         case 1022422664:
-                            if (!jl_String_equals($expression, $rt_s(190)))
+                            if (!jl_String_equals($expression, $rt_s(203)))
                                 break b;
                             $listLength = 15;
                             break b;
                         case 1436456484:
-                            if (!jl_String_equals($expression, $rt_s(191)))
+                            if (!jl_String_equals($expression, $rt_s(204)))
                                 break b;
                             $listLength = 13;
                             break b;
                         case 1871384510:
-                            if (!jl_String_equals($expression, $rt_s(192)))
+                            if (!jl_String_equals($expression, $rt_s(205)))
                                 break b;
                             $listLength = 21;
                             break b;
                         case 2016833657:
-                            if (!jl_String_equals($expression, $rt_s(193)))
+                            if (!jl_String_equals($expression, $rt_s(206)))
                                 break b;
                             $listLength = 3;
                             break b;
@@ -7459,7 +7558,7 @@
                                             $expression = tj_Variables_getVariableValue($this.$globalVariables0, $arrayName);
                                         }
                                         if (!($expression instanceof tj_JavaishListVal)) {
-                                            tj_Error_TypeMismatch($rt_s(99), $expression.$typeString(), $this.$lineNumber0);
+                                            tj_Error_TypeMismatch($rt_s(101), $expression.$typeString(), $this.$lineNumber0);
                                             return null;
                                         }
                                         $listL = tj_JavaishListVal_getValue($expression);
@@ -7516,22 +7615,22 @@
                         $listLength = (-1);
                         switch (jl_String_hashCode($expression)) {
                             case -1618721555:
-                                if (!jl_String_equals($expression, $rt_s(31)))
+                                if (!jl_String_equals($expression, $rt_s(33)))
                                     break g;
                                 $listLength = 0;
                                 break g;
                             case -1087271889:
-                                if (!jl_String_equals($expression, $rt_s(32)))
+                                if (!jl_String_equals($expression, $rt_s(34)))
                                     break g;
                                 $listLength = 2;
                                 break g;
                             case 318725286:
-                                if (!jl_String_equals($expression, $rt_s(33)))
+                                if (!jl_String_equals($expression, $rt_s(35)))
                                     break g;
                                 $listLength = 3;
                                 break g;
                             case 675960026:
-                                if (!jl_String_equals($expression, $rt_s(34)))
+                                if (!jl_String_equals($expression, $rt_s(36)))
                                     break g;
                                 $listLength = 1;
                                 break g;
@@ -7546,7 +7645,7 @@
                                 while (ju_AbstractList$1_hasNext($expression)) {
                                     $listValI = ju_AbstractList$1_next($expression);
                                     if (!($listValI instanceof tj_JavaishInt)) {
-                                        tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(32), $listValI.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     ju_ArrayList_add($intList, $listValI);
@@ -7557,14 +7656,14 @@
                                         $total = tj_JavaishListVal__init_($intListVal);
                                         break h;
                                     }
-                                    tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                                    tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                                     break h;
                                 }
                                 if ($operation === null) {
                                     $compVal = tj_JavaishListVal__init_($intListVal);
                                     break h;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                                 break h;
                             case 1:
                                 $floatList = ju_ArrayList__init_();
@@ -7572,7 +7671,7 @@
                                 while (ju_AbstractList$1_hasNext($expression)) {
                                     $listValI = ju_AbstractList$1_next($expression);
                                     if (!($listValI instanceof tj_JavaishFloat)) {
-                                        tj_Error_TypeMismatch($rt_s(27), $listValI.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     ju_ArrayList_add($floatList, $listValI);
@@ -7583,14 +7682,14 @@
                                         $total = tj_JavaishListVal__init_($floatListVal);
                                         break h;
                                     }
-                                    tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                                    tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                                     break h;
                                 }
                                 if ($operation === null) {
                                     $compVal = tj_JavaishListVal__init_($floatListVal);
                                     break h;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                                 break h;
                             case 2:
                                 $stringList = ju_ArrayList__init_();
@@ -7598,7 +7697,7 @@
                                 while (ju_AbstractList$1_hasNext($val)) {
                                     $listValI = ju_AbstractList$1_next($val);
                                     if (!($listValI instanceof tj_JavaishString)) {
-                                        tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(31), $listValI.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     ju_ArrayList_add($stringList, $listValI);
@@ -7609,14 +7708,14 @@
                                         $total = tj_JavaishListVal__init_($stringListVal);
                                         break h;
                                     }
-                                    tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                                    tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                                     break h;
                                 }
                                 if ($operation === null) {
                                     $compVal = tj_JavaishListVal__init_($stringListVal);
                                     break h;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                                 break h;
                             case 3:
                                 $booleanList = ju_ArrayList__init_();
@@ -7624,7 +7723,7 @@
                                 while (ju_AbstractList$1_hasNext($expression)) {
                                     $listValI = ju_AbstractList$1_next($expression);
                                     if (!($listValI instanceof tj_JavaishBoolean)) {
-                                        tj_Error_TypeMismatch($rt_s(28), $listValI.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     ju_ArrayList_add($booleanList, $listValI);
@@ -7635,14 +7734,14 @@
                                         $total = tj_JavaishListVal__init_($booleanListVal);
                                         break h;
                                     }
-                                    tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                                    tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                                     break h;
                                 }
                                 if ($operation === null) {
                                     $compVal = tj_JavaishListVal__init_($booleanListVal);
                                     break h;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                                 break h;
                             default:
                         }
@@ -7662,17 +7761,17 @@
                 $listLength = (-1);
                 switch (jl_String_hashCode($expression)) {
                     case -1838656495:
-                        if (!jl_String_equals($expression, $rt_s(21)))
+                        if (!jl_String_equals($expression, $rt_s(23)))
                             break i;
                         $listLength = 2;
                         break i;
                     case 72655:
-                        if (!jl_String_equals($expression, $rt_s(22)))
+                        if (!jl_String_equals($expression, $rt_s(24)))
                             break i;
                         $listLength = 1;
                         break i;
                     case 66988604:
-                        if (!jl_String_equals($expression, $rt_s(23)))
+                        if (!jl_String_equals($expression, $rt_s(25)))
                             break i;
                         $listLength = 0;
                         break i;
@@ -7712,7 +7811,7 @@
                                 throw $$e;
                             }
                         }
-                        tj_Error_UnableToParse($listValI.$typeString(), $this.$lineNumber0, $rt_s(84));
+                        tj_Error_UnableToParse($listValI.$typeString(), $this.$lineNumber0, $rt_s(86));
                         $expression = $listValI;
                         break j;
                     case 1:
@@ -7746,7 +7845,7 @@
                                 throw $$e;
                             }
                         }
-                        tj_Error_UnableToParse($rt_s(30), $this.$lineNumber0, $listValI.$typeString());
+                        tj_Error_UnableToParse($rt_s(32), $this.$lineNumber0, $listValI.$typeString());
                         $expression = $listValI;
                         break j;
                     case 2:
@@ -7780,7 +7879,7 @@
                                 throw $$e;
                             }
                         }
-                        tj_Error_UnableToParse($listValI.$typeString(), $this.$lineNumber0, $rt_s(29));
+                        tj_Error_UnableToParse($listValI.$typeString(), $this.$lineNumber0, $rt_s(31));
                         $expression = $listValI;
                         break j;
                     default:
@@ -7804,127 +7903,127 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -2131401768:
-                            if (!jl_String_equals($expression, $rt_s(153)))
+                            if (!jl_String_equals($expression, $rt_s(165)))
                                 break l;
                             $listLength = 20;
                             break l;
                         case -1838656495:
-                            if (!jl_String_equals($expression, $rt_s(21)))
+                            if (!jl_String_equals($expression, $rt_s(23)))
                                 break l;
                             $listLength = 18;
                             break l;
                         case -1618932450:
-                            if (!jl_String_equals($expression, $rt_s(172)))
+                            if (!jl_String_equals($expression, $rt_s(185)))
                                 break l;
                             $listLength = 9;
                             break l;
                         case -1583968932:
-                            if (!jl_String_equals($expression, $rt_s(173)))
+                            if (!jl_String_equals($expression, $rt_s(186)))
                                 break l;
                             $listLength = 11;
                             break l;
                         case -1310359912:
-                            if (!jl_String_equals($expression, $rt_s(174)))
+                            if (!jl_String_equals($expression, $rt_s(187)))
                                 break l;
                             $listLength = 5;
                             break l;
                         case -1112834937:
-                            if (!jl_String_equals($expression, $rt_s(175)))
+                            if (!jl_String_equals($expression, $rt_s(188)))
                                 break l;
                             $listLength = 10;
                             break l;
                         case -715433377:
-                            if (!jl_String_equals($expression, $rt_s(176)))
+                            if (!jl_String_equals($expression, $rt_s(189)))
                                 break l;
                             $listLength = 24;
                             break l;
                         case -466959748:
-                            if (!jl_String_equals($expression, $rt_s(177)))
+                            if (!jl_String_equals($expression, $rt_s(190)))
                                 break l;
                             $listLength = 19;
                             break l;
                         case 2531:
-                            if (!jl_String_equals($expression, $rt_s(178)))
+                            if (!jl_String_equals($expression, $rt_s(191)))
                                 break l;
                             $listLength = 16;
                             break l;
                         case 64951:
-                            if (!jl_String_equals($expression, $rt_s(179)))
+                            if (!jl_String_equals($expression, $rt_s(192)))
                                 break l;
                             $listLength = 0;
                             break l;
                         case 77491:
-                            if (!jl_String_equals($expression, $rt_s(180)))
+                            if (!jl_String_equals($expression, $rt_s(193)))
                                 break l;
                             $listLength = 14;
                             break l;
                         case 2044650:
-                            if (!jl_String_equals($expression, $rt_s(181)))
+                            if (!jl_String_equals($expression, $rt_s(194)))
                                 break l;
                             $listLength = 1;
                             break l;
                         case 2061119:
-                            if (!jl_String_equals($expression, $rt_s(182)))
+                            if (!jl_String_equals($expression, $rt_s(195)))
                                 break l;
                             $listLength = 2;
                             break l;
                         case 2336926:
-                            if (!jl_String_equals($expression, $rt_s(183)))
+                            if (!jl_String_equals($expression, $rt_s(196)))
                                 break l;
                             $listLength = 23;
                             break l;
                         case 2459034:
-                            if (!jl_String_equals($expression, $rt_s(184)))
+                            if (!jl_String_equals($expression, $rt_s(197)))
                                 break l;
                             $listLength = 17;
                             break l;
                         case 66219796:
-                            if (!jl_String_equals($expression, $rt_s(185)))
+                            if (!jl_String_equals($expression, $rt_s(198)))
                                 break l;
                             $listLength = 4;
                             break l;
                         case 66988604:
-                            if (!jl_String_equals($expression, $rt_s(23)))
+                            if (!jl_String_equals($expression, $rt_s(25)))
                                 break l;
                             $listLength = 6;
                             break l;
                         case 73363536:
-                            if (!jl_String_equals($expression, $rt_s(186)))
+                            if (!jl_String_equals($expression, $rt_s(199)))
                                 break l;
                             $listLength = 12;
                             break l;
                         case 360410235:
-                            if (!jl_String_equals($expression, $rt_s(187)))
+                            if (!jl_String_equals($expression, $rt_s(200)))
                                 break l;
                             $listLength = 8;
                             break l;
                         case 899970467:
-                            if (!jl_String_equals($expression, $rt_s(188)))
+                            if (!jl_String_equals($expression, $rt_s(201)))
                                 break l;
                             $listLength = 22;
                             break l;
                         case 972152550:
-                            if (!jl_String_equals($expression, $rt_s(189)))
+                            if (!jl_String_equals($expression, $rt_s(202)))
                                 break l;
                             $listLength = 7;
                             break l;
                         case 1022422664:
-                            if (!jl_String_equals($expression, $rt_s(190)))
+                            if (!jl_String_equals($expression, $rt_s(203)))
                                 break l;
                             $listLength = 15;
                             break l;
                         case 1436456484:
-                            if (!jl_String_equals($expression, $rt_s(191)))
+                            if (!jl_String_equals($expression, $rt_s(204)))
                                 break l;
                             $listLength = 13;
                             break l;
                         case 1871384510:
-                            if (!jl_String_equals($expression, $rt_s(192)))
+                            if (!jl_String_equals($expression, $rt_s(205)))
                                 break l;
                             $listLength = 21;
                             break l;
                         case 2016833657:
-                            if (!jl_String_equals($expression, $rt_s(193)))
+                            if (!jl_String_equals($expression, $rt_s(206)))
                                 break l;
                             $listLength = 3;
                             break l;
@@ -8086,7 +8185,7 @@
                                         $expression = tj_Variables_getVariableValue($this.$globalVariables0, $arrayName);
                                     }
                                     if (!($expression instanceof tj_JavaishListVal)) {
-                                        tj_Error_TypeMismatch($rt_s(99), $expression.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(101), $expression.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     $listL = tj_JavaishListVal_getValue($expression);
@@ -8143,22 +8242,22 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -1618721555:
-                            if (!jl_String_equals($expression, $rt_s(31)))
+                            if (!jl_String_equals($expression, $rt_s(33)))
                                 break o;
                             $listLength = 0;
                             break o;
                         case -1087271889:
-                            if (!jl_String_equals($expression, $rt_s(32)))
+                            if (!jl_String_equals($expression, $rt_s(34)))
                                 break o;
                             $listLength = 2;
                             break o;
                         case 318725286:
-                            if (!jl_String_equals($expression, $rt_s(33)))
+                            if (!jl_String_equals($expression, $rt_s(35)))
                                 break o;
                             $listLength = 3;
                             break o;
                         case 675960026:
-                            if (!jl_String_equals($expression, $rt_s(34)))
+                            if (!jl_String_equals($expression, $rt_s(36)))
                                 break o;
                             $listLength = 1;
                             break o;
@@ -8173,7 +8272,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishInt)) {
-                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(32), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($intList, $listValI);
@@ -8184,14 +8283,14 @@
                                     $total = tj_JavaishListVal__init_($intListVal);
                                     break p;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                                 break p;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($intListVal);
                                 break p;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                             break p;
                         case 1:
                             $floatList = ju_ArrayList__init_();
@@ -8199,7 +8298,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishFloat)) {
-                                    tj_Error_TypeMismatch($rt_s(27), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($floatList, $listValI);
@@ -8210,14 +8309,14 @@
                                     $total = tj_JavaishListVal__init_($floatListVal);
                                     break p;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                                 break p;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($floatListVal);
                                 break p;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                             break p;
                         case 2:
                             $stringList = ju_ArrayList__init_();
@@ -8225,7 +8324,7 @@
                             while (ju_AbstractList$1_hasNext($val)) {
                                 $listValI = ju_AbstractList$1_next($val);
                                 if (!($listValI instanceof tj_JavaishString)) {
-                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(31), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($stringList, $listValI);
@@ -8236,14 +8335,14 @@
                                     $total = tj_JavaishListVal__init_($stringListVal);
                                     break p;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                                 break p;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($stringListVal);
                                 break p;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                             break p;
                         case 3:
                             $booleanList = ju_ArrayList__init_();
@@ -8251,7 +8350,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishBoolean)) {
-                                    tj_Error_TypeMismatch($rt_s(28), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($booleanList, $listValI);
@@ -8262,14 +8361,14 @@
                                     $total = tj_JavaishListVal__init_($booleanListVal);
                                     break p;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                                 break p;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($booleanListVal);
                                 break p;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                             break p;
                         default:
                     }
@@ -8299,127 +8398,127 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -2131401768:
-                            if (!jl_String_equals($expression, $rt_s(153)))
+                            if (!jl_String_equals($expression, $rt_s(165)))
                                 break r;
                             $listLength = 20;
                             break r;
                         case -1838656495:
-                            if (!jl_String_equals($expression, $rt_s(21)))
+                            if (!jl_String_equals($expression, $rt_s(23)))
                                 break r;
                             $listLength = 18;
                             break r;
                         case -1618932450:
-                            if (!jl_String_equals($expression, $rt_s(172)))
+                            if (!jl_String_equals($expression, $rt_s(185)))
                                 break r;
                             $listLength = 9;
                             break r;
                         case -1583968932:
-                            if (!jl_String_equals($expression, $rt_s(173)))
+                            if (!jl_String_equals($expression, $rt_s(186)))
                                 break r;
                             $listLength = 11;
                             break r;
                         case -1310359912:
-                            if (!jl_String_equals($expression, $rt_s(174)))
+                            if (!jl_String_equals($expression, $rt_s(187)))
                                 break r;
                             $listLength = 5;
                             break r;
                         case -1112834937:
-                            if (!jl_String_equals($expression, $rt_s(175)))
+                            if (!jl_String_equals($expression, $rt_s(188)))
                                 break r;
                             $listLength = 10;
                             break r;
                         case -715433377:
-                            if (!jl_String_equals($expression, $rt_s(176)))
+                            if (!jl_String_equals($expression, $rt_s(189)))
                                 break r;
                             $listLength = 24;
                             break r;
                         case -466959748:
-                            if (!jl_String_equals($expression, $rt_s(177)))
+                            if (!jl_String_equals($expression, $rt_s(190)))
                                 break r;
                             $listLength = 19;
                             break r;
                         case 2531:
-                            if (!jl_String_equals($expression, $rt_s(178)))
+                            if (!jl_String_equals($expression, $rt_s(191)))
                                 break r;
                             $listLength = 16;
                             break r;
                         case 64951:
-                            if (!jl_String_equals($expression, $rt_s(179)))
+                            if (!jl_String_equals($expression, $rt_s(192)))
                                 break r;
                             $listLength = 0;
                             break r;
                         case 77491:
-                            if (!jl_String_equals($expression, $rt_s(180)))
+                            if (!jl_String_equals($expression, $rt_s(193)))
                                 break r;
                             $listLength = 14;
                             break r;
                         case 2044650:
-                            if (!jl_String_equals($expression, $rt_s(181)))
+                            if (!jl_String_equals($expression, $rt_s(194)))
                                 break r;
                             $listLength = 1;
                             break r;
                         case 2061119:
-                            if (!jl_String_equals($expression, $rt_s(182)))
+                            if (!jl_String_equals($expression, $rt_s(195)))
                                 break r;
                             $listLength = 2;
                             break r;
                         case 2336926:
-                            if (!jl_String_equals($expression, $rt_s(183)))
+                            if (!jl_String_equals($expression, $rt_s(196)))
                                 break r;
                             $listLength = 23;
                             break r;
                         case 2459034:
-                            if (!jl_String_equals($expression, $rt_s(184)))
+                            if (!jl_String_equals($expression, $rt_s(197)))
                                 break r;
                             $listLength = 17;
                             break r;
                         case 66219796:
-                            if (!jl_String_equals($expression, $rt_s(185)))
+                            if (!jl_String_equals($expression, $rt_s(198)))
                                 break r;
                             $listLength = 4;
                             break r;
                         case 66988604:
-                            if (!jl_String_equals($expression, $rt_s(23)))
+                            if (!jl_String_equals($expression, $rt_s(25)))
                                 break r;
                             $listLength = 6;
                             break r;
                         case 73363536:
-                            if (!jl_String_equals($expression, $rt_s(186)))
+                            if (!jl_String_equals($expression, $rt_s(199)))
                                 break r;
                             $listLength = 12;
                             break r;
                         case 360410235:
-                            if (!jl_String_equals($expression, $rt_s(187)))
+                            if (!jl_String_equals($expression, $rt_s(200)))
                                 break r;
                             $listLength = 8;
                             break r;
                         case 899970467:
-                            if (!jl_String_equals($expression, $rt_s(188)))
+                            if (!jl_String_equals($expression, $rt_s(201)))
                                 break r;
                             $listLength = 22;
                             break r;
                         case 972152550:
-                            if (!jl_String_equals($expression, $rt_s(189)))
+                            if (!jl_String_equals($expression, $rt_s(202)))
                                 break r;
                             $listLength = 7;
                             break r;
                         case 1022422664:
-                            if (!jl_String_equals($expression, $rt_s(190)))
+                            if (!jl_String_equals($expression, $rt_s(203)))
                                 break r;
                             $listLength = 15;
                             break r;
                         case 1436456484:
-                            if (!jl_String_equals($expression, $rt_s(191)))
+                            if (!jl_String_equals($expression, $rt_s(204)))
                                 break r;
                             $listLength = 13;
                             break r;
                         case 1871384510:
-                            if (!jl_String_equals($expression, $rt_s(192)))
+                            if (!jl_String_equals($expression, $rt_s(205)))
                                 break r;
                             $listLength = 21;
                             break r;
                         case 2016833657:
-                            if (!jl_String_equals($expression, $rt_s(193)))
+                            if (!jl_String_equals($expression, $rt_s(206)))
                                 break r;
                             $listLength = 3;
                             break r;
@@ -8581,7 +8680,7 @@
                                         $expression = tj_Variables_getVariableValue($this.$globalVariables0, $arrayName);
                                     }
                                     if (!($expression instanceof tj_JavaishListVal)) {
-                                        tj_Error_TypeMismatch($rt_s(99), $expression.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(101), $expression.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     $listL = tj_JavaishListVal_getValue($expression);
@@ -8638,22 +8737,22 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -1618721555:
-                            if (!jl_String_equals($expression, $rt_s(31)))
+                            if (!jl_String_equals($expression, $rt_s(33)))
                                 break u;
                             $listLength = 0;
                             break u;
                         case -1087271889:
-                            if (!jl_String_equals($expression, $rt_s(32)))
+                            if (!jl_String_equals($expression, $rt_s(34)))
                                 break u;
                             $listLength = 2;
                             break u;
                         case 318725286:
-                            if (!jl_String_equals($expression, $rt_s(33)))
+                            if (!jl_String_equals($expression, $rt_s(35)))
                                 break u;
                             $listLength = 3;
                             break u;
                         case 675960026:
-                            if (!jl_String_equals($expression, $rt_s(34)))
+                            if (!jl_String_equals($expression, $rt_s(36)))
                                 break u;
                             $listLength = 1;
                             break u;
@@ -8668,7 +8767,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishInt)) {
-                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(32), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($intList, $listValI);
@@ -8679,14 +8778,14 @@
                                     $total = tj_JavaishListVal__init_($intListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($intListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                             break v;
                         case 1:
                             $floatList = ju_ArrayList__init_();
@@ -8694,7 +8793,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishFloat)) {
-                                    tj_Error_TypeMismatch($rt_s(27), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($floatList, $listValI);
@@ -8705,14 +8804,14 @@
                                     $total = tj_JavaishListVal__init_($floatListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($floatListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                             break v;
                         case 2:
                             $stringList = ju_ArrayList__init_();
@@ -8720,7 +8819,7 @@
                             while (ju_AbstractList$1_hasNext($val)) {
                                 $listValI = ju_AbstractList$1_next($val);
                                 if (!($listValI instanceof tj_JavaishString)) {
-                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(31), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($stringList, $listValI);
@@ -8731,14 +8830,14 @@
                                     $total = tj_JavaishListVal__init_($stringListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($stringListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                             break v;
                         case 3:
                             $booleanList = ju_ArrayList__init_();
@@ -8746,7 +8845,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishBoolean)) {
-                                    tj_Error_TypeMismatch($rt_s(28), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($booleanList, $listValI);
@@ -8757,14 +8856,14 @@
                                     $total = tj_JavaishListVal__init_($booleanListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($booleanListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                             break v;
                         default:
                     }
@@ -8778,7 +8877,7 @@
             }
             $valNot = $tmp;
             if (!($valNot instanceof tj_JavaishBoolean))
-                tj_Error_TypeMismatch($rt_s(28), $valNot.$typeString(), $this.$lineNumber0);
+                tj_Error_TypeMismatch($rt_s(30), $valNot.$typeString(), $this.$lineNumber0);
             else {
                 $expression = jl_Boolean_booleanValue(tj_JavaishBoolean_getValue($valNot)) != 1 ? tj_JavaishBoolean__init_(jl_Boolean_valueOf(1)) : tj_JavaishBoolean__init_(jl_Boolean_valueOf(0));
                 if (!$isComp)
@@ -8799,127 +8898,127 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -2131401768:
-                            if (!jl_String_equals($expression, $rt_s(153)))
+                            if (!jl_String_equals($expression, $rt_s(165)))
                                 break x;
                             $listLength = 20;
                             break x;
                         case -1838656495:
-                            if (!jl_String_equals($expression, $rt_s(21)))
+                            if (!jl_String_equals($expression, $rt_s(23)))
                                 break x;
                             $listLength = 18;
                             break x;
                         case -1618932450:
-                            if (!jl_String_equals($expression, $rt_s(172)))
+                            if (!jl_String_equals($expression, $rt_s(185)))
                                 break x;
                             $listLength = 9;
                             break x;
                         case -1583968932:
-                            if (!jl_String_equals($expression, $rt_s(173)))
+                            if (!jl_String_equals($expression, $rt_s(186)))
                                 break x;
                             $listLength = 11;
                             break x;
                         case -1310359912:
-                            if (!jl_String_equals($expression, $rt_s(174)))
+                            if (!jl_String_equals($expression, $rt_s(187)))
                                 break x;
                             $listLength = 5;
                             break x;
                         case -1112834937:
-                            if (!jl_String_equals($expression, $rt_s(175)))
+                            if (!jl_String_equals($expression, $rt_s(188)))
                                 break x;
                             $listLength = 10;
                             break x;
                         case -715433377:
-                            if (!jl_String_equals($expression, $rt_s(176)))
+                            if (!jl_String_equals($expression, $rt_s(189)))
                                 break x;
                             $listLength = 24;
                             break x;
                         case -466959748:
-                            if (!jl_String_equals($expression, $rt_s(177)))
+                            if (!jl_String_equals($expression, $rt_s(190)))
                                 break x;
                             $listLength = 19;
                             break x;
                         case 2531:
-                            if (!jl_String_equals($expression, $rt_s(178)))
+                            if (!jl_String_equals($expression, $rt_s(191)))
                                 break x;
                             $listLength = 16;
                             break x;
                         case 64951:
-                            if (!jl_String_equals($expression, $rt_s(179)))
+                            if (!jl_String_equals($expression, $rt_s(192)))
                                 break x;
                             $listLength = 0;
                             break x;
                         case 77491:
-                            if (!jl_String_equals($expression, $rt_s(180)))
+                            if (!jl_String_equals($expression, $rt_s(193)))
                                 break x;
                             $listLength = 14;
                             break x;
                         case 2044650:
-                            if (!jl_String_equals($expression, $rt_s(181)))
+                            if (!jl_String_equals($expression, $rt_s(194)))
                                 break x;
                             $listLength = 1;
                             break x;
                         case 2061119:
-                            if (!jl_String_equals($expression, $rt_s(182)))
+                            if (!jl_String_equals($expression, $rt_s(195)))
                                 break x;
                             $listLength = 2;
                             break x;
                         case 2336926:
-                            if (!jl_String_equals($expression, $rt_s(183)))
+                            if (!jl_String_equals($expression, $rt_s(196)))
                                 break x;
                             $listLength = 23;
                             break x;
                         case 2459034:
-                            if (!jl_String_equals($expression, $rt_s(184)))
+                            if (!jl_String_equals($expression, $rt_s(197)))
                                 break x;
                             $listLength = 17;
                             break x;
                         case 66219796:
-                            if (!jl_String_equals($expression, $rt_s(185)))
+                            if (!jl_String_equals($expression, $rt_s(198)))
                                 break x;
                             $listLength = 4;
                             break x;
                         case 66988604:
-                            if (!jl_String_equals($expression, $rt_s(23)))
+                            if (!jl_String_equals($expression, $rt_s(25)))
                                 break x;
                             $listLength = 6;
                             break x;
                         case 73363536:
-                            if (!jl_String_equals($expression, $rt_s(186)))
+                            if (!jl_String_equals($expression, $rt_s(199)))
                                 break x;
                             $listLength = 12;
                             break x;
                         case 360410235:
-                            if (!jl_String_equals($expression, $rt_s(187)))
+                            if (!jl_String_equals($expression, $rt_s(200)))
                                 break x;
                             $listLength = 8;
                             break x;
                         case 899970467:
-                            if (!jl_String_equals($expression, $rt_s(188)))
+                            if (!jl_String_equals($expression, $rt_s(201)))
                                 break x;
                             $listLength = 22;
                             break x;
                         case 972152550:
-                            if (!jl_String_equals($expression, $rt_s(189)))
+                            if (!jl_String_equals($expression, $rt_s(202)))
                                 break x;
                             $listLength = 7;
                             break x;
                         case 1022422664:
-                            if (!jl_String_equals($expression, $rt_s(190)))
+                            if (!jl_String_equals($expression, $rt_s(203)))
                                 break x;
                             $listLength = 15;
                             break x;
                         case 1436456484:
-                            if (!jl_String_equals($expression, $rt_s(191)))
+                            if (!jl_String_equals($expression, $rt_s(204)))
                                 break x;
                             $listLength = 13;
                             break x;
                         case 1871384510:
-                            if (!jl_String_equals($expression, $rt_s(192)))
+                            if (!jl_String_equals($expression, $rt_s(205)))
                                 break x;
                             $listLength = 21;
                             break x;
                         case 2016833657:
-                            if (!jl_String_equals($expression, $rt_s(193)))
+                            if (!jl_String_equals($expression, $rt_s(206)))
                                 break x;
                             $listLength = 3;
                             break x;
@@ -9081,7 +9180,7 @@
                                         $expression = tj_Variables_getVariableValue($this.$globalVariables0, $arrayName);
                                     }
                                     if (!($expression instanceof tj_JavaishListVal)) {
-                                        tj_Error_TypeMismatch($rt_s(99), $expression.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(101), $expression.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     $listL = tj_JavaishListVal_getValue($expression);
@@ -9138,22 +9237,22 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -1618721555:
-                            if (!jl_String_equals($expression, $rt_s(31)))
+                            if (!jl_String_equals($expression, $rt_s(33)))
                                 break bb;
                             $listLength = 0;
                             break bb;
                         case -1087271889:
-                            if (!jl_String_equals($expression, $rt_s(32)))
+                            if (!jl_String_equals($expression, $rt_s(34)))
                                 break bb;
                             $listLength = 2;
                             break bb;
                         case 318725286:
-                            if (!jl_String_equals($expression, $rt_s(33)))
+                            if (!jl_String_equals($expression, $rt_s(35)))
                                 break bb;
                             $listLength = 3;
                             break bb;
                         case 675960026:
-                            if (!jl_String_equals($expression, $rt_s(34)))
+                            if (!jl_String_equals($expression, $rt_s(36)))
                                 break bb;
                             $listLength = 1;
                             break bb;
@@ -9168,7 +9267,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishInt)) {
-                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(32), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($intList, $listValI);
@@ -9179,14 +9278,14 @@
                                     $total = tj_JavaishListVal__init_($intListVal);
                                     break bc;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                                 break bc;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($intListVal);
                                 break bc;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                             break bc;
                         case 1:
                             $floatList = ju_ArrayList__init_();
@@ -9194,7 +9293,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishFloat)) {
-                                    tj_Error_TypeMismatch($rt_s(27), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($floatList, $listValI);
@@ -9205,14 +9304,14 @@
                                     $total = tj_JavaishListVal__init_($floatListVal);
                                     break bc;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                                 break bc;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($floatListVal);
                                 break bc;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                             break bc;
                         case 2:
                             $stringList = ju_ArrayList__init_();
@@ -9220,7 +9319,7 @@
                             while (ju_AbstractList$1_hasNext($val)) {
                                 $listValI = ju_AbstractList$1_next($val);
                                 if (!($listValI instanceof tj_JavaishString)) {
-                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(31), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($stringList, $listValI);
@@ -9231,14 +9330,14 @@
                                     $total = tj_JavaishListVal__init_($stringListVal);
                                     break bc;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                                 break bc;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($stringListVal);
                                 break bc;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                             break bc;
                         case 3:
                             $booleanList = ju_ArrayList__init_();
@@ -9246,7 +9345,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishBoolean)) {
-                                    tj_Error_TypeMismatch($rt_s(28), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($booleanList, $listValI);
@@ -9257,14 +9356,14 @@
                                     $total = tj_JavaishListVal__init_($booleanListVal);
                                     break bc;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                                 break bc;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($booleanListVal);
                                 break bc;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                             break bc;
                         default:
                     }
@@ -9294,127 +9393,127 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -2131401768:
-                            if (!jl_String_equals($expression, $rt_s(153)))
+                            if (!jl_String_equals($expression, $rt_s(165)))
                                 break r;
                             $listLength = 20;
                             break r;
                         case -1838656495:
-                            if (!jl_String_equals($expression, $rt_s(21)))
+                            if (!jl_String_equals($expression, $rt_s(23)))
                                 break r;
                             $listLength = 18;
                             break r;
                         case -1618932450:
-                            if (!jl_String_equals($expression, $rt_s(172)))
+                            if (!jl_String_equals($expression, $rt_s(185)))
                                 break r;
                             $listLength = 9;
                             break r;
                         case -1583968932:
-                            if (!jl_String_equals($expression, $rt_s(173)))
+                            if (!jl_String_equals($expression, $rt_s(186)))
                                 break r;
                             $listLength = 11;
                             break r;
                         case -1310359912:
-                            if (!jl_String_equals($expression, $rt_s(174)))
+                            if (!jl_String_equals($expression, $rt_s(187)))
                                 break r;
                             $listLength = 5;
                             break r;
                         case -1112834937:
-                            if (!jl_String_equals($expression, $rt_s(175)))
+                            if (!jl_String_equals($expression, $rt_s(188)))
                                 break r;
                             $listLength = 10;
                             break r;
                         case -715433377:
-                            if (!jl_String_equals($expression, $rt_s(176)))
+                            if (!jl_String_equals($expression, $rt_s(189)))
                                 break r;
                             $listLength = 24;
                             break r;
                         case -466959748:
-                            if (!jl_String_equals($expression, $rt_s(177)))
+                            if (!jl_String_equals($expression, $rt_s(190)))
                                 break r;
                             $listLength = 19;
                             break r;
                         case 2531:
-                            if (!jl_String_equals($expression, $rt_s(178)))
+                            if (!jl_String_equals($expression, $rt_s(191)))
                                 break r;
                             $listLength = 16;
                             break r;
                         case 64951:
-                            if (!jl_String_equals($expression, $rt_s(179)))
+                            if (!jl_String_equals($expression, $rt_s(192)))
                                 break r;
                             $listLength = 0;
                             break r;
                         case 77491:
-                            if (!jl_String_equals($expression, $rt_s(180)))
+                            if (!jl_String_equals($expression, $rt_s(193)))
                                 break r;
                             $listLength = 14;
                             break r;
                         case 2044650:
-                            if (!jl_String_equals($expression, $rt_s(181)))
+                            if (!jl_String_equals($expression, $rt_s(194)))
                                 break r;
                             $listLength = 1;
                             break r;
                         case 2061119:
-                            if (!jl_String_equals($expression, $rt_s(182)))
+                            if (!jl_String_equals($expression, $rt_s(195)))
                                 break r;
                             $listLength = 2;
                             break r;
                         case 2336926:
-                            if (!jl_String_equals($expression, $rt_s(183)))
+                            if (!jl_String_equals($expression, $rt_s(196)))
                                 break r;
                             $listLength = 23;
                             break r;
                         case 2459034:
-                            if (!jl_String_equals($expression, $rt_s(184)))
+                            if (!jl_String_equals($expression, $rt_s(197)))
                                 break r;
                             $listLength = 17;
                             break r;
                         case 66219796:
-                            if (!jl_String_equals($expression, $rt_s(185)))
+                            if (!jl_String_equals($expression, $rt_s(198)))
                                 break r;
                             $listLength = 4;
                             break r;
                         case 66988604:
-                            if (!jl_String_equals($expression, $rt_s(23)))
+                            if (!jl_String_equals($expression, $rt_s(25)))
                                 break r;
                             $listLength = 6;
                             break r;
                         case 73363536:
-                            if (!jl_String_equals($expression, $rt_s(186)))
+                            if (!jl_String_equals($expression, $rt_s(199)))
                                 break r;
                             $listLength = 12;
                             break r;
                         case 360410235:
-                            if (!jl_String_equals($expression, $rt_s(187)))
+                            if (!jl_String_equals($expression, $rt_s(200)))
                                 break r;
                             $listLength = 8;
                             break r;
                         case 899970467:
-                            if (!jl_String_equals($expression, $rt_s(188)))
+                            if (!jl_String_equals($expression, $rt_s(201)))
                                 break r;
                             $listLength = 22;
                             break r;
                         case 972152550:
-                            if (!jl_String_equals($expression, $rt_s(189)))
+                            if (!jl_String_equals($expression, $rt_s(202)))
                                 break r;
                             $listLength = 7;
                             break r;
                         case 1022422664:
-                            if (!jl_String_equals($expression, $rt_s(190)))
+                            if (!jl_String_equals($expression, $rt_s(203)))
                                 break r;
                             $listLength = 15;
                             break r;
                         case 1436456484:
-                            if (!jl_String_equals($expression, $rt_s(191)))
+                            if (!jl_String_equals($expression, $rt_s(204)))
                                 break r;
                             $listLength = 13;
                             break r;
                         case 1871384510:
-                            if (!jl_String_equals($expression, $rt_s(192)))
+                            if (!jl_String_equals($expression, $rt_s(205)))
                                 break r;
                             $listLength = 21;
                             break r;
                         case 2016833657:
-                            if (!jl_String_equals($expression, $rt_s(193)))
+                            if (!jl_String_equals($expression, $rt_s(206)))
                                 break r;
                             $listLength = 3;
                             break r;
@@ -9576,7 +9675,7 @@
                                         $expression = tj_Variables_getVariableValue($this.$globalVariables0, $arrayName);
                                     }
                                     if (!($expression instanceof tj_JavaishListVal)) {
-                                        tj_Error_TypeMismatch($rt_s(99), $expression.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(101), $expression.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     $listL = tj_JavaishListVal_getValue($expression);
@@ -9633,22 +9732,22 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -1618721555:
-                            if (!jl_String_equals($expression, $rt_s(31)))
+                            if (!jl_String_equals($expression, $rt_s(33)))
                                 break u;
                             $listLength = 0;
                             break u;
                         case -1087271889:
-                            if (!jl_String_equals($expression, $rt_s(32)))
+                            if (!jl_String_equals($expression, $rt_s(34)))
                                 break u;
                             $listLength = 2;
                             break u;
                         case 318725286:
-                            if (!jl_String_equals($expression, $rt_s(33)))
+                            if (!jl_String_equals($expression, $rt_s(35)))
                                 break u;
                             $listLength = 3;
                             break u;
                         case 675960026:
-                            if (!jl_String_equals($expression, $rt_s(34)))
+                            if (!jl_String_equals($expression, $rt_s(36)))
                                 break u;
                             $listLength = 1;
                             break u;
@@ -9663,7 +9762,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishInt)) {
-                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(32), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($intList, $listValI);
@@ -9674,14 +9773,14 @@
                                     $total = tj_JavaishListVal__init_($intListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($intListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                             break v;
                         case 1:
                             $floatList = ju_ArrayList__init_();
@@ -9689,7 +9788,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishFloat)) {
-                                    tj_Error_TypeMismatch($rt_s(27), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($floatList, $listValI);
@@ -9700,14 +9799,14 @@
                                     $total = tj_JavaishListVal__init_($floatListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($floatListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                             break v;
                         case 2:
                             $stringList = ju_ArrayList__init_();
@@ -9715,7 +9814,7 @@
                             while (ju_AbstractList$1_hasNext($val)) {
                                 $listValI = ju_AbstractList$1_next($val);
                                 if (!($listValI instanceof tj_JavaishString)) {
-                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(31), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($stringList, $listValI);
@@ -9726,14 +9825,14 @@
                                     $total = tj_JavaishListVal__init_($stringListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($stringListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                             break v;
                         case 3:
                             $booleanList = ju_ArrayList__init_();
@@ -9741,7 +9840,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishBoolean)) {
-                                    tj_Error_TypeMismatch($rt_s(28), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($booleanList, $listValI);
@@ -9752,14 +9851,14 @@
                                     $total = tj_JavaishListVal__init_($booleanListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($booleanListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                             break v;
                         default:
                     }
@@ -9773,7 +9872,7 @@
             }
             $index = $tmp;
             if (!($index instanceof tj_JavaishInt)) {
-                tj_Error_TypeMismatch($rt_s(30), $index.$typeString(), $this.$lineNumber0);
+                tj_Error_TypeMismatch($rt_s(32), $index.$typeString(), $this.$lineNumber0);
                 return null;
             }
             $expression = $index;
@@ -9809,127 +9908,127 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -2131401768:
-                            if (!jl_String_equals($expression, $rt_s(153)))
+                            if (!jl_String_equals($expression, $rt_s(165)))
                                 break bd;
                             $listLength = 20;
                             break bd;
                         case -1838656495:
-                            if (!jl_String_equals($expression, $rt_s(21)))
+                            if (!jl_String_equals($expression, $rt_s(23)))
                                 break bd;
                             $listLength = 18;
                             break bd;
                         case -1618932450:
-                            if (!jl_String_equals($expression, $rt_s(172)))
+                            if (!jl_String_equals($expression, $rt_s(185)))
                                 break bd;
                             $listLength = 9;
                             break bd;
                         case -1583968932:
-                            if (!jl_String_equals($expression, $rt_s(173)))
+                            if (!jl_String_equals($expression, $rt_s(186)))
                                 break bd;
                             $listLength = 11;
                             break bd;
                         case -1310359912:
-                            if (!jl_String_equals($expression, $rt_s(174)))
+                            if (!jl_String_equals($expression, $rt_s(187)))
                                 break bd;
                             $listLength = 5;
                             break bd;
                         case -1112834937:
-                            if (!jl_String_equals($expression, $rt_s(175)))
+                            if (!jl_String_equals($expression, $rt_s(188)))
                                 break bd;
                             $listLength = 10;
                             break bd;
                         case -715433377:
-                            if (!jl_String_equals($expression, $rt_s(176)))
+                            if (!jl_String_equals($expression, $rt_s(189)))
                                 break bd;
                             $listLength = 24;
                             break bd;
                         case -466959748:
-                            if (!jl_String_equals($expression, $rt_s(177)))
+                            if (!jl_String_equals($expression, $rt_s(190)))
                                 break bd;
                             $listLength = 19;
                             break bd;
                         case 2531:
-                            if (!jl_String_equals($expression, $rt_s(178)))
+                            if (!jl_String_equals($expression, $rt_s(191)))
                                 break bd;
                             $listLength = 16;
                             break bd;
                         case 64951:
-                            if (!jl_String_equals($expression, $rt_s(179)))
+                            if (!jl_String_equals($expression, $rt_s(192)))
                                 break bd;
                             $listLength = 0;
                             break bd;
                         case 77491:
-                            if (!jl_String_equals($expression, $rt_s(180)))
+                            if (!jl_String_equals($expression, $rt_s(193)))
                                 break bd;
                             $listLength = 14;
                             break bd;
                         case 2044650:
-                            if (!jl_String_equals($expression, $rt_s(181)))
+                            if (!jl_String_equals($expression, $rt_s(194)))
                                 break bd;
                             $listLength = 1;
                             break bd;
                         case 2061119:
-                            if (!jl_String_equals($expression, $rt_s(182)))
+                            if (!jl_String_equals($expression, $rt_s(195)))
                                 break bd;
                             $listLength = 2;
                             break bd;
                         case 2336926:
-                            if (!jl_String_equals($expression, $rt_s(183)))
+                            if (!jl_String_equals($expression, $rt_s(196)))
                                 break bd;
                             $listLength = 23;
                             break bd;
                         case 2459034:
-                            if (!jl_String_equals($expression, $rt_s(184)))
+                            if (!jl_String_equals($expression, $rt_s(197)))
                                 break bd;
                             $listLength = 17;
                             break bd;
                         case 66219796:
-                            if (!jl_String_equals($expression, $rt_s(185)))
+                            if (!jl_String_equals($expression, $rt_s(198)))
                                 break bd;
                             $listLength = 4;
                             break bd;
                         case 66988604:
-                            if (!jl_String_equals($expression, $rt_s(23)))
+                            if (!jl_String_equals($expression, $rt_s(25)))
                                 break bd;
                             $listLength = 6;
                             break bd;
                         case 73363536:
-                            if (!jl_String_equals($expression, $rt_s(186)))
+                            if (!jl_String_equals($expression, $rt_s(199)))
                                 break bd;
                             $listLength = 12;
                             break bd;
                         case 360410235:
-                            if (!jl_String_equals($expression, $rt_s(187)))
+                            if (!jl_String_equals($expression, $rt_s(200)))
                                 break bd;
                             $listLength = 8;
                             break bd;
                         case 899970467:
-                            if (!jl_String_equals($expression, $rt_s(188)))
+                            if (!jl_String_equals($expression, $rt_s(201)))
                                 break bd;
                             $listLength = 22;
                             break bd;
                         case 972152550:
-                            if (!jl_String_equals($expression, $rt_s(189)))
+                            if (!jl_String_equals($expression, $rt_s(202)))
                                 break bd;
                             $listLength = 7;
                             break bd;
                         case 1022422664:
-                            if (!jl_String_equals($expression, $rt_s(190)))
+                            if (!jl_String_equals($expression, $rt_s(203)))
                                 break bd;
                             $listLength = 15;
                             break bd;
                         case 1436456484:
-                            if (!jl_String_equals($expression, $rt_s(191)))
+                            if (!jl_String_equals($expression, $rt_s(204)))
                                 break bd;
                             $listLength = 13;
                             break bd;
                         case 1871384510:
-                            if (!jl_String_equals($expression, $rt_s(192)))
+                            if (!jl_String_equals($expression, $rt_s(205)))
                                 break bd;
                             $listLength = 21;
                             break bd;
                         case 2016833657:
-                            if (!jl_String_equals($expression, $rt_s(193)))
+                            if (!jl_String_equals($expression, $rt_s(206)))
                                 break bd;
                             $listLength = 3;
                             break bd;
@@ -10091,7 +10190,7 @@
                                         $expression = tj_Variables_getVariableValue($this.$globalVariables0, $arrayName);
                                     }
                                     if (!($expression instanceof tj_JavaishListVal)) {
-                                        tj_Error_TypeMismatch($rt_s(99), $expression.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(101), $expression.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     $listL = tj_JavaishListVal_getValue($expression);
@@ -10148,22 +10247,22 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -1618721555:
-                            if (!jl_String_equals($expression, $rt_s(31)))
+                            if (!jl_String_equals($expression, $rt_s(33)))
                                 break bg;
                             $listLength = 0;
                             break bg;
                         case -1087271889:
-                            if (!jl_String_equals($expression, $rt_s(32)))
+                            if (!jl_String_equals($expression, $rt_s(34)))
                                 break bg;
                             $listLength = 2;
                             break bg;
                         case 318725286:
-                            if (!jl_String_equals($expression, $rt_s(33)))
+                            if (!jl_String_equals($expression, $rt_s(35)))
                                 break bg;
                             $listLength = 3;
                             break bg;
                         case 675960026:
-                            if (!jl_String_equals($expression, $rt_s(34)))
+                            if (!jl_String_equals($expression, $rt_s(36)))
                                 break bg;
                             $listLength = 1;
                             break bg;
@@ -10178,7 +10277,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishInt)) {
-                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(32), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($intList, $listValI);
@@ -10189,14 +10288,14 @@
                                     $total = tj_JavaishListVal__init_($intListVal);
                                     break bh;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                                 break bh;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($intListVal);
                                 break bh;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                             break bh;
                         case 1:
                             $floatList = ju_ArrayList__init_();
@@ -10204,7 +10303,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishFloat)) {
-                                    tj_Error_TypeMismatch($rt_s(27), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($floatList, $listValI);
@@ -10215,14 +10314,14 @@
                                     $total = tj_JavaishListVal__init_($floatListVal);
                                     break bh;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                                 break bh;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($floatListVal);
                                 break bh;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                             break bh;
                         case 2:
                             $stringList = ju_ArrayList__init_();
@@ -10230,7 +10329,7 @@
                             while (ju_AbstractList$1_hasNext($val)) {
                                 $listValI = ju_AbstractList$1_next($val);
                                 if (!($listValI instanceof tj_JavaishString)) {
-                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(31), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($stringList, $listValI);
@@ -10241,14 +10340,14 @@
                                     $total = tj_JavaishListVal__init_($stringListVal);
                                     break bh;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                                 break bh;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($stringListVal);
                                 break bh;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                             break bh;
                         case 3:
                             $booleanList = ju_ArrayList__init_();
@@ -10256,7 +10355,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishBoolean)) {
-                                    tj_Error_TypeMismatch($rt_s(28), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($booleanList, $listValI);
@@ -10267,14 +10366,14 @@
                                     $total = tj_JavaishListVal__init_($booleanListVal);
                                     break bh;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                                 break bh;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($booleanListVal);
                                 break bh;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                             break bh;
                         default:
                     }
@@ -10304,127 +10403,127 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -2131401768:
-                            if (!jl_String_equals($expression, $rt_s(153)))
+                            if (!jl_String_equals($expression, $rt_s(165)))
                                 break r;
                             $listLength = 20;
                             break r;
                         case -1838656495:
-                            if (!jl_String_equals($expression, $rt_s(21)))
+                            if (!jl_String_equals($expression, $rt_s(23)))
                                 break r;
                             $listLength = 18;
                             break r;
                         case -1618932450:
-                            if (!jl_String_equals($expression, $rt_s(172)))
+                            if (!jl_String_equals($expression, $rt_s(185)))
                                 break r;
                             $listLength = 9;
                             break r;
                         case -1583968932:
-                            if (!jl_String_equals($expression, $rt_s(173)))
+                            if (!jl_String_equals($expression, $rt_s(186)))
                                 break r;
                             $listLength = 11;
                             break r;
                         case -1310359912:
-                            if (!jl_String_equals($expression, $rt_s(174)))
+                            if (!jl_String_equals($expression, $rt_s(187)))
                                 break r;
                             $listLength = 5;
                             break r;
                         case -1112834937:
-                            if (!jl_String_equals($expression, $rt_s(175)))
+                            if (!jl_String_equals($expression, $rt_s(188)))
                                 break r;
                             $listLength = 10;
                             break r;
                         case -715433377:
-                            if (!jl_String_equals($expression, $rt_s(176)))
+                            if (!jl_String_equals($expression, $rt_s(189)))
                                 break r;
                             $listLength = 24;
                             break r;
                         case -466959748:
-                            if (!jl_String_equals($expression, $rt_s(177)))
+                            if (!jl_String_equals($expression, $rt_s(190)))
                                 break r;
                             $listLength = 19;
                             break r;
                         case 2531:
-                            if (!jl_String_equals($expression, $rt_s(178)))
+                            if (!jl_String_equals($expression, $rt_s(191)))
                                 break r;
                             $listLength = 16;
                             break r;
                         case 64951:
-                            if (!jl_String_equals($expression, $rt_s(179)))
+                            if (!jl_String_equals($expression, $rt_s(192)))
                                 break r;
                             $listLength = 0;
                             break r;
                         case 77491:
-                            if (!jl_String_equals($expression, $rt_s(180)))
+                            if (!jl_String_equals($expression, $rt_s(193)))
                                 break r;
                             $listLength = 14;
                             break r;
                         case 2044650:
-                            if (!jl_String_equals($expression, $rt_s(181)))
+                            if (!jl_String_equals($expression, $rt_s(194)))
                                 break r;
                             $listLength = 1;
                             break r;
                         case 2061119:
-                            if (!jl_String_equals($expression, $rt_s(182)))
+                            if (!jl_String_equals($expression, $rt_s(195)))
                                 break r;
                             $listLength = 2;
                             break r;
                         case 2336926:
-                            if (!jl_String_equals($expression, $rt_s(183)))
+                            if (!jl_String_equals($expression, $rt_s(196)))
                                 break r;
                             $listLength = 23;
                             break r;
                         case 2459034:
-                            if (!jl_String_equals($expression, $rt_s(184)))
+                            if (!jl_String_equals($expression, $rt_s(197)))
                                 break r;
                             $listLength = 17;
                             break r;
                         case 66219796:
-                            if (!jl_String_equals($expression, $rt_s(185)))
+                            if (!jl_String_equals($expression, $rt_s(198)))
                                 break r;
                             $listLength = 4;
                             break r;
                         case 66988604:
-                            if (!jl_String_equals($expression, $rt_s(23)))
+                            if (!jl_String_equals($expression, $rt_s(25)))
                                 break r;
                             $listLength = 6;
                             break r;
                         case 73363536:
-                            if (!jl_String_equals($expression, $rt_s(186)))
+                            if (!jl_String_equals($expression, $rt_s(199)))
                                 break r;
                             $listLength = 12;
                             break r;
                         case 360410235:
-                            if (!jl_String_equals($expression, $rt_s(187)))
+                            if (!jl_String_equals($expression, $rt_s(200)))
                                 break r;
                             $listLength = 8;
                             break r;
                         case 899970467:
-                            if (!jl_String_equals($expression, $rt_s(188)))
+                            if (!jl_String_equals($expression, $rt_s(201)))
                                 break r;
                             $listLength = 22;
                             break r;
                         case 972152550:
-                            if (!jl_String_equals($expression, $rt_s(189)))
+                            if (!jl_String_equals($expression, $rt_s(202)))
                                 break r;
                             $listLength = 7;
                             break r;
                         case 1022422664:
-                            if (!jl_String_equals($expression, $rt_s(190)))
+                            if (!jl_String_equals($expression, $rt_s(203)))
                                 break r;
                             $listLength = 15;
                             break r;
                         case 1436456484:
-                            if (!jl_String_equals($expression, $rt_s(191)))
+                            if (!jl_String_equals($expression, $rt_s(204)))
                                 break r;
                             $listLength = 13;
                             break r;
                         case 1871384510:
-                            if (!jl_String_equals($expression, $rt_s(192)))
+                            if (!jl_String_equals($expression, $rt_s(205)))
                                 break r;
                             $listLength = 21;
                             break r;
                         case 2016833657:
-                            if (!jl_String_equals($expression, $rt_s(193)))
+                            if (!jl_String_equals($expression, $rt_s(206)))
                                 break r;
                             $listLength = 3;
                             break r;
@@ -10586,7 +10685,7 @@
                                         $expression = tj_Variables_getVariableValue($this.$globalVariables0, $arrayName);
                                     }
                                     if (!($expression instanceof tj_JavaishListVal)) {
-                                        tj_Error_TypeMismatch($rt_s(99), $expression.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(101), $expression.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     $listL = tj_JavaishListVal_getValue($expression);
@@ -10643,22 +10742,22 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -1618721555:
-                            if (!jl_String_equals($expression, $rt_s(31)))
+                            if (!jl_String_equals($expression, $rt_s(33)))
                                 break u;
                             $listLength = 0;
                             break u;
                         case -1087271889:
-                            if (!jl_String_equals($expression, $rt_s(32)))
+                            if (!jl_String_equals($expression, $rt_s(34)))
                                 break u;
                             $listLength = 2;
                             break u;
                         case 318725286:
-                            if (!jl_String_equals($expression, $rt_s(33)))
+                            if (!jl_String_equals($expression, $rt_s(35)))
                                 break u;
                             $listLength = 3;
                             break u;
                         case 675960026:
-                            if (!jl_String_equals($expression, $rt_s(34)))
+                            if (!jl_String_equals($expression, $rt_s(36)))
                                 break u;
                             $listLength = 1;
                             break u;
@@ -10673,7 +10772,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishInt)) {
-                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(32), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($intList, $listValI);
@@ -10684,14 +10783,14 @@
                                     $total = tj_JavaishListVal__init_($intListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($intListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                             break v;
                         case 1:
                             $floatList = ju_ArrayList__init_();
@@ -10699,7 +10798,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishFloat)) {
-                                    tj_Error_TypeMismatch($rt_s(27), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($floatList, $listValI);
@@ -10710,14 +10809,14 @@
                                     $total = tj_JavaishListVal__init_($floatListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($floatListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                             break v;
                         case 2:
                             $stringList = ju_ArrayList__init_();
@@ -10725,7 +10824,7 @@
                             while (ju_AbstractList$1_hasNext($val)) {
                                 $listValI = ju_AbstractList$1_next($val);
                                 if (!($listValI instanceof tj_JavaishString)) {
-                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(31), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($stringList, $listValI);
@@ -10736,14 +10835,14 @@
                                     $total = tj_JavaishListVal__init_($stringListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($stringListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                             break v;
                         case 3:
                             $booleanList = ju_ArrayList__init_();
@@ -10751,7 +10850,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishBoolean)) {
-                                    tj_Error_TypeMismatch($rt_s(28), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($booleanList, $listValI);
@@ -10762,14 +10861,14 @@
                                     $total = tj_JavaishListVal__init_($booleanListVal);
                                     break v;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                                 break v;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($booleanListVal);
                                 break v;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                             break v;
                         default:
                     }
@@ -10810,22 +10909,22 @@
                     $listLength = (-1);
                     switch (jl_String_hashCode($expression)) {
                         case -1618721555:
-                            if (!jl_String_equals($expression, $rt_s(31)))
+                            if (!jl_String_equals($expression, $rt_s(33)))
                                 break b;
                             $listLength = 0;
                             break b;
                         case -1087271889:
-                            if (!jl_String_equals($expression, $rt_s(32)))
+                            if (!jl_String_equals($expression, $rt_s(34)))
                                 break b;
                             $listLength = 2;
                             break b;
                         case 318725286:
-                            if (!jl_String_equals($expression, $rt_s(33)))
+                            if (!jl_String_equals($expression, $rt_s(35)))
                                 break b;
                             $listLength = 3;
                             break b;
                         case 675960026:
-                            if (!jl_String_equals($expression, $rt_s(34)))
+                            if (!jl_String_equals($expression, $rt_s(36)))
                                 break b;
                             $listLength = 1;
                             break b;
@@ -10840,7 +10939,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishInt)) {
-                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(32), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($intList, $listValI);
@@ -10851,14 +10950,14 @@
                                     $total = tj_JavaishListVal__init_($intListVal);
                                     break bi;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                                 break bi;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($intListVal);
                                 break bi;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(40), $this.$lineNumber0);
                             break bi;
                         case 1:
                             $floatList = ju_ArrayList__init_();
@@ -10866,7 +10965,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishFloat)) {
-                                    tj_Error_TypeMismatch($rt_s(27), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($floatList, $listValI);
@@ -10877,14 +10976,14 @@
                                     $total = tj_JavaishListVal__init_($floatListVal);
                                     break bi;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                                 break bi;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($floatListVal);
                                 break bi;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(35), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
                             break bi;
                         case 2:
                             $stringList = ju_ArrayList__init_();
@@ -10892,7 +10991,7 @@
                             while (ju_AbstractList$1_hasNext($val)) {
                                 $listValI = ju_AbstractList$1_next($val);
                                 if (!($listValI instanceof tj_JavaishString)) {
-                                    tj_Error_TypeMismatch($rt_s(29), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(31), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($stringList, $listValI);
@@ -10903,14 +11002,14 @@
                                     $total = tj_JavaishListVal__init_($stringListVal);
                                     break bi;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                                 break bi;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($stringListVal);
                                 break bi;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(37), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(39), $this.$lineNumber0);
                             break bi;
                         case 3:
                             $booleanList = ju_ArrayList__init_();
@@ -10918,7 +11017,7 @@
                             while (ju_AbstractList$1_hasNext($expression)) {
                                 $listValI = ju_AbstractList$1_next($expression);
                                 if (!($listValI instanceof tj_JavaishBoolean)) {
-                                    tj_Error_TypeMismatch($rt_s(28), $listValI.$typeString(), $this.$lineNumber0);
+                                    tj_Error_TypeMismatch($rt_s(30), $listValI.$typeString(), $this.$lineNumber0);
                                     return null;
                                 }
                                 ju_ArrayList_add($booleanList, $listValI);
@@ -10929,14 +11028,14 @@
                                     $total = tj_JavaishListVal__init_($booleanListVal);
                                     break bi;
                                 }
-                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                                tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                                 break bi;
                             }
                             if ($operation === null) {
                                 $compVal = tj_JavaishListVal__init_($booleanListVal);
                                 break bi;
                             }
-                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(36), $this.$lineNumber0);
+                            tj_Error_CantPerformOperation(jl_Enum_toString($operation), $rt_s(38), $this.$lineNumber0);
                             break bi;
                         default:
                     }
@@ -10954,127 +11053,127 @@
                         $listLength = (-1);
                         switch (jl_String_hashCode($expression)) {
                             case -2131401768:
-                                if (!jl_String_equals($expression, $rt_s(153)))
+                                if (!jl_String_equals($expression, $rt_s(165)))
                                     break bk;
                                 $listLength = 20;
                                 break bk;
                             case -1838656495:
-                                if (!jl_String_equals($expression, $rt_s(21)))
+                                if (!jl_String_equals($expression, $rt_s(23)))
                                     break bk;
                                 $listLength = 18;
                                 break bk;
                             case -1618932450:
-                                if (!jl_String_equals($expression, $rt_s(172)))
+                                if (!jl_String_equals($expression, $rt_s(185)))
                                     break bk;
                                 $listLength = 9;
                                 break bk;
                             case -1583968932:
-                                if (!jl_String_equals($expression, $rt_s(173)))
+                                if (!jl_String_equals($expression, $rt_s(186)))
                                     break bk;
                                 $listLength = 11;
                                 break bk;
                             case -1310359912:
-                                if (!jl_String_equals($expression, $rt_s(174)))
+                                if (!jl_String_equals($expression, $rt_s(187)))
                                     break bk;
                                 $listLength = 5;
                                 break bk;
                             case -1112834937:
-                                if (!jl_String_equals($expression, $rt_s(175)))
+                                if (!jl_String_equals($expression, $rt_s(188)))
                                     break bk;
                                 $listLength = 10;
                                 break bk;
                             case -715433377:
-                                if (!jl_String_equals($expression, $rt_s(176)))
+                                if (!jl_String_equals($expression, $rt_s(189)))
                                     break bk;
                                 $listLength = 24;
                                 break bk;
                             case -466959748:
-                                if (!jl_String_equals($expression, $rt_s(177)))
+                                if (!jl_String_equals($expression, $rt_s(190)))
                                     break bk;
                                 $listLength = 19;
                                 break bk;
                             case 2531:
-                                if (!jl_String_equals($expression, $rt_s(178)))
+                                if (!jl_String_equals($expression, $rt_s(191)))
                                     break bk;
                                 $listLength = 16;
                                 break bk;
                             case 64951:
-                                if (!jl_String_equals($expression, $rt_s(179)))
+                                if (!jl_String_equals($expression, $rt_s(192)))
                                     break bk;
                                 $listLength = 0;
                                 break bk;
                             case 77491:
-                                if (!jl_String_equals($expression, $rt_s(180)))
+                                if (!jl_String_equals($expression, $rt_s(193)))
                                     break bk;
                                 $listLength = 14;
                                 break bk;
                             case 2044650:
-                                if (!jl_String_equals($expression, $rt_s(181)))
+                                if (!jl_String_equals($expression, $rt_s(194)))
                                     break bk;
                                 $listLength = 1;
                                 break bk;
                             case 2061119:
-                                if (!jl_String_equals($expression, $rt_s(182)))
+                                if (!jl_String_equals($expression, $rt_s(195)))
                                     break bk;
                                 $listLength = 2;
                                 break bk;
                             case 2336926:
-                                if (!jl_String_equals($expression, $rt_s(183)))
+                                if (!jl_String_equals($expression, $rt_s(196)))
                                     break bk;
                                 $listLength = 23;
                                 break bk;
                             case 2459034:
-                                if (!jl_String_equals($expression, $rt_s(184)))
+                                if (!jl_String_equals($expression, $rt_s(197)))
                                     break bk;
                                 $listLength = 17;
                                 break bk;
                             case 66219796:
-                                if (!jl_String_equals($expression, $rt_s(185)))
+                                if (!jl_String_equals($expression, $rt_s(198)))
                                     break bk;
                                 $listLength = 4;
                                 break bk;
                             case 66988604:
-                                if (!jl_String_equals($expression, $rt_s(23)))
+                                if (!jl_String_equals($expression, $rt_s(25)))
                                     break bk;
                                 $listLength = 6;
                                 break bk;
                             case 73363536:
-                                if (!jl_String_equals($expression, $rt_s(186)))
+                                if (!jl_String_equals($expression, $rt_s(199)))
                                     break bk;
                                 $listLength = 12;
                                 break bk;
                             case 360410235:
-                                if (!jl_String_equals($expression, $rt_s(187)))
+                                if (!jl_String_equals($expression, $rt_s(200)))
                                     break bk;
                                 $listLength = 8;
                                 break bk;
                             case 899970467:
-                                if (!jl_String_equals($expression, $rt_s(188)))
+                                if (!jl_String_equals($expression, $rt_s(201)))
                                     break bk;
                                 $listLength = 22;
                                 break bk;
                             case 972152550:
-                                if (!jl_String_equals($expression, $rt_s(189)))
+                                if (!jl_String_equals($expression, $rt_s(202)))
                                     break bk;
                                 $listLength = 7;
                                 break bk;
                             case 1022422664:
-                                if (!jl_String_equals($expression, $rt_s(190)))
+                                if (!jl_String_equals($expression, $rt_s(203)))
                                     break bk;
                                 $listLength = 15;
                                 break bk;
                             case 1436456484:
-                                if (!jl_String_equals($expression, $rt_s(191)))
+                                if (!jl_String_equals($expression, $rt_s(204)))
                                     break bk;
                                 $listLength = 13;
                                 break bk;
                             case 1871384510:
-                                if (!jl_String_equals($expression, $rt_s(192)))
+                                if (!jl_String_equals($expression, $rt_s(205)))
                                     break bk;
                                 $listLength = 21;
                                 break bk;
                             case 2016833657:
-                                if (!jl_String_equals($expression, $rt_s(193)))
+                                if (!jl_String_equals($expression, $rt_s(206)))
                                     break bk;
                                 $listLength = 3;
                                 break bk;
@@ -11236,7 +11335,7 @@
                                         $expression = tj_Variables_getVariableValue($this.$globalVariables0, $arrayName);
                                     }
                                     if (!($expression instanceof tj_JavaishListVal)) {
-                                        tj_Error_TypeMismatch($rt_s(99), $expression.$typeString(), $this.$lineNumber0);
+                                        tj_Error_TypeMismatch($rt_s(101), $expression.$typeString(), $this.$lineNumber0);
                                         return null;
                                     }
                                     $listL = tj_JavaishListVal_getValue($expression);
@@ -11297,32 +11396,32 @@
             var$6 = (-1);
             switch (jl_String_hashCode(var$5)) {
                 case -1583968932:
-                    if (!jl_String_equals(var$5, $rt_s(173)))
+                    if (!jl_String_equals(var$5, $rt_s(186)))
                         break a;
                     var$6 = 4;
                     break a;
                 case -1112834937:
-                    if (!jl_String_equals(var$5, $rt_s(175)))
+                    if (!jl_String_equals(var$5, $rt_s(188)))
                         break a;
                     var$6 = 2;
                     break a;
                 case 66219796:
-                    if (!jl_String_equals(var$5, $rt_s(185)))
+                    if (!jl_String_equals(var$5, $rt_s(198)))
                         break a;
                     var$6 = 0;
                     break a;
                 case 360410235:
-                    if (!jl_String_equals(var$5, $rt_s(187)))
+                    if (!jl_String_equals(var$5, $rt_s(200)))
                         break a;
                     var$6 = 5;
                     break a;
                 case 972152550:
-                    if (!jl_String_equals(var$5, $rt_s(189)))
+                    if (!jl_String_equals(var$5, $rt_s(202)))
                         break a;
                     var$6 = 3;
                     break a;
                 case 1022422664:
-                    if (!jl_String_equals(var$5, $rt_s(190)))
+                    if (!jl_String_equals(var$5, $rt_s(203)))
                         break a;
                     var$6 = 1;
                     break a;
@@ -11383,10 +11482,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break b;
                         }
-                        tj_Error_TypeMismatch($rt_s(28), $rt_s(100), $this.$lineNumber0);
+                        tj_Error_TypeMismatch($rt_s(30), $rt_s(102), $this.$lineNumber0);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(29), $rt_s(101), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(31), $rt_s(103), $this.$lineNumber0);
                     return null;
                 case 1:
                     $comparison = $left.$getType();
@@ -11440,10 +11539,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break b;
                         }
-                        tj_Error_TypeMismatch($rt_s(28), $rt_s(100), $this.$lineNumber0);
+                        tj_Error_TypeMismatch($rt_s(30), $rt_s(102), $this.$lineNumber0);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(29), $rt_s(101), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(31), $rt_s(103), $this.$lineNumber0);
                     return null;
                 case 2:
                     $comparison = $left.$getType();
@@ -11481,10 +11580,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break b;
                         }
-                        tj_Error_TypeMismatch($rt_s(102), $rt_s(28), $this.$lineNumber0);
+                        tj_Error_TypeMismatch($rt_s(104), $rt_s(30), $this.$lineNumber0);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber0);
                     return null;
                 case 3:
                     $comparison = $left.$getType();
@@ -11522,10 +11621,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break b;
                         }
-                        tj_Error_TypeMismatch($rt_s(102), $rt_s(28), $this.$lineNumber0);
+                        tj_Error_TypeMismatch($rt_s(104), $rt_s(30), $this.$lineNumber0);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber0);
                     return null;
                 case 4:
                     $comparison = $left.$getType();
@@ -11563,10 +11662,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break b;
                         }
-                        tj_Error_TypeMismatch($rt_s(102), $rt_s(28), $this.$lineNumber0);
+                        tj_Error_TypeMismatch($rt_s(104), $rt_s(30), $this.$lineNumber0);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber0);
                     return null;
                 case 5:
                     $comparison = $left.$getType();
@@ -11604,10 +11703,10 @@
                             $result = tj_JavaishBoolean__init_(jl_Boolean_valueOf(1));
                             break b;
                         }
-                        tj_Error_TypeMismatch($rt_s(102), $rt_s(28), $this.$lineNumber0);
+                        tj_Error_TypeMismatch($rt_s(104), $rt_s(30), $this.$lineNumber0);
                         return null;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber0);
                     return null;
                 default:
             }
@@ -11624,22 +11723,22 @@
             var$6 = (-1);
             switch (jl_String_hashCode(var$5)) {
                 case 2459034:
-                    if (!jl_String_equals(var$5, $rt_s(184)))
+                    if (!jl_String_equals(var$5, $rt_s(197)))
                         break a;
                     var$6 = 0;
                     break a;
                 case 73363536:
-                    if (!jl_String_equals(var$5, $rt_s(186)))
+                    if (!jl_String_equals(var$5, $rt_s(199)))
                         break a;
                     var$6 = 3;
                     break a;
                 case 1436456484:
-                    if (!jl_String_equals(var$5, $rt_s(191)))
+                    if (!jl_String_equals(var$5, $rt_s(204)))
                         break a;
                     var$6 = 1;
                     break a;
                 case 2016833657:
-                    if (!jl_String_equals(var$5, $rt_s(193)))
+                    if (!jl_String_equals(var$5, $rt_s(206)))
                         break a;
                     var$6 = 2;
                     break a;
@@ -11652,7 +11751,7 @@
                     var$6 = $total instanceof tj_JavaishString;
                     if (var$6) {
                         if (!($val2 instanceof tj_JavaishString)) {
-                            tj_Error_TypeMismatch($rt_s(29), $val2.$typeString(), $this.$lineNumber0);
+                            tj_Error_TypeMismatch($rt_s(31), $val2.$typeString(), $this.$lineNumber0);
                             return null;
                         }
                         $result = new tj_JavaishString;
@@ -11665,7 +11764,7 @@
                     }
                     if ($val2 instanceof tj_JavaishString) {
                         if (!var$6) {
-                            tj_Error_TypeMismatch($rt_s(29), $total.$typeString(), $this.$lineNumber0);
+                            tj_Error_TypeMismatch($rt_s(31), $total.$typeString(), $this.$lineNumber0);
                             return null;
                         }
                         $result = new tj_JavaishString;
@@ -11715,7 +11814,7 @@
                         $result = tj_JavaishFloat__init_(jl_Integer_intValue(tj_JavaishInt_getValue($total)) * jl_Float_floatValue(tj_JavaishFloat_getValue($val2)));
                         break b;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber0);
                     return null;
                 case 2:
                     if (!($total instanceof tj_JavaishString) && !($val2 instanceof tj_JavaishString)) {
@@ -11738,7 +11837,7 @@
                         $result = tj_JavaishFloat__init_(jl_Integer_intValue(tj_JavaishInt_getValue($total)) / jl_Float_floatValue(tj_JavaishFloat_getValue($val2)));
                         break b;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber0);
                     return null;
                 case 3:
                     if (!($total instanceof tj_JavaishString) && !($val2 instanceof tj_JavaishString)) {
@@ -11761,7 +11860,7 @@
                         $result = tj_JavaishFloat__init_(jl_Integer_intValue(tj_JavaishInt_getValue($total)) - jl_Float_floatValue(tj_JavaishFloat_getValue($val2)));
                         break b;
                     }
-                    tj_Error_TypeMismatch($rt_s(102), $rt_s(29), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(104), $rt_s(31), $this.$lineNumber0);
                     return null;
                 default:
             }
@@ -11784,7 +11883,7 @@
             $value = jl_String_valueOf($declaration.$value15);
             var$9 = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_(var$9);
-            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$9, $rt_s(130)), $list), $rt_s(131)), var$7), $rt_s(132)), $value);
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$9, $rt_s(132)), $list), $rt_s(133)), var$7), $rt_s(134)), $value);
             ji_PrintStream_println($listVal, jl_AbstractStringBuilder_toString(var$9));
             $value = $declaration.$value15;
             $ptr = 1;
@@ -11895,7 +11994,7 @@
             $result = $tmp;
             if ($result === null)
                 return;
-            if ($result.$value22.$value23 != 1)
+            if ($result.$value23.$value24 != 1)
                 return;
             $result = $whileStmt.$body;
             var$6 = 0;
@@ -11914,7 +12013,7 @@
             $result = $tmp;
             if ($result === null)
                 return;
-            if ($result.$value22.$value23 != 1)
+            if ($result.$value23.$value24 != 1)
                 return;
             $result = $whileStmt.$body;
             var$6 = 0;
@@ -11947,7 +12046,7 @@
             $listValI = $intList.$getType();
             tj_JavaishVal$JavaishType_$callClinit();
             if ($listValI !== tj_JavaishVal$JavaishType_LIST) {
-                tj_Error_TypeMismatch($rt_s(99), $intList.$typeString(), $this.$lineNumber0);
+                tj_Error_TypeMismatch($rt_s(101), $intList.$typeString(), $this.$lineNumber0);
                 return;
             }
             a: {
@@ -11959,9 +12058,9 @@
                         return;
                     }
                     if (!$isGlobal)
-                        tj_Variables_addVariable($localVariables, $tempVarName, tj_JavaishVal$JavaishType_STRING, tj_JavaishString__init_0($rt_s(8)), $this.$lineNumber0);
+                        tj_Variables_addVariable($localVariables, $tempVarName, tj_JavaishVal$JavaishType_STRING, tj_JavaishString__init_0($rt_s(10)), $this.$lineNumber0);
                     else
-                        tj_Variables_addVariable($this.$globalVariables0, $tempVarName, tj_JavaishVal$JavaishType_STRING, tj_JavaishString__init_0($rt_s(8)), $this.$lineNumber0);
+                        tj_Variables_addVariable($this.$globalVariables0, $tempVarName, tj_JavaishVal$JavaishType_STRING, tj_JavaishString__init_0($rt_s(10)), $this.$lineNumber0);
                     $intList = ju_AbstractList_iterator($listVals);
                     if (!ju_AbstractList$1_hasNext($intList))
                         break a;
@@ -12022,7 +12121,7 @@
                     continue main;
                 }
                 if ($list.$getType() !== tj_JavaishVal$JavaishType_FLOATLIST) {
-                    tj_Error_TypeMismatch($rt_s(99), $intList.$typeString(), $this.$lineNumber0);
+                    tj_Error_TypeMismatch($rt_s(101), $intList.$typeString(), $this.$lineNumber0);
                     return;
                 }
                 $listVals = $list.$value5;
@@ -12136,7 +12235,7 @@
             $result = $tmp;
             if ($result === null)
                 return;
-            if ($result.$value22.$value23 != 1)
+            if ($result.$value23.$value24 != 1)
                 return;
             $incVal2 = $forwhenStmt.$body;
             var$8 = 0;
@@ -12162,7 +12261,7 @@
             $incVal2 = $incResult.$getType();
             tj_JavaishVal$JavaishType_$callClinit();
             if ($incVal2 !== tj_JavaishVal$JavaishType_INT) {
-                tj_Error_TypeMismatch($rt_s(30), $incResult.$typeString(), $this.$lineNumber0);
+                tj_Error_TypeMismatch($rt_s(32), $incResult.$typeString(), $this.$lineNumber0);
                 return;
             }
             tj_Variables_setVariableValue($localVariables, $incVarName, $incResult, $this.$lineNumber0);
@@ -12175,7 +12274,7 @@
             $result = $tmp;
             if ($result === null)
                 return;
-            if ($result.$value22.$value23 != 1)
+            if ($result.$value23.$value24 != 1)
                 return;
             $incVal2 = $forwhenStmt.$body;
             var$8 = 0;
@@ -12184,6 +12283,66 @@
         default: $rt_invalidPointer();
         }}
         $rt_nativeThread().push($this, $forwhenStmt, $localVariables, $isGlobal, $incVarName, $condition, $result, $incVal2, var$8, $incVal, $incExpression, $incResult, $ptr);
+    }
+    function tj_Interpreter_evalShowMsgBox($this, $showMsgStmt, $localVariables, $isGlobal) {
+        var $expression, $value, var$6, $e, $$je, $ptr, $tmp;
+        $ptr = 0;
+        if ($rt_resuming()) {
+            var $thread = $rt_nativeThread();
+            $ptr = $thread.pop();$e = $thread.pop();var$6 = $thread.pop();$value = $thread.pop();$expression = $thread.pop();$isGlobal = $thread.pop();$localVariables = $thread.pop();$showMsgStmt = $thread.pop();$this = $thread.pop();
+        }
+        main: while (true) { switch ($ptr) {
+        case 0:
+            $expression = $showMsgStmt.$value16;
+            $ptr = 1;
+        case 1:
+            $tmp = tj_Interpreter_evalExpression($this, $expression, $localVariables, $isGlobal);
+            if ($rt_suspending()) {
+                break main;
+            }
+            $value = $tmp;
+            if ($value === null)
+                return;
+            try {
+                juc_TimeUnit_$callClinit();
+                $showMsgStmt = juc_TimeUnit_MILLISECONDS;
+                var$6 = Long_fromInt(100);
+                $ptr = 2;
+                continue main;
+            } catch ($$e) {
+                $$je = $rt_wrapException($$e);
+                if ($$je instanceof jl_InterruptedException) {
+                    $e = $$je;
+                } else {
+                    throw $$e;
+                }
+            }
+            $e.$printStackTrace();
+            $rt_globals.alert($rt_ustr(($value.$getValue8()).$toString()));
+            return;
+        case 2:
+            a: {
+                try {
+                    juc_TimeUnit_sleep($showMsgStmt, var$6);
+                    if ($rt_suspending()) {
+                        break main;
+                    }
+                    break a;
+                } catch ($$e) {
+                    $$je = $rt_wrapException($$e);
+                    if ($$je instanceof jl_InterruptedException) {
+                        $e = $$je;
+                    } else {
+                        throw $$e;
+                    }
+                }
+                $e.$printStackTrace();
+            }
+            $rt_globals.alert($rt_ustr(($value.$getValue8()).$toString()));
+            return;
+        default: $rt_invalidPointer();
+        }}
+        $rt_nativeThread().push($this, $showMsgStmt, $localVariables, $isGlobal, $expression, $value, var$6, $e, $ptr);
     }
     function tj_Interpreter_evalShowInputBox($this, $showInputBoxElmt, $localVariables, $isGlobal) {
         var $value, $expression, var$6, $e, $$je, $ptr, $tmp;
@@ -12339,7 +12498,7 @@
             $index = $tmp;
             tj_JavaishVal$JavaishType_$callClinit();
             if ($varType !== tj_JavaishVal$JavaishType_STRINGLIST && $varType !== tj_JavaishVal$JavaishType_BOOLEANLIST && $varType !== tj_JavaishVal$JavaishType_INTLIST && $varType !== tj_JavaishVal$JavaishType_FLOATLIST) {
-                tj_Error_TypeMismatch($rt_s(99), $varType.$name0, $this.$lineNumber0);
+                tj_Error_TypeMismatch($rt_s(101), $varType.$name0, $this.$lineNumber0);
                 return;
             }
             $varType = tj_Variables_isVariable($localVariables, $name) ? (tj_Variables_getList($localVariables, $name)).$list : (tj_Variables_getList($this.$globalVariables0, $name)).$list;
@@ -12348,7 +12507,7 @@
                 return;
             }
             if ($index.$getType() !== tj_JavaishVal$JavaishType_INT) {
-                tj_Error_TypeMismatch($rt_s(30), $index.$typeString(), $this.$lineNumber0);
+                tj_Error_TypeMismatch($rt_s(32), $index.$typeString(), $this.$lineNumber0);
                 return;
             }
             $indexVal = (tj_JavaishInt_getValue($index)).$value;
@@ -12375,7 +12534,7 @@
         case 0:
             $name = $removeFromStmt.$listName0;
             $varType = tj_Variables_getVariableType($this.$globalVariables0, $name);
-            $removeFromStmt = $removeFromStmt.$value20;
+            $removeFromStmt = $removeFromStmt.$value21;
             $ptr = 1;
         case 1:
             $tmp = tj_Interpreter_evalExpression($this, $removeFromStmt, $localVariables, $isGlobal);
@@ -12397,7 +12556,7 @@
             $varType = $list.$listString();
             $value = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($value);
-            jl_StringBuilder_append(jl_StringBuilder_append($value, $rt_s(150)), $varType);
+            jl_StringBuilder_append(jl_StringBuilder_append($value, $rt_s(159)), $varType);
             ji_PrintStream_println($removeFromStmt, jl_AbstractStringBuilder_toString($value));
             if (tj_Variables_isVariable($localVariables, $name)) {
                 tj_Variables_setVariableValue($localVariables, $name, tj_JavaishListVal__init_($list), $this.$lineNumber0);
@@ -12420,7 +12579,7 @@
         case 0:
             $name = $removeAllFromStmt.$listName1;
             $varType = tj_Variables_getVariableType($this.$globalVariables0, $name);
-            $removeAllFromStmt = $removeAllFromStmt.$value21;
+            $removeAllFromStmt = $removeAllFromStmt.$value22;
             $ptr = 1;
         case 1:
             $tmp = tj_Interpreter_evalExpression($this, $removeAllFromStmt, $localVariables, $isGlobal);
@@ -12442,7 +12601,7 @@
             $varType = $list.$listString();
             $value = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($value);
-            jl_StringBuilder_append(jl_StringBuilder_append($value, $rt_s(150)), $varType);
+            jl_StringBuilder_append(jl_StringBuilder_append($value, $rt_s(159)), $varType);
             ji_PrintStream_println($removeAllFromStmt, jl_AbstractStringBuilder_toString($value));
             if (tj_Variables_isVariable($localVariables, $name)) {
                 tj_Variables_setVariableValue($localVariables, $name, tj_JavaishListVal__init_($list), $this.$lineNumber0);
@@ -12462,22 +12621,22 @@
             $i = (-1);
             switch (jl_String_hashCode($listInnerType)) {
                 case 2459034:
-                    if (!jl_String_equals($listInnerType, $rt_s(184)))
+                    if (!jl_String_equals($listInnerType, $rt_s(197)))
                         break a;
                     $i = 0;
                     break a;
                 case 269804471:
-                    if (!jl_String_equals($listInnerType, $rt_s(163)))
+                    if (!jl_String_equals($listInnerType, $rt_s(175)))
                         break a;
                     $i = 1;
                     break a;
                 case 1584208430:
-                    if (!jl_String_equals($listInnerType, $rt_s(165)))
+                    if (!jl_String_equals($listInnerType, $rt_s(177)))
                         break a;
                     $i = 2;
                     break a;
                 case 1735465895:
-                    if (!jl_String_equals($listInnerType, $rt_s(167)))
+                    if (!jl_String_equals($listInnerType, $rt_s(180)))
                         break a;
                     $i = 3;
                     break a;
@@ -12630,7 +12789,7 @@
                     $list = jl_String_valueOf(tj_JavaishInt_getType($intVal));
                     $index = ju_ArrayList_size($intListVal);
                     $val = jl_StringBuilder__init_();
-                    jl_StringBuilder_append0(jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append($val, $rt_s(151)), $list), 32), $index);
+                    jl_StringBuilder_append0(jl_StringBuilder_append2(jl_StringBuilder_append(jl_StringBuilder_append($val, $rt_s(163)), $list), 32), $index);
                     ji_PrintStream_println($operation, jl_StringBuilder_toString($val));
                     break b;
                 case 3:
@@ -12709,22 +12868,22 @@
             var$3 = (-1);
             switch (jl_String_hashCode(var$2)) {
                 case -1277621484:
-                    if (!jl_String_equals(var$2, $rt_s(194)))
+                    if (!jl_String_equals(var$2, $rt_s(207)))
                         break a;
                     var$3 = 1;
                     break a;
                 case 64641:
-                    if (!jl_String_equals(var$2, $rt_s(195)))
+                    if (!jl_String_equals(var$2, $rt_s(208)))
                         break a;
                     var$3 = 0;
                     break a;
                 case 1436456484:
-                    if (!jl_String_equals(var$2, $rt_s(191)))
+                    if (!jl_String_equals(var$2, $rt_s(204)))
                         break a;
                     var$3 = 2;
                     break a;
                 case 2016833657:
-                    if (!jl_String_equals(var$2, $rt_s(193)))
+                    if (!jl_String_equals(var$2, $rt_s(206)))
                         break a;
                     var$3 = 3;
                     break a;
@@ -13220,7 +13379,7 @@
         $m = ju_HashMap_getEntry($this, $key);
         if ($m === null)
             return null;
-        return $m.$value24;
+        return $m.$value25;
     }
     function ju_HashMap_getEntry($this, $key) {
         var $m, $hash;
@@ -13278,8 +13437,8 @@
                     ju_HashMap_rehash($this);
             }
         }
-        $key = var$3.$value24;
-        var$3.$value24 = $value;
+        $key = var$3.$value25;
+        var$3.$value25 = $value;
         return $key;
     }
     function ju_HashMap_createHashedEntry($this, $key, $index, $hash) {
@@ -13287,7 +13446,7 @@
         $entry = new ju_HashMap$HashEntry;
         var$5 = null;
         $entry.$key = $key;
-        $entry.$value24 = var$5;
+        $entry.$value25 = var$5;
         $entry.$origKeyHash = $hash;
         var$6 = $this.$elementData.data;
         $entry.$next0 = var$6[$index];
@@ -13520,8 +13679,8 @@
                         var$2 = $o;
                         if (otji_JSWrapper_wrappers !== null) {
                             var$3 = $rt_str(typeof otji_JSWrapper_javaToJs(var$2));
-                            if (!jl_String_equals(var$3, $rt_s(196)) && !jl_String_equals(var$3, $rt_s(56))) {
-                                if (jl_String_equals(var$3, $rt_s(197))) {
+                            if (!jl_String_equals(var$3, $rt_s(209)) && !jl_String_equals(var$3, $rt_s(58))) {
+                                if (jl_String_equals(var$3, $rt_s(210))) {
                                     $o = otji_JSWrapper_stringWrappers.get(var$2);
                                     $o = (typeof otji_JSWrapper_javaToJs($o) === 'undefined' ? 1 : 0) ? void 0 : $o.deref();
                                     if (!(typeof otji_JSWrapper_javaToJs($o) === 'undefined' ? 1 : 0)) {
@@ -13534,7 +13693,7 @@
                                     otji_JSWrapper_register$js_body$_4(otji_JSWrapper_stringFinalizationRegistry, var$3, var$2);
                                     break a;
                                 }
-                                if (!jl_String_equals(var$3, $rt_s(198)))
+                                if (!jl_String_equals(var$3, $rt_s(211)))
                                     break b;
                                 else {
                                     $o = otji_JSWrapper_numberWrappers.get(var$2);
@@ -13613,6 +13772,7 @@
     var tj_Statements$StmtType_REMOVEAT = null;
     var tj_Statements$StmtType_REMOVEFROM = null;
     var tj_Statements$StmtType_REMOVEALLFROM = null;
+    var tj_Statements$StmtType_COMMENT = null;
     var tj_Statements$StmtType_$VALUES = null;
     function tj_Statements$StmtType_$callClinit() {
         tj_Statements$StmtType_$callClinit = $rt_eraseClinit(tj_Statements$StmtType);
@@ -13633,29 +13793,30 @@
     }
     function tj_Statements$StmtType__clinit_() {
         var var$1;
-        tj_Statements$StmtType_FUNCTION = tj_Statements$StmtType__init_($rt_s(153), 0);
-        tj_Statements$StmtType_IF = tj_Statements$StmtType__init_($rt_s(155), 1);
-        tj_Statements$StmtType_WHILE = tj_Statements$StmtType__init_($rt_s(161), 2);
-        tj_Statements$StmtType_FOREACH = tj_Statements$StmtType__init_($rt_s(158), 3);
-        tj_Statements$StmtType_RETURN = tj_Statements$StmtType__init_($rt_s(154), 4);
-        tj_Statements$StmtType_CALL = tj_Statements$StmtType__init_($rt_s(156), 5);
-        tj_Statements$StmtType_ASSIGNMENT = tj_Statements$StmtType__init_($rt_s(164), 6);
-        tj_Statements$StmtType_DECLARATION = tj_Statements$StmtType__init_($rt_s(162), 7);
-        tj_Statements$StmtType_VARIABLE = tj_Statements$StmtType__init_($rt_s(177), 8);
-        tj_Statements$StmtType_MUTATION = tj_Statements$StmtType__init_($rt_s(166), 9);
-        tj_Statements$StmtType_END = tj_Statements$StmtType__init_($rt_s(199), 10);
-        tj_Statements$StmtType_ELSE = tj_Statements$StmtType__init_($rt_s(157), 11);
-        tj_Statements$StmtType_CLASS = tj_Statements$StmtType__init_($rt_s(200), 12);
-        tj_Statements$StmtType_ELSEIF = tj_Statements$StmtType__init_($rt_s(169), 13);
-        tj_Statements$StmtType_FORWHEN = tj_Statements$StmtType__init_($rt_s(159), 14);
-        tj_Statements$StmtType_PRINT = tj_Statements$StmtType__init_($rt_s(160), 15);
-        tj_Statements$StmtType_SHOWMSGBOX = tj_Statements$StmtType__init_($rt_s(168), 16);
-        tj_Statements$StmtType_REMOVEAT = tj_Statements$StmtType__init_($rt_s(163), 17);
-        tj_Statements$StmtType_REMOVEFROM = tj_Statements$StmtType__init_($rt_s(165), 18);
-        var$1 = tj_Statements$StmtType__init_($rt_s(167), 19);
-        tj_Statements$StmtType_REMOVEALLFROM = var$1;
+        tj_Statements$StmtType_FUNCTION = tj_Statements$StmtType__init_($rt_s(165), 0);
+        tj_Statements$StmtType_IF = tj_Statements$StmtType__init_($rt_s(167), 1);
+        tj_Statements$StmtType_WHILE = tj_Statements$StmtType__init_($rt_s(173), 2);
+        tj_Statements$StmtType_FOREACH = tj_Statements$StmtType__init_($rt_s(170), 3);
+        tj_Statements$StmtType_RETURN = tj_Statements$StmtType__init_($rt_s(166), 4);
+        tj_Statements$StmtType_CALL = tj_Statements$StmtType__init_($rt_s(168), 5);
+        tj_Statements$StmtType_ASSIGNMENT = tj_Statements$StmtType__init_($rt_s(176), 6);
+        tj_Statements$StmtType_DECLARATION = tj_Statements$StmtType__init_($rt_s(174), 7);
+        tj_Statements$StmtType_VARIABLE = tj_Statements$StmtType__init_($rt_s(190), 8);
+        tj_Statements$StmtType_MUTATION = tj_Statements$StmtType__init_($rt_s(178), 9);
+        tj_Statements$StmtType_END = tj_Statements$StmtType__init_($rt_s(212), 10);
+        tj_Statements$StmtType_ELSE = tj_Statements$StmtType__init_($rt_s(169), 11);
+        tj_Statements$StmtType_CLASS = tj_Statements$StmtType__init_($rt_s(213), 12);
+        tj_Statements$StmtType_ELSEIF = tj_Statements$StmtType__init_($rt_s(182), 13);
+        tj_Statements$StmtType_FORWHEN = tj_Statements$StmtType__init_($rt_s(171), 14);
+        tj_Statements$StmtType_PRINT = tj_Statements$StmtType__init_($rt_s(172), 15);
+        tj_Statements$StmtType_SHOWMSGBOX = tj_Statements$StmtType__init_($rt_s(181), 16);
+        tj_Statements$StmtType_REMOVEAT = tj_Statements$StmtType__init_($rt_s(175), 17);
+        tj_Statements$StmtType_REMOVEFROM = tj_Statements$StmtType__init_($rt_s(177), 18);
+        tj_Statements$StmtType_REMOVEALLFROM = tj_Statements$StmtType__init_($rt_s(180), 19);
+        var$1 = tj_Statements$StmtType__init_($rt_s(179), 20);
+        tj_Statements$StmtType_COMMENT = var$1;
         tj_Statements$StmtType_$VALUES = $rt_createArrayFromData(tj_Statements$StmtType, [tj_Statements$StmtType_FUNCTION, tj_Statements$StmtType_IF, tj_Statements$StmtType_WHILE, tj_Statements$StmtType_FOREACH, tj_Statements$StmtType_RETURN, tj_Statements$StmtType_CALL, tj_Statements$StmtType_ASSIGNMENT, tj_Statements$StmtType_DECLARATION, tj_Statements$StmtType_VARIABLE, tj_Statements$StmtType_MUTATION, tj_Statements$StmtType_END, tj_Statements$StmtType_ELSE, tj_Statements$StmtType_CLASS, tj_Statements$StmtType_ELSEIF,
-        tj_Statements$StmtType_FORWHEN, tj_Statements$StmtType_PRINT, tj_Statements$StmtType_SHOWMSGBOX, tj_Statements$StmtType_REMOVEAT, tj_Statements$StmtType_REMOVEFROM, var$1]);
+        tj_Statements$StmtType_FORWHEN, tj_Statements$StmtType_PRINT, tj_Statements$StmtType_SHOWMSGBOX, tj_Statements$StmtType_REMOVEAT, tj_Statements$StmtType_REMOVEFROM, tj_Statements$StmtType_REMOVEALLFROM, var$1]);
     }
     var otjc_JSWeakMap = $rt_classWithoutFields();
     var otjc_JSWeakRef = $rt_classWithoutFields();
@@ -13681,6 +13842,885 @@
     var jl_IllegalArgumentException = $rt_classWithoutFields(jl_RuntimeException);
     var otjc_JSObjects = $rt_classWithoutFields();
     var jl_StringIndexOutOfBoundsException = $rt_classWithoutFields(jl_IndexOutOfBoundsException);
+    function jur_Pattern() {
+        var a = this; jl_Object.call(a);
+        a.$lexemes = null;
+        a.$flags0 = 0;
+        a.$backRefs = null;
+        a.$needsBackRefReplacement = 0;
+        a.$globalGroupIndex = 0;
+        a.$compCount = 0;
+        a.$consCount = 0;
+        a.$start = null;
+    }
+    function jur_Pattern_pattern($this) {
+        return $this.$lexemes.$orig;
+    }
+    function jur_Pattern_processExpression($this, $ch, $newFlags, $last) {
+        var $children, $saveFlags, $saveChangedFlags, $fSet, $child, var$9;
+        $children = ju_ArrayList__init_();
+        $saveFlags = $this.$flags0;
+        $saveChangedFlags = 0;
+        if ($newFlags != $saveFlags)
+            $this.$flags0 = $newFlags;
+        a: {
+            switch ($ch) {
+                case -1073741784:
+                    $fSet = new jur_NonCapFSet;
+                    $newFlags = $this.$consCount + 1 | 0;
+                    $this.$consCount = $newFlags;
+                    jur_FSet__init_($fSet, $newFlags);
+                    break a;
+                case -536870872:
+                case -268435416:
+                    break;
+                case -134217688:
+                case -67108824:
+                    $fSet = new jur_BehindFSet;
+                    $newFlags = $this.$consCount + 1 | 0;
+                    $this.$consCount = $newFlags;
+                    jur_FSet__init_($fSet, $newFlags);
+                    break a;
+                case -33554392:
+                    $fSet = new jur_AtomicFSet;
+                    $newFlags = $this.$consCount + 1 | 0;
+                    $this.$consCount = $newFlags;
+                    jur_FSet__init_($fSet, $newFlags);
+                    break a;
+                default:
+                    $newFlags = $this.$globalGroupIndex + 1 | 0;
+                    $this.$globalGroupIndex = $newFlags;
+                    if ($last !== null)
+                        $fSet = jur_FSet__init_0($newFlags);
+                    else {
+                        $fSet = new jur_FinalSet;
+                        jur_FSet__init_($fSet, 0);
+                        $saveChangedFlags = 1;
+                    }
+                    $newFlags = $this.$globalGroupIndex;
+                    if ($newFlags <= (-1))
+                        break a;
+                    if ($newFlags >= 10)
+                        break a;
+                    $this.$backRefs.data[$newFlags] = $fSet;
+                    break a;
+            }
+            $fSet = new jur_AheadFSet;
+            jur_FSet__init_($fSet, (-1));
+        }
+        while (true) {
+            if (jur_Lexer_isLetter($this.$lexemes) && $this.$lexemes.$lookAhead == (-536870788)) {
+                $last = jur_CharClass__init_(jur_Pattern_hasFlag($this, 2), jur_Pattern_hasFlag($this, 64));
+                while (!jur_Lexer_isEmpty($this.$lexemes) && jur_Lexer_isLetter($this.$lexemes)) {
+                    $child = $this.$lexemes;
+                    var$9 = $child.$lookAhead;
+                    if (var$9 && var$9 != (-536870788) && var$9 != (-536870871))
+                        break;
+                    jur_CharClass_add($last, jur_Lexer_next($child));
+                    $child = $this.$lexemes;
+                    if ($child.$ch != (-536870788))
+                        continue;
+                    jur_Lexer_next($child);
+                }
+                $child = jur_Pattern_processRangeSet($this, $last);
+                $child.$setNext($fSet);
+            } else if ($this.$lexemes.$ch == (-536870788)) {
+                $child = jur_EmptySet__init_($fSet);
+                jur_Lexer_next($this.$lexemes);
+            } else {
+                $child = jur_Pattern_processSubExpression($this, $fSet);
+                $last = $this.$lexemes;
+                if ($last.$ch == (-536870788))
+                    jur_Lexer_next($last);
+            }
+            if ($child !== null)
+                ju_ArrayList_add($children, $child);
+            if (jur_Lexer_isEmpty($this.$lexemes))
+                break;
+            if ($this.$lexemes.$ch == (-536870871))
+                break;
+        }
+        if ($this.$lexemes.$lookBack == (-536870788))
+            ju_ArrayList_add($children, jur_EmptySet__init_($fSet));
+        if ($this.$flags0 != $saveFlags && !$saveChangedFlags) {
+            $this.$flags0 = $saveFlags;
+            $last = $this.$lexemes;
+            $last.$flags = $saveFlags;
+            $last.$lookAhead = $last.$ch;
+            $last.$lookAheadST = $last.$curST;
+            var$9 = $last.$curToc;
+            $last.$index = var$9 + 1 | 0;
+            $last.$lookAheadToc = var$9;
+            jur_Lexer_movePointer($last);
+        }
+        switch ($ch) {
+            case -1073741784:
+                break;
+            case -536870872:
+                $last = new jur_PositiveLookAhead;
+                jur_JointSet__init_($last, $children, $fSet);
+                return $last;
+            case -268435416:
+                $last = new jur_NegativeLookAhead;
+                jur_JointSet__init_($last, $children, $fSet);
+                return $last;
+            case -134217688:
+                $last = new jur_PositiveLookBehind;
+                jur_JointSet__init_($last, $children, $fSet);
+                return $last;
+            case -67108824:
+                $last = new jur_NegativeLookBehind;
+                jur_JointSet__init_($last, $children, $fSet);
+                return $last;
+            case -33554392:
+                $last = new jur_AtomicJointSet;
+                jur_JointSet__init_($last, $children, $fSet);
+                return $last;
+            default:
+                switch ($children.$size0) {
+                    case 0:
+                        break;
+                    case 1:
+                        return jur_SingleSet__init_(ju_ArrayList_get($children, 0), $fSet);
+                    default:
+                        return jur_JointSet__init_0($children, $fSet);
+                }
+                return jur_EmptySet__init_($fSet);
+        }
+        $last = new jur_NonCapJointSet;
+        jur_JointSet__init_($last, $children, $fSet);
+        return $last;
+    }
+    function jur_Pattern_processDecomposedChar($this) {
+        var $codePoints, $curSymb, $curSymbIndex, $codePointsHangul, var$5, var$6, $readCodePoints;
+        $codePoints = $rt_createIntArray(4);
+        $curSymb = (-1);
+        $curSymbIndex = (-1);
+        if (!jur_Lexer_isEmpty($this.$lexemes) && jur_Lexer_isLetter($this.$lexemes)) {
+            $codePointsHangul = $codePoints.data;
+            $curSymb = jur_Lexer_next($this.$lexemes);
+            $codePointsHangul[0] = $curSymb;
+            $curSymbIndex = $curSymb - 4352 | 0;
+        }
+        if ($curSymbIndex >= 0 && $curSymbIndex < 19) {
+            $codePointsHangul = $rt_createCharArray(3);
+            $codePoints = $codePointsHangul.data;
+            $codePoints[0] = $curSymb & 65535;
+            var$5 = $this.$lexemes;
+            var$6 = var$5.$ch;
+            $readCodePoints = var$6 - 4449 | 0;
+            if ($readCodePoints >= 0 && $readCodePoints < 21) {
+                $codePoints[1] = var$6 & 65535;
+                jur_Lexer_next(var$5);
+                var$5 = $this.$lexemes;
+                var$6 = var$5.$ch;
+                $curSymb = var$6 - 4519 | 0;
+                if ($curSymb >= 0 && $curSymb < 28) {
+                    $codePoints[2] = var$6 & 65535;
+                    jur_Lexer_next(var$5);
+                    return jur_HangulDecomposedCharSet__init_($codePointsHangul, 3);
+                }
+                return jur_HangulDecomposedCharSet__init_($codePointsHangul, 2);
+            }
+            if (!jur_Pattern_hasFlag($this, 2))
+                return jur_CharSet__init_($codePoints[0]);
+            if (jur_Pattern_hasFlag($this, 64))
+                return jur_UCICharSet__init_($codePoints[0]);
+            return jur_CICharSet__init_($codePoints[0]);
+        }
+        $codePointsHangul = $codePoints.data;
+        $curSymb = 1;
+        while ($curSymb < 4 && !jur_Lexer_isEmpty($this.$lexemes) && jur_Lexer_isLetter($this.$lexemes)) {
+            $readCodePoints = $curSymb + 1 | 0;
+            $codePointsHangul[$curSymb] = jur_Lexer_next($this.$lexemes);
+            $curSymb = $readCodePoints;
+        }
+        if ($curSymb == 1) {
+            $readCodePoints = $codePointsHangul[0];
+            if (!(jur_Lexer_singleDecompTable.$get1($readCodePoints) == jur_Lexer_singleDecompTableSize ? 0 : 1))
+                return jur_Pattern_processCharSet($this, $codePointsHangul[0]);
+        }
+        if (!jur_Pattern_hasFlag($this, 2))
+            return jur_DecomposedCharSet__init_($codePoints, $curSymb);
+        if (jur_Pattern_hasFlag($this, 64)) {
+            var$5 = new jur_UCIDecomposedCharSet;
+            jur_DecomposedCharSet__init_0(var$5, $codePoints, $curSymb);
+            return var$5;
+        }
+        var$5 = new jur_CIDecomposedCharSet;
+        jur_DecomposedCharSet__init_0(var$5, $codePoints, $curSymb);
+        return var$5;
+    }
+    function jur_Pattern_processSubExpression($this, $last) {
+        var $cur, $term, var$4, $next, var$6, var$7, var$8;
+        if (jur_Lexer_isLetter($this.$lexemes) && !jur_Lexer_isNextSpecial($this.$lexemes) && jur_Lexer_isLetter0($this.$lexemes.$lookAhead)) {
+            if (jur_Pattern_hasFlag($this, 128)) {
+                $cur = jur_Pattern_processDecomposedChar($this);
+                if (!jur_Lexer_isEmpty($this.$lexemes)) {
+                    $term = $this.$lexemes;
+                    var$4 = $term.$ch;
+                    if (!(var$4 == (-536870871) && !($last instanceof jur_FinalSet)) && var$4 != (-536870788) && !jur_Lexer_isLetter($term))
+                        $cur = jur_Pattern_processQuantifier($this, $last, $cur);
+                }
+            } else if (!jur_Lexer_isHighSurrogate($this.$lexemes) && !jur_Lexer_isLowSurrogate($this.$lexemes)) {
+                $next = new jl_StringBuffer;
+                jl_AbstractStringBuilder__init_($next);
+                while (!jur_Lexer_isEmpty($this.$lexemes) && jur_Lexer_isLetter($this.$lexemes) && !jur_Lexer_isHighSurrogate($this.$lexemes) && !jur_Lexer_isLowSurrogate($this.$lexemes)) {
+                    if (!(!jur_Lexer_isNextSpecial($this.$lexemes) && !$this.$lexemes.$lookAhead) && !(!jur_Lexer_isNextSpecial($this.$lexemes) && jur_Lexer_isLetter0($this.$lexemes.$lookAhead))) {
+                        var$6 = $this.$lexemes.$lookAhead;
+                        if (var$6 != (-536870871) && (var$6 & (-2147418113)) != (-2147483608) && var$6 != (-536870788) && var$6 != (-536870876))
+                            break;
+                    }
+                    var$4 = jur_Lexer_next($this.$lexemes);
+                    if (!jl_Character_isSupplementaryCodePoint(var$4))
+                        jl_AbstractStringBuilder_append($next, var$4 & 65535);
+                    else
+                        jl_AbstractStringBuilder_append2($next, jl_Character_toChars(var$4));
+                }
+                if (!jur_Pattern_hasFlag($this, 2)) {
+                    $cur = new jur_SequenceSet;
+                    jur_LeafSet__init_($cur);
+                    $cur.$string0 = jl_AbstractStringBuilder_toString($next);
+                    var$4 = $next.$length0;
+                    $cur.$charCount = var$4;
+                    $cur.$leftToRight = jur_SequenceSet$IntHash__init_(var$4);
+                    $cur.$rightToLeft = jur_SequenceSet$IntHash__init_($cur.$charCount);
+                    var$7 = 0;
+                    while (var$7 < ($cur.$charCount - 1 | 0)) {
+                        jur_SequenceSet$IntHash_put($cur.$leftToRight, jl_String_charAt($cur.$string0, var$7), ($cur.$charCount - var$7 | 0) - 1 | 0);
+                        jur_SequenceSet$IntHash_put($cur.$rightToLeft, jl_String_charAt($cur.$string0, ($cur.$charCount - var$7 | 0) - 1 | 0), ($cur.$charCount - var$7 | 0) - 1 | 0);
+                        var$7 = var$7 + 1 | 0;
+                    }
+                } else if (jur_Pattern_hasFlag($this, 64))
+                    $cur = jur_UCISequenceSet__init_($next);
+                else {
+                    $cur = new jur_CISequenceSet;
+                    jur_LeafSet__init_($cur);
+                    $cur.$string1 = jl_AbstractStringBuilder_toString($next);
+                    $cur.$charCount = $next.$length0;
+                }
+            } else
+                $cur = jur_Pattern_processQuantifier($this, $last, jur_Pattern_processTerminal($this, $last));
+        } else {
+            $term = $this.$lexemes;
+            if ($term.$ch != (-536870871))
+                $cur = jur_Pattern_processQuantifier($this, $last, jur_Pattern_processTerminal($this, $last));
+            else {
+                if ($last instanceof jur_FinalSet)
+                    $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $term.$orig, jur_Lexer_getIndex($term)));
+                $cur = jur_EmptySet__init_($last);
+            }
+        }
+        a: {
+            if (!jur_Lexer_isEmpty($this.$lexemes)) {
+                var$4 = $this.$lexemes.$ch;
+                if (!(var$4 == (-536870871) && !($last instanceof jur_FinalSet)) && var$4 != (-536870788)) {
+                    $next = jur_Pattern_processSubExpression($this, $last);
+                    if ($cur instanceof jur_LeafQuantifierSet && !($cur instanceof jur_CompositeQuantifierSet) && !($cur instanceof jur_GroupQuantifierSet) && !($cur instanceof jur_AltQuantifierSet)) {
+                        var$8 = $cur;
+                        if (!$next.$first(var$8.$innerSet)) {
+                            $cur = new jur_UnifiedQuantifierSet;
+                            jur_LeafQuantifierSet__init_($cur, var$8.$innerSet, var$8.$next2, var$8.$type2);
+                            $cur.$innerSet.$setNext($cur);
+                        }
+                    }
+                    if (($next.$getType3() & 65535) != 43)
+                        $cur.$setNext($next);
+                    else
+                        $cur.$setNext($next.$innerSet);
+                    break a;
+                }
+            }
+            if ($cur === null)
+                return null;
+            $cur.$setNext($last);
+        }
+        if (($cur.$getType3() & 65535) != 43)
+            return $cur;
+        return $cur.$innerSet;
+    }
+    function jur_Pattern_processQuantifier($this, $last, $term) {
+        var $q, $quant, $leaf, var$6, $q_0;
+        $q = $this.$lexemes;
+        $quant = $q.$ch;
+        if ($term !== null && !($term instanceof jur_LeafSet)) {
+            switch ($quant) {
+                case -2147483606:
+                    jur_Lexer_next($q);
+                    $q = new jur_PossessiveGroupQuantifierSet;
+                    jur_QuantifierSet__init_($q, $term, $last, $quant);
+                    jur_FSet_$callClinit();
+                    $term.$setNext(jur_FSet_posFSet);
+                    return $q;
+                case -2147483605:
+                    jur_Lexer_next($q);
+                    $q = new jur_PosPlusGroupQuantifierSet;
+                    jur_QuantifierSet__init_($q, $term, $last, (-2147483606));
+                    jur_FSet_$callClinit();
+                    $term.$setNext(jur_FSet_posFSet);
+                    return $q;
+                case -2147483585:
+                    jur_Lexer_next($q);
+                    $q = new jur_PosAltGroupQuantifierSet;
+                    jur_QuantifierSet__init_($q, $term, $last, (-536870849));
+                    jur_FSet_$callClinit();
+                    $term.$setNext(jur_FSet_posFSet);
+                    return $q;
+                case -2147483525:
+                    $leaf = new jur_PosCompositeGroupQuantifierSet;
+                    $q = jur_Lexer_nextSpecial($q);
+                    var$6 = $this.$compCount + 1 | 0;
+                    $this.$compCount = var$6;
+                    jur_CompositeGroupQuantifierSet__init_($leaf, $q, $term, $last, (-536870849), var$6);
+                    jur_FSet_$callClinit();
+                    $term.$setNext(jur_FSet_posFSet);
+                    return $leaf;
+                case -1073741782:
+                case -1073741781:
+                    jur_Lexer_next($q);
+                    $q = new jur_ReluctantGroupQuantifierSet;
+                    jur_QuantifierSet__init_($q, $term, $last, $quant);
+                    $term.$setNext($q);
+                    return $q;
+                case -1073741761:
+                    jur_Lexer_next($q);
+                    $q = new jur_RelAltGroupQuantifierSet;
+                    jur_QuantifierSet__init_($q, $term, $last, (-536870849));
+                    $term.$setNext($last);
+                    return $q;
+                case -1073741701:
+                    $q_0 = new jur_RelCompositeGroupQuantifierSet;
+                    $q = jur_Lexer_nextSpecial($q);
+                    $quant = $this.$compCount + 1 | 0;
+                    $this.$compCount = $quant;
+                    jur_CompositeGroupQuantifierSet__init_($q_0, $q, $term, $last, (-536870849), $quant);
+                    $term.$setNext($q_0);
+                    return $q_0;
+                case -536870870:
+                case -536870869:
+                    jur_Lexer_next($q);
+                    if ($term.$getType3() != (-2147483602)) {
+                        $q = new jur_GroupQuantifierSet;
+                        jur_QuantifierSet__init_($q, $term, $last, $quant);
+                    } else if (jur_Pattern_hasFlag($this, 32)) {
+                        $q = new jur_DotAllQuantifierSet;
+                        jur_QuantifierSet__init_($q, $term, $last, $quant);
+                    } else {
+                        $q = new jur_DotQuantifierSet;
+                        $leaf = jur_AbstractLineTerminator_getInstance($this.$flags0);
+                        jur_QuantifierSet__init_($q, $term, $last, $quant);
+                        $q.$lt = $leaf;
+                    }
+                    $term.$setNext($q);
+                    return $q;
+                case -536870849:
+                    jur_Lexer_next($q);
+                    $q = new jur_AltGroupQuantifierSet;
+                    jur_QuantifierSet__init_($q, $term, $last, (-536870849));
+                    $term.$setNext($last);
+                    return $q;
+                case -536870789:
+                    $q_0 = new jur_CompositeGroupQuantifierSet;
+                    $q = jur_Lexer_nextSpecial($q);
+                    $quant = $this.$compCount + 1 | 0;
+                    $this.$compCount = $quant;
+                    jur_CompositeGroupQuantifierSet__init_($q_0, $q, $term, $last, (-536870849), $quant);
+                    $term.$setNext($q_0);
+                    return $q_0;
+                default:
+            }
+            return $term;
+        }
+        $leaf = null;
+        if ($term !== null)
+            $leaf = $term;
+        switch ($quant) {
+            case -2147483606:
+            case -2147483605:
+                jur_Lexer_next($q);
+                $q = new jur_PossessiveQuantifierSet;
+                jur_LeafQuantifierSet__init_($q, $leaf, $last, $quant);
+                $leaf.$next2 = $q;
+                return $q;
+            case -2147483585:
+                jur_Lexer_next($q);
+                $term = new jur_PossessiveAltQuantifierSet;
+                jur_LeafQuantifierSet__init_($term, $leaf, $last, (-2147483585));
+                return $term;
+            case -2147483525:
+                $term = new jur_PossessiveCompositeQuantifierSet;
+                jur_CompositeQuantifierSet__init_($term, jur_Lexer_nextSpecial($q), $leaf, $last, (-2147483525));
+                return $term;
+            case -1073741782:
+            case -1073741781:
+                jur_Lexer_next($q);
+                $q = new jur_ReluctantQuantifierSet;
+                jur_LeafQuantifierSet__init_($q, $leaf, $last, $quant);
+                $leaf.$next2 = $q;
+                return $q;
+            case -1073741761:
+                jur_Lexer_next($q);
+                $term = new jur_ReluctantAltQuantifierSet;
+                jur_LeafQuantifierSet__init_($term, $leaf, $last, (-1073741761));
+                return $term;
+            case -1073741701:
+                $term = new jur_ReluctantCompositeQuantifierSet;
+                jur_CompositeQuantifierSet__init_($term, jur_Lexer_nextSpecial($q), $leaf, $last, (-1073741701));
+                return $term;
+            case -536870870:
+            case -536870869:
+                jur_Lexer_next($q);
+                $q = jur_LeafQuantifierSet__init_0($leaf, $last, $quant);
+                $leaf.$next2 = $q;
+                return $q;
+            case -536870849:
+                jur_Lexer_next($q);
+                $term = new jur_AltQuantifierSet;
+                jur_LeafQuantifierSet__init_($term, $leaf, $last, (-536870849));
+                return $term;
+            case -536870789:
+                return jur_CompositeQuantifierSet__init_0(jur_Lexer_nextSpecial($q), $leaf, $last, (-536870789));
+            default:
+        }
+        return $term;
+    }
+    function jur_Pattern_processTerminal($this, $last) {
+        var $term, var$3, var$4, $ch, $newFlags, $number, $negative, $cc;
+        $term = null;
+        var$3 = $last instanceof jur_FinalSet;
+        while (true) {
+            a: {
+                var$4 = $this.$lexemes;
+                $ch = var$4.$ch;
+                if (($ch & (-2147418113)) == (-2147483608)) {
+                    jur_Lexer_next(var$4);
+                    $newFlags = ($ch & 16711680) >> 16;
+                    $ch = $ch & (-16711681);
+                    if ($ch == (-16777176))
+                        $this.$flags0 = $newFlags;
+                    else {
+                        if ($ch != (-1073741784))
+                            $newFlags = $this.$flags0;
+                        $term = jur_Pattern_processExpression($this, $ch, $newFlags, $last);
+                        var$4 = $this.$lexemes;
+                        if (var$4.$ch != (-536870871))
+                            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), var$4.$orig, var$4.$curToc));
+                        jur_Lexer_next(var$4);
+                    }
+                } else {
+                    b: {
+                        c: {
+                            switch ($ch) {
+                                case -2147483599:
+                                case -2147483598:
+                                case -2147483597:
+                                case -2147483596:
+                                case -2147483595:
+                                case -2147483594:
+                                case -2147483593:
+                                case -2147483592:
+                                case -2147483591:
+                                    break c;
+                                case -2147483583:
+                                    break;
+                                case -2147483582:
+                                    jur_Lexer_next(var$4);
+                                    $term = jur_WordBoundary__init_(0);
+                                    break a;
+                                case -2147483577:
+                                    jur_Lexer_next(var$4);
+                                    $term = new jur_PreviousMatch;
+                                    jur_AbstractSet__init_($term);
+                                    break a;
+                                case -2147483558:
+                                    jur_Lexer_next(var$4);
+                                    $term = new jur_EOLSet;
+                                    $number = $this.$consCount + 1 | 0;
+                                    $this.$consCount = $number;
+                                    jur_EOLSet__init_($term, $number);
+                                    break a;
+                                case -2147483550:
+                                    jur_Lexer_next(var$4);
+                                    $term = jur_WordBoundary__init_(1);
+                                    break a;
+                                case -2147483526:
+                                    jur_Lexer_next(var$4);
+                                    $term = new jur_EOISet;
+                                    jur_AbstractSet__init_($term);
+                                    break a;
+                                case -536870876:
+                                    jur_Lexer_next(var$4);
+                                    $this.$consCount = $this.$consCount + 1 | 0;
+                                    if (jur_Pattern_hasFlag($this, 8)) {
+                                        if (jur_Pattern_hasFlag($this, 1)) {
+                                            $term = jur_UMultiLineEOLSet__init_($this.$consCount);
+                                            break a;
+                                        }
+                                        $term = jur_MultiLineEOLSet__init_($this.$consCount);
+                                        break a;
+                                    }
+                                    if (jur_Pattern_hasFlag($this, 1)) {
+                                        $term = jur_UEOLSet__init_($this.$consCount);
+                                        break a;
+                                    }
+                                    $term = jur_EOLSet__init_0($this.$consCount);
+                                    break a;
+                                case -536870866:
+                                    jur_Lexer_next(var$4);
+                                    if (jur_Pattern_hasFlag($this, 32)) {
+                                        $term = jur_DotAllSet__init_();
+                                        break a;
+                                    }
+                                    $term = jur_DotSet__init_(jur_AbstractLineTerminator_getInstance($this.$flags0));
+                                    break a;
+                                case -536870821:
+                                    jur_Lexer_next(var$4);
+                                    $negative = 0;
+                                    $term = $this.$lexemes;
+                                    if ($term.$ch == (-536870818)) {
+                                        $negative = 1;
+                                        jur_Lexer_next($term);
+                                    }
+                                    $term = jur_Pattern_processRangeSet($this, jur_Pattern_processRangeExpression($this, $negative));
+                                    $term.$setNext($last);
+                                    var$4 = $this.$lexemes;
+                                    if (var$4.$ch != (-536870819))
+                                        $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), var$4.$orig, var$4.$curToc));
+                                    jur_Lexer_setMode(var$4, 1);
+                                    jur_Lexer_next($this.$lexemes);
+                                    break a;
+                                case -536870818:
+                                    jur_Lexer_next(var$4);
+                                    $this.$consCount = $this.$consCount + 1 | 0;
+                                    if (!jur_Pattern_hasFlag($this, 8)) {
+                                        $term = new jur_SOLSet;
+                                        jur_AbstractSet__init_($term);
+                                        break a;
+                                    }
+                                    $term = new jur_MultiLineSOLSet;
+                                    var$4 = jur_AbstractLineTerminator_getInstance($this.$flags0);
+                                    jur_AbstractSet__init_($term);
+                                    $term.$lt0 = var$4;
+                                    break a;
+                                case 0:
+                                    $cc = var$4.$curST;
+                                    if ($cc !== null)
+                                        $term = jur_Pattern_processRangeSet($this, $cc);
+                                    else {
+                                        if (jur_Lexer_isEmpty(var$4)) {
+                                            $term = jur_EmptySet__init_($last);
+                                            break a;
+                                        }
+                                        $term = jur_CharSet__init_($ch & 65535);
+                                    }
+                                    jur_Lexer_next($this.$lexemes);
+                                    break a;
+                                default:
+                                    break b;
+                            }
+                            jur_Lexer_next(var$4);
+                            $term = new jur_SOLSet;
+                            jur_AbstractSet__init_($term);
+                            break a;
+                        }
+                        $number = ($ch & 2147483647) - 48 | 0;
+                        if ($this.$globalGroupIndex < $number)
+                            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), jur_Lexer_toString(var$4), jur_Lexer_getIndex($this.$lexemes)));
+                        jur_Lexer_next(var$4);
+                        $this.$consCount = $this.$consCount + 1 | 0;
+                        $term = !jur_Pattern_hasFlag($this, 2) ? jur_BackReferenceSet__init_($number, $this.$consCount) : jur_Pattern_hasFlag($this, 64) ? jur_UCIBackReferenceSet__init_($number, $this.$consCount) : jur_CIBackReferenceSet__init_($number, $this.$consCount);
+                        $this.$backRefs.data[$number].$isBackReferenced = 1;
+                        $this.$needsBackRefReplacement = 1;
+                        break a;
+                    }
+                    if ($ch >= 0 && !jur_Lexer_isSpecial(var$4)) {
+                        $term = jur_Pattern_processCharSet($this, $ch);
+                        jur_Lexer_next($this.$lexemes);
+                    } else if ($ch == (-536870788))
+                        $term = jur_EmptySet__init_($last);
+                    else {
+                        if ($ch != (-536870871)) {
+                            $last = new jur_PatternSyntaxException;
+                            $term = !jur_Lexer_isSpecial($this.$lexemes) ? jl_Character_toString($ch & 65535) : $this.$lexemes.$curST.$toString();
+                            var$4 = $this.$lexemes;
+                            jur_PatternSyntaxException__init_($last, $term, var$4.$orig, var$4.$curToc);
+                            $rt_throw($last);
+                        }
+                        if (var$3) {
+                            $last = new jur_PatternSyntaxException;
+                            var$4 = $this.$lexemes;
+                            jur_PatternSyntaxException__init_($last, $rt_s(10), var$4.$orig, var$4.$curToc);
+                            $rt_throw($last);
+                        }
+                        $term = jur_EmptySet__init_($last);
+                    }
+                }
+            }
+            if ($ch != (-16777176))
+                break;
+        }
+        return $term;
+    }
+    function jur_Pattern_processRangeExpression($this, $alt) {
+        var $res, $buffer, $intersection, $notClosed, $firstInClass, $cs, $cur, $negative, $$je;
+        $res = jur_CharClass__init_(jur_Pattern_hasFlag($this, 2), jur_Pattern_hasFlag($this, 64));
+        jur_AbstractCharClass_setNegative($res, $alt);
+        $buffer = (-1);
+        $intersection = 0;
+        $notClosed = 0;
+        $firstInClass = 1;
+        a: {
+            b: {
+                c: while (true) {
+                    if (jur_Lexer_isEmpty($this.$lexemes))
+                        break a;
+                    $cs = $this.$lexemes;
+                    $alt = $cs.$ch;
+                    $notClosed = $alt == (-536870819) && !$firstInClass ? 0 : 1;
+                    if (!$notClosed)
+                        break a;
+                    d: {
+                        switch ($alt) {
+                            case -536870874:
+                                if ($buffer >= 0)
+                                    jur_CharClass_add($res, $buffer);
+                                $buffer = jur_Lexer_next($this.$lexemes);
+                                $cs = $this.$lexemes;
+                                if ($cs.$ch != (-536870874)) {
+                                    $buffer = 38;
+                                    break d;
+                                }
+                                if ($cs.$lookAhead == (-536870821)) {
+                                    jur_Lexer_next($cs);
+                                    $intersection = 1;
+                                    $buffer = (-1);
+                                    break d;
+                                }
+                                jur_Lexer_next($cs);
+                                if ($firstInClass) {
+                                    $res = jur_Pattern_processRangeExpression($this, 0);
+                                    break d;
+                                }
+                                if ($this.$lexemes.$ch == (-536870819))
+                                    break d;
+                                jur_CharClass_intersection($res, jur_Pattern_processRangeExpression($this, 0));
+                                break d;
+                            case -536870867:
+                                if (!$firstInClass) {
+                                    $alt = $cs.$lookAhead;
+                                    if ($alt != (-536870819) && $alt != (-536870821) && $buffer >= 0) {
+                                        jur_Lexer_next($cs);
+                                        $cs = $this.$lexemes;
+                                        $cur = $cs.$ch;
+                                        if (jur_Lexer_isSpecial($cs))
+                                            break c;
+                                        if ($cur < 0) {
+                                            $negative = $this.$lexemes.$lookAhead;
+                                            if ($negative != (-536870819) && $negative != (-536870821) && $buffer >= 0)
+                                                break c;
+                                        }
+                                        e: {
+                                            try {
+                                                if (jur_Lexer_isLetter0($cur))
+                                                    break e;
+                                                $cur = $cur & 65535;
+                                                break e;
+                                            } catch ($$e) {
+                                                $$je = $rt_wrapException($$e);
+                                                if ($$je instanceof jl_Exception) {
+                                                    break b;
+                                                } else {
+                                                    throw $$e;
+                                                }
+                                            }
+                                        }
+                                        try {
+                                            jur_CharClass_add0($res, $buffer, $cur);
+                                        } catch ($$e) {
+                                            $$je = $rt_wrapException($$e);
+                                            if ($$je instanceof jl_Exception) {
+                                                break b;
+                                            } else {
+                                                throw $$e;
+                                            }
+                                        }
+                                        jur_Lexer_next($this.$lexemes);
+                                        $buffer = (-1);
+                                        break d;
+                                    }
+                                }
+                                if ($buffer >= 0)
+                                    jur_CharClass_add($res, $buffer);
+                                $buffer = 45;
+                                jur_Lexer_next($this.$lexemes);
+                                break d;
+                            case -536870821:
+                                if ($buffer >= 0) {
+                                    jur_CharClass_add($res, $buffer);
+                                    $buffer = (-1);
+                                }
+                                jur_Lexer_next($this.$lexemes);
+                                $negative = 0;
+                                $cs = $this.$lexemes;
+                                if ($cs.$ch == (-536870818)) {
+                                    jur_Lexer_next($cs);
+                                    $negative = 1;
+                                }
+                                if (!$intersection)
+                                    jur_CharClass_union($res, jur_Pattern_processRangeExpression($this, $negative));
+                                else
+                                    jur_CharClass_intersection($res, jur_Pattern_processRangeExpression($this, $negative));
+                                $intersection = 0;
+                                jur_Lexer_next($this.$lexemes);
+                                break d;
+                            case -536870819:
+                                if ($buffer >= 0)
+                                    jur_CharClass_add($res, $buffer);
+                                $buffer = 93;
+                                jur_Lexer_next($this.$lexemes);
+                                break d;
+                            case -536870818:
+                                if ($buffer >= 0)
+                                    jur_CharClass_add($res, $buffer);
+                                $buffer = 94;
+                                jur_Lexer_next($this.$lexemes);
+                                break d;
+                            case 0:
+                                if ($buffer >= 0)
+                                    jur_CharClass_add($res, $buffer);
+                                $cs = $this.$lexemes.$curST;
+                                if ($cs === null)
+                                    $buffer = 0;
+                                else {
+                                    jur_CharClass_add1($res, $cs);
+                                    $buffer = (-1);
+                                }
+                                jur_Lexer_next($this.$lexemes);
+                                break d;
+                            default:
+                        }
+                        if ($buffer >= 0)
+                            jur_CharClass_add($res, $buffer);
+                        $buffer = jur_Lexer_next($this.$lexemes);
+                    }
+                    $firstInClass = 0;
+                }
+                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), jur_Pattern_pattern($this), $this.$lexemes.$curToc));
+            }
+            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), jur_Pattern_pattern($this), $this.$lexemes.$curToc));
+        }
+        if (!$notClosed) {
+            if ($buffer >= 0)
+                jur_CharClass_add($res, $buffer);
+            return $res;
+        }
+        $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), jur_Pattern_pattern($this), $this.$lexemes.$curToc - 1 | 0));
+    }
+    function jur_Pattern_processCharSet($this, $ch) {
+        var $isSupplCodePoint, var$3, var$4;
+        $isSupplCodePoint = jl_Character_isSupplementaryCodePoint($ch);
+        if (jur_Pattern_hasFlag($this, 2)) {
+            a: {
+                if (!($ch >= 97 && $ch <= 122)) {
+                    if ($ch < 65)
+                        break a;
+                    if ($ch > 90)
+                        break a;
+                }
+                return jur_CICharSet__init_($ch & 65535);
+            }
+            if (jur_Pattern_hasFlag($this, 64) && $ch > 128) {
+                if ($isSupplCodePoint) {
+                    var$3 = new jur_UCISupplCharSet;
+                    jur_LeafSet__init_(var$3);
+                    var$3.$charCount = 2;
+                    var$3.$ch0 = jl_Character_toLowerCase0(jl_Character_toUpperCase0($ch));
+                    return var$3;
+                }
+                if (jur_Lexer_isLowSurrogate0($ch))
+                    return jur_LowSurrogateCharSet__init_($ch & 65535);
+                if (!jur_Lexer_isHighSurrogate0($ch))
+                    return jur_UCICharSet__init_($ch & 65535);
+                return jur_HighSurrogateCharSet__init_($ch & 65535);
+            }
+        }
+        if (!$isSupplCodePoint) {
+            if (jur_Lexer_isLowSurrogate0($ch))
+                return jur_LowSurrogateCharSet__init_($ch & 65535);
+            if (!jur_Lexer_isHighSurrogate0($ch))
+                return jur_CharSet__init_($ch & 65535);
+            return jur_HighSurrogateCharSet__init_($ch & 65535);
+        }
+        var$3 = new jur_SupplCharSet;
+        jur_LeafSet__init_(var$3);
+        var$3.$charCount = 2;
+        var$3.$ch1 = $ch;
+        var$4 = (jl_Character_toChars($ch)).data;
+        var$3.$high = var$4[0];
+        var$3.$low = var$4[1];
+        return var$3;
+    }
+    function jur_Pattern_processRangeSet($this, $charClass) {
+        var $surrogates, $lowHighSurrRangeSet, var$4;
+        if (!jur_AbstractCharClass_hasLowHighSurrogates($charClass)) {
+            if (!$charClass.$mayContainSupplCodepoints) {
+                if ($charClass.$hasUCI())
+                    return jur_UCIRangeSet__init_($charClass);
+                return jur_RangeSet__init_($charClass);
+            }
+            if (!$charClass.$hasUCI())
+                return jur_SupplRangeSet__init_($charClass);
+            $surrogates = new jur_UCISupplRangeSet;
+            jur_SupplRangeSet__init_0($surrogates, $charClass);
+            return $surrogates;
+        }
+        $surrogates = jur_AbstractCharClass_getSurrogates($charClass);
+        $lowHighSurrRangeSet = new jur_LowHighSurrogateRangeSet;
+        jur_AbstractSet__init_($lowHighSurrRangeSet);
+        $lowHighSurrRangeSet.$surrChars = $surrogates;
+        $lowHighSurrRangeSet.$alt = $surrogates.$alt0;
+        if (!$charClass.$mayContainSupplCodepoints) {
+            if ($charClass.$hasUCI())
+                return jur_CompositeRangeSet__init_(jur_UCIRangeSet__init_(jur_AbstractCharClass_getWithoutSurrogates($charClass)), $lowHighSurrRangeSet);
+            return jur_CompositeRangeSet__init_(jur_RangeSet__init_(jur_AbstractCharClass_getWithoutSurrogates($charClass)), $lowHighSurrRangeSet);
+        }
+        if (!$charClass.$hasUCI())
+            return jur_CompositeRangeSet__init_(jur_SupplRangeSet__init_(jur_AbstractCharClass_getWithoutSurrogates($charClass)), $lowHighSurrRangeSet);
+        $surrogates = new jur_CompositeRangeSet;
+        var$4 = new jur_UCISupplRangeSet;
+        jur_SupplRangeSet__init_0(var$4, jur_AbstractCharClass_getWithoutSurrogates($charClass));
+        jur_CompositeRangeSet__init_0($surrogates, var$4, $lowHighSurrRangeSet);
+        return $surrogates;
+    }
+    function jur_Pattern_getSupplement($ch) {
+        if ($ch >= 97 && $ch <= 122)
+            $ch = ($ch - 32 | 0) & 65535;
+        else if ($ch >= 65 && $ch <= 90)
+            $ch = ($ch + 32 | 0) & 65535;
+        return $ch;
+    }
+    function jur_Pattern_hasFlag($this, $flag) {
+        return ($this.$flags0 & $flag) != $flag ? 0 : 1;
+    }
+    function tj_CommentStmt() {
+        tj_Statements.call(this);
+        this.$comment = null;
+    }
+    function tj_CommentStmt__init_(var_0, var_1) {
+        var var_2 = new tj_CommentStmt();
+        tj_CommentStmt__init_0(var_2, var_0, var_1);
+        return var_2;
+    }
+    function tj_CommentStmt__init_0($this, $line, $comment) {
+        tj_Statements__init_($this);
+        $this.$line = $line;
+        $this.$comment = $comment;
+        tj_Statements$StmtType_$callClinit();
+        $this.$type = tj_Statements$StmtType_COMMENT;
+    }
+    function tj_CommentStmt_getLine($this) {
+        return $this.$line;
+    }
     var tj_Expression$ExpressionReturnType = $rt_classWithoutFields(jl_Enum);
     var tj_Expression$ExpressionReturnType_INT = null;
     var tj_Expression$ExpressionReturnType_FLOAT = null;
@@ -13707,15 +14747,15 @@
     }
     function tj_Expression$ExpressionReturnType__clinit_() {
         var var$1;
-        tj_Expression$ExpressionReturnType_INT = tj_Expression$ExpressionReturnType__init_($rt_s(22), 0);
-        tj_Expression$ExpressionReturnType_FLOAT = tj_Expression$ExpressionReturnType__init_($rt_s(23), 1);
-        tj_Expression$ExpressionReturnType_STRING = tj_Expression$ExpressionReturnType__init_($rt_s(21), 2);
-        tj_Expression$ExpressionReturnType_BOOL = tj_Expression$ExpressionReturnType__init_($rt_s(181), 3);
-        tj_Expression$ExpressionReturnType_NUMBER = tj_Expression$ExpressionReturnType__init_($rt_s(201), 4);
-        tj_Expression$ExpressionReturnType_INTLIST = tj_Expression$ExpressionReturnType__init_($rt_s(31), 5);
-        tj_Expression$ExpressionReturnType_FLOATLIST = tj_Expression$ExpressionReturnType__init_($rt_s(34), 6);
-        tj_Expression$ExpressionReturnType_STRINGLIST = tj_Expression$ExpressionReturnType__init_($rt_s(32), 7);
-        var$1 = tj_Expression$ExpressionReturnType__init_($rt_s(33), 8);
+        tj_Expression$ExpressionReturnType_INT = tj_Expression$ExpressionReturnType__init_($rt_s(24), 0);
+        tj_Expression$ExpressionReturnType_FLOAT = tj_Expression$ExpressionReturnType__init_($rt_s(25), 1);
+        tj_Expression$ExpressionReturnType_STRING = tj_Expression$ExpressionReturnType__init_($rt_s(23), 2);
+        tj_Expression$ExpressionReturnType_BOOL = tj_Expression$ExpressionReturnType__init_($rt_s(194), 3);
+        tj_Expression$ExpressionReturnType_NUMBER = tj_Expression$ExpressionReturnType__init_($rt_s(214), 4);
+        tj_Expression$ExpressionReturnType_INTLIST = tj_Expression$ExpressionReturnType__init_($rt_s(33), 5);
+        tj_Expression$ExpressionReturnType_FLOATLIST = tj_Expression$ExpressionReturnType__init_($rt_s(36), 6);
+        tj_Expression$ExpressionReturnType_STRINGLIST = tj_Expression$ExpressionReturnType__init_($rt_s(34), 7);
+        var$1 = tj_Expression$ExpressionReturnType__init_($rt_s(35), 8);
         tj_Expression$ExpressionReturnType_BOOLEANLIST = var$1;
         tj_Expression$ExpressionReturnType_$VALUES = $rt_createArrayFromData(tj_Expression$ExpressionReturnType, [tj_Expression$ExpressionReturnType_INT, tj_Expression$ExpressionReturnType_FLOAT, tj_Expression$ExpressionReturnType_STRING, tj_Expression$ExpressionReturnType_BOOL, tj_Expression$ExpressionReturnType_NUMBER, tj_Expression$ExpressionReturnType_INTLIST, tj_Expression$ExpressionReturnType_FLOATLIST, tj_Expression$ExpressionReturnType_STRINGLIST, var$1]);
     }
@@ -13775,7 +14815,7 @@
         if ($this.$goal) {
             $currentFunctionName = jl_System_out();
             $currentArrayName = jl_StringBuilder__init_();
-            jl_StringBuilder_append(jl_StringBuilder_append($currentArrayName, $rt_s(202)), $expression);
+            jl_StringBuilder_append(jl_StringBuilder_append($currentArrayName, $rt_s(215)), $expression);
             ji_PrintStream_println($currentFunctionName, jl_StringBuilder_toString($currentArrayName));
         }
         $iter = 0;
@@ -13796,9 +14836,9 @@
         tj_Expression$ExpressionReturnType_$callClinit();
         $castReturnType = tj_Expression$ExpressionReturnType_NUMBER;
         $elements = ju_ArrayList__init_();
-        $currentElement = $rt_s(8);
-        $currentFunctionName = $rt_s(8);
-        $currentArrayName = $rt_s(8);
+        $currentElement = $rt_s(10);
+        $currentFunctionName = $rt_s(10);
+        $currentArrayName = $rt_s(10);
         $currentExpressionDepth = 0;
         $currentCastDepth = 0;
         $currentFunctionDepth = 0;
@@ -13824,7 +14864,7 @@
                         $readingFunction = 1;
                         $readingFunctionArgs = 1;
                         $currentFunctionName = $currentElement;
-                        $currentElement = $rt_s(8);
+                        $currentElement = $rt_s(10);
                     } else if ($readingCast) {
                         $currentCastDepth = $currentCastDepth + 1 | 0;
                         $arrayElmt = jl_StringBuilder__init_();
@@ -13852,7 +14892,7 @@
                             } else {
                                 $readingExpression = 0;
                                 ju_ArrayList_add($elements, tj_ExpressionElmt__init_(tj_Expression__init_1(tj_Expression_parseExpression($this, $currentElement, $column + $i | 0), tj_Expression$ExpressionReturnType_NUMBER, $this.$line0)));
-                                $currentElement = $rt_s(8);
+                                $currentElement = $rt_s(10);
                             }
                         } else if ($readingCast) {
                             $currentCastDepth = $currentCastDepth + (-1) | 0;
@@ -13863,7 +14903,7 @@
                             } else {
                                 $readingCast = 0;
                                 ju_ArrayList_add($elements, tj_CastElmt__init_($castType, tj_Expression__init_1(tj_Expression_parseExpression($this, $currentElement, $column + $i | 0), $castReturnType, $this.$line0)));
-                                $currentElement = $rt_s(8);
+                                $currentElement = $rt_s(10);
                             }
                         } else if (!$readingArrayElmtArgs) {
                             $arrayElmt = jl_StringBuilder__init_();
@@ -13883,10 +14923,10 @@
                                 $newFunctionArgs = jl_StringBuilder_toString($arrayElmt);
                                 $arrayElmt = jl_System_out();
                                 $index = jl_StringBuilder__init_();
-                                jl_StringBuilder_append(jl_StringBuilder_append($index, $rt_s(203)), $newFunctionArgs);
+                                jl_StringBuilder_append(jl_StringBuilder_append($index, $rt_s(216)), $newFunctionArgs);
                                 ji_PrintStream_println($arrayElmt, jl_StringBuilder_toString($index));
                                 ju_ArrayList_add($elements, tj_ListValElmt__init_($currentArrayName, tj_Expression__init_1(tj_Expression_parseExpression($this, $newFunctionArgs, $column + $i | 0), tj_Expression$ExpressionReturnType_NUMBER, $this.$line0)));
-                                $currentElement = $rt_s(8);
+                                $currentElement = $rt_s(10);
                             }
                         }
                     } else {
@@ -13898,7 +14938,7 @@
                                 $readingString = 0;
                                 if (!$readingArray)
                                     ju_ArrayList_add($elements, tj_StringElmt__init_($currentElement));
-                                $currentElement = $rt_s(8);
+                                $currentElement = $rt_s(10);
                                 $lastReadString = 1;
                             }
                         } else if (!var$37 && $readingFunction) {
@@ -13933,14 +14973,14 @@
                                     break b;
                                 if ($nextChar == 62)
                                     break b;
-                                ji_PrintStream_println(jl_System_out(), $rt_s(204));
+                                ji_PrintStream_println(jl_System_out(), $rt_s(217));
                                 $readingNot = 1;
                                 break a;
                             }
                             if ($c != 32) {
                                 if ($readingFunction && $readingFunctionArgs && $c == 44 && !$readingString) {
                                     ju_ArrayList_add($functionArgs, tj_Expression__init_1(tj_Expression_parseExpression($this, $currentElement, $column + $i | 0), tj_Expression$ExpressionReturnType_NUMBER, $this.$line0));
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                 } else if ($readingFunction && !var$34 && !$readingString) {
                                     $currentFunctionDepth = $currentFunctionDepth + (-1) | 0;
                                     if ($currentFunctionDepth) {
@@ -13949,21 +14989,21 @@
                                         $currentElement = jl_StringBuilder_toString($arrayElmt);
                                     } else {
                                         $iter = $iter + 1 | 0;
-                                        if (jl_String_equals($currentFunctionName, $rt_s(205)))
+                                        if (jl_String_equals($currentFunctionName, $rt_s(218)))
                                             $this.$goal = 1;
                                         $newFunctionArgs = jl_System_out();
                                         $arrayElmt = jl_StringBuilder__init_();
-                                        jl_StringBuilder_append(jl_StringBuilder_append($arrayElmt, $rt_s(206)), $expression);
+                                        jl_StringBuilder_append(jl_StringBuilder_append($arrayElmt, $rt_s(219)), $expression);
                                         ji_PrintStream_println($newFunctionArgs, jl_StringBuilder_toString($arrayElmt));
                                         $functionArg = jl_System_out();
                                         $arrayElmt = jl_StringBuilder__init_();
-                                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0($arrayElmt, $iter), $rt_s(207)), $currentFunctionName), $rt_s(208)), $currentElement);
+                                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0($arrayElmt, $iter), $rt_s(220)), $currentFunctionName), $rt_s(221)), $currentElement);
                                         ji_PrintStream_println($functionArg, jl_StringBuilder_toString($arrayElmt));
                                         ju_ArrayList_add($functionArgs, tj_Expression__init_1(tj_Expression_parseExpression($this, $currentElement, $column + $i | 0), tj_Expression$ExpressionReturnType_NUMBER, $this.$line0));
-                                        $currentElement = $rt_s(8);
+                                        $currentElement = $rt_s(10);
                                         $readingFunctionArgs = 0;
                                         $readingFunction = 0;
-                                        if (jl_String_equals($currentFunctionName, $rt_s(209))) {
+                                        if (jl_String_equals($currentFunctionName, $rt_s(222))) {
                                             if (ju_ArrayList_size($functionArgs) != 1)
                                                 tj_Error_ArgumentLengthMismatch($currentFunctionName, tj_Expression_getLine($this), 1, ju_ArrayList_size($functionArgs));
                                             $currentFunctionName = new tj_CastElmt;
@@ -13973,26 +15013,26 @@
                                             $currentFunctionName = jl_System_out();
                                             $arrayElmt = tj_Expression_toString(ju_ArrayList_get($functionArgs, 0));
                                             $newFunctionArgs = jl_StringBuilder__init_();
-                                            jl_StringBuilder_append(jl_StringBuilder_append($newFunctionArgs, $rt_s(210)), $arrayElmt);
+                                            jl_StringBuilder_append(jl_StringBuilder_append($newFunctionArgs, $rt_s(223)), $arrayElmt);
                                             ji_PrintStream_println($currentFunctionName, jl_StringBuilder_toString($newFunctionArgs));
-                                        } else if (jl_String_equals($currentFunctionName, $rt_s(211))) {
+                                        } else if (jl_String_equals($currentFunctionName, $rt_s(224))) {
                                             if (ju_ArrayList_size($functionArgs) != 1)
                                                 tj_Error_ArgumentLengthMismatch($currentFunctionName, tj_Expression_getLine($this), 1, ju_ArrayList_size($functionArgs));
                                             $newFunctionArgs = new tj_CastElmt;
                                             tj_JavaishVal$JavaishType_$callClinit();
                                             tj_CastElmt__init_0($newFunctionArgs, tj_JavaishVal$JavaishType_FLOAT, ju_ArrayList_get($functionArgs, 0));
                                             ju_ArrayList_add($elements, $newFunctionArgs);
-                                        } else if (jl_String_equals($currentFunctionName, $rt_s(212))) {
+                                        } else if (jl_String_equals($currentFunctionName, $rt_s(225))) {
                                             if (ju_ArrayList_size($functionArgs) != 1)
                                                 tj_Error_ArgumentLengthMismatch($currentFunctionName, tj_Expression_getLine($this), 1, ju_ArrayList_size($functionArgs));
                                             $currentFunctionName = new tj_CastElmt;
                                             tj_JavaishVal$JavaishType_$callClinit();
                                             tj_CastElmt__init_0($currentFunctionName, tj_JavaishVal$JavaishType_INT, ju_ArrayList_get($functionArgs, 0));
                                             ju_ArrayList_add($elements, $currentFunctionName);
-                                        } else if (!jl_String_equals($currentFunctionName, $rt_s(213))) {
-                                            if (jl_String_equals($currentFunctionName, $rt_s(205))) {
+                                        } else if (!jl_String_equals($currentFunctionName, $rt_s(226))) {
+                                            if (jl_String_equals($currentFunctionName, $rt_s(218))) {
                                                 if (ju_ArrayList_size($functionArgs) != 1)
-                                                    tj_Error_ArgumentLengthMismatch($rt_s(205), tj_Expression_getLine($this), 1, ju_ArrayList_size($functionArgs));
+                                                    tj_Error_ArgumentLengthMismatch($rt_s(218), tj_Expression_getLine($this), 1, ju_ArrayList_size($functionArgs));
                                                 ju_ArrayList_add($elements, tj_ShowInputBoxElmt__init_(ju_ArrayList_get($functionArgs, 0)));
                                             } else {
                                                 $newFunctionArgs = ju_ArrayList__init_();
@@ -14008,7 +15048,7 @@
                                                 if (!$readingNot)
                                                     ju_ArrayList_add($elements, tj_FunctionElmt__init_($currentFunctionName, $functionArgsArray));
                                                 else {
-                                                    ji_PrintStream_println(jl_System_out(), $rt_s(214));
+                                                    ji_PrintStream_println(jl_System_out(), $rt_s(227));
                                                     ju_ArrayList_add($elements, tj_NotElmt__init_(tj_Expression__init_1($notElements, tj_Expression$ExpressionReturnType_NUMBER, $this.$line0)));
                                                     $readingNot = 0;
                                                 }
@@ -14022,7 +15062,7 @@
                                                 tj_CastElmt__init_0($currentFunctionName, tj_JavaishVal$JavaishType_BOOLEAN, ju_ArrayList_get($functionArgs, 0));
                                                 ju_ArrayList_add($elements, $currentFunctionName);
                                             } else {
-                                                ji_PrintStream_println(jl_System_out(), $rt_s(214));
+                                                ji_PrintStream_println(jl_System_out(), $rt_s(227));
                                                 $notArgs = $rt_createArray(tj_Element, 1);
                                                 $functionArgsArray = $notArgs.data;
                                                 $currentFunctionName = new tj_CastElmt;
@@ -14033,7 +15073,7 @@
                                                 $readingNot = 0;
                                             }
                                         }
-                                        $currentFunctionName = $rt_s(8);
+                                        $currentFunctionName = $rt_s(10);
                                         $functionArgs = ju_ArrayList__init_();
                                     }
                                 } else if (!var$32 && $readingFunction && !$readingString) {
@@ -14042,17 +15082,17 @@
                                     jl_StringBuilder_append2(jl_StringBuilder_append($arrayElmt, $currentElement), $c);
                                     $currentElement = jl_StringBuilder_toString($arrayElmt);
                                 } else if ($c == 91 && !$readingArray && !$readingString && !$readingFunction) {
-                                    if (jl_String_equals($currentElement, $rt_s(8)))
+                                    if (jl_String_equals($currentElement, $rt_s(10)))
                                         $readingArray = 1;
                                 } else if ($c == 44 && !$readingString && $readingArray) {
                                     $arrayElmt = tj_Expression__init_1(tj_Expression_parseExpression($this, $currentElement, $column + $i | 0), tj_Expression$ExpressionReturnType_NUMBER, $this.$line0);
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     ju_ArrayList_add($arrayElmts, $arrayElmt);
                                 } else if ($c == 93 && !$readingString && $readingArray) {
                                     ju_ArrayList_add($arrayElmts, tj_Expression__init_1(tj_Expression_parseExpression($this, $currentElement, $column + $i | 0), tj_Expression$ExpressionReturnType_NUMBER, $this.$line0));
                                     ju_ArrayList_add($elements, tj_ListElmt__init_($arrayElmts, tj_Expression_returnTypeToJavaishType($this, tj_Expression_getReturnType($this))));
                                     $readingArray = 0;
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     $arrayElmts = ju_ArrayList__init_();
                                 } else {
                                     $arrayElmt = jl_StringBuilder__init_();
@@ -14060,90 +15100,90 @@
                                     $currentElement = jl_StringBuilder_toString($arrayElmt);
                                 }
                             } else if (!$readingString && !$readingExpression && !$readingCast && !$readingFunctionArgs && !$readingArrayArgExpression) {
-                                if (jl_String_equals($currentElement, $rt_s(215)) && !$readingFunction) {
+                                if (jl_String_equals($currentElement, $rt_s(228)) && !$readingFunction) {
                                     $readingFunction = 1;
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     break a;
                                 }
-                                if (jl_String_equals($currentElement, $rt_s(216)) && jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(66))) {
+                                if (jl_String_equals($currentElement, $rt_s(229)) && jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(68))) {
                                     ju_ArrayList_add($elements, tj_NotEqualElmt__init_());
                                     $i = $i + 5 | 0;
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     break a;
                                 }
-                                if (jl_String_equals($currentElement, $rt_s(217)) && jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(218))) {
-                                    if (!jl_String_equals(tj_Expression_nextWord($this, $expression, $i + 6 | 0), $rt_s(219))) {
+                                if (jl_String_equals($currentElement, $rt_s(230)) && jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(231))) {
+                                    if (!jl_String_equals(tj_Expression_nextWord($this, $expression, $i + 6 | 0), $rt_s(232))) {
                                         ju_ArrayList_add($elements, tj_GreaterThanElmt__init_());
                                         $i = $i + 4 | 0;
-                                        $currentElement = $rt_s(8);
+                                        $currentElement = $rt_s(10);
                                         break a;
                                     }
                                     ju_ArrayList_add($elements, tj_GreaterThanEqualElmt__init_());
                                     $i = $i + 16 | 0;
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     break a;
                                 }
-                                if (jl_String_equals($currentElement, $rt_s(220)) && jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(218))) {
-                                    if (!jl_String_equals(tj_Expression_nextWord($this, $expression, $i + 6 | 0), $rt_s(219))) {
+                                if (jl_String_equals($currentElement, $rt_s(233)) && jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(231))) {
+                                    if (!jl_String_equals(tj_Expression_nextWord($this, $expression, $i + 6 | 0), $rt_s(232))) {
                                         ju_ArrayList_add($elements, tj_LessThanElmt__init_());
                                         $i = $i + 4 | 0;
-                                        $currentElement = $rt_s(8);
+                                        $currentElement = $rt_s(10);
                                         break a;
                                     }
                                     ju_ArrayList_add($elements, tj_LessThanEqualElmt__init_());
                                     $i = $i + 16 | 0;
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     break a;
                                 }
-                                if (jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(71)) && !$readingString && !$readingFunctionArgs && !$readingExpression) {
+                                if (jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(73)) && !$readingString && !$readingFunctionArgs && !$readingExpression) {
                                     $readingArrayElmt = 1;
                                     $currentArrayName = $currentElement;
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     break a;
                                 }
-                                if (jl_String_equals($currentElement, $rt_s(71)) && !$readingString && $readingArrayElmt) {
+                                if (jl_String_equals($currentElement, $rt_s(73)) && !$readingString && $readingArrayElmt) {
                                     $readingArrayElmtArgs = 1;
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     break a;
                                 }
-                                if (jl_String_equals($currentElement, $rt_s(221))) {
+                                if (jl_String_equals($currentElement, $rt_s(234))) {
                                     $index = jl_System_out();
                                     $functionArg = tj_Expression_nextWord($this, $expression, var$31);
                                     $arrayElmt = jl_StringBuilder__init_();
-                                    jl_StringBuilder_append(jl_StringBuilder_append($arrayElmt, $rt_s(222)), $functionArg);
+                                    jl_StringBuilder_append(jl_StringBuilder_append($arrayElmt, $rt_s(235)), $functionArg);
                                     ji_PrintStream_println($index, jl_StringBuilder_toString($arrayElmt));
-                                    if (!jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(223)))
+                                    if (!jl_String_equals(tj_Expression_nextWord($this, $expression, var$31), $rt_s(236)))
                                         break a;
                                     $readingGetArrayLength = 1;
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     $i = $i + 3 | 0;
                                     break a;
                                 }
                                 if ($readingGetArrayLength) {
                                     ju_ArrayList_add($elements, tj_ArrayLengthElmt__init_($currentElement));
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     $readingGetArrayLength = 0;
                                     break a;
                                 }
                                 if ($readingArrayElmtArgs && !$readingString && !$readingArrayArgExpression) {
                                     ju_ArrayList_add($elements, tj_ListValElmt__init_($currentArrayName, tj_Expression__init_1(tj_Expression_parseExpression($this, $currentElement, $column + $i | 0), tj_Expression$ExpressionReturnType_NUMBER, $this.$line0)));
-                                    $currentElement = $rt_s(8);
+                                    $currentElement = $rt_s(10);
                                     break a;
                                 }
                                 if (jl_String_length($currentElement) <= 0)
                                     break a;
-                                if (jl_String_equals($currentElement, $rt_s(216)))
+                                if (jl_String_equals($currentElement, $rt_s(229)))
                                     break a;
                                 if ($readingFunction)
                                     break a;
                                 if (!$readingNot)
                                     ju_ArrayList_add($elements, tj_Expression_parseElement($this, $currentElement, $column + $i | 0));
                                 else {
-                                    ji_PrintStream_println(jl_System_out(), $rt_s(214));
+                                    ji_PrintStream_println(jl_System_out(), $rt_s(227));
                                     ju_ArrayList_add($elements, tj_NotElmt__init_(tj_Expression__init_1(tj_Expression_parseExpression($this, $currentElement, $column + $i | 0), tj_Expression$ExpressionReturnType_NUMBER, $this.$line0)));
                                     $readingNot = 0;
                                 }
-                                $currentElement = $rt_s(8);
+                                $currentElement = $rt_s(10);
                                 $lastReadString = 0;
                             } else {
                                 $arrayElmt = jl_StringBuilder__init_();
@@ -14168,7 +15208,7 @@
             else if (!$readingNot)
                 ju_ArrayList_add($elements, tj_Expression_parseElement($this, $currentElement, $column + $i | 0));
             else {
-                ji_PrintStream_println(jl_System_out(), $rt_s(214));
+                ji_PrintStream_println(jl_System_out(), $rt_s(227));
                 ju_ArrayList_add($elements, tj_NotElmt__init_(tj_Expression__init_1(tj_Expression_parseExpression($this, $currentElement, $column + $i | 0), tj_Expression$ExpressionReturnType_NUMBER, $this.$line0)));
             }
         }
@@ -14176,8 +15216,8 @@
     }
     function tj_Expression_possibleFunctionName($this, $name) {
         var $functionName;
-        $functionName = (jl_String_split($name, $rt_s(73))).data[0];
-        if (!jl_String_contains($functionName, $rt_s(41)) && jl_String_length($functionName))
+        $functionName = (jl_String_split($name, $rt_s(75))).data[0];
+        if (!jl_String_contains($functionName, $rt_s(43)) && jl_String_length($functionName))
             return 1;
         return 0;
     }
@@ -14202,7 +15242,7 @@
             $column = jl_Integer_parseInt0($element);
             tj_Element$ElementType_$callClinit();
             var$4.$type1 = tj_Element$ElementType_INTEGER;
-            var$4.$value25 = $column;
+            var$4.$value20 = $column;
             return var$4;
         }
         b: {
@@ -14227,24 +15267,24 @@
             var$4.$value26 = var$5;
             return var$4;
         }
-        if (!jl_String_equals($element, $rt_s(19)) && !jl_String_equals($element, $rt_s(18))) {
-            if (!jl_String_equals($element, $rt_s(66)) && !jl_String_equals($element, $rt_s(224))) {
-                if (jl_String_equals($element, $rt_s(225)))
+        if (!jl_String_equals($element, $rt_s(21)) && !jl_String_equals($element, $rt_s(20))) {
+            if (!jl_String_equals($element, $rt_s(68)) && !jl_String_equals($element, $rt_s(237))) {
+                if (jl_String_equals($element, $rt_s(238)))
                     return tj_NotEqualElmt__init_();
-                if (jl_String_equals($element, $rt_s(226)))
+                if (jl_String_equals($element, $rt_s(239)))
                     return tj_GreaterThanElmt__init_();
-                if (jl_String_equals($element, $rt_s(227)))
+                if (jl_String_equals($element, $rt_s(240)))
                     return tj_LessThanElmt__init_();
-                if (jl_String_equals($element, $rt_s(228)))
+                if (jl_String_equals($element, $rt_s(241)))
                     return tj_GreaterThanEqualElmt__init_();
-                if (jl_String_equals($element, $rt_s(229)))
+                if (jl_String_equals($element, $rt_s(242)))
                     return tj_LessThanEqualElmt__init_();
-                if (!jl_String_equals($element, $rt_s(230)) && !jl_String_equals($element, $rt_s(231))) {
-                    if (!jl_String_equals($element, $rt_s(219)) && !jl_String_equals($element, $rt_s(232))) {
-                        if (!jl_String_equals($element, $rt_s(48)) && !jl_String_equals($element, $rt_s(233))) {
-                            if (!jl_String_equals($element, $rt_s(42)) && !jl_String_equals($element, $rt_s(234))) {
-                                if (!jl_String_equals($element, $rt_s(235)) && !jl_String_equals($element, $rt_s(236))) {
-                                    if (!jl_String_equals($element, $rt_s(43)) && !jl_String_equals($element, $rt_s(237))) {
+                if (!jl_String_equals($element, $rt_s(243)) && !jl_String_equals($element, $rt_s(244))) {
+                    if (!jl_String_equals($element, $rt_s(232)) && !jl_String_equals($element, $rt_s(245))) {
+                        if (!jl_String_equals($element, $rt_s(50)) && !jl_String_equals($element, $rt_s(246))) {
+                            if (!jl_String_equals($element, $rt_s(44)) && !jl_String_equals($element, $rt_s(247))) {
+                                if (!jl_String_equals($element, $rt_s(248)) && !jl_String_equals($element, $rt_s(249))) {
+                                    if (!jl_String_equals($element, $rt_s(45)) && !jl_String_equals($element, $rt_s(250))) {
                                         var$3 = 0;
                                         c: {
                                             while (var$3 < jl_String_length($element)) {
@@ -14266,7 +15306,7 @@
                                         var$6 = $this.$line0;
                                         var$4 = new jl_StringBuilder;
                                         jl_AbstractStringBuilder__init_(var$4);
-                                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(238)), var$6), $rt_s(239)), $column), $rt_s(15)), $element);
+                                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(251)), var$6), $rt_s(252)), $column), $rt_s(17)), $element);
                                         var$4 = jl_AbstractStringBuilder_toString(var$4);
                                         var$7 = $rt_createArray(jl_String, 2);
                                         var$8 = var$7.data;
@@ -14279,7 +15319,7 @@
                                         var$4 = new jl_RuntimeException;
                                         var$9 = new jl_StringBuilder;
                                         jl_AbstractStringBuilder__init_(var$9);
-                                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$9, $rt_s(238)), var$6), $rt_s(239)), $column), $rt_s(15)), $element);
+                                        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$9, $rt_s(251)), var$6), $rt_s(252)), $column), $rt_s(17)), $element);
                                         jl_Throwable__init_0(var$4, jl_AbstractStringBuilder_toString(var$9));
                                         $rt_throw(var$4);
                                     }
@@ -14333,7 +15373,7 @@
     }
     function tj_Expression_nextWord($this, $str, $i) {
         var $word, $c, var$5;
-        $word = $rt_s(8);
+        $word = $rt_s(10);
         while ($i < jl_String_length($str)) {
             $c = jl_String_charAt($str, $i);
             if ($c == 32)
@@ -14348,7 +15388,7 @@
     }
     function tj_Expression_toString($this) {
         var $str, var$2, var$3, var$4, $elmt, var$6;
-        $str = $rt_s(8);
+        $str = $rt_s(10);
         var$2 = $this.$elements.data;
         var$3 = var$2.length;
         var$4 = 0;
@@ -14504,17 +15544,17 @@
     }
     function tj_Statements$MutationType__clinit_() {
         var var$1;
-        tj_Statements$MutationType_ADD = tj_Statements$MutationType__init_($rt_s(195), 0);
-        tj_Statements$MutationType_SUBTRACT = tj_Statements$MutationType__init_($rt_s(194), 1);
-        tj_Statements$MutationType_MULTIPLY = tj_Statements$MutationType__init_($rt_s(191), 2);
-        var$1 = tj_Statements$MutationType__init_($rt_s(193), 3);
+        tj_Statements$MutationType_ADD = tj_Statements$MutationType__init_($rt_s(208), 0);
+        tj_Statements$MutationType_SUBTRACT = tj_Statements$MutationType__init_($rt_s(207), 1);
+        tj_Statements$MutationType_MULTIPLY = tj_Statements$MutationType__init_($rt_s(204), 2);
+        var$1 = tj_Statements$MutationType__init_($rt_s(206), 3);
         tj_Statements$MutationType_DIVIDE = var$1;
         tj_Statements$MutationType_$VALUES = $rt_createArrayFromData(tj_Statements$MutationType, [tj_Statements$MutationType_ADD, tj_Statements$MutationType_SUBTRACT, tj_Statements$MutationType_MULTIPLY, var$1]);
     }
     function tj_RemoveAllFromStmt() {
         var a = this; tj_Statements.call(a);
         a.$listName1 = null;
-        a.$value21 = null;
+        a.$value22 = null;
     }
     function tj_RemoveAllFromStmt__init_(var_0, var_1, var_2) {
         var var_3 = new tj_RemoveAllFromStmt();
@@ -14526,12 +15566,12 @@
         $this.$listName1 = $name;
         tj_Statements$StmtType_$callClinit();
         $this.$type = tj_Statements$StmtType_REMOVEALLFROM;
-        $this.$value21 = $value;
+        $this.$value22 = $value;
         $this.$line = $line;
     }
     function tj_RemoveFromStmt() {
         var a = this; tj_Statements.call(a);
-        a.$value20 = null;
+        a.$value21 = null;
         a.$listName0 = null;
     }
     function tj_RemoveFromStmt__init_(var_0, var_1, var_2) {
@@ -14541,7 +15581,7 @@
     }
     function tj_RemoveFromStmt__init_0($this, $line, $value, $name) {
         tj_Statements__init_($this);
-        $this.$value20 = $value;
+        $this.$value21 = $value;
         $this.$listName0 = $name;
         tj_Statements$StmtType_$callClinit();
         $this.$type = tj_Statements$StmtType_REMOVEFROM;
@@ -14591,7 +15631,7 @@
         var var$3, var$4, $messageArray, var$6, var$7;
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        var$4 = jl_StringBuilder_append0(jl_StringBuilder_append(var$3, $rt_s(240)), $lineNumber);
+        var$4 = jl_StringBuilder_append0(jl_StringBuilder_append(var$3, $rt_s(253)), $lineNumber);
         jl_AbstractStringBuilder_append(var$4, 58);
         jl_StringBuilder_append(var$4, $stmt);
         var$3 = jl_AbstractStringBuilder_toString(var$3);
@@ -14606,7 +15646,7 @@
         var$3 = new jl_RuntimeException;
         var$4 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$4);
-        var$7 = jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(240)), $lineNumber);
+        var$7 = jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(253)), $lineNumber);
         jl_AbstractStringBuilder_append(var$7, 58);
         jl_StringBuilder_append(var$7, $stmt);
         jl_Throwable__init_0(var$3, jl_AbstractStringBuilder_toString(var$4));
@@ -14616,7 +15656,7 @@
         var var$4, var$5, $messageArray, var$7;
         var$4 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$4);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(241)), $lineNumber), $rt_s(242)), $expected), $rt_s(243)), $got);
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(254)), $lineNumber), $rt_s(255)), $expected), $rt_s(256)), $got);
         var$5 = jl_AbstractStringBuilder_toString(var$4);
         $messageArray = $rt_createArray(jl_String, 2);
         var$7 = $messageArray.data;
@@ -14629,7 +15669,7 @@
         var$4 = new jl_RuntimeException;
         var$5 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$5);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(241)), $lineNumber), $rt_s(242)), $expected), $rt_s(243)), $got);
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(254)), $lineNumber), $rt_s(255)), $expected), $rt_s(256)), $got);
         jl_Throwable__init_0(var$4, jl_AbstractStringBuilder_toString(var$5));
         $rt_throw(var$4);
     }
@@ -14637,7 +15677,7 @@
         var var$3, $messageArray, var$5, var$6;
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(244)), $name), $rt_s(26));
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(257)), $name), $rt_s(28));
         var$3 = jl_AbstractStringBuilder_toString(var$3);
         $messageArray = $rt_createArray(jl_String, 2);
         var$5 = $messageArray.data;
@@ -14650,7 +15690,7 @@
         var$3 = new jl_RuntimeException;
         var$6 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$6);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(244)), $name), $rt_s(26));
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(257)), $name), $rt_s(28));
         jl_Throwable__init_0(var$3, jl_AbstractStringBuilder_toString(var$6));
         $rt_throw(var$3);
     }
@@ -14658,7 +15698,7 @@
         var var$4, var$5, $messageArray, var$7;
         var$4 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$4);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $rt_s(245)), $value), $rt_s(246)), $goal), $rt_s(247)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $rt_s(258)), $value), $rt_s(259)), $goal), $rt_s(260)), $lineNumber);
         var$5 = jl_AbstractStringBuilder_toString(var$4);
         $messageArray = $rt_createArray(jl_String, 2);
         var$7 = $messageArray.data;
@@ -14671,7 +15711,7 @@
         var$4 = new jl_RuntimeException;
         var$5 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$5);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$5, $rt_s(245)), $value), $rt_s(246)), $goal), $rt_s(247)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$5, $rt_s(258)), $value), $rt_s(259)), $goal), $rt_s(260)), $lineNumber);
         jl_Throwable__init_0(var$4, jl_AbstractStringBuilder_toString(var$5));
         $rt_throw(var$4);
     }
@@ -14679,7 +15719,7 @@
         var var$3, $messageArray, var$5, var$6;
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(244)), $name), $rt_s(248)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(257)), $name), $rt_s(261)), $lineNumber);
         var$3 = jl_AbstractStringBuilder_toString(var$3);
         $messageArray = $rt_createArray(jl_String, 2);
         var$5 = $messageArray.data;
@@ -14692,7 +15732,7 @@
         var$3 = new jl_RuntimeException;
         var$6 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$6);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(244)), $name), $rt_s(248)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(257)), $name), $rt_s(261)), $lineNumber);
         jl_Throwable__init_0(var$3, jl_AbstractStringBuilder_toString(var$6));
         $rt_throw(var$3);
     }
@@ -14700,7 +15740,7 @@
         var var$3, $messageArray, var$5, var$6;
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(25)), $name), $rt_s(248)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(27)), $name), $rt_s(261)), $lineNumber);
         var$3 = jl_AbstractStringBuilder_toString(var$3);
         $messageArray = $rt_createArray(jl_String, 2);
         var$5 = $messageArray.data;
@@ -14713,7 +15753,7 @@
         var$3 = new jl_RuntimeException;
         var$6 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$6);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(25)), $name), $rt_s(248)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(27)), $name), $rt_s(261)), $lineNumber);
         jl_Throwable__init_0(var$3, jl_AbstractStringBuilder_toString(var$6));
         $rt_throw(var$3);
     }
@@ -14721,7 +15761,7 @@
         var var$3, $messageArray, var$5, var$6;
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(249)), $type), $rt_s(247)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(262)), $type), $rt_s(260)), $lineNumber);
         var$3 = jl_AbstractStringBuilder_toString(var$3);
         $messageArray = $rt_createArray(jl_String, 2);
         var$5 = $messageArray.data;
@@ -14734,7 +15774,7 @@
         var$3 = new jl_RuntimeException;
         var$6 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$6);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(249)), $type), $rt_s(247)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(262)), $type), $rt_s(260)), $lineNumber);
         jl_Throwable__init_0(var$3, jl_AbstractStringBuilder_toString(var$6));
         $rt_throw(var$3);
     }
@@ -14742,7 +15782,7 @@
         var var$5, $messageArray, var$7, var$8;
         var$5 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$5);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(250)), $lineNumber), $rt_s(15)), $name), $rt_s(242)), $expected), $rt_s(243)), $got);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(263)), $lineNumber), $rt_s(17)), $name), $rt_s(255)), $expected), $rt_s(256)), $got);
         var$5 = jl_AbstractStringBuilder_toString(var$5);
         $messageArray = $rt_createArray(jl_String, 2);
         var$7 = $messageArray.data;
@@ -14755,7 +15795,7 @@
         var$8 = new jl_RuntimeException;
         var$5 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$5);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(250)), $lineNumber), $rt_s(15)), $name), $rt_s(242)), $expected), $rt_s(243)), $got);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(263)), $lineNumber), $rt_s(17)), $name), $rt_s(255)), $expected), $rt_s(256)), $got);
         jl_Throwable__init_0(var$8, jl_AbstractStringBuilder_toString(var$5));
         $rt_throw(var$8);
     }
@@ -14763,7 +15803,7 @@
         var var$5, $messageArray, var$7, var$8;
         var$5 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$5);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(251)), $lineNumber), $rt_s(15)), $name), $rt_s(242)), $expected), $rt_s(243)), $got);
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(264)), $lineNumber), $rt_s(17)), $name), $rt_s(255)), $expected), $rt_s(256)), $got);
         var$5 = jl_AbstractStringBuilder_toString(var$5);
         $messageArray = $rt_createArray(jl_String, 2);
         var$7 = $messageArray.data;
@@ -14776,7 +15816,7 @@
         var$8 = new jl_RuntimeException;
         var$5 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$5);
-        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(251)), $lineNumber), $rt_s(15)), $name), $rt_s(242)), $expected), $rt_s(243)), $got);
+        jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(264)), $lineNumber), $rt_s(17)), $name), $rt_s(255)), $expected), $rt_s(256)), $got);
         jl_Throwable__init_0(var$8, jl_AbstractStringBuilder_toString(var$5));
         $rt_throw(var$8);
     }
@@ -14784,7 +15824,7 @@
         var var$3, $messageArray, var$5, var$6;
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(25)), $name), $rt_s(252)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(27)), $name), $rt_s(265)), $lineNumber);
         var$3 = jl_AbstractStringBuilder_toString(var$3);
         $messageArray = $rt_createArray(jl_String, 2);
         var$5 = $messageArray.data;
@@ -14797,7 +15837,7 @@
         var$3 = new jl_RuntimeException;
         var$6 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$6);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(25)), $name), $rt_s(252)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(27)), $name), $rt_s(265)), $lineNumber);
         jl_Throwable__init_0(var$3, jl_AbstractStringBuilder_toString(var$6));
         $rt_throw(var$3);
     }
@@ -14805,7 +15845,7 @@
         var var$4, $messageArray, var$6, var$7;
         var$4 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$4);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $rt_s(253)), $operation), $rt_s(254)), $type), $rt_s(247)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $rt_s(266)), $operation), $rt_s(267)), $type), $rt_s(260)), $lineNumber);
         var$4 = jl_AbstractStringBuilder_toString(var$4);
         $messageArray = $rt_createArray(jl_String, 2);
         var$6 = $messageArray.data;
@@ -14818,7 +15858,7 @@
         var$7 = new jl_RuntimeException;
         var$4 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$4);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $rt_s(253)), $operation), $rt_s(254)), $type), $rt_s(247)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $rt_s(266)), $operation), $rt_s(267)), $type), $rt_s(260)), $lineNumber);
         jl_Throwable__init_0(var$7, jl_AbstractStringBuilder_toString(var$4));
         $rt_throw(var$7);
     }
@@ -14827,7 +15867,7 @@
         $arrayLength = $arrayLength - 1 | 0;
         var$4 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$4);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(255)), $lineNumber), $rt_s(256)), $index), $rt_s(257)), $arrayLength);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(268)), $lineNumber), $rt_s(269)), $index), $rt_s(270)), $arrayLength);
         var$4 = jl_AbstractStringBuilder_toString(var$4);
         $messageArray = $rt_createArray(jl_String, 2);
         var$6 = $messageArray.data;
@@ -14840,7 +15880,7 @@
         var$7 = new jl_RuntimeException;
         var$8 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$8);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$8, $rt_s(255)), $lineNumber), $rt_s(256)), $index), $rt_s(257)), $arrayLength);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$8, $rt_s(268)), $lineNumber), $rt_s(269)), $index), $rt_s(270)), $arrayLength);
         jl_Throwable__init_0(var$7, jl_AbstractStringBuilder_toString(var$8));
         $rt_throw(var$7);
     }
@@ -14848,7 +15888,7 @@
         var var$3, $messageArray, var$5, var$6;
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$3, $rt_s(258)), $lineNumber), $rt_s(239)), $columnNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$3, $rt_s(271)), $lineNumber), $rt_s(252)), $columnNumber);
         var$3 = jl_AbstractStringBuilder_toString(var$3);
         $messageArray = $rt_createArray(jl_String, 2);
         var$5 = $messageArray.data;
@@ -14861,7 +15901,7 @@
         var$3 = new jl_RuntimeException;
         var$6 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$6);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$6, $rt_s(258)), $lineNumber), $rt_s(239)), $columnNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$6, $rt_s(271)), $lineNumber), $rt_s(252)), $columnNumber);
         jl_Throwable__init_0(var$3, jl_AbstractStringBuilder_toString(var$6));
         $rt_throw(var$3);
     }
@@ -14869,7 +15909,7 @@
         var var$2, $messageArray, var$4, var$5;
         var$2 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$2);
-        jl_StringBuilder_append0(jl_StringBuilder_append(var$2, $rt_s(259)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(var$2, $rt_s(272)), $lineNumber);
         var$2 = jl_AbstractStringBuilder_toString(var$2);
         $messageArray = $rt_createArray(jl_String, 2);
         var$4 = $messageArray.data;
@@ -14882,7 +15922,7 @@
         var$2 = new jl_RuntimeException;
         var$5 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$5);
-        jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(259)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(var$5, $rt_s(272)), $lineNumber);
         jl_Throwable__init_0(var$2, jl_AbstractStringBuilder_toString(var$5));
         $rt_throw(var$2);
     }
@@ -14890,7 +15930,7 @@
         var var$3, $messageArray, var$5, var$6;
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$3, $rt_s(260)), $lineNumber), $rt_s(239)), $columnNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$3, $rt_s(273)), $lineNumber), $rt_s(252)), $columnNumber);
         var$3 = jl_AbstractStringBuilder_toString(var$3);
         $messageArray = $rt_createArray(jl_String, 2);
         var$5 = $messageArray.data;
@@ -14903,7 +15943,7 @@
         var$3 = new jl_RuntimeException;
         var$6 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$6);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$6, $rt_s(260)), $lineNumber), $rt_s(239)), $columnNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$6, $rt_s(273)), $lineNumber), $rt_s(252)), $columnNumber);
         jl_Throwable__init_0(var$3, jl_AbstractStringBuilder_toString(var$6));
         $rt_throw(var$3);
     }
@@ -14911,7 +15951,7 @@
         var var$3, $messageArray, var$5, var$6;
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(261)), $listName), $rt_s(262)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(274)), $listName), $rt_s(275)), $lineNumber);
         var$3 = jl_AbstractStringBuilder_toString(var$3);
         $messageArray = $rt_createArray(jl_String, 2);
         var$5 = $messageArray.data;
@@ -14924,7 +15964,7 @@
         var$3 = new jl_RuntimeException;
         var$6 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$6);
-        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(261)), $listName), $rt_s(262)), $lineNumber);
+        jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, $rt_s(274)), $listName), $rt_s(275)), $lineNumber);
         jl_Throwable__init_0(var$3, jl_AbstractStringBuilder_toString(var$6));
         $rt_throw(var$3);
     }
@@ -14983,9 +16023,6 @@
         $this.$value16 = $value;
         tj_Statements$StmtType_$callClinit();
         $this.$type = tj_Statements$StmtType_SHOWMSGBOX;
-    }
-    function tj_ShowMsgBoxStmt_getValue($this) {
-        return $this.$value16;
     }
     function tj_ShowMsgBoxStmt_getLine($this) {
         return $this.$line;
@@ -15133,7 +16170,7 @@
     function ju_MapEntry() {
         var a = this; jl_Object.call(a);
         a.$key = null;
-        a.$value24 = null;
+        a.$value25 = null;
     }
     function ju_HashMap$HashEntry() {
         var a = this; ju_MapEntry.call(a);
@@ -15170,15 +16207,15 @@
     }
     function tj_JavaishVal$JavaishType__clinit_() {
         var var$1;
-        tj_JavaishVal$JavaishType_INT = tj_JavaishVal$JavaishType__init_($rt_s(22), 0);
-        tj_JavaishVal$JavaishType_FLOAT = tj_JavaishVal$JavaishType__init_($rt_s(23), 1);
-        tj_JavaishVal$JavaishType_STRING = tj_JavaishVal$JavaishType__init_($rt_s(21), 2);
-        tj_JavaishVal$JavaishType_BOOLEAN = tj_JavaishVal$JavaishType__init_($rt_s(24), 3);
-        tj_JavaishVal$JavaishType_INTLIST = tj_JavaishVal$JavaishType__init_($rt_s(31), 4);
-        tj_JavaishVal$JavaishType_FLOATLIST = tj_JavaishVal$JavaishType__init_($rt_s(34), 5);
-        tj_JavaishVal$JavaishType_STRINGLIST = tj_JavaishVal$JavaishType__init_($rt_s(32), 6);
-        tj_JavaishVal$JavaishType_BOOLEANLIST = tj_JavaishVal$JavaishType__init_($rt_s(33), 7);
-        var$1 = tj_JavaishVal$JavaishType__init_($rt_s(183), 8);
+        tj_JavaishVal$JavaishType_INT = tj_JavaishVal$JavaishType__init_($rt_s(24), 0);
+        tj_JavaishVal$JavaishType_FLOAT = tj_JavaishVal$JavaishType__init_($rt_s(25), 1);
+        tj_JavaishVal$JavaishType_STRING = tj_JavaishVal$JavaishType__init_($rt_s(23), 2);
+        tj_JavaishVal$JavaishType_BOOLEAN = tj_JavaishVal$JavaishType__init_($rt_s(26), 3);
+        tj_JavaishVal$JavaishType_INTLIST = tj_JavaishVal$JavaishType__init_($rt_s(33), 4);
+        tj_JavaishVal$JavaishType_FLOATLIST = tj_JavaishVal$JavaishType__init_($rt_s(36), 5);
+        tj_JavaishVal$JavaishType_STRINGLIST = tj_JavaishVal$JavaishType__init_($rt_s(34), 6);
+        tj_JavaishVal$JavaishType_BOOLEANLIST = tj_JavaishVal$JavaishType__init_($rt_s(35), 7);
+        var$1 = tj_JavaishVal$JavaishType__init_($rt_s(196), 8);
         tj_JavaishVal$JavaishType_LIST = var$1;
         tj_JavaishVal$JavaishType_$VALUES = $rt_createArrayFromData(tj_JavaishVal$JavaishType, [tj_JavaishVal$JavaishType_INT, tj_JavaishVal$JavaishType_FLOAT, tj_JavaishVal$JavaishType_STRING, tj_JavaishVal$JavaishType_BOOLEAN, tj_JavaishVal$JavaishType_INTLIST, tj_JavaishVal$JavaishType_FLOATLIST, tj_JavaishVal$JavaishType_STRINGLIST, tj_JavaishVal$JavaishType_BOOLEANLIST, var$1]);
     }
@@ -15234,7 +16271,7 @@
         var$5 = 0;
         if (var$4 > var$2) {
             var$1 = new jl_IndexOutOfBoundsException;
-            jl_Throwable__init_0(var$1, $rt_s(263));
+            jl_Throwable__init_0(var$1, $rt_s(276));
             $rt_throw(var$1);
         }
         while (var$4 < var$2) {
@@ -15290,7 +16327,7 @@
             var$1 = jnc_CodingErrorAction_REPLACE;
             if (var$1 === null) {
                 var$11 = new jl_IllegalArgumentException;
-                jl_Throwable__init_0(var$11, $rt_s(264));
+                jl_Throwable__init_0(var$11, $rt_s(277));
                 $rt_throw(var$11);
             }
             var$13.$malformedAction = var$1;
@@ -15375,7 +16412,7 @@
             $rt_throw(jnc_CoderMalfunctionError__init_(var$1));
         }
         var$11 = new jl_IllegalArgumentException;
-        jl_RuntimeException__init_2(var$11, $rt_s(265));
+        jl_RuntimeException__init_2(var$11, $rt_s(278));
         $rt_throw(var$11);
     }
     function otcic_ConsoleOutputStream() {
@@ -15477,22 +16514,23 @@
         var$1 = var$2.data;
         tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType = var$2;
         var$1[jl_Enum_ordinal(tj_Statements$StmtType_ASSIGNMENT)] = 1;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_CALL)] = 2;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_DECLARATION)] = 3;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_ELSE)] = 4;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_ELSEIF)] = 5;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_MUTATION)] = 6;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_RETURN)] = 7;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_FUNCTION)] = 8;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_IF)] = 9;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_WHILE)] = 10;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_FOREACH)] = 11;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_FORWHEN)] = 12;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_PRINT)] = 13;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_SHOWMSGBOX)] = 14;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_REMOVEAT)] = 15;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_REMOVEFROM)] = 16;
-        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_REMOVEALLFROM)] = 17;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_COMMENT)] = 2;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_CALL)] = 3;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_DECLARATION)] = 4;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_ELSE)] = 5;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_ELSEIF)] = 6;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_MUTATION)] = 7;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_RETURN)] = 8;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_FUNCTION)] = 9;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_IF)] = 10;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_WHILE)] = 11;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_FOREACH)] = 12;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_FORWHEN)] = 13;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_PRINT)] = 14;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_SHOWMSGBOX)] = 15;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_REMOVEAT)] = 16;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_REMOVEFROM)] = 17;
+        tj_Translator$1_$SwitchMap$trackerjo$javaish$Statements$StmtType.data[jl_Enum_ordinal(tj_Statements$StmtType_REMOVEALLFROM)] = 18;
     }
     function tj_Result() {
         jl_Object.call(this);
@@ -15519,6 +16557,86 @@
     function tj_Return__init_0($this, $hasReturn, $value) {
         $this.$hasReturn = $hasReturn;
         $this.$value12 = $value;
+    }
+    function jur_AbstractSet() {
+        var a = this; jl_Object.call(a);
+        a.$next2 = null;
+        a.$isSecondPassVisited = 0;
+        a.$index0 = null;
+        a.$type2 = 0;
+    }
+    var jur_AbstractSet_counter = 0;
+    function jur_AbstractSet__init_($this) {
+        var var$1;
+        var$1 = jur_AbstractSet_counter;
+        jur_AbstractSet_counter = var$1 + 1 | 0;
+        $this.$index0 = jl_Integer_toString(var$1);
+    }
+    function jur_AbstractSet__init_0($this, $n) {
+        var var$2;
+        var$2 = jur_AbstractSet_counter;
+        jur_AbstractSet_counter = var$2 + 1 | 0;
+        $this.$index0 = jl_Integer_toString(var$2);
+        $this.$next2 = $n;
+    }
+    function jur_AbstractSet_find($this, $stringIndex, $testString, $matchResult) {
+        var $length;
+        $length = $matchResult.$rightBound0;
+        while (true) {
+            if ($stringIndex > $length)
+                return (-1);
+            if ($this.$matches($stringIndex, $testString, $matchResult) >= 0)
+                break;
+            $stringIndex = $stringIndex + 1 | 0;
+        }
+        return $stringIndex;
+    }
+    function jur_AbstractSet_findBack($this, $stringIndex, $startSearch, $testString, $matchResult) {
+        while (true) {
+            if ($startSearch < $stringIndex)
+                return (-1);
+            if ($this.$matches($startSearch, $testString, $matchResult) >= 0)
+                break;
+            $startSearch = $startSearch + (-1) | 0;
+        }
+        return $startSearch;
+    }
+    function jur_AbstractSet_setType($this, $type) {
+        $this.$type2 = $type;
+    }
+    function jur_AbstractSet_getType($this) {
+        return $this.$type2;
+    }
+    function jur_AbstractSet_getNext($this) {
+        return $this.$next2;
+    }
+    function jur_AbstractSet_setNext($this, $next) {
+        $this.$next2 = $next;
+    }
+    function jur_AbstractSet_first($this, $set) {
+        return 1;
+    }
+    function jur_AbstractSet_processBackRefReplacement($this) {
+        return null;
+    }
+    function jur_AbstractSet_processSecondPass($this) {
+        var $set;
+        $this.$isSecondPassVisited = 1;
+        $set = $this.$next2;
+        if ($set !== null) {
+            if (!$set.$isSecondPassVisited) {
+                $set = $set.$processBackRefReplacement();
+                if ($set !== null) {
+                    $this.$next2.$isSecondPassVisited = 1;
+                    $this.$next2 = $set;
+                }
+                $this.$next2.$processSecondPass();
+            } else if ($set instanceof jur_SingleSet && $set.$fSet.$isBackReferenced)
+                $this.$next2 = $set.$next2;
+        }
+    }
+    function jur_AbstractSet__clinit_() {
+        jur_AbstractSet_counter = 1;
     }
     function jnc_Charset() {
         var a = this; jl_Object.call(a);
@@ -15580,14 +16698,14 @@
         jnci_UTF8Charset_$callClinit();
         var$2 = $rt_createArray(jl_String, 0);
         var$3 = var$2.data;
-        jnc_Charset_checkCanonicalName($rt_s(266));
+        jnc_Charset_checkCanonicalName($rt_s(279));
         var$4 = var$3.length;
         var$5 = 0;
         while (var$5 < var$4) {
             jnc_Charset_checkCanonicalName(var$3[var$5]);
             var$5 = var$5 + 1 | 0;
         }
-        var$1.$canonicalName = $rt_s(266);
+        var$1.$canonicalName = $rt_s(279);
         var$1.$aliases = var$2.$clone();
         jnci_UTF8Charset_INSTANCE = var$1;
     }
@@ -15620,7 +16738,7 @@
         var$1 = tj_Expression_toString($this.$expression0);
         var$2 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$2);
-        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$2, $rt_s(267)), var$1), 41);
+        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$2, $rt_s(280)), var$1), 41);
         return jl_AbstractStringBuilder_toString(var$2);
     }
     function tj_CastElmt() {
@@ -15645,13 +16763,13 @@
         var$2 = tj_Expression_toString($this.$element);
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
-        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(268)), var$1), $rt_s(88)), var$2), 41);
+        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$3, $rt_s(281)), var$1), $rt_s(90)), var$2), 41);
         return jl_AbstractStringBuilder_toString(var$3);
     }
     function tj_ListValElmt() {
         var a = this; tj_Element.call(a);
         a.$listName2 = null;
-        a.$index = null;
+        a.$index1 = null;
     }
     function tj_ListValElmt__init_(var_0, var_1) {
         var var_2 = new tj_ListValElmt();
@@ -15660,7 +16778,7 @@
     }
     function tj_ListValElmt__init_0($this, $listName, $index) {
         $this.$listName2 = $listName;
-        $this.$index = $index;
+        $this.$index1 = $index;
         tj_Element$ElementType_$callClinit();
         $this.$type1 = tj_Element$ElementType_LISTVAL;
     }
@@ -15668,12 +16786,12 @@
         return $this.$listName2;
     }
     function tj_ListValElmt_getIndex($this) {
-        return $this.$index;
+        return $this.$index1;
     }
     function tj_ListValElmt_toString($this) {
         var var$1, var$2, var$3;
         var$1 = $this.$listName2;
-        var$2 = tj_Expression_toString($this.$index);
+        var$2 = tj_Expression_toString($this.$index1);
         var$3 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$3);
         var$1 = jl_StringBuilder_append(var$3, var$1);
@@ -15712,7 +16830,7 @@
         $this.$type1 = tj_Element$ElementType_NOT_EQUAL;
     }
     function tj_NotEqualElmt_toString($this) {
-        return $rt_s(225);
+        return $rt_s(238);
     }
     var tj_GreaterThanElmt = $rt_classWithoutFields(tj_Element);
     function tj_GreaterThanElmt__init_() {
@@ -15725,7 +16843,7 @@
         $this.$type1 = tj_Element$ElementType_GREATER_THAN;
     }
     function tj_GreaterThanElmt_toString($this) {
-        return $rt_s(226);
+        return $rt_s(239);
     }
     var tj_GreaterThanEqualElmt = $rt_classWithoutFields(tj_Element);
     function tj_GreaterThanEqualElmt__init_() {
@@ -15738,7 +16856,7 @@
         $this.$type1 = tj_Element$ElementType_GREATER_THAN_EQUAL;
     }
     function tj_GreaterThanEqualElmt_toString($this) {
-        return $rt_s(228);
+        return $rt_s(241);
     }
     var tj_LessThanElmt = $rt_classWithoutFields(tj_Element);
     function tj_LessThanElmt__init_() {
@@ -15751,7 +16869,7 @@
         $this.$type1 = tj_Element$ElementType_LESS_THAN;
     }
     function tj_LessThanElmt_toString($this) {
-        return $rt_s(227);
+        return $rt_s(240);
     }
     var tj_LessThanEqualElmt = $rt_classWithoutFields(tj_Element);
     function tj_LessThanEqualElmt__init_() {
@@ -15764,7 +16882,7 @@
         $this.$type1 = tj_Element$ElementType_LESS_THAN_EQUAL;
     }
     function tj_LessThanEqualElmt_toString($this) {
-        return $rt_s(229);
+        return $rt_s(242);
     }
     function tj_ArrayLengthElmt() {
         tj_Element.call(this);
@@ -15788,7 +16906,7 @@
         var$1 = $this.$arrayName;
         var$2 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$2);
-        jl_StringBuilder_append(jl_StringBuilder_append(var$2, var$1), $rt_s(269));
+        jl_StringBuilder_append(jl_StringBuilder_append(var$2, var$1), $rt_s(282));
         return jl_AbstractStringBuilder_toString(var$2);
     }
     function tj_NotElmt() {
@@ -15864,7 +16982,7 @@
             $expression = tj_Expression_toString(var$3[var$5]);
             var$6 = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_(var$6);
-            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, var$1), $expression), $rt_s(88));
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$6, var$1), $expression), $rt_s(90));
             var$1 = jl_AbstractStringBuilder_toString(var$6);
             var$5 = var$5 + 1 | 0;
         }
@@ -15898,13 +17016,13 @@
     }
     function tj_ListElmt_toString($this) {
         var $str, var$2, $expression, var$4;
-        $str = $rt_s(270);
+        $str = $rt_s(283);
         var$2 = ju_AbstractList_iterator($this.$list0);
         while (ju_AbstractList$1_hasNext(var$2)) {
             $expression = tj_Expression_toString(ju_AbstractList$1_next(var$2));
             var$4 = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_(var$4);
-            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $str), $expression), $rt_s(88));
+            jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $str), $expression), $rt_s(90));
             $str = jl_AbstractStringBuilder_toString(var$4);
         }
         $str = jl_String_substring($str, 0, jl_String_length($str) - 2 | 0);
@@ -15921,6 +17039,820 @@
         return var$0.$getLength0();
     }
     var otjc_JSString = $rt_classWithoutFields();
+    function jur_FSet() {
+        var a = this; jur_AbstractSet.call(a);
+        a.$isBackReferenced = 0;
+        a.$groupIndex = 0;
+    }
+    var jur_FSet_posFSet = null;
+    function jur_FSet_$callClinit() {
+        jur_FSet_$callClinit = $rt_eraseClinit(jur_FSet);
+        jur_FSet__clinit_();
+    }
+    function jur_FSet__init_0(var_0) {
+        var var_1 = new jur_FSet();
+        jur_FSet__init_(var_1, var_0);
+        return var_1;
+    }
+    function jur_FSet__init_($this, $groupIndex) {
+        jur_FSet_$callClinit();
+        jur_AbstractSet__init_($this);
+        $this.$groupIndex = $groupIndex;
+    }
+    function jur_FSet_matches($this, $stringIndex, $testString, $matchResult) {
+        var $end, $shift;
+        $end = jur_MatchResultImpl_getEnd($matchResult, $this.$groupIndex);
+        jur_MatchResultImpl_setEnd($matchResult, $this.$groupIndex, $stringIndex);
+        $shift = $this.$next2.$matches($stringIndex, $testString, $matchResult);
+        if ($shift < 0)
+            jur_MatchResultImpl_setEnd($matchResult, $this.$groupIndex, $end);
+        return $shift;
+    }
+    function jur_FSet_getGroupIndex($this) {
+        return $this.$groupIndex;
+    }
+    function jur_FSet_hasConsumed($this, $mr) {
+        return 0;
+    }
+    function jur_FSet__clinit_() {
+        var var$1;
+        var$1 = new jur_FSet$PossessiveFSet;
+        jur_AbstractSet__init_(var$1);
+        jur_FSet_posFSet = var$1;
+    }
+    function jur_Lexer() {
+        var a = this; jl_Object.call(a);
+        a.$pattern = null;
+        a.$flags = 0;
+        a.$mode = 0;
+        a.$savedMode = 0;
+        a.$lookBack = 0;
+        a.$ch = 0;
+        a.$lookAhead = 0;
+        a.$patternFullLength = 0;
+        a.$curST = null;
+        a.$lookAheadST = null;
+        a.$index = 0;
+        a.$prevNW = 0;
+        a.$curToc = 0;
+        a.$lookAheadToc = 0;
+        a.$orig = null;
+    }
+    var jur_Lexer_decompTable = null;
+    var jur_Lexer_singleDecompTable = null;
+    var jur_Lexer_singleDecompTableSize = 0;
+    function jur_Lexer_setMode($this, $mode) {
+        if ($mode > 0 && $mode < 3)
+            $this.$mode = $mode;
+        if ($mode == 1) {
+            $this.$lookAhead = $this.$ch;
+            $this.$lookAheadST = $this.$curST;
+            $this.$index = $this.$lookAheadToc;
+            $this.$lookAheadToc = $this.$curToc;
+            jur_Lexer_movePointer($this);
+        }
+    }
+    function jur_Lexer_isSpecial($this) {
+        return $this.$curST === null ? 0 : 1;
+    }
+    function jur_Lexer_isNextSpecial($this) {
+        return $this.$lookAheadST === null ? 0 : 1;
+    }
+    function jur_Lexer_next($this) {
+        jur_Lexer_movePointer($this);
+        return $this.$lookBack;
+    }
+    function jur_Lexer_nextSpecial($this) {
+        var $res;
+        $res = $this.$curST;
+        jur_Lexer_movePointer($this);
+        return $res;
+    }
+    function jur_Lexer_movePointer($this) {
+        var $reread, $nonCap, var$3, $behind, $mod, $cs, $negative, $$je;
+        $this.$lookBack = $this.$ch;
+        $this.$ch = $this.$lookAhead;
+        $this.$curST = $this.$lookAheadST;
+        $this.$curToc = $this.$lookAheadToc;
+        $this.$lookAheadToc = $this.$index;
+        while (true) {
+            $reread = 0;
+            $nonCap = $this.$index >= $this.$pattern.data.length ? 0 : jur_Lexer_nextCodePoint($this);
+            $this.$lookAhead = $nonCap;
+            $this.$lookAheadST = null;
+            if ($this.$mode == 4) {
+                if ($nonCap != 92)
+                    return;
+                $nonCap = $this.$index;
+                var$3 = $this.$pattern.data;
+                $nonCap = $nonCap >= var$3.length ? 0 : var$3[jur_Lexer_nextIndex($this)];
+                $this.$lookAhead = $nonCap;
+                switch ($nonCap) {
+                    case 69:
+                        break;
+                    default:
+                        $this.$lookAhead = 92;
+                        $this.$index = $this.$prevNW;
+                        return;
+                }
+                $this.$mode = $this.$savedMode;
+                $this.$lookAhead = $this.$index > ($this.$pattern.data.length - 2 | 0) ? 0 : jur_Lexer_nextCodePoint($this);
+            }
+            a: {
+                $nonCap = $this.$lookAhead;
+                if ($nonCap != 92) {
+                    $behind = $this.$mode;
+                    if ($behind == 1)
+                        switch ($nonCap) {
+                            case 36:
+                                $this.$lookAhead = (-536870876);
+                                break a;
+                            case 40:
+                                if ($this.$pattern.data[$this.$index] != 63) {
+                                    $this.$lookAhead = (-2147483608);
+                                    break a;
+                                }
+                                jur_Lexer_nextIndex($this);
+                                $nonCap = $this.$pattern.data[$this.$index];
+                                $behind = 0;
+                                while (true) {
+                                    b: {
+                                        if ($behind) {
+                                            $behind = 0;
+                                            switch ($nonCap) {
+                                                case 33:
+                                                    break;
+                                                case 61:
+                                                    $this.$lookAhead = (-134217688);
+                                                    jur_Lexer_nextIndex($this);
+                                                    break b;
+                                                default:
+                                                    $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), jur_Lexer_toString($this), $this.$index));
+                                            }
+                                            $this.$lookAhead = (-67108824);
+                                            jur_Lexer_nextIndex($this);
+                                        } else {
+                                            switch ($nonCap) {
+                                                case 33:
+                                                    break;
+                                                case 60:
+                                                    jur_Lexer_nextIndex($this);
+                                                    $nonCap = $this.$pattern.data[$this.$index];
+                                                    $behind = 1;
+                                                    break b;
+                                                case 61:
+                                                    $this.$lookAhead = (-536870872);
+                                                    jur_Lexer_nextIndex($this);
+                                                    break b;
+                                                case 62:
+                                                    $this.$lookAhead = (-33554392);
+                                                    jur_Lexer_nextIndex($this);
+                                                    break b;
+                                                default:
+                                                    $mod = jur_Lexer_readFlags($this);
+                                                    $this.$lookAhead = $mod;
+                                                    if ($mod < 256) {
+                                                        $this.$flags = $mod;
+                                                        $mod = $mod << 16;
+                                                        $this.$lookAhead = $mod;
+                                                        $this.$lookAhead = (-1073741784) | $mod;
+                                                        break b;
+                                                    }
+                                                    $mod = $mod & 255;
+                                                    $this.$lookAhead = $mod;
+                                                    $this.$flags = $mod;
+                                                    $mod = $mod << 16;
+                                                    $this.$lookAhead = $mod;
+                                                    $this.$lookAhead = (-16777176) | $mod;
+                                                    break b;
+                                            }
+                                            $this.$lookAhead = (-268435416);
+                                            jur_Lexer_nextIndex($this);
+                                        }
+                                    }
+                                    if (!$behind)
+                                        break;
+                                }
+                                break a;
+                            case 41:
+                                $this.$lookAhead = (-536870871);
+                                break a;
+                            case 42:
+                            case 43:
+                            case 63:
+                                $behind = $this.$index;
+                                var$3 = $this.$pattern.data;
+                                switch ($behind >= var$3.length ? 42 : var$3[$behind]) {
+                                    case 43:
+                                        $this.$lookAhead = $nonCap | (-2147483648);
+                                        jur_Lexer_nextIndex($this);
+                                        break a;
+                                    case 63:
+                                        $this.$lookAhead = $nonCap | (-1073741824);
+                                        jur_Lexer_nextIndex($this);
+                                        break a;
+                                    default:
+                                }
+                                $this.$lookAhead = $nonCap | (-536870912);
+                                break a;
+                            case 46:
+                                $this.$lookAhead = (-536870866);
+                                break a;
+                            case 91:
+                                $this.$lookAhead = (-536870821);
+                                jur_Lexer_setMode($this, 2);
+                                break a;
+                            case 93:
+                                if ($behind != 2)
+                                    break a;
+                                $this.$lookAhead = (-536870819);
+                                break a;
+                            case 94:
+                                $this.$lookAhead = (-536870818);
+                                break a;
+                            case 123:
+                                $this.$lookAheadST = jur_Lexer_processQuantifier($this, $nonCap);
+                                break a;
+                            case 124:
+                                $this.$lookAhead = (-536870788);
+                                break a;
+                            default:
+                        }
+                    else if ($behind == 2)
+                        switch ($nonCap) {
+                            case 38:
+                                $this.$lookAhead = (-536870874);
+                                break a;
+                            case 45:
+                                $this.$lookAhead = (-536870867);
+                                break a;
+                            case 91:
+                                $this.$lookAhead = (-536870821);
+                                break a;
+                            case 93:
+                                $this.$lookAhead = (-536870819);
+                                break a;
+                            case 94:
+                                $this.$lookAhead = (-536870818);
+                                break a;
+                            default:
+                        }
+                } else {
+                    $nonCap = $this.$index >= ($this.$pattern.data.length - 2 | 0) ? (-1) : jur_Lexer_nextCodePoint($this);
+                    c: {
+                        $this.$lookAhead = $nonCap;
+                        switch ($nonCap) {
+                            case -1:
+                                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), jur_Lexer_toString($this), $this.$index));
+                            case 0:
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                            case 9:
+                            case 10:
+                            case 11:
+                            case 12:
+                            case 13:
+                            case 14:
+                            case 15:
+                            case 16:
+                            case 17:
+                            case 18:
+                            case 19:
+                            case 20:
+                            case 21:
+                            case 22:
+                            case 23:
+                            case 24:
+                            case 25:
+                            case 26:
+                            case 27:
+                            case 28:
+                            case 29:
+                            case 30:
+                            case 31:
+                            case 32:
+                            case 33:
+                            case 34:
+                            case 35:
+                            case 36:
+                            case 37:
+                            case 38:
+                            case 39:
+                            case 40:
+                            case 41:
+                            case 42:
+                            case 43:
+                            case 44:
+                            case 45:
+                            case 46:
+                            case 47:
+                            case 58:
+                            case 59:
+                            case 60:
+                            case 61:
+                            case 62:
+                            case 63:
+                            case 64:
+                            case 91:
+                            case 92:
+                            case 93:
+                            case 94:
+                            case 95:
+                            case 96:
+                            case 118:
+                                break;
+                            case 48:
+                                $this.$lookAhead = jur_Lexer_readOctals($this);
+                                break a;
+                            case 49:
+                            case 50:
+                            case 51:
+                            case 52:
+                            case 53:
+                            case 54:
+                            case 55:
+                            case 56:
+                            case 57:
+                                if ($this.$mode != 1)
+                                    break a;
+                                $this.$lookAhead = (-2147483648) | $nonCap;
+                                break a;
+                            case 65:
+                                $this.$lookAhead = (-2147483583);
+                                break a;
+                            case 66:
+                                $this.$lookAhead = (-2147483582);
+                                break a;
+                            case 67:
+                            case 69:
+                            case 70:
+                            case 72:
+                            case 73:
+                            case 74:
+                            case 75:
+                            case 76:
+                            case 77:
+                            case 78:
+                            case 79:
+                            case 82:
+                            case 84:
+                            case 85:
+                            case 86:
+                            case 88:
+                            case 89:
+                            case 103:
+                            case 104:
+                            case 105:
+                            case 106:
+                            case 107:
+                            case 108:
+                            case 109:
+                            case 111:
+                            case 113:
+                            case 121:
+                                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), jur_Lexer_toString($this), $this.$index));
+                            case 68:
+                            case 83:
+                            case 87:
+                            case 100:
+                            case 115:
+                            case 119:
+                                $this.$lookAheadST = jur_AbstractCharClass_getPredefinedClass(jl_String__init_1($this.$pattern, $this.$prevNW, 1), 0);
+                                $this.$lookAhead = 0;
+                                break a;
+                            case 71:
+                                $this.$lookAhead = (-2147483577);
+                                break a;
+                            case 80:
+                            case 112:
+                                break c;
+                            case 81:
+                                $this.$savedMode = $this.$mode;
+                                $this.$mode = 4;
+                                $reread = 1;
+                                break a;
+                            case 90:
+                                $this.$lookAhead = (-2147483558);
+                                break a;
+                            case 97:
+                                $this.$lookAhead = 7;
+                                break a;
+                            case 98:
+                                $this.$lookAhead = (-2147483550);
+                                break a;
+                            case 99:
+                                $nonCap = $this.$index;
+                                var$3 = $this.$pattern.data;
+                                if ($nonCap >= (var$3.length - 2 | 0))
+                                    $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), jur_Lexer_toString($this), $this.$index));
+                                $this.$lookAhead = var$3[jur_Lexer_nextIndex($this)] & 31;
+                                break a;
+                            case 101:
+                                $this.$lookAhead = 27;
+                                break a;
+                            case 102:
+                                $this.$lookAhead = 12;
+                                break a;
+                            case 110:
+                                $this.$lookAhead = 10;
+                                break a;
+                            case 114:
+                                $this.$lookAhead = 13;
+                                break a;
+                            case 116:
+                                $this.$lookAhead = 9;
+                                break a;
+                            case 117:
+                                $this.$lookAhead = jur_Lexer_readHex($this, 4);
+                                break a;
+                            case 120:
+                                $this.$lookAhead = jur_Lexer_readHex($this, 2);
+                                break a;
+                            case 122:
+                                $this.$lookAhead = (-2147483526);
+                                break a;
+                            default:
+                        }
+                        break a;
+                    }
+                    $cs = jur_Lexer_parseCharClassName($this);
+                    $negative = 0;
+                    if ($this.$lookAhead == 80)
+                        $negative = 1;
+                    try {
+                        $this.$lookAheadST = jur_AbstractCharClass_getPredefinedClass($cs, $negative);
+                    } catch ($$e) {
+                        $$je = $rt_wrapException($$e);
+                        if ($$je instanceof ju_MissingResourceException) {
+                            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), jur_Lexer_toString($this), $this.$index));
+                        } else {
+                            throw $$e;
+                        }
+                    }
+                    $this.$lookAhead = 0;
+                }
+            }
+            if ($reread)
+                continue;
+            else
+                break;
+        }
+    }
+    function jur_Lexer_parseCharClassName($this) {
+        var $sb, $ch, var$3, var$4, $res, var$6;
+        $sb = new jl_StringBuilder;
+        jl_AbstractStringBuilder__init_2($sb, 10);
+        $ch = $this.$index;
+        var$3 = $this.$pattern;
+        var$4 = var$3.data;
+        if ($ch < (var$4.length - 2 | 0)) {
+            if (var$4[$ch] != 123) {
+                $sb = jl_String__init_1(var$3, jur_Lexer_nextIndex($this), 1);
+                $res = new jl_StringBuilder;
+                jl_AbstractStringBuilder__init_($res);
+                jl_StringBuilder_append(jl_StringBuilder_append($res, $rt_s(284)), $sb);
+                return jl_AbstractStringBuilder_toString($res);
+            }
+            jur_Lexer_nextIndex($this);
+            $ch = 0;
+            a: {
+                while (true) {
+                    var$6 = $this.$index;
+                    var$3 = $this.$pattern.data;
+                    if (var$6 >= (var$3.length - 2 | 0))
+                        break;
+                    $ch = var$3[jur_Lexer_nextIndex($this)];
+                    if ($ch == 125)
+                        break a;
+                    jl_AbstractStringBuilder_append($sb, $ch);
+                }
+            }
+            if ($ch != 125)
+                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, $this.$index));
+        }
+        if (!$sb.$length0)
+            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, $this.$index));
+        $res = jl_AbstractStringBuilder_toString($sb);
+        if (jl_String_length($res) == 1) {
+            $sb = new jl_StringBuilder;
+            jl_AbstractStringBuilder__init_($sb);
+            jl_StringBuilder_append(jl_StringBuilder_append($sb, $rt_s(284)), $res);
+            return jl_AbstractStringBuilder_toString($sb);
+        }
+        b: {
+            c: {
+                if (jl_String_length($res) > 3) {
+                    if (jl_String_startsWith0($res, $rt_s(284)))
+                        break c;
+                    if (jl_String_startsWith0($res, $rt_s(285)))
+                        break c;
+                }
+                break b;
+            }
+            $res = jl_String_substring0($res, 2);
+        }
+        return $res;
+    }
+    function jur_Lexer_processQuantifier($this, $ch) {
+        var $sb, $min, $max, $mod, var$6, $$je;
+        $sb = new jl_StringBuilder;
+        jl_AbstractStringBuilder__init_2($sb, 4);
+        $min = (-1);
+        $max = 2147483647;
+        a: {
+            while (true) {
+                $mod = $this.$index;
+                var$6 = $this.$pattern.data;
+                if ($mod >= var$6.length)
+                    break a;
+                $ch = var$6[jur_Lexer_nextIndex($this)];
+                if ($ch == 125)
+                    break a;
+                if ($ch == 44 && $min < 0)
+                    try {
+                        $min = jl_Integer_parseInt(jl_StringBuilder_toString($sb), 10);
+                        jl_StringBuilder_delete($sb, 0, jl_StringBuilder_length($sb));
+                        continue;
+                    } catch ($$e) {
+                        $$je = $rt_wrapException($$e);
+                        if ($$je instanceof jl_NumberFormatException) {
+                            break;
+                        } else {
+                            throw $$e;
+                        }
+                    }
+                jl_AbstractStringBuilder_append($sb, $ch & 65535);
+            }
+            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, $this.$index));
+        }
+        if ($ch != 125)
+            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, $this.$index));
+        if ($sb.$length0 > 0)
+            b: {
+                try {
+                    $max = jl_Integer_parseInt(jl_StringBuilder_toString($sb), 10);
+                    if ($min >= 0)
+                        break b;
+                    $min = $max;
+                    break b;
+                } catch ($$e) {
+                    $$je = $rt_wrapException($$e);
+                    if ($$je instanceof jl_NumberFormatException) {
+                    } else {
+                        throw $$e;
+                    }
+                }
+                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, $this.$index));
+            }
+        else if ($min < 0)
+            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, $this.$index));
+        if (($min | $max | ($max - $min | 0)) < 0)
+            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, $this.$index));
+        $ch = $this.$index;
+        var$6 = $this.$pattern.data;
+        $mod = $ch >= var$6.length ? 42 : var$6[$ch];
+        c: {
+            switch ($mod) {
+                case 43:
+                    $this.$lookAhead = (-2147483525);
+                    jur_Lexer_nextIndex($this);
+                    break c;
+                case 63:
+                    $this.$lookAhead = (-1073741701);
+                    jur_Lexer_nextIndex($this);
+                    break c;
+                default:
+            }
+            $this.$lookAhead = (-536870789);
+        }
+        $sb = new jur_Quantifier;
+        $sb.$min0 = $min;
+        $sb.$max0 = $max;
+        return $sb;
+    }
+    function jur_Lexer_toString($this) {
+        return $this.$orig;
+    }
+    function jur_Lexer_isEmpty($this) {
+        return !$this.$ch && !$this.$lookAhead && $this.$index == $this.$patternFullLength && !jur_Lexer_isSpecial($this) ? 1 : 0;
+    }
+    function jur_Lexer_isLetter0($ch) {
+        return $ch < 0 ? 0 : 1;
+    }
+    function jur_Lexer_isLetter($this) {
+        return !jur_Lexer_isEmpty($this) && !jur_Lexer_isSpecial($this) && jur_Lexer_isLetter0($this.$ch) ? 1 : 0;
+    }
+    function jur_Lexer_isHighSurrogate($this) {
+        var var$1;
+        var$1 = $this.$ch;
+        return var$1 <= 56319 && var$1 >= 55296 ? 1 : 0;
+    }
+    function jur_Lexer_isLowSurrogate($this) {
+        var var$1;
+        var$1 = $this.$ch;
+        return var$1 <= 57343 && var$1 >= 56320 ? 1 : 0;
+    }
+    function jur_Lexer_isHighSurrogate0($ch) {
+        return $ch <= 56319 && $ch >= 55296 ? 1 : 0;
+    }
+    function jur_Lexer_isLowSurrogate0($ch) {
+        return $ch <= 57343 && $ch >= 56320 ? 1 : 0;
+    }
+    function jur_Lexer_readHex($this, $max) {
+        var $st, $length, $i, var$5, $$je;
+        $st = new jl_StringBuilder;
+        jl_AbstractStringBuilder__init_2($st, $max);
+        $length = $this.$pattern.data.length - 2 | 0;
+        $i = 0;
+        while (true) {
+            var$5 = $rt_compare($i, $max);
+            if (var$5 >= 0)
+                break;
+            if ($this.$index >= $length)
+                break;
+            jl_AbstractStringBuilder_append($st, $this.$pattern.data[jur_Lexer_nextIndex($this)]);
+            $i = $i + 1 | 0;
+        }
+        if (!var$5)
+            a: {
+                try {
+                    $max = jl_Integer_parseInt(jl_StringBuilder_toString($st), 16);
+                } catch ($$e) {
+                    $$je = $rt_wrapException($$e);
+                    if ($$je instanceof jl_NumberFormatException) {
+                        break a;
+                    } else {
+                        throw $$e;
+                    }
+                }
+                return $max;
+            }
+        $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, $this.$index));
+    }
+    function jur_Lexer_readOctals($this) {
+        var $max, $i, var$3, $length, $res, var$6;
+        $max = 3;
+        $i = 1;
+        var$3 = $this.$pattern.data;
+        $length = var$3.length - 2 | 0;
+        $res = jl_Character_digit(var$3[$this.$index], 8);
+        switch ($res) {
+            case -1:
+                break;
+            default:
+                if ($res > 3)
+                    $max = 2;
+                jur_Lexer_nextIndex($this);
+                a: {
+                    while (true) {
+                        if ($i >= $max)
+                            break a;
+                        var$6 = $this.$index;
+                        if (var$6 >= $length)
+                            break a;
+                        var$6 = jl_Character_digit($this.$pattern.data[var$6], 8);
+                        if (var$6 < 0)
+                            break;
+                        $res = ($res * 8 | 0) + var$6 | 0;
+                        jur_Lexer_nextIndex($this);
+                        $i = $i + 1 | 0;
+                    }
+                }
+                return $res;
+        }
+        $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, $this.$index));
+    }
+    function jur_Lexer_readFlags($this) {
+        var $pos, $res, var$3, var$4;
+        $pos = 1;
+        $res = $this.$flags;
+        a: while (true) {
+            var$3 = $this.$index;
+            var$4 = $this.$pattern.data;
+            if (var$3 >= var$4.length)
+                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, var$3));
+            b: {
+                c: {
+                    switch (var$4[var$3]) {
+                        case 41:
+                            jur_Lexer_nextIndex($this);
+                            return $res | 256;
+                        case 45:
+                            if (!$pos)
+                                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(10), $this.$orig, var$3));
+                            $pos = 0;
+                            break b;
+                        case 58:
+                            break a;
+                        case 100:
+                            break c;
+                        case 105:
+                            $res = $pos ? $res | 2 : ($res ^ 2) & $res;
+                            break b;
+                        case 109:
+                            $res = $pos ? $res | 8 : ($res ^ 8) & $res;
+                            break b;
+                        case 115:
+                            $res = $pos ? $res | 32 : ($res ^ 32) & $res;
+                            break b;
+                        case 117:
+                            $res = $pos ? $res | 64 : ($res ^ 64) & $res;
+                            break b;
+                        case 120:
+                            $res = $pos ? $res | 4 : ($res ^ 4) & $res;
+                            break b;
+                        default:
+                    }
+                    break b;
+                }
+                $res = $pos ? $res | 1 : ($res ^ 1) & $res;
+            }
+            jur_Lexer_nextIndex($this);
+        }
+        jur_Lexer_nextIndex($this);
+        return $res;
+    }
+    function jur_Lexer_nextIndex($this) {
+        var var$1, var$2, var$3, var$4, var$5;
+        var$1 = $this.$index;
+        $this.$prevNW = var$1;
+        if (!($this.$flags & 4))
+            $this.$index = var$1 + 1 | 0;
+        else {
+            var$2 = $this.$pattern.data.length - 2 | 0;
+            $this.$index = var$1 + 1 | 0;
+            a: while (true) {
+                var$3 = $this.$index;
+                if (var$3 < var$2 && jl_Character_isWhitespace($this.$pattern.data[var$3])) {
+                    $this.$index = $this.$index + 1 | 0;
+                    continue;
+                }
+                var$3 = $this.$index;
+                if (var$3 >= var$2)
+                    break;
+                var$4 = $this.$pattern.data;
+                if (var$4[var$3] != 35)
+                    break;
+                $this.$index = var$3 + 1 | 0;
+                while (true) {
+                    var$5 = $this.$index;
+                    if (var$5 >= var$2)
+                        continue a;
+                    var$1 = var$4[var$5];
+                    if (var$1 != 10 && var$1 != 13 && var$1 != 133 && (var$1 | 1) != 8233 ? 0 : 1)
+                        continue a;
+                    $this.$index = var$5 + 1 | 0;
+                }
+            }
+        }
+        return $this.$prevNW;
+    }
+    function jur_Lexer_getDecomposition($ch) {
+        return jur_Lexer_decompTable.$get2($ch);
+    }
+    function jur_Lexer_nextCodePoint($this) {
+        var $high, $lowExpectedIndex, var$3, $low;
+        $high = $this.$pattern.data[jur_Lexer_nextIndex($this)];
+        if (jl_Character_isHighSurrogate($high)) {
+            $lowExpectedIndex = $this.$prevNW + 1 | 0;
+            var$3 = $this.$pattern.data;
+            if ($lowExpectedIndex < var$3.length) {
+                $low = var$3[$lowExpectedIndex];
+                if (jl_Character_isLowSurrogate($low)) {
+                    jur_Lexer_nextIndex($this);
+                    return jl_Character_toCodePoint($high, $low);
+                }
+            }
+        }
+        return $high;
+    }
+    function jur_Lexer_getIndex($this) {
+        return $this.$curToc;
+    }
+    function jur_PatternSyntaxException() {
+        var a = this; jl_IllegalArgumentException.call(a);
+        a.$desc = null;
+        a.$pattern1 = null;
+        a.$index2 = 0;
+    }
+    function jur_PatternSyntaxException__init_0(var_0, var_1, var_2) {
+        var var_3 = new jur_PatternSyntaxException();
+        jur_PatternSyntaxException__init_(var_3, var_0, var_1, var_2);
+        return var_3;
+    }
+    function jur_PatternSyntaxException__init_($this, $description, $pattern, $index) {
+        jl_Exception__init_($this);
+        $this.$index2 = (-1);
+        $this.$desc = $description;
+        $this.$pattern1 = $pattern;
+        $this.$index2 = $index;
+    }
     var tj_Element$ElementType = $rt_classWithoutFields(jl_Enum);
     var tj_Element$ElementType_PLUS = null;
     var tj_Element$ElementType_MINUS = null;
@@ -15967,44 +17899,44 @@
     }
     function tj_Element$ElementType__clinit_() {
         var var$1;
-        tj_Element$ElementType_PLUS = tj_Element$ElementType__init_($rt_s(184), 0);
-        tj_Element$ElementType_MINUS = tj_Element$ElementType__init_($rt_s(186), 1);
-        tj_Element$ElementType_DIVIDE = tj_Element$ElementType__init_($rt_s(193), 2);
-        tj_Element$ElementType_MULTIPLY = tj_Element$ElementType__init_($rt_s(191), 3);
-        tj_Element$ElementType_FLOAT = tj_Element$ElementType__init_($rt_s(23), 4);
-        tj_Element$ElementType_INTEGER = tj_Element$ElementType__init_($rt_s(172), 5);
-        tj_Element$ElementType_VARIABLE = tj_Element$ElementType__init_($rt_s(177), 6);
-        tj_Element$ElementType_FUNCTION = tj_Element$ElementType__init_($rt_s(153), 7);
-        tj_Element$ElementType_EQUAL = tj_Element$ElementType__init_($rt_s(185), 8);
-        tj_Element$ElementType_NOT_EQUAL = tj_Element$ElementType__init_($rt_s(190), 9);
-        tj_Element$ElementType_LESS_THAN = tj_Element$ElementType__init_($rt_s(175), 10);
-        tj_Element$ElementType_GREATER_THAN = tj_Element$ElementType__init_($rt_s(189), 11);
-        tj_Element$ElementType_LESS_THAN_EQUAL = tj_Element$ElementType__init_($rt_s(173), 12);
-        tj_Element$ElementType_GREATER_THAN_EQUAL = tj_Element$ElementType__init_($rt_s(187), 13);
-        tj_Element$ElementType_STRING = tj_Element$ElementType__init_($rt_s(21), 14);
-        tj_Element$ElementType_BOOL = tj_Element$ElementType__init_($rt_s(181), 15);
-        tj_Element$ElementType_AND = tj_Element$ElementType__init_($rt_s(179), 16);
-        tj_Element$ElementType_OR = tj_Element$ElementType__init_($rt_s(178), 17);
-        tj_Element$ElementType_NOT = tj_Element$ElementType__init_($rt_s(180), 18);
-        tj_Element$ElementType_EXPRESSION = tj_Element$ElementType__init_($rt_s(174), 19);
-        tj_Element$ElementType_CAST = tj_Element$ElementType__init_($rt_s(182), 20);
-        tj_Element$ElementType_SHOWINPUTBOX = tj_Element$ElementType__init_($rt_s(192), 21);
-        tj_Element$ElementType_LIST = tj_Element$ElementType__init_($rt_s(183), 22);
-        tj_Element$ElementType_LISTVAL = tj_Element$ElementType__init_($rt_s(188), 23);
-        var$1 = tj_Element$ElementType__init_($rt_s(176), 24);
+        tj_Element$ElementType_PLUS = tj_Element$ElementType__init_($rt_s(197), 0);
+        tj_Element$ElementType_MINUS = tj_Element$ElementType__init_($rt_s(199), 1);
+        tj_Element$ElementType_DIVIDE = tj_Element$ElementType__init_($rt_s(206), 2);
+        tj_Element$ElementType_MULTIPLY = tj_Element$ElementType__init_($rt_s(204), 3);
+        tj_Element$ElementType_FLOAT = tj_Element$ElementType__init_($rt_s(25), 4);
+        tj_Element$ElementType_INTEGER = tj_Element$ElementType__init_($rt_s(185), 5);
+        tj_Element$ElementType_VARIABLE = tj_Element$ElementType__init_($rt_s(190), 6);
+        tj_Element$ElementType_FUNCTION = tj_Element$ElementType__init_($rt_s(165), 7);
+        tj_Element$ElementType_EQUAL = tj_Element$ElementType__init_($rt_s(198), 8);
+        tj_Element$ElementType_NOT_EQUAL = tj_Element$ElementType__init_($rt_s(203), 9);
+        tj_Element$ElementType_LESS_THAN = tj_Element$ElementType__init_($rt_s(188), 10);
+        tj_Element$ElementType_GREATER_THAN = tj_Element$ElementType__init_($rt_s(202), 11);
+        tj_Element$ElementType_LESS_THAN_EQUAL = tj_Element$ElementType__init_($rt_s(186), 12);
+        tj_Element$ElementType_GREATER_THAN_EQUAL = tj_Element$ElementType__init_($rt_s(200), 13);
+        tj_Element$ElementType_STRING = tj_Element$ElementType__init_($rt_s(23), 14);
+        tj_Element$ElementType_BOOL = tj_Element$ElementType__init_($rt_s(194), 15);
+        tj_Element$ElementType_AND = tj_Element$ElementType__init_($rt_s(192), 16);
+        tj_Element$ElementType_OR = tj_Element$ElementType__init_($rt_s(191), 17);
+        tj_Element$ElementType_NOT = tj_Element$ElementType__init_($rt_s(193), 18);
+        tj_Element$ElementType_EXPRESSION = tj_Element$ElementType__init_($rt_s(187), 19);
+        tj_Element$ElementType_CAST = tj_Element$ElementType__init_($rt_s(195), 20);
+        tj_Element$ElementType_SHOWINPUTBOX = tj_Element$ElementType__init_($rt_s(205), 21);
+        tj_Element$ElementType_LIST = tj_Element$ElementType__init_($rt_s(196), 22);
+        tj_Element$ElementType_LISTVAL = tj_Element$ElementType__init_($rt_s(201), 23);
+        var$1 = tj_Element$ElementType__init_($rt_s(189), 24);
         tj_Element$ElementType_ARRAYLENGTH = var$1;
         tj_Element$ElementType_$VALUES = $rt_createArrayFromData(tj_Element$ElementType, [tj_Element$ElementType_PLUS, tj_Element$ElementType_MINUS, tj_Element$ElementType_DIVIDE, tj_Element$ElementType_MULTIPLY, tj_Element$ElementType_FLOAT, tj_Element$ElementType_INTEGER, tj_Element$ElementType_VARIABLE, tj_Element$ElementType_FUNCTION, tj_Element$ElementType_EQUAL, tj_Element$ElementType_NOT_EQUAL, tj_Element$ElementType_LESS_THAN, tj_Element$ElementType_GREATER_THAN, tj_Element$ElementType_LESS_THAN_EQUAL,
         tj_Element$ElementType_GREATER_THAN_EQUAL, tj_Element$ElementType_STRING, tj_Element$ElementType_BOOL, tj_Element$ElementType_AND, tj_Element$ElementType_OR, tj_Element$ElementType_NOT, tj_Element$ElementType_EXPRESSION, tj_Element$ElementType_CAST, tj_Element$ElementType_SHOWINPUTBOX, tj_Element$ElementType_LIST, tj_Element$ElementType_LISTVAL, var$1]);
     }
     function tj_IntElmt() {
         tj_Element.call(this);
-        this.$value25 = 0;
+        this.$value20 = 0;
     }
     function tj_IntElmt_toString($this) {
-        return jl_Integer_toString($this.$value25);
+        return jl_Integer_toString($this.$value20);
     }
     function tj_IntElmt_getValue($this) {
-        return $this.$value25;
+        return $this.$value20;
     }
     function tj_FloatElmt() {
         tj_Element.call(this);
@@ -16192,7 +18124,7 @@
     }
     function jl_Boolean() {
         jl_Object.call(this);
-        this.$value23 = 0;
+        this.$value24 = 0;
     }
     var jl_Boolean_TRUE = null;
     var jl_Boolean_FALSE = null;
@@ -16203,7 +18135,7 @@
         return var_1;
     }
     function jl_Boolean__init_0($this, $value) {
-        $this.$value23 = $value;
+        $this.$value24 = $value;
     }
     function jl_Boolean_parseBoolean($s) {
         var var$2, var$3, var$4, var$5, var$6, var$7, var$8, var$9, var$10;
@@ -16264,7 +18196,7 @@
                     if (var$6 < var$5.data.length)
                         $s.$characters = ju_Arrays_copyOf(var$5, var$6);
                 }
-                if (jl_String_equals($s, $rt_s(19))) {
+                if (jl_String_equals($s, $rt_s(21))) {
                     var$4 = 1;
                     break a;
                 }
@@ -16274,16 +18206,16 @@
         return var$4;
     }
     function jl_Boolean_booleanValue($this) {
-        return $this.$value23;
+        return $this.$value24;
     }
     function jl_Boolean_valueOf($value) {
         return !$value ? jl_Boolean_FALSE : jl_Boolean_TRUE;
     }
     function jl_Boolean_toString($value) {
-        return !$value ? $rt_s(18) : $rt_s(19);
+        return !$value ? $rt_s(20) : $rt_s(21);
     }
     function jl_Boolean_toString0($this) {
-        return jl_Boolean_toString($this.$value23);
+        return jl_Boolean_toString($this.$value24);
     }
     function jl_Boolean__clinit_() {
         jl_Boolean_TRUE = jl_Boolean__init_(1);
@@ -16292,31 +18224,31 @@
     }
     var tj_EqualElmt = $rt_classWithoutFields(tj_Element);
     function tj_EqualElmt_toString($this) {
-        return $rt_s(224);
+        return $rt_s(237);
     }
     var tj_AndElmt = $rt_classWithoutFields(tj_Element);
     function tj_AndElmt_toString($this) {
-        return $rt_s(231);
+        return $rt_s(244);
     }
     var tj_OrElmt = $rt_classWithoutFields(tj_Element);
     function tj_OrElmt_toString($this) {
-        return $rt_s(232);
+        return $rt_s(245);
     }
     var tj_PlusElmt = $rt_classWithoutFields(tj_Element);
     function tj_PlusElmt_toString($this) {
-        return $rt_s(233);
+        return $rt_s(246);
     }
     var tj_MinusElmt = $rt_classWithoutFields(tj_Element);
     function tj_MinusElmt_toString($this) {
-        return $rt_s(234);
+        return $rt_s(247);
     }
     var tj_MultiplyElmt = $rt_classWithoutFields(tj_Element);
     function tj_MultiplyElmt_toString($this) {
-        return $rt_s(236);
+        return $rt_s(249);
     }
     var tj_DivideElmt = $rt_classWithoutFields(tj_Element);
     function tj_DivideElmt_toString($this) {
-        return $rt_s(237);
+        return $rt_s(250);
     }
     function tj_VariableElmt() {
         tj_Element.call(this);
@@ -16327,7 +18259,7 @@
         var$1 = $this.$name15;
         var$2 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$2);
-        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$2, $rt_s(271)), var$1), 41);
+        jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$2, $rt_s(286)), var$1), 41);
         return jl_AbstractStringBuilder_toString(var$2);
     }
     function tj_VariableElmt_getName($this) {
@@ -16388,19 +18320,19 @@
     }
     function tj_Translator$Operator__clinit_() {
         var var$1;
-        tj_Translator$Operator_PLUS = tj_Translator$Operator__init_($rt_s(184), 0);
-        tj_Translator$Operator_MINUS = tj_Translator$Operator__init_($rt_s(186), 1);
-        tj_Translator$Operator_DIVIDE = tj_Translator$Operator__init_($rt_s(193), 2);
-        tj_Translator$Operator_MULTIPLY = tj_Translator$Operator__init_($rt_s(191), 3);
-        tj_Translator$Operator_EQUAL = tj_Translator$Operator__init_($rt_s(185), 4);
-        tj_Translator$Operator_NOT_EQUAL = tj_Translator$Operator__init_($rt_s(190), 5);
-        tj_Translator$Operator_LESS_THAN = tj_Translator$Operator__init_($rt_s(175), 6);
-        tj_Translator$Operator_GREATER_THAN = tj_Translator$Operator__init_($rt_s(189), 7);
-        tj_Translator$Operator_LESS_THAN_EQUAL = tj_Translator$Operator__init_($rt_s(173), 8);
-        tj_Translator$Operator_GREATER_THAN_EQUAL = tj_Translator$Operator__init_($rt_s(187), 9);
-        tj_Translator$Operator_REMOVEALLFROM = tj_Translator$Operator__init_($rt_s(167), 10);
-        tj_Translator$Operator_REMOVEAT = tj_Translator$Operator__init_($rt_s(163), 11);
-        var$1 = tj_Translator$Operator__init_($rt_s(165), 12);
+        tj_Translator$Operator_PLUS = tj_Translator$Operator__init_($rt_s(197), 0);
+        tj_Translator$Operator_MINUS = tj_Translator$Operator__init_($rt_s(199), 1);
+        tj_Translator$Operator_DIVIDE = tj_Translator$Operator__init_($rt_s(206), 2);
+        tj_Translator$Operator_MULTIPLY = tj_Translator$Operator__init_($rt_s(204), 3);
+        tj_Translator$Operator_EQUAL = tj_Translator$Operator__init_($rt_s(198), 4);
+        tj_Translator$Operator_NOT_EQUAL = tj_Translator$Operator__init_($rt_s(203), 5);
+        tj_Translator$Operator_LESS_THAN = tj_Translator$Operator__init_($rt_s(188), 6);
+        tj_Translator$Operator_GREATER_THAN = tj_Translator$Operator__init_($rt_s(202), 7);
+        tj_Translator$Operator_LESS_THAN_EQUAL = tj_Translator$Operator__init_($rt_s(186), 8);
+        tj_Translator$Operator_GREATER_THAN_EQUAL = tj_Translator$Operator__init_($rt_s(200), 9);
+        tj_Translator$Operator_REMOVEALLFROM = tj_Translator$Operator__init_($rt_s(180), 10);
+        tj_Translator$Operator_REMOVEAT = tj_Translator$Operator__init_($rt_s(175), 11);
+        var$1 = tj_Translator$Operator__init_($rt_s(177), 12);
         tj_Translator$Operator_REMOVEFROM = var$1;
         tj_Translator$Operator_$VALUES = $rt_createArrayFromData(tj_Translator$Operator, [tj_Translator$Operator_PLUS, tj_Translator$Operator_MINUS, tj_Translator$Operator_DIVIDE, tj_Translator$Operator_MULTIPLY, tj_Translator$Operator_EQUAL, tj_Translator$Operator_NOT_EQUAL, tj_Translator$Operator_LESS_THAN, tj_Translator$Operator_GREATER_THAN, tj_Translator$Operator_LESS_THAN_EQUAL, tj_Translator$Operator_GREATER_THAN_EQUAL, tj_Translator$Operator_REMOVEALLFROM, tj_Translator$Operator_REMOVEAT, var$1]);
     }
@@ -16408,7 +18340,7 @@
     function tj_JavaishFloat() {
         var a = this; jl_Object.call(a);
         a.$value30 = 0.0;
-        a.$type2 = null;
+        a.$type3 = null;
     }
     function tj_JavaishFloat__init_(var_0) {
         var var_1 = new tj_JavaishFloat();
@@ -16424,14 +18356,14 @@
     }
     function tj_JavaishFloat__init_0($this, $value) {
         tj_JavaishVal$JavaishType_$callClinit();
-        $this.$type2 = tj_JavaishVal$JavaishType_FLOAT;
+        $this.$type3 = tj_JavaishVal$JavaishType_FLOAT;
         $this.$value30 = $value;
     }
     function tj_JavaishFloat_getType($this) {
-        return $this.$type2;
+        return $this.$type3;
     }
     function tj_JavaishFloat_typeString($this) {
-        return $rt_s(84);
+        return $rt_s(86);
     }
     function tj_JavaishFloat_getValue0($this) {
         return tj_JavaishFloat_getValue($this);
@@ -16439,7 +18371,7 @@
     function tj_JavaishInt() {
         var a = this; jl_Object.call(a);
         a.$value31 = 0;
-        a.$type3 = null;
+        a.$type4 = null;
     }
     function tj_JavaishInt__init_0(var_0) {
         var var_1 = new tj_JavaishInt();
@@ -16470,14 +18402,14 @@
     }
     function tj_JavaishInt__init_($this, $value) {
         tj_JavaishVal$JavaishType_$callClinit();
-        $this.$type3 = tj_JavaishVal$JavaishType_INT;
+        $this.$type4 = tj_JavaishVal$JavaishType_INT;
         $this.$value31 = $value;
     }
     function tj_JavaishInt_getType($this) {
-        return $this.$type3;
+        return $this.$type4;
     }
     function tj_JavaishInt_typeString($this) {
-        return $rt_s(82);
+        return $rt_s(84);
     }
     function tj_JavaishInt_getValue0($this) {
         return tj_JavaishInt_getValue($this);
@@ -16485,7 +18417,7 @@
     function tj_JavaishListVal() {
         var a = this; jl_Object.call(a);
         a.$list = null;
-        a.$type4 = null;
+        a.$type5 = null;
     }
     function tj_JavaishListVal__init_(var_0) {
         var var_1 = new tj_JavaishListVal();
@@ -16497,14 +18429,14 @@
     }
     function tj_JavaishListVal__init_0($this, $value) {
         tj_JavaishVal$JavaishType_$callClinit();
-        $this.$type4 = tj_JavaishVal$JavaishType_LIST;
+        $this.$type5 = tj_JavaishVal$JavaishType_LIST;
         $this.$list = $value;
     }
     function tj_JavaishListVal_getType($this) {
-        return $this.$type4;
+        return $this.$type5;
     }
     function tj_JavaishListVal_typeString($this) {
-        return $rt_s(99);
+        return $rt_s(101);
     }
     function tj_JavaishListVal_getValue0($this) {
         return $this.$list;
@@ -16512,7 +18444,7 @@
     function tj_JavaishString() {
         var a = this; jl_Object.call(a);
         a.$value32 = null;
-        a.$type5 = null;
+        a.$type6 = null;
     }
     function tj_JavaishString__init_0(var_0) {
         var var_1 = new tj_JavaishString();
@@ -16524,22 +18456,22 @@
     }
     function tj_JavaishString__init_($this, $value) {
         tj_JavaishVal$JavaishType_$callClinit();
-        $this.$type5 = tj_JavaishVal$JavaishType_STRING;
+        $this.$type6 = tj_JavaishVal$JavaishType_STRING;
         $this.$value32 = $value;
     }
     function tj_JavaishString_getType($this) {
-        return $this.$type5;
+        return $this.$type6;
     }
     function tj_JavaishString_typeString($this) {
-        return $rt_s(29);
+        return $rt_s(31);
     }
     function tj_JavaishString_getValue0($this) {
         return $this.$value32;
     }
     function tj_JavaishBoolean() {
         var a = this; jl_Object.call(a);
-        a.$value22 = null;
-        a.$type6 = null;
+        a.$value23 = null;
+        a.$type7 = null;
     }
     function tj_JavaishBoolean__init_(var_0) {
         var var_1 = new tj_JavaishBoolean();
@@ -16547,27 +18479,27 @@
         return var_1;
     }
     function tj_JavaishBoolean_getValue($this) {
-        return $this.$value22;
+        return $this.$value23;
     }
     function tj_JavaishBoolean__init_0($this, $value) {
         tj_JavaishVal$JavaishType_$callClinit();
-        $this.$type6 = tj_JavaishVal$JavaishType_BOOLEAN;
-        $this.$value22 = $value;
+        $this.$type7 = tj_JavaishVal$JavaishType_BOOLEAN;
+        $this.$value23 = $value;
     }
     function tj_JavaishBoolean_getType($this) {
-        return $this.$type6;
+        return $this.$type7;
     }
     function tj_JavaishBoolean_typeString($this) {
-        return $rt_s(152);
+        return $rt_s(164);
     }
     function tj_JavaishBoolean_getValue0($this) {
-        return $this.$value22;
+        return $this.$value23;
     }
     var tj_JavaishList = $rt_classWithoutFields(0);
     function tj_JavaishStringList() {
         var a = this; jl_Object.call(a);
         a.$value9 = null;
-        a.$type7 = null;
+        a.$type8 = null;
     }
     function tj_JavaishStringList__init_(var_0) {
         var var_1 = new tj_JavaishStringList();
@@ -16579,14 +18511,14 @@
     }
     function tj_JavaishStringList__init_0($this, $value) {
         tj_JavaishVal$JavaishType_$callClinit();
-        $this.$type7 = tj_JavaishVal$JavaishType_STRINGLIST;
+        $this.$type8 = tj_JavaishVal$JavaishType_STRINGLIST;
         $this.$value9 = $value;
     }
     function tj_JavaishStringList_getType($this) {
-        return $this.$type7;
+        return $this.$type8;
     }
     function tj_JavaishStringList_typeString($this) {
-        return $rt_s(86);
+        return $rt_s(88);
     }
     function tj_JavaishStringList_getInnerType($this) {
         tj_JavaishVal$JavaishType_$callClinit();
@@ -16594,10 +18526,10 @@
     }
     function tj_JavaishStringList_listString($this) {
         var $listString, var$2, $i, var$4;
-        $listString = $rt_s(270);
+        $listString = $rt_s(283);
         var$2 = ju_AbstractList_iterator($this.$value9);
         while (ju_AbstractList$1_hasNext(var$2)) {
-            $i = jl_String_valueOf((ju_AbstractList$1_next(var$2)).$type5);
+            $i = jl_String_valueOf((ju_AbstractList$1_next(var$2)).$type6);
             var$4 = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_(var$4);
             jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $listString), $i), 44);
@@ -16618,7 +18550,7 @@
     function tj_JavaishBooleanList() {
         var a = this; jl_Object.call(a);
         a.$value7 = null;
-        a.$type8 = null;
+        a.$type9 = null;
     }
     function tj_JavaishBooleanList__init_(var_0) {
         var var_1 = new tj_JavaishBooleanList();
@@ -16630,14 +18562,14 @@
     }
     function tj_JavaishBooleanList__init_0($this, $value) {
         tj_JavaishVal$JavaishType_$callClinit();
-        $this.$type8 = tj_JavaishVal$JavaishType_BOOLEANLIST;
+        $this.$type9 = tj_JavaishVal$JavaishType_BOOLEANLIST;
         $this.$value7 = $value;
     }
     function tj_JavaishBooleanList_getType($this) {
-        return $this.$type8;
+        return $this.$type9;
     }
     function tj_JavaishBooleanList_typeString($this) {
-        return $rt_s(272);
+        return $rt_s(287);
     }
     function tj_JavaishBooleanList_getInnerType($this) {
         tj_JavaishVal$JavaishType_$callClinit();
@@ -16645,10 +18577,10 @@
     }
     function tj_JavaishBooleanList_listString($this) {
         var $listString, var$2, $i, var$4;
-        $listString = $rt_s(270);
+        $listString = $rt_s(283);
         var$2 = ju_AbstractList_iterator($this.$value7);
         while (ju_AbstractList$1_hasNext(var$2)) {
-            $i = jl_String_valueOf((ju_AbstractList$1_next(var$2)).$type6);
+            $i = jl_String_valueOf((ju_AbstractList$1_next(var$2)).$type7);
             var$4 = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_(var$4);
             jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $listString), $i), 44);
@@ -16669,7 +18601,7 @@
     function tj_JavaishIntList() {
         var a = this; jl_Object.call(a);
         a.$value11 = null;
-        a.$type9 = null;
+        a.$type10 = null;
     }
     function tj_JavaishIntList__init_(var_0) {
         var var_1 = new tj_JavaishIntList();
@@ -16681,14 +18613,14 @@
     }
     function tj_JavaishIntList__init_0($this, $value) {
         tj_JavaishVal$JavaishType_$callClinit();
-        $this.$type9 = tj_JavaishVal$JavaishType_INTLIST;
+        $this.$type10 = tj_JavaishVal$JavaishType_INTLIST;
         $this.$value11 = $value;
     }
     function tj_JavaishIntList_getType($this) {
-        return $this.$type9;
+        return $this.$type10;
     }
     function tj_JavaishIntList_typeString($this) {
-        return $rt_s(85);
+        return $rt_s(87);
     }
     function tj_JavaishIntList_getInnerType($this) {
         tj_JavaishVal$JavaishType_$callClinit();
@@ -16696,10 +18628,10 @@
     }
     function tj_JavaishIntList_listString($this) {
         var $listString, var$2, $i, var$4;
-        $listString = $rt_s(270);
+        $listString = $rt_s(283);
         var$2 = ju_AbstractList_iterator($this.$value11);
         while (ju_AbstractList$1_hasNext(var$2)) {
-            $i = jl_String_valueOf((ju_AbstractList$1_next(var$2)).$type3);
+            $i = jl_String_valueOf((ju_AbstractList$1_next(var$2)).$type4);
             var$4 = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_(var$4);
             jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $listString), $i), 44);
@@ -16720,7 +18652,7 @@
     function tj_JavaishFloatList() {
         var a = this; jl_Object.call(a);
         a.$value5 = null;
-        a.$type10 = null;
+        a.$type11 = null;
     }
     function tj_JavaishFloatList__init_(var_0) {
         var var_1 = new tj_JavaishFloatList();
@@ -16732,14 +18664,14 @@
     }
     function tj_JavaishFloatList__init_0($this, $value) {
         tj_JavaishVal$JavaishType_$callClinit();
-        $this.$type10 = tj_JavaishVal$JavaishType_FLOATLIST;
+        $this.$type11 = tj_JavaishVal$JavaishType_FLOATLIST;
         $this.$value5 = $value;
     }
     function tj_JavaishFloatList_getType($this) {
-        return $this.$type10;
+        return $this.$type11;
     }
     function tj_JavaishFloatList_typeString($this) {
-        return $rt_s(81);
+        return $rt_s(83);
     }
     function tj_JavaishFloatList_getInnerType($this) {
         tj_JavaishVal$JavaishType_$callClinit();
@@ -16747,10 +18679,10 @@
     }
     function tj_JavaishFloatList_listString($this) {
         var $listString, var$2, $i, var$4;
-        $listString = $rt_s(270);
+        $listString = $rt_s(283);
         var$2 = ju_AbstractList_iterator($this.$value5);
         while (ju_AbstractList$1_hasNext(var$2)) {
-            $i = jl_String_valueOf((ju_AbstractList$1_next(var$2)).$type2);
+            $i = jl_String_valueOf((ju_AbstractList$1_next(var$2)).$type3);
             var$4 = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_(var$4);
             jl_AbstractStringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append(var$4, $listString), $i), 44);
@@ -16798,19 +18730,19 @@
     }
     function tj_Interpreter$Operator__clinit_() {
         var var$1;
-        tj_Interpreter$Operator_PLUS = tj_Interpreter$Operator__init_($rt_s(184), 0);
-        tj_Interpreter$Operator_MINUS = tj_Interpreter$Operator__init_($rt_s(186), 1);
-        tj_Interpreter$Operator_DIVIDE = tj_Interpreter$Operator__init_($rt_s(193), 2);
-        tj_Interpreter$Operator_MULTIPLY = tj_Interpreter$Operator__init_($rt_s(191), 3);
-        tj_Interpreter$Operator_EQUAL = tj_Interpreter$Operator__init_($rt_s(185), 4);
-        tj_Interpreter$Operator_NOT_EQUAL = tj_Interpreter$Operator__init_($rt_s(190), 5);
-        tj_Interpreter$Operator_LESS_THAN = tj_Interpreter$Operator__init_($rt_s(175), 6);
-        tj_Interpreter$Operator_GREATER_THAN = tj_Interpreter$Operator__init_($rt_s(189), 7);
-        tj_Interpreter$Operator_LESS_THAN_EQUAL = tj_Interpreter$Operator__init_($rt_s(173), 8);
-        tj_Interpreter$Operator_GREATER_THAN_EQUAL = tj_Interpreter$Operator__init_($rt_s(187), 9);
-        tj_Interpreter$Operator_REMOVEALLFROM = tj_Interpreter$Operator__init_($rt_s(167), 10);
-        tj_Interpreter$Operator_REMOVEAT = tj_Interpreter$Operator__init_($rt_s(163), 11);
-        var$1 = tj_Interpreter$Operator__init_($rt_s(165), 12);
+        tj_Interpreter$Operator_PLUS = tj_Interpreter$Operator__init_($rt_s(197), 0);
+        tj_Interpreter$Operator_MINUS = tj_Interpreter$Operator__init_($rt_s(199), 1);
+        tj_Interpreter$Operator_DIVIDE = tj_Interpreter$Operator__init_($rt_s(206), 2);
+        tj_Interpreter$Operator_MULTIPLY = tj_Interpreter$Operator__init_($rt_s(204), 3);
+        tj_Interpreter$Operator_EQUAL = tj_Interpreter$Operator__init_($rt_s(198), 4);
+        tj_Interpreter$Operator_NOT_EQUAL = tj_Interpreter$Operator__init_($rt_s(203), 5);
+        tj_Interpreter$Operator_LESS_THAN = tj_Interpreter$Operator__init_($rt_s(188), 6);
+        tj_Interpreter$Operator_GREATER_THAN = tj_Interpreter$Operator__init_($rt_s(202), 7);
+        tj_Interpreter$Operator_LESS_THAN_EQUAL = tj_Interpreter$Operator__init_($rt_s(186), 8);
+        tj_Interpreter$Operator_GREATER_THAN_EQUAL = tj_Interpreter$Operator__init_($rt_s(200), 9);
+        tj_Interpreter$Operator_REMOVEALLFROM = tj_Interpreter$Operator__init_($rt_s(180), 10);
+        tj_Interpreter$Operator_REMOVEAT = tj_Interpreter$Operator__init_($rt_s(175), 11);
+        var$1 = tj_Interpreter$Operator__init_($rt_s(177), 12);
         tj_Interpreter$Operator_REMOVEFROM = var$1;
         tj_Interpreter$Operator_$VALUES = $rt_createArrayFromData(tj_Interpreter$Operator, [tj_Interpreter$Operator_PLUS, tj_Interpreter$Operator_MINUS, tj_Interpreter$Operator_DIVIDE, tj_Interpreter$Operator_MULTIPLY, tj_Interpreter$Operator_EQUAL, tj_Interpreter$Operator_NOT_EQUAL, tj_Interpreter$Operator_LESS_THAN, tj_Interpreter$Operator_GREATER_THAN, tj_Interpreter$Operator_LESS_THAN_EQUAL, tj_Interpreter$Operator_GREATER_THAN_EQUAL, tj_Interpreter$Operator_REMOVEALLFROM, tj_Interpreter$Operator_REMOVEAT,
         var$1]);
@@ -16868,2480 +18800,17 @@
     }
     function juc_TimeUnit__clinit_() {
         var var$1;
-        juc_TimeUnit_NANOSECONDS = juc_TimeUnit__init_($rt_s(273), 0, Long_fromInt(1));
-        juc_TimeUnit_MICROSECONDS = juc_TimeUnit__init_($rt_s(274), 1, Long_fromInt(1000));
-        juc_TimeUnit_MILLISECONDS = juc_TimeUnit__init_($rt_s(275), 2, Long_fromInt(1000000));
-        juc_TimeUnit_SECONDS = juc_TimeUnit__init_($rt_s(276), 3, Long_fromInt(1000000000));
-        juc_TimeUnit_MINUTES = juc_TimeUnit__init_($rt_s(277), 4, Long_create(4165425152, 13));
-        juc_TimeUnit_HOURS = juc_TimeUnit__init_($rt_s(278), 5, Long_create(817405952, 838));
-        var$1 = juc_TimeUnit__init_($rt_s(279), 6, Long_create(2437873664, 20116));
+        juc_TimeUnit_NANOSECONDS = juc_TimeUnit__init_($rt_s(288), 0, Long_fromInt(1));
+        juc_TimeUnit_MICROSECONDS = juc_TimeUnit__init_($rt_s(289), 1, Long_fromInt(1000));
+        juc_TimeUnit_MILLISECONDS = juc_TimeUnit__init_($rt_s(290), 2, Long_fromInt(1000000));
+        juc_TimeUnit_SECONDS = juc_TimeUnit__init_($rt_s(291), 3, Long_fromInt(1000000000));
+        juc_TimeUnit_MINUTES = juc_TimeUnit__init_($rt_s(292), 4, Long_create(4165425152, 13));
+        juc_TimeUnit_HOURS = juc_TimeUnit__init_($rt_s(293), 5, Long_create(817405952, 838));
+        var$1 = juc_TimeUnit__init_($rt_s(294), 6, Long_create(2437873664, 20116));
         juc_TimeUnit_DAYS = var$1;
         juc_TimeUnit_$VALUES = $rt_createArrayFromData(juc_TimeUnit, [juc_TimeUnit_NANOSECONDS, juc_TimeUnit_MICROSECONDS, juc_TimeUnit_MILLISECONDS, juc_TimeUnit_SECONDS, juc_TimeUnit_MINUTES, juc_TimeUnit_HOURS, var$1]);
     }
     var jl_InterruptedException = $rt_classWithoutFields(jl_Exception);
-    var jl_CloneNotSupportedException = $rt_classWithoutFields(jl_Exception);
-    var jl_NumberFormatException = $rt_classWithoutFields(jl_IllegalArgumentException);
-    var otcit_FloatSynthesizer = $rt_classWithoutFields();
-    var otcit_FloatSynthesizer_mantissa10Table = null;
-    var otcit_FloatSynthesizer_exp10Table = null;
-    function otcit_FloatSynthesizer_synthesizeFloat($mantissa, $exp, $negative) {
-        var $indexInTable, var$5, $binMantissa, $binExp, $binMantissaShift, $iee754;
-        $indexInTable = 50 + $exp | 0;
-        if ($mantissa) {
-            var$5 = otcit_FloatSynthesizer_mantissa10Table.data;
-            if ($indexInTable <= var$5.length && $indexInTable >= 0) {
-                $binMantissa = otcit_FloatAnalyzer_mulAndShiftRight($mantissa, var$5[$indexInTable], 0);
-                $binExp = otcit_FloatSynthesizer_exp10Table.data[$indexInTable] - 1 | 0;
-                $binMantissaShift = (32 - jl_Integer_numberOfLeadingZeros($binMantissa) | 0) - 30 | 0;
-                $mantissa = $binMantissaShift >= 0 ? $binMantissa >>> $binMantissaShift | 0 : $binMantissa << ( -$binMantissaShift | 0);
-                $exp = $binExp + $binMantissaShift | 0;
-                if ($exp >= 255)
-                    return !$negative ? Infinity : (-Infinity);
-                $mantissa = $mantissa + 32 | 0;
-                if ($mantissa & (-1073741824)) {
-                    $mantissa = $mantissa >>> 1 | 0;
-                    $exp = $exp + 1 | 0;
-                }
-                if ($exp <= 0) {
-                    $mantissa = $mantissa >> jl_Math_min(( -$exp | 0) + 1 | 0, 32);
-                    $exp = 0;
-                }
-                $iee754 = ($mantissa >>> 6 | 0) & 8388607 | $exp << 23;
-                if ($negative)
-                    $iee754 = $iee754 ^ (-2147483648);
-                return $rt_intBitsToFloat($iee754);
-            }
-        }
-        return $rt_intBitsToFloat(!$negative ? 0 : (-2147483648));
-    }
-    function otcit_FloatSynthesizer__clinit_() {
-        otcit_FloatSynthesizer_mantissa10Table = $rt_createIntArrayFromData([(-1598972629), (-924973963), (-82475629), (-1662160004), (-1003958181), (-181205903), (-1723866425), (-1081091207), (-277622185), (-1784126602), (-1156416428), (-371778711), (-1842974431), (-1229976214), (-463728444), (-1900443013), (-1301811943), (-553523104), (-1956564676), (-1371964021), (-641213203), (-2011370988), (-1440471911), (-726848064), (-2064892776), (-1507374146), (-810475859), (-2117160148), (-1572708361), (-892143627),
-        (-41437709), (-1636511304), (-971897307), (-141129809), (-1698818867), (-1049781759), (-238485375), (-1759666096), (-1125840795), (-333559170), (-1819087217), (-1200117198), (-426404673), (-1877115657), (-1272652747), (-517074110), (-1933784055), (-1343488244), (-605618481), (-1989124287), (-1412663534), (-692087594), (-2043167482), (-1480217529), (-776530087), (-2095944040), (-1546188227), (-858993459), (-2147483648), (-1610612736), (-939524096), (-100663296), (-1673527296), (-1018167296), (-198967296),
-        (-1734967296), (-1094967296), (-294967296), (-1794967296), (-1169967296), (-388717296), (-1853561046), (-1243209483), (-480270030), (-1910781505), (-1314735057), (-569676998), (-1966660859), (-1384584250), (-656988489), (-2021230542), (-1452796353), (-742253617), (-2074521247), (-1519409734), (-825520344), (-2126562951), (-1584461865), (-906835507), (-59802560), (-1647989336), (-986244846), (-159064233), (-1710027882), (-1063793028), (-255999461), (-1770612399), (-1139523675), (-350662770), (-1829776967)]);
-        otcit_FloatSynthesizer_exp10Table = $rt_createIntArrayFromData([(-35), (-32), (-29), (-25), (-22), (-19), (-15), (-12), (-9), (-5), (-2), 1, 5, 8, 11, 15, 18, 21, 25, 28, 31, 35, 38, 41, 45, 48, 51, 55, 58, 61, 64, 68, 71, 74, 78, 81, 84, 88, 91, 94, 98, 101, 104, 108, 111, 114, 118, 121, 124, 128, 131, 134, 138, 141, 144, 148, 151, 154, 158, 161, 164, 167, 171, 174, 177, 181, 184, 187, 191, 194, 197, 201, 204, 207, 211, 214, 217, 221, 224, 227, 231, 234, 237, 241, 244, 247, 251, 254, 257, 260, 264,
-        267, 270, 274, 277, 280, 284, 287, 290, 294]);
-    }
-    var jl_Math = $rt_classWithoutFields();
-    function jl_Math_round($a) {
-        return $a + jl_Math_sign($a) * 0.5 | 0;
-    }
-    function jl_Math_min($a, $b) {
-        if ($a < $b)
-            $b = $a;
-        return $b;
-    }
-    function jl_Math_max($a, $b) {
-        if ($a > $b)
-            $b = $a;
-        return $b;
-    }
-    function jl_Math_sign(var$1) {
-        return Math.sign(var$1);
-    }
-    var otcit_FloatAnalyzer = $rt_classWithoutFields();
-    var otcit_FloatAnalyzer_MAX_MANTISSA = 0;
-    var otcit_FloatAnalyzer_mantissa10Table = null;
-    var otcit_FloatAnalyzer_exp10Table = null;
-    function otcit_FloatAnalyzer_analyze($d, $result) {
-        var $bits, $mantissa, $exponent, var$6, $decExponent, $upperPos, $upperPos_0, $mantissaShift, $decMantissa, $decMantissaHi, $decMantissaLow, $lowerPos, $lowerPos_0, $posCmp;
-        $bits = ($rt_globals.isNaN($d) ? 1 : 0) ? 2143289344 : $rt_floatToRawIntBits($d);
-        $result.$sign = !($bits & (-2147483648)) ? 0 : 1;
-        $mantissa = $bits & 8388607;
-        $exponent = $bits >> 23 & 255;
-        if (!$mantissa && !$exponent) {
-            $result.$mantissa = 0;
-            $result.$exponent = 0;
-            return;
-        }
-        if ($exponent)
-            $bits = $mantissa | 8388608;
-        else {
-            $bits = $mantissa << 1;
-            while (Long_eq(Long_and(Long_fromInt($bits), Long_fromInt(8388608)), Long_ZERO)) {
-                $bits = $bits << 1;
-                $exponent = $exponent + (-1) | 0;
-            }
-        }
-        var$6 = otcit_FloatAnalyzer_exp10Table.data;
-        $mantissa = 0;
-        $decExponent = var$6.length;
-        $upperPos = $rt_compare($mantissa, $decExponent);
-        if ($upperPos > 0) {
-            $result = new jl_IllegalArgumentException;
-            jl_Exception__init_($result);
-            $rt_throw($result);
-        }
-        a: {
-            if (!$upperPos)
-                $decExponent = (-1);
-            else {
-                $upperPos = $decExponent - 1 | 0;
-                while (true) {
-                    $decExponent = ($mantissa + $upperPos | 0) / 2 | 0;
-                    $upperPos_0 = var$6[$decExponent];
-                    if ($upperPos_0 == $exponent)
-                        break;
-                    if ($exponent >= $upperPos_0) {
-                        $mantissa = $decExponent + 1 | 0;
-                        if ($mantissa > $upperPos) {
-                            $decExponent = ( -$decExponent | 0) - 2 | 0;
-                            break a;
-                        }
-                    } else {
-                        $upperPos = $decExponent - 1 | 0;
-                        if ($upperPos < $mantissa) {
-                            $decExponent = ( -$decExponent | 0) - 1 | 0;
-                            break a;
-                        }
-                    }
-                }
-            }
-        }
-        if ($decExponent < 0)
-            $decExponent =  -$decExponent | 0;
-        $mantissa = $decExponent + 1 | 0;
-        $mantissaShift = 9 + ($exponent - var$6[$mantissa] | 0) | 0;
-        $decMantissa = otcit_FloatAnalyzer_mulAndShiftRight($bits, otcit_FloatAnalyzer_mantissa10Table.data[$mantissa], $mantissaShift);
-        if ($decMantissa < otcit_FloatAnalyzer_MAX_MANTISSA) {
-            while ($rt_ucmp($decMantissa, otcit_FloatAnalyzer_MAX_MANTISSA) <= 0) {
-                $decExponent = $decExponent + (-1) | 0;
-                $decMantissa = ($decMantissa * 10 | 0) + 9 | 0;
-            }
-            var$6 = otcit_FloatAnalyzer_exp10Table.data;
-            $mantissa = $decExponent + 1 | 0;
-            $mantissaShift = 9 + ($exponent - var$6[$mantissa] | 0) | 0;
-            $decMantissa = otcit_FloatAnalyzer_mulAndShiftRight($bits, otcit_FloatAnalyzer_mantissa10Table.data[$mantissa], $mantissaShift);
-        }
-        $mantissa = $bits << 1;
-        $bits = $mantissa + 1 | 0;
-        var$6 = otcit_FloatAnalyzer_mantissa10Table.data;
-        $exponent = $decExponent + 1 | 0;
-        $upperPos = var$6[$exponent];
-        $upperPos_0 = $mantissaShift - 1 | 0;
-        $decMantissaHi = otcit_FloatAnalyzer_mulAndShiftRight($bits, $upperPos, $upperPos_0);
-        $decMantissaLow = otcit_FloatAnalyzer_mulAndShiftRight($mantissa - 1 | 0, otcit_FloatAnalyzer_mantissa10Table.data[$exponent], $upperPos_0);
-        $lowerPos = 1;
-        while (true) {
-            $lowerPos_0 = $lowerPos * 10 | 0;
-            if ($rt_ucmp($rt_udiv($decMantissa, $lowerPos_0), $rt_udiv($decMantissaLow, $lowerPos_0)) <= 0)
-                break;
-            $lowerPos = $lowerPos_0;
-        }
-        $upperPos = 1;
-        while (true) {
-            $upperPos_0 = $upperPos * 10 | 0;
-            if ($rt_ucmp($rt_udiv($decMantissa, $upperPos_0), $rt_udiv($decMantissaHi, $upperPos_0)) >= 0)
-                break;
-            $upperPos = $upperPos_0;
-        }
-        $posCmp = $rt_ucmp($lowerPos, $upperPos);
-        $mantissa = $posCmp > 0 ? $rt_imul($rt_udiv($decMantissa, $lowerPos), $lowerPos) : $posCmp < 0 ? $rt_imul($rt_udiv($decMantissa, $upperPos), $upperPos) + $upperPos | 0 : $rt_imul($rt_udiv(($decMantissa + ($upperPos / 2 | 0) | 0), $upperPos), $upperPos);
-        if (jl_Long_compareUnsigned(Long_fromInt($mantissa), Long_fromInt(1000000000)) >= 0)
-            while (true) {
-                $decExponent = $decExponent + 1 | 0;
-                $mantissa = $rt_udiv($mantissa, 10);
-                if ($rt_ucmp($mantissa, 1000000000) < 0)
-                    break;
-            }
-        else if ($rt_ucmp($mantissa, 100000000) < 0) {
-            $decExponent = $decExponent + (-1) | 0;
-            $mantissa = $mantissa * 10 | 0;
-        }
-        $result.$mantissa = $mantissa;
-        $result.$exponent = $decExponent - 50 | 0;
-    }
-    function otcit_FloatAnalyzer_mulAndShiftRight($a, $b, $shift) {
-        return Long_lo(Long_shru(Long_mul(Long_and(Long_fromInt($a), Long_create(4294967295, 0)), Long_and(Long_fromInt($b), Long_create(4294967295, 0))), 32 - $shift | 0));
-    }
-    function otcit_FloatAnalyzer__clinit_() {
-        otcit_FloatAnalyzer_MAX_MANTISSA = $rt_udiv((-1), 10);
-        otcit_FloatAnalyzer_mantissa10Table = $rt_createIntArrayFromData([(-18543760), (-873828468), (-1558056233), (-2105438446), (-791721136), (-1492370368), (-2052889754), (-707643228), (-1425108042), (-1999079893), (-621547450), (-1356231419), (-1943978595), (-533385374), (-1285701758), (-1887554866), (-443107408), (-1213479385), (-1829776968), (-350662770), (-1139523676), (-1770612400), (-255999462), (-1063793029), (-1710027882), (-159064234), (-986244846), (-1647989336), (-59802560), (-906835507), (-1584461865),
-        (-2126562952), (-825520345), (-1519409735), (-2074521247), (-742253618), (-1452796353), (-2021230542), (-656988489), (-1384584251), (-1966660860), (-569676998), (-1314735058), (-1910781505), (-480270031), (-1243209484), (-1853561046), (-388717296), (-1169967296), (-1794967296), (-294967296), (-1094967296), (-1734967296), (-198967296), (-1018167296), (-1673527296), (-100663296), (-939524096), (-1610612736), (-2147483648), (-858993460), (-1546188227), (-2095944041), (-776530088), (-1480217529), (-2043167483),
-        (-692087595), (-1412663535), (-1989124287), (-605618482), (-1343488245), (-1933784055), (-517074110), (-1272652747), (-1877115657), (-426404674), (-1200117198), (-1819087218), (-333559171), (-1125840796), (-1759666096), (-238485376), (-1049781760), (-1698818867), (-141129810), (-971897307), (-1636511305), (-41437710), (-892143627), (-1572708361), (-2117160148), (-810475859), (-1507374147), (-2064892777), (-726848065), (-1440471911), (-2011370988), (-641213203), (-1371964022), (-1956564688)]);
-        otcit_FloatAnalyzer_exp10Table = $rt_createIntArrayFromData([(-37), (-34), (-31), (-28), (-24), (-21), (-18), (-14), (-11), (-8), (-4), (-1), 2, 6, 9, 12, 16, 19, 22, 26, 29, 32, 36, 39, 42, 46, 49, 52, 56, 59, 62, 65, 69, 72, 75, 79, 82, 85, 89, 92, 95, 99, 102, 105, 109, 112, 115, 119, 122, 125, 129, 132, 135, 139, 142, 145, 149, 152, 155, 158, 162, 165, 168, 172, 175, 178, 182, 185, 188, 192, 195, 198, 202, 205, 208, 212, 215, 218, 222, 225, 228, 232, 235, 238, 242, 245, 248, 252, 255, 258, 261, 265,
-        268, 271, 275, 278, 281, 285, 288, 291]);
-    }
-    function jnc_IllegalCharsetNameException() {
-        jl_IllegalArgumentException.call(this);
-        this.$charsetName = null;
-    }
-    function jnc_IllegalCharsetNameException__init_(var_0) {
-        var var_1 = new jnc_IllegalCharsetNameException();
-        jnc_IllegalCharsetNameException__init_0(var_1, var_0);
-        return var_1;
-    }
-    function jnc_IllegalCharsetNameException__init_0($this, $charsetName) {
-        jl_Exception__init_($this);
-        $this.$charsetName = $charsetName;
-    }
-    function otciu_UnicodeHelper$Range() {
-        var a = this; jl_Object.call(a);
-        a.$start2 = 0;
-        a.$end0 = 0;
-        a.$data = null;
-    }
-    function otciu_UnicodeHelper$Range__init_(var_0, var_1, var_2) {
-        var var_3 = new otciu_UnicodeHelper$Range();
-        otciu_UnicodeHelper$Range__init_0(var_3, var_0, var_1, var_2);
-        return var_3;
-    }
-    function otciu_UnicodeHelper$Range__init_0($this, $start, $end, $data) {
-        $this.$start2 = $start;
-        $this.$end0 = $end;
-        $this.$data = $data;
-    }
-    var otpp_ResourceAccessor = $rt_classWithoutFields();
-    var otciu_UnicodeHelper = $rt_classWithoutFields();
-    function otciu_UnicodeHelper_decodeCaseMapping($text) {
-        var $flow, $sz, $data, var$5, $last, $i, var$8;
-        $flow = otci_CharFlow__init_(jl_String_toCharArray($text));
-        $sz = otci_Base46_decodeUnsigned($flow);
-        $data = $rt_createIntArray($sz * 2 | 0);
-        var$5 = $data.data;
-        $last = 0;
-        $i = 0;
-        while ($i < $sz) {
-            $last = $last + otci_Base46_decodeUnsigned($flow) | 0;
-            var$8 = $i * 2 | 0;
-            var$5[var$8] = $last;
-            var$5[var$8 + 1 | 0] = otci_Base46_decode($flow);
-            $i = $i + 1 | 0;
-        }
-        return $data;
-    }
-    function otciu_UnicodeHelper_decodeByte($c) {
-        if ($c > 92)
-            return (($c - 32 | 0) - 2 | 0) << 24 >> 24;
-        if ($c <= 34)
-            return ($c - 32 | 0) << 24 >> 24;
-        return (($c - 32 | 0) - 1 | 0) << 24 >> 24;
-    }
-    var ju_Arrays = $rt_classWithoutFields();
-    function ju_Arrays_copyOf($array, $length) {
-        var $result, var$4, $sz, $i;
-        $array = $array.data;
-        $result = $rt_createCharArray($length);
-        var$4 = $result.data;
-        $sz = jl_Math_min($length, $array.length);
-        $i = 0;
-        while ($i < $sz) {
-            var$4[$i] = $array[$i];
-            $i = $i + 1 | 0;
-        }
-        return $result;
-    }
-    function ju_Arrays_copyOf0($array, $length) {
-        var $result, var$4, $sz, $i;
-        $array = $array.data;
-        $result = $rt_createByteArray($length);
-        var$4 = $result.data;
-        $sz = jl_Math_min($length, $array.length);
-        $i = 0;
-        while ($i < $sz) {
-            var$4[$i] = $array[$i];
-            $i = $i + 1 | 0;
-        }
-        return $result;
-    }
-    function ju_Arrays_copyOf1($original, $newLength) {
-        var var$3, $result, $sz, $i;
-        var$3 = $original.data;
-        $result = jlr_Array_newInstance(jl_Class_getComponentType(jl_Object_getClass($original)), $newLength);
-        $sz = jl_Math_min($newLength, var$3.length);
-        $i = 0;
-        while ($i < $sz) {
-            $result.data[$i] = var$3[$i];
-            $i = $i + 1 | 0;
-        }
-        return $result;
-    }
-    function ju_Arrays_fill($a, $val) {
-        var var$3, var$4, var$5, var$6;
-        $a = $a.data;
-        var$3 = 0;
-        var$4 = $a.length;
-        if (var$3 > var$4) {
-            var$5 = new jl_IllegalArgumentException;
-            jl_Exception__init_(var$5);
-            $rt_throw(var$5);
-        }
-        while (var$3 < var$4) {
-            var$6 = var$3 + 1 | 0;
-            $a[var$3] = $val;
-            var$3 = var$6;
-        }
-    }
-    function otci_CharFlow() {
-        var a = this; jl_Object.call(a);
-        a.$characters0 = null;
-        a.$pointer = 0;
-    }
-    function otci_CharFlow__init_(var_0) {
-        var var_1 = new otci_CharFlow();
-        otci_CharFlow__init_0(var_1, var_0);
-        return var_1;
-    }
-    function otci_CharFlow__init_0($this, $characters) {
-        $this.$characters0 = $characters;
-    }
-    var otci_Base46 = $rt_classWithoutFields();
-    function otci_Base46_decodeUnsigned($seq) {
-        var $number, $pos, var$4, $hasMore, $digit;
-        $number = 0;
-        $pos = 1;
-        while (true) {
-            var$4 = $seq.$characters0.data;
-            $hasMore = $seq.$pointer;
-            $seq.$pointer = $hasMore + 1 | 0;
-            $digit = var$4[$hasMore];
-            $digit = $digit < 34 ? $digit - 32 | 0 : $digit >= 92 ? ($digit - 32 | 0) - 2 | 0 : ($digit - 32 | 0) - 1 | 0;
-            $hasMore = ($digit % 2 | 0) != 1 ? 0 : 1;
-            $number = $number + $rt_imul($pos, $digit / 2 | 0) | 0;
-            $pos = $pos * 46 | 0;
-            if (!$hasMore)
-                break;
-        }
-        return $number;
-    }
-    function otci_Base46_decode($seq) {
-        var $number, $result;
-        $number = otci_Base46_decodeUnsigned($seq);
-        $result = $number / 2 | 0;
-        if ($number % 2 | 0)
-            $result =  -$result | 0;
-        return $result;
-    }
-    var jl_NegativeArraySizeException = $rt_classWithoutFields(jl_RuntimeException);
-    var ju_Iterator = $rt_classWithoutFields(0);
-    function ju_AbstractList$1() {
-        var a = this; jl_Object.call(a);
-        a.$index0 = 0;
-        a.$modCount1 = 0;
-        a.$size1 = 0;
-        a.$removeIndex = 0;
-        a.$this$0 = null;
-    }
-    function ju_AbstractList$1_hasNext($this) {
-        return $this.$index0 >= $this.$size1 ? 0 : 1;
-    }
-    function ju_AbstractList$1_next($this) {
-        var var$1, var$2, var$3;
-        var$1 = $this.$modCount1;
-        var$2 = $this.$this$0;
-        if (var$1 < var$2.$modCount0) {
-            var$2 = new ju_ConcurrentModificationException;
-            jl_Exception__init_(var$2);
-            $rt_throw(var$2);
-        }
-        var$3 = $this.$index0;
-        $this.$removeIndex = var$3;
-        $this.$index0 = var$3 + 1 | 0;
-        return ju_ArrayList_get(var$2, var$3);
-    }
-    function jur_Pattern() {
-        var a = this; jl_Object.call(a);
-        a.$lexemes = null;
-        a.$flags0 = 0;
-        a.$backRefs = null;
-        a.$needsBackRefReplacement = 0;
-        a.$globalGroupIndex = 0;
-        a.$compCount = 0;
-        a.$consCount = 0;
-        a.$start = null;
-    }
-    function jur_Pattern_pattern($this) {
-        return $this.$lexemes.$orig;
-    }
-    function jur_Pattern_processExpression($this, $ch, $newFlags, $last) {
-        var $children, $saveFlags, $saveChangedFlags, $fSet, $child, var$9;
-        $children = ju_ArrayList__init_();
-        $saveFlags = $this.$flags0;
-        $saveChangedFlags = 0;
-        if ($newFlags != $saveFlags)
-            $this.$flags0 = $newFlags;
-        a: {
-            switch ($ch) {
-                case -1073741784:
-                    $fSet = new jur_NonCapFSet;
-                    $newFlags = $this.$consCount + 1 | 0;
-                    $this.$consCount = $newFlags;
-                    jur_FSet__init_($fSet, $newFlags);
-                    break a;
-                case -536870872:
-                case -268435416:
-                    break;
-                case -134217688:
-                case -67108824:
-                    $fSet = new jur_BehindFSet;
-                    $newFlags = $this.$consCount + 1 | 0;
-                    $this.$consCount = $newFlags;
-                    jur_FSet__init_($fSet, $newFlags);
-                    break a;
-                case -33554392:
-                    $fSet = new jur_AtomicFSet;
-                    $newFlags = $this.$consCount + 1 | 0;
-                    $this.$consCount = $newFlags;
-                    jur_FSet__init_($fSet, $newFlags);
-                    break a;
-                default:
-                    $newFlags = $this.$globalGroupIndex + 1 | 0;
-                    $this.$globalGroupIndex = $newFlags;
-                    if ($last !== null)
-                        $fSet = jur_FSet__init_0($newFlags);
-                    else {
-                        $fSet = new jur_FinalSet;
-                        jur_FSet__init_($fSet, 0);
-                        $saveChangedFlags = 1;
-                    }
-                    $newFlags = $this.$globalGroupIndex;
-                    if ($newFlags <= (-1))
-                        break a;
-                    if ($newFlags >= 10)
-                        break a;
-                    $this.$backRefs.data[$newFlags] = $fSet;
-                    break a;
-            }
-            $fSet = new jur_AheadFSet;
-            jur_FSet__init_($fSet, (-1));
-        }
-        while (true) {
-            if (jur_Lexer_isLetter($this.$lexemes) && $this.$lexemes.$lookAhead == (-536870788)) {
-                $last = jur_CharClass__init_(jur_Pattern_hasFlag($this, 2), jur_Pattern_hasFlag($this, 64));
-                while (!jur_Lexer_isEmpty($this.$lexemes) && jur_Lexer_isLetter($this.$lexemes)) {
-                    $child = $this.$lexemes;
-                    var$9 = $child.$lookAhead;
-                    if (var$9 && var$9 != (-536870788) && var$9 != (-536870871))
-                        break;
-                    jur_CharClass_add($last, jur_Lexer_next($child));
-                    $child = $this.$lexemes;
-                    if ($child.$ch != (-536870788))
-                        continue;
-                    jur_Lexer_next($child);
-                }
-                $child = jur_Pattern_processRangeSet($this, $last);
-                $child.$setNext($fSet);
-            } else if ($this.$lexemes.$ch == (-536870788)) {
-                $child = jur_EmptySet__init_($fSet);
-                jur_Lexer_next($this.$lexemes);
-            } else {
-                $child = jur_Pattern_processSubExpression($this, $fSet);
-                $last = $this.$lexemes;
-                if ($last.$ch == (-536870788))
-                    jur_Lexer_next($last);
-            }
-            if ($child !== null)
-                ju_ArrayList_add($children, $child);
-            if (jur_Lexer_isEmpty($this.$lexemes))
-                break;
-            if ($this.$lexemes.$ch == (-536870871))
-                break;
-        }
-        if ($this.$lexemes.$lookBack == (-536870788))
-            ju_ArrayList_add($children, jur_EmptySet__init_($fSet));
-        if ($this.$flags0 != $saveFlags && !$saveChangedFlags) {
-            $this.$flags0 = $saveFlags;
-            $last = $this.$lexemes;
-            $last.$flags = $saveFlags;
-            $last.$lookAhead = $last.$ch;
-            $last.$lookAheadST = $last.$curST;
-            var$9 = $last.$curToc;
-            $last.$index1 = var$9 + 1 | 0;
-            $last.$lookAheadToc = var$9;
-            jur_Lexer_movePointer($last);
-        }
-        switch ($ch) {
-            case -1073741784:
-                break;
-            case -536870872:
-                $last = new jur_PositiveLookAhead;
-                jur_JointSet__init_($last, $children, $fSet);
-                return $last;
-            case -268435416:
-                $last = new jur_NegativeLookAhead;
-                jur_JointSet__init_($last, $children, $fSet);
-                return $last;
-            case -134217688:
-                $last = new jur_PositiveLookBehind;
-                jur_JointSet__init_($last, $children, $fSet);
-                return $last;
-            case -67108824:
-                $last = new jur_NegativeLookBehind;
-                jur_JointSet__init_($last, $children, $fSet);
-                return $last;
-            case -33554392:
-                $last = new jur_AtomicJointSet;
-                jur_JointSet__init_($last, $children, $fSet);
-                return $last;
-            default:
-                switch ($children.$size0) {
-                    case 0:
-                        break;
-                    case 1:
-                        return jur_SingleSet__init_(ju_ArrayList_get($children, 0), $fSet);
-                    default:
-                        return jur_JointSet__init_0($children, $fSet);
-                }
-                return jur_EmptySet__init_($fSet);
-        }
-        $last = new jur_NonCapJointSet;
-        jur_JointSet__init_($last, $children, $fSet);
-        return $last;
-    }
-    function jur_Pattern_processDecomposedChar($this) {
-        var $codePoints, $curSymb, $curSymbIndex, $codePointsHangul, var$5, var$6, $readCodePoints;
-        $codePoints = $rt_createIntArray(4);
-        $curSymb = (-1);
-        $curSymbIndex = (-1);
-        if (!jur_Lexer_isEmpty($this.$lexemes) && jur_Lexer_isLetter($this.$lexemes)) {
-            $codePointsHangul = $codePoints.data;
-            $curSymb = jur_Lexer_next($this.$lexemes);
-            $codePointsHangul[0] = $curSymb;
-            $curSymbIndex = $curSymb - 4352 | 0;
-        }
-        if ($curSymbIndex >= 0 && $curSymbIndex < 19) {
-            $codePointsHangul = $rt_createCharArray(3);
-            $codePoints = $codePointsHangul.data;
-            $codePoints[0] = $curSymb & 65535;
-            var$5 = $this.$lexemes;
-            var$6 = var$5.$ch;
-            $readCodePoints = var$6 - 4449 | 0;
-            if ($readCodePoints >= 0 && $readCodePoints < 21) {
-                $codePoints[1] = var$6 & 65535;
-                jur_Lexer_next(var$5);
-                var$5 = $this.$lexemes;
-                var$6 = var$5.$ch;
-                $curSymb = var$6 - 4519 | 0;
-                if ($curSymb >= 0 && $curSymb < 28) {
-                    $codePoints[2] = var$6 & 65535;
-                    jur_Lexer_next(var$5);
-                    return jur_HangulDecomposedCharSet__init_($codePointsHangul, 3);
-                }
-                return jur_HangulDecomposedCharSet__init_($codePointsHangul, 2);
-            }
-            if (!jur_Pattern_hasFlag($this, 2))
-                return jur_CharSet__init_($codePoints[0]);
-            if (jur_Pattern_hasFlag($this, 64))
-                return jur_UCICharSet__init_($codePoints[0]);
-            return jur_CICharSet__init_($codePoints[0]);
-        }
-        $codePointsHangul = $codePoints.data;
-        $curSymb = 1;
-        while ($curSymb < 4 && !jur_Lexer_isEmpty($this.$lexemes) && jur_Lexer_isLetter($this.$lexemes)) {
-            $readCodePoints = $curSymb + 1 | 0;
-            $codePointsHangul[$curSymb] = jur_Lexer_next($this.$lexemes);
-            $curSymb = $readCodePoints;
-        }
-        if ($curSymb == 1) {
-            $readCodePoints = $codePointsHangul[0];
-            if (!(jur_Lexer_singleDecompTable.$get1($readCodePoints) == jur_Lexer_singleDecompTableSize ? 0 : 1))
-                return jur_Pattern_processCharSet($this, $codePointsHangul[0]);
-        }
-        if (!jur_Pattern_hasFlag($this, 2))
-            return jur_DecomposedCharSet__init_($codePoints, $curSymb);
-        if (jur_Pattern_hasFlag($this, 64)) {
-            var$5 = new jur_UCIDecomposedCharSet;
-            jur_DecomposedCharSet__init_0(var$5, $codePoints, $curSymb);
-            return var$5;
-        }
-        var$5 = new jur_CIDecomposedCharSet;
-        jur_DecomposedCharSet__init_0(var$5, $codePoints, $curSymb);
-        return var$5;
-    }
-    function jur_Pattern_processSubExpression($this, $last) {
-        var $cur, $term, var$4, $next, var$6, var$7, var$8;
-        if (jur_Lexer_isLetter($this.$lexemes) && !jur_Lexer_isNextSpecial($this.$lexemes) && jur_Lexer_isLetter0($this.$lexemes.$lookAhead)) {
-            if (jur_Pattern_hasFlag($this, 128)) {
-                $cur = jur_Pattern_processDecomposedChar($this);
-                if (!jur_Lexer_isEmpty($this.$lexemes)) {
-                    $term = $this.$lexemes;
-                    var$4 = $term.$ch;
-                    if (!(var$4 == (-536870871) && !($last instanceof jur_FinalSet)) && var$4 != (-536870788) && !jur_Lexer_isLetter($term))
-                        $cur = jur_Pattern_processQuantifier($this, $last, $cur);
-                }
-            } else if (!jur_Lexer_isHighSurrogate($this.$lexemes) && !jur_Lexer_isLowSurrogate($this.$lexemes)) {
-                $next = new jl_StringBuffer;
-                jl_AbstractStringBuilder__init_($next);
-                while (!jur_Lexer_isEmpty($this.$lexemes) && jur_Lexer_isLetter($this.$lexemes) && !jur_Lexer_isHighSurrogate($this.$lexemes) && !jur_Lexer_isLowSurrogate($this.$lexemes)) {
-                    if (!(!jur_Lexer_isNextSpecial($this.$lexemes) && !$this.$lexemes.$lookAhead) && !(!jur_Lexer_isNextSpecial($this.$lexemes) && jur_Lexer_isLetter0($this.$lexemes.$lookAhead))) {
-                        var$6 = $this.$lexemes.$lookAhead;
-                        if (var$6 != (-536870871) && (var$6 & (-2147418113)) != (-2147483608) && var$6 != (-536870788) && var$6 != (-536870876))
-                            break;
-                    }
-                    var$4 = jur_Lexer_next($this.$lexemes);
-                    if (!jl_Character_isSupplementaryCodePoint(var$4))
-                        jl_AbstractStringBuilder_append($next, var$4 & 65535);
-                    else
-                        jl_AbstractStringBuilder_append2($next, jl_Character_toChars(var$4));
-                }
-                if (!jur_Pattern_hasFlag($this, 2)) {
-                    $cur = new jur_SequenceSet;
-                    jur_LeafSet__init_($cur);
-                    $cur.$string0 = jl_AbstractStringBuilder_toString($next);
-                    var$4 = $next.$length0;
-                    $cur.$charCount = var$4;
-                    $cur.$leftToRight = jur_SequenceSet$IntHash__init_(var$4);
-                    $cur.$rightToLeft = jur_SequenceSet$IntHash__init_($cur.$charCount);
-                    var$7 = 0;
-                    while (var$7 < ($cur.$charCount - 1 | 0)) {
-                        jur_SequenceSet$IntHash_put($cur.$leftToRight, jl_String_charAt($cur.$string0, var$7), ($cur.$charCount - var$7 | 0) - 1 | 0);
-                        jur_SequenceSet$IntHash_put($cur.$rightToLeft, jl_String_charAt($cur.$string0, ($cur.$charCount - var$7 | 0) - 1 | 0), ($cur.$charCount - var$7 | 0) - 1 | 0);
-                        var$7 = var$7 + 1 | 0;
-                    }
-                } else if (jur_Pattern_hasFlag($this, 64))
-                    $cur = jur_UCISequenceSet__init_($next);
-                else {
-                    $cur = new jur_CISequenceSet;
-                    jur_LeafSet__init_($cur);
-                    $cur.$string1 = jl_AbstractStringBuilder_toString($next);
-                    $cur.$charCount = $next.$length0;
-                }
-            } else
-                $cur = jur_Pattern_processQuantifier($this, $last, jur_Pattern_processTerminal($this, $last));
-        } else {
-            $term = $this.$lexemes;
-            if ($term.$ch != (-536870871))
-                $cur = jur_Pattern_processQuantifier($this, $last, jur_Pattern_processTerminal($this, $last));
-            else {
-                if ($last instanceof jur_FinalSet)
-                    $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $term.$orig, jur_Lexer_getIndex($term)));
-                $cur = jur_EmptySet__init_($last);
-            }
-        }
-        a: {
-            if (!jur_Lexer_isEmpty($this.$lexemes)) {
-                var$4 = $this.$lexemes.$ch;
-                if (!(var$4 == (-536870871) && !($last instanceof jur_FinalSet)) && var$4 != (-536870788)) {
-                    $next = jur_Pattern_processSubExpression($this, $last);
-                    if ($cur instanceof jur_LeafQuantifierSet && !($cur instanceof jur_CompositeQuantifierSet) && !($cur instanceof jur_GroupQuantifierSet) && !($cur instanceof jur_AltQuantifierSet)) {
-                        var$8 = $cur;
-                        if (!$next.$first(var$8.$innerSet)) {
-                            $cur = new jur_UnifiedQuantifierSet;
-                            jur_LeafQuantifierSet__init_($cur, var$8.$innerSet, var$8.$next2, var$8.$type11);
-                            $cur.$innerSet.$setNext($cur);
-                        }
-                    }
-                    if (($next.$getType3() & 65535) != 43)
-                        $cur.$setNext($next);
-                    else
-                        $cur.$setNext($next.$innerSet);
-                    break a;
-                }
-            }
-            if ($cur === null)
-                return null;
-            $cur.$setNext($last);
-        }
-        if (($cur.$getType3() & 65535) != 43)
-            return $cur;
-        return $cur.$innerSet;
-    }
-    function jur_Pattern_processQuantifier($this, $last, $term) {
-        var $q, $quant, $leaf, var$6, $q_0;
-        $q = $this.$lexemes;
-        $quant = $q.$ch;
-        if ($term !== null && !($term instanceof jur_LeafSet)) {
-            switch ($quant) {
-                case -2147483606:
-                    jur_Lexer_next($q);
-                    $q = new jur_PossessiveGroupQuantifierSet;
-                    jur_QuantifierSet__init_($q, $term, $last, $quant);
-                    jur_FSet_$callClinit();
-                    $term.$setNext(jur_FSet_posFSet);
-                    return $q;
-                case -2147483605:
-                    jur_Lexer_next($q);
-                    $q = new jur_PosPlusGroupQuantifierSet;
-                    jur_QuantifierSet__init_($q, $term, $last, (-2147483606));
-                    jur_FSet_$callClinit();
-                    $term.$setNext(jur_FSet_posFSet);
-                    return $q;
-                case -2147483585:
-                    jur_Lexer_next($q);
-                    $q = new jur_PosAltGroupQuantifierSet;
-                    jur_QuantifierSet__init_($q, $term, $last, (-536870849));
-                    jur_FSet_$callClinit();
-                    $term.$setNext(jur_FSet_posFSet);
-                    return $q;
-                case -2147483525:
-                    $leaf = new jur_PosCompositeGroupQuantifierSet;
-                    $q = jur_Lexer_nextSpecial($q);
-                    var$6 = $this.$compCount + 1 | 0;
-                    $this.$compCount = var$6;
-                    jur_CompositeGroupQuantifierSet__init_($leaf, $q, $term, $last, (-536870849), var$6);
-                    jur_FSet_$callClinit();
-                    $term.$setNext(jur_FSet_posFSet);
-                    return $leaf;
-                case -1073741782:
-                case -1073741781:
-                    jur_Lexer_next($q);
-                    $q = new jur_ReluctantGroupQuantifierSet;
-                    jur_QuantifierSet__init_($q, $term, $last, $quant);
-                    $term.$setNext($q);
-                    return $q;
-                case -1073741761:
-                    jur_Lexer_next($q);
-                    $q = new jur_RelAltGroupQuantifierSet;
-                    jur_QuantifierSet__init_($q, $term, $last, (-536870849));
-                    $term.$setNext($last);
-                    return $q;
-                case -1073741701:
-                    $q_0 = new jur_RelCompositeGroupQuantifierSet;
-                    $q = jur_Lexer_nextSpecial($q);
-                    $quant = $this.$compCount + 1 | 0;
-                    $this.$compCount = $quant;
-                    jur_CompositeGroupQuantifierSet__init_($q_0, $q, $term, $last, (-536870849), $quant);
-                    $term.$setNext($q_0);
-                    return $q_0;
-                case -536870870:
-                case -536870869:
-                    jur_Lexer_next($q);
-                    if ($term.$getType3() != (-2147483602)) {
-                        $q = new jur_GroupQuantifierSet;
-                        jur_QuantifierSet__init_($q, $term, $last, $quant);
-                    } else if (jur_Pattern_hasFlag($this, 32)) {
-                        $q = new jur_DotAllQuantifierSet;
-                        jur_QuantifierSet__init_($q, $term, $last, $quant);
-                    } else {
-                        $q = new jur_DotQuantifierSet;
-                        $leaf = jur_AbstractLineTerminator_getInstance($this.$flags0);
-                        jur_QuantifierSet__init_($q, $term, $last, $quant);
-                        $q.$lt = $leaf;
-                    }
-                    $term.$setNext($q);
-                    return $q;
-                case -536870849:
-                    jur_Lexer_next($q);
-                    $q = new jur_AltGroupQuantifierSet;
-                    jur_QuantifierSet__init_($q, $term, $last, (-536870849));
-                    $term.$setNext($last);
-                    return $q;
-                case -536870789:
-                    $q_0 = new jur_CompositeGroupQuantifierSet;
-                    $q = jur_Lexer_nextSpecial($q);
-                    $quant = $this.$compCount + 1 | 0;
-                    $this.$compCount = $quant;
-                    jur_CompositeGroupQuantifierSet__init_($q_0, $q, $term, $last, (-536870849), $quant);
-                    $term.$setNext($q_0);
-                    return $q_0;
-                default:
-            }
-            return $term;
-        }
-        $leaf = null;
-        if ($term !== null)
-            $leaf = $term;
-        switch ($quant) {
-            case -2147483606:
-            case -2147483605:
-                jur_Lexer_next($q);
-                $q = new jur_PossessiveQuantifierSet;
-                jur_LeafQuantifierSet__init_($q, $leaf, $last, $quant);
-                $leaf.$next2 = $q;
-                return $q;
-            case -2147483585:
-                jur_Lexer_next($q);
-                $term = new jur_PossessiveAltQuantifierSet;
-                jur_LeafQuantifierSet__init_($term, $leaf, $last, (-2147483585));
-                return $term;
-            case -2147483525:
-                $term = new jur_PossessiveCompositeQuantifierSet;
-                jur_CompositeQuantifierSet__init_($term, jur_Lexer_nextSpecial($q), $leaf, $last, (-2147483525));
-                return $term;
-            case -1073741782:
-            case -1073741781:
-                jur_Lexer_next($q);
-                $q = new jur_ReluctantQuantifierSet;
-                jur_LeafQuantifierSet__init_($q, $leaf, $last, $quant);
-                $leaf.$next2 = $q;
-                return $q;
-            case -1073741761:
-                jur_Lexer_next($q);
-                $term = new jur_ReluctantAltQuantifierSet;
-                jur_LeafQuantifierSet__init_($term, $leaf, $last, (-1073741761));
-                return $term;
-            case -1073741701:
-                $term = new jur_ReluctantCompositeQuantifierSet;
-                jur_CompositeQuantifierSet__init_($term, jur_Lexer_nextSpecial($q), $leaf, $last, (-1073741701));
-                return $term;
-            case -536870870:
-            case -536870869:
-                jur_Lexer_next($q);
-                $q = jur_LeafQuantifierSet__init_0($leaf, $last, $quant);
-                $leaf.$next2 = $q;
-                return $q;
-            case -536870849:
-                jur_Lexer_next($q);
-                $term = new jur_AltQuantifierSet;
-                jur_LeafQuantifierSet__init_($term, $leaf, $last, (-536870849));
-                return $term;
-            case -536870789:
-                return jur_CompositeQuantifierSet__init_0(jur_Lexer_nextSpecial($q), $leaf, $last, (-536870789));
-            default:
-        }
-        return $term;
-    }
-    function jur_Pattern_processTerminal($this, $last) {
-        var $term, var$3, var$4, $ch, $newFlags, $number, $negative, $cc;
-        $term = null;
-        var$3 = $last instanceof jur_FinalSet;
-        while (true) {
-            a: {
-                var$4 = $this.$lexemes;
-                $ch = var$4.$ch;
-                if (($ch & (-2147418113)) == (-2147483608)) {
-                    jur_Lexer_next(var$4);
-                    $newFlags = ($ch & 16711680) >> 16;
-                    $ch = $ch & (-16711681);
-                    if ($ch == (-16777176))
-                        $this.$flags0 = $newFlags;
-                    else {
-                        if ($ch != (-1073741784))
-                            $newFlags = $this.$flags0;
-                        $term = jur_Pattern_processExpression($this, $ch, $newFlags, $last);
-                        var$4 = $this.$lexemes;
-                        if (var$4.$ch != (-536870871))
-                            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), var$4.$orig, var$4.$curToc));
-                        jur_Lexer_next(var$4);
-                    }
-                } else {
-                    b: {
-                        c: {
-                            switch ($ch) {
-                                case -2147483599:
-                                case -2147483598:
-                                case -2147483597:
-                                case -2147483596:
-                                case -2147483595:
-                                case -2147483594:
-                                case -2147483593:
-                                case -2147483592:
-                                case -2147483591:
-                                    break c;
-                                case -2147483583:
-                                    break;
-                                case -2147483582:
-                                    jur_Lexer_next(var$4);
-                                    $term = jur_WordBoundary__init_(0);
-                                    break a;
-                                case -2147483577:
-                                    jur_Lexer_next(var$4);
-                                    $term = new jur_PreviousMatch;
-                                    jur_AbstractSet__init_($term);
-                                    break a;
-                                case -2147483558:
-                                    jur_Lexer_next(var$4);
-                                    $term = new jur_EOLSet;
-                                    $number = $this.$consCount + 1 | 0;
-                                    $this.$consCount = $number;
-                                    jur_EOLSet__init_($term, $number);
-                                    break a;
-                                case -2147483550:
-                                    jur_Lexer_next(var$4);
-                                    $term = jur_WordBoundary__init_(1);
-                                    break a;
-                                case -2147483526:
-                                    jur_Lexer_next(var$4);
-                                    $term = new jur_EOISet;
-                                    jur_AbstractSet__init_($term);
-                                    break a;
-                                case -536870876:
-                                    jur_Lexer_next(var$4);
-                                    $this.$consCount = $this.$consCount + 1 | 0;
-                                    if (jur_Pattern_hasFlag($this, 8)) {
-                                        if (jur_Pattern_hasFlag($this, 1)) {
-                                            $term = jur_UMultiLineEOLSet__init_($this.$consCount);
-                                            break a;
-                                        }
-                                        $term = jur_MultiLineEOLSet__init_($this.$consCount);
-                                        break a;
-                                    }
-                                    if (jur_Pattern_hasFlag($this, 1)) {
-                                        $term = jur_UEOLSet__init_($this.$consCount);
-                                        break a;
-                                    }
-                                    $term = jur_EOLSet__init_0($this.$consCount);
-                                    break a;
-                                case -536870866:
-                                    jur_Lexer_next(var$4);
-                                    if (jur_Pattern_hasFlag($this, 32)) {
-                                        $term = jur_DotAllSet__init_();
-                                        break a;
-                                    }
-                                    $term = jur_DotSet__init_(jur_AbstractLineTerminator_getInstance($this.$flags0));
-                                    break a;
-                                case -536870821:
-                                    jur_Lexer_next(var$4);
-                                    $negative = 0;
-                                    $term = $this.$lexemes;
-                                    if ($term.$ch == (-536870818)) {
-                                        $negative = 1;
-                                        jur_Lexer_next($term);
-                                    }
-                                    $term = jur_Pattern_processRangeSet($this, jur_Pattern_processRangeExpression($this, $negative));
-                                    $term.$setNext($last);
-                                    var$4 = $this.$lexemes;
-                                    if (var$4.$ch != (-536870819))
-                                        $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), var$4.$orig, var$4.$curToc));
-                                    jur_Lexer_setMode(var$4, 1);
-                                    jur_Lexer_next($this.$lexemes);
-                                    break a;
-                                case -536870818:
-                                    jur_Lexer_next(var$4);
-                                    $this.$consCount = $this.$consCount + 1 | 0;
-                                    if (!jur_Pattern_hasFlag($this, 8)) {
-                                        $term = new jur_SOLSet;
-                                        jur_AbstractSet__init_($term);
-                                        break a;
-                                    }
-                                    $term = new jur_MultiLineSOLSet;
-                                    var$4 = jur_AbstractLineTerminator_getInstance($this.$flags0);
-                                    jur_AbstractSet__init_($term);
-                                    $term.$lt0 = var$4;
-                                    break a;
-                                case 0:
-                                    $cc = var$4.$curST;
-                                    if ($cc !== null)
-                                        $term = jur_Pattern_processRangeSet($this, $cc);
-                                    else {
-                                        if (jur_Lexer_isEmpty(var$4)) {
-                                            $term = jur_EmptySet__init_($last);
-                                            break a;
-                                        }
-                                        $term = jur_CharSet__init_($ch & 65535);
-                                    }
-                                    jur_Lexer_next($this.$lexemes);
-                                    break a;
-                                default:
-                                    break b;
-                            }
-                            jur_Lexer_next(var$4);
-                            $term = new jur_SOLSet;
-                            jur_AbstractSet__init_($term);
-                            break a;
-                        }
-                        $number = ($ch & 2147483647) - 48 | 0;
-                        if ($this.$globalGroupIndex < $number)
-                            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), jur_Lexer_toString(var$4), jur_Lexer_getIndex($this.$lexemes)));
-                        jur_Lexer_next(var$4);
-                        $this.$consCount = $this.$consCount + 1 | 0;
-                        $term = !jur_Pattern_hasFlag($this, 2) ? jur_BackReferenceSet__init_($number, $this.$consCount) : jur_Pattern_hasFlag($this, 64) ? jur_UCIBackReferenceSet__init_($number, $this.$consCount) : jur_CIBackReferenceSet__init_($number, $this.$consCount);
-                        $this.$backRefs.data[$number].$isBackReferenced = 1;
-                        $this.$needsBackRefReplacement = 1;
-                        break a;
-                    }
-                    if ($ch >= 0 && !jur_Lexer_isSpecial(var$4)) {
-                        $term = jur_Pattern_processCharSet($this, $ch);
-                        jur_Lexer_next($this.$lexemes);
-                    } else if ($ch == (-536870788))
-                        $term = jur_EmptySet__init_($last);
-                    else {
-                        if ($ch != (-536870871)) {
-                            $last = new jur_PatternSyntaxException;
-                            $term = !jur_Lexer_isSpecial($this.$lexemes) ? jl_Character_toString($ch & 65535) : $this.$lexemes.$curST.$toString();
-                            var$4 = $this.$lexemes;
-                            jur_PatternSyntaxException__init_($last, $term, var$4.$orig, var$4.$curToc);
-                            $rt_throw($last);
-                        }
-                        if (var$3) {
-                            $last = new jur_PatternSyntaxException;
-                            var$4 = $this.$lexemes;
-                            jur_PatternSyntaxException__init_($last, $rt_s(8), var$4.$orig, var$4.$curToc);
-                            $rt_throw($last);
-                        }
-                        $term = jur_EmptySet__init_($last);
-                    }
-                }
-            }
-            if ($ch != (-16777176))
-                break;
-        }
-        return $term;
-    }
-    function jur_Pattern_processRangeExpression($this, $alt) {
-        var $res, $buffer, $intersection, $notClosed, $firstInClass, $cs, $cur, $negative, $$je;
-        $res = jur_CharClass__init_(jur_Pattern_hasFlag($this, 2), jur_Pattern_hasFlag($this, 64));
-        jur_AbstractCharClass_setNegative($res, $alt);
-        $buffer = (-1);
-        $intersection = 0;
-        $notClosed = 0;
-        $firstInClass = 1;
-        a: {
-            b: {
-                c: while (true) {
-                    if (jur_Lexer_isEmpty($this.$lexemes))
-                        break a;
-                    $cs = $this.$lexemes;
-                    $alt = $cs.$ch;
-                    $notClosed = $alt == (-536870819) && !$firstInClass ? 0 : 1;
-                    if (!$notClosed)
-                        break a;
-                    d: {
-                        switch ($alt) {
-                            case -536870874:
-                                if ($buffer >= 0)
-                                    jur_CharClass_add($res, $buffer);
-                                $buffer = jur_Lexer_next($this.$lexemes);
-                                $cs = $this.$lexemes;
-                                if ($cs.$ch != (-536870874)) {
-                                    $buffer = 38;
-                                    break d;
-                                }
-                                if ($cs.$lookAhead == (-536870821)) {
-                                    jur_Lexer_next($cs);
-                                    $intersection = 1;
-                                    $buffer = (-1);
-                                    break d;
-                                }
-                                jur_Lexer_next($cs);
-                                if ($firstInClass) {
-                                    $res = jur_Pattern_processRangeExpression($this, 0);
-                                    break d;
-                                }
-                                if ($this.$lexemes.$ch == (-536870819))
-                                    break d;
-                                jur_CharClass_intersection($res, jur_Pattern_processRangeExpression($this, 0));
-                                break d;
-                            case -536870867:
-                                if (!$firstInClass) {
-                                    $alt = $cs.$lookAhead;
-                                    if ($alt != (-536870819) && $alt != (-536870821) && $buffer >= 0) {
-                                        jur_Lexer_next($cs);
-                                        $cs = $this.$lexemes;
-                                        $cur = $cs.$ch;
-                                        if (jur_Lexer_isSpecial($cs))
-                                            break c;
-                                        if ($cur < 0) {
-                                            $negative = $this.$lexemes.$lookAhead;
-                                            if ($negative != (-536870819) && $negative != (-536870821) && $buffer >= 0)
-                                                break c;
-                                        }
-                                        e: {
-                                            try {
-                                                if (jur_Lexer_isLetter0($cur))
-                                                    break e;
-                                                $cur = $cur & 65535;
-                                                break e;
-                                            } catch ($$e) {
-                                                $$je = $rt_wrapException($$e);
-                                                if ($$je instanceof jl_Exception) {
-                                                    break b;
-                                                } else {
-                                                    throw $$e;
-                                                }
-                                            }
-                                        }
-                                        try {
-                                            jur_CharClass_add0($res, $buffer, $cur);
-                                        } catch ($$e) {
-                                            $$je = $rt_wrapException($$e);
-                                            if ($$je instanceof jl_Exception) {
-                                                break b;
-                                            } else {
-                                                throw $$e;
-                                            }
-                                        }
-                                        jur_Lexer_next($this.$lexemes);
-                                        $buffer = (-1);
-                                        break d;
-                                    }
-                                }
-                                if ($buffer >= 0)
-                                    jur_CharClass_add($res, $buffer);
-                                $buffer = 45;
-                                jur_Lexer_next($this.$lexemes);
-                                break d;
-                            case -536870821:
-                                if ($buffer >= 0) {
-                                    jur_CharClass_add($res, $buffer);
-                                    $buffer = (-1);
-                                }
-                                jur_Lexer_next($this.$lexemes);
-                                $negative = 0;
-                                $cs = $this.$lexemes;
-                                if ($cs.$ch == (-536870818)) {
-                                    jur_Lexer_next($cs);
-                                    $negative = 1;
-                                }
-                                if (!$intersection)
-                                    jur_CharClass_union($res, jur_Pattern_processRangeExpression($this, $negative));
-                                else
-                                    jur_CharClass_intersection($res, jur_Pattern_processRangeExpression($this, $negative));
-                                $intersection = 0;
-                                jur_Lexer_next($this.$lexemes);
-                                break d;
-                            case -536870819:
-                                if ($buffer >= 0)
-                                    jur_CharClass_add($res, $buffer);
-                                $buffer = 93;
-                                jur_Lexer_next($this.$lexemes);
-                                break d;
-                            case -536870818:
-                                if ($buffer >= 0)
-                                    jur_CharClass_add($res, $buffer);
-                                $buffer = 94;
-                                jur_Lexer_next($this.$lexemes);
-                                break d;
-                            case 0:
-                                if ($buffer >= 0)
-                                    jur_CharClass_add($res, $buffer);
-                                $cs = $this.$lexemes.$curST;
-                                if ($cs === null)
-                                    $buffer = 0;
-                                else {
-                                    jur_CharClass_add1($res, $cs);
-                                    $buffer = (-1);
-                                }
-                                jur_Lexer_next($this.$lexemes);
-                                break d;
-                            default:
-                        }
-                        if ($buffer >= 0)
-                            jur_CharClass_add($res, $buffer);
-                        $buffer = jur_Lexer_next($this.$lexemes);
-                    }
-                    $firstInClass = 0;
-                }
-                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), jur_Pattern_pattern($this), $this.$lexemes.$curToc));
-            }
-            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), jur_Pattern_pattern($this), $this.$lexemes.$curToc));
-        }
-        if (!$notClosed) {
-            if ($buffer >= 0)
-                jur_CharClass_add($res, $buffer);
-            return $res;
-        }
-        $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), jur_Pattern_pattern($this), $this.$lexemes.$curToc - 1 | 0));
-    }
-    function jur_Pattern_processCharSet($this, $ch) {
-        var $isSupplCodePoint, var$3, var$4;
-        $isSupplCodePoint = jl_Character_isSupplementaryCodePoint($ch);
-        if (jur_Pattern_hasFlag($this, 2)) {
-            a: {
-                if (!($ch >= 97 && $ch <= 122)) {
-                    if ($ch < 65)
-                        break a;
-                    if ($ch > 90)
-                        break a;
-                }
-                return jur_CICharSet__init_($ch & 65535);
-            }
-            if (jur_Pattern_hasFlag($this, 64) && $ch > 128) {
-                if ($isSupplCodePoint) {
-                    var$3 = new jur_UCISupplCharSet;
-                    jur_LeafSet__init_(var$3);
-                    var$3.$charCount = 2;
-                    var$3.$ch0 = jl_Character_toLowerCase0(jl_Character_toUpperCase0($ch));
-                    return var$3;
-                }
-                if (jur_Lexer_isLowSurrogate0($ch))
-                    return jur_LowSurrogateCharSet__init_($ch & 65535);
-                if (!jur_Lexer_isHighSurrogate0($ch))
-                    return jur_UCICharSet__init_($ch & 65535);
-                return jur_HighSurrogateCharSet__init_($ch & 65535);
-            }
-        }
-        if (!$isSupplCodePoint) {
-            if (jur_Lexer_isLowSurrogate0($ch))
-                return jur_LowSurrogateCharSet__init_($ch & 65535);
-            if (!jur_Lexer_isHighSurrogate0($ch))
-                return jur_CharSet__init_($ch & 65535);
-            return jur_HighSurrogateCharSet__init_($ch & 65535);
-        }
-        var$3 = new jur_SupplCharSet;
-        jur_LeafSet__init_(var$3);
-        var$3.$charCount = 2;
-        var$3.$ch1 = $ch;
-        var$4 = (jl_Character_toChars($ch)).data;
-        var$3.$high = var$4[0];
-        var$3.$low = var$4[1];
-        return var$3;
-    }
-    function jur_Pattern_processRangeSet($this, $charClass) {
-        var $surrogates, $lowHighSurrRangeSet, var$4;
-        if (!jur_AbstractCharClass_hasLowHighSurrogates($charClass)) {
-            if (!$charClass.$mayContainSupplCodepoints) {
-                if ($charClass.$hasUCI())
-                    return jur_UCIRangeSet__init_($charClass);
-                return jur_RangeSet__init_($charClass);
-            }
-            if (!$charClass.$hasUCI())
-                return jur_SupplRangeSet__init_($charClass);
-            $surrogates = new jur_UCISupplRangeSet;
-            jur_SupplRangeSet__init_0($surrogates, $charClass);
-            return $surrogates;
-        }
-        $surrogates = jur_AbstractCharClass_getSurrogates($charClass);
-        $lowHighSurrRangeSet = new jur_LowHighSurrogateRangeSet;
-        jur_AbstractSet__init_($lowHighSurrRangeSet);
-        $lowHighSurrRangeSet.$surrChars = $surrogates;
-        $lowHighSurrRangeSet.$alt = $surrogates.$alt0;
-        if (!$charClass.$mayContainSupplCodepoints) {
-            if ($charClass.$hasUCI())
-                return jur_CompositeRangeSet__init_(jur_UCIRangeSet__init_(jur_AbstractCharClass_getWithoutSurrogates($charClass)), $lowHighSurrRangeSet);
-            return jur_CompositeRangeSet__init_(jur_RangeSet__init_(jur_AbstractCharClass_getWithoutSurrogates($charClass)), $lowHighSurrRangeSet);
-        }
-        if (!$charClass.$hasUCI())
-            return jur_CompositeRangeSet__init_(jur_SupplRangeSet__init_(jur_AbstractCharClass_getWithoutSurrogates($charClass)), $lowHighSurrRangeSet);
-        $surrogates = new jur_CompositeRangeSet;
-        var$4 = new jur_UCISupplRangeSet;
-        jur_SupplRangeSet__init_0(var$4, jur_AbstractCharClass_getWithoutSurrogates($charClass));
-        jur_CompositeRangeSet__init_0($surrogates, var$4, $lowHighSurrRangeSet);
-        return $surrogates;
-    }
-    function jur_Pattern_getSupplement($ch) {
-        if ($ch >= 97 && $ch <= 122)
-            $ch = ($ch - 32 | 0) & 65535;
-        else if ($ch >= 65 && $ch <= 90)
-            $ch = ($ch + 32 | 0) & 65535;
-        return $ch;
-    }
-    function jur_Pattern_hasFlag($this, $flag) {
-        return ($this.$flags0 & $flag) != $flag ? 0 : 1;
-    }
-    var jl_Runnable = $rt_classWithoutFields(0);
-    function jl_Thread() {
-        var a = this; jl_Object.call(a);
-        a.$id = Long_ZERO;
-        a.$timeSliceStart = Long_ZERO;
-        a.$finishedLock = null;
-        a.$interruptHandler = null;
-        a.$name17 = null;
-        a.$alive = 0;
-        a.$target = null;
-    }
-    var jl_Thread_mainThread = null;
-    var jl_Thread_currentThread0 = null;
-    var jl_Thread_nextId = 0;
-    var jl_Thread_activeCount = 0;
-    var jl_Thread_defaultUncaughtExceptionHandler = null;
-    function jl_Thread_$callClinit() {
-        jl_Thread_$callClinit = $rt_eraseClinit(jl_Thread);
-        jl_Thread__clinit_();
-    }
-    function jl_Thread_setCurrentThread($thread_0) {
-        jl_Thread_$callClinit();
-        if (jl_Thread_currentThread0 !== $thread_0)
-            jl_Thread_currentThread0 = $thread_0;
-        jl_Thread_currentThread0.$timeSliceStart = jl_System_currentTimeMillis();
-    }
-    function jl_Thread_currentThread() {
-        jl_Thread_$callClinit();
-        return jl_Thread_currentThread0;
-    }
-    function jl_Thread_sleep(var$1) {
-        var thread = $rt_nativeThread();
-        var javaThread = $rt_getThread();
-        if (thread.isResuming()) {
-            thread.status = 0;
-            var result = thread.attribute;
-            if (result instanceof Error) {
-                throw result;
-            }
-            return result;
-        }
-        var callback = function() {};
-        callback.$complete = function(val) {
-            thread.attribute = val;
-            $rt_setThread(javaThread);
-            thread.resume();
-        };
-        callback.$error = function(e) {
-            thread.attribute = $rt_exception(e);
-            $rt_setThread(javaThread);
-            thread.resume();
-        };
-        callback = otpp_AsyncCallbackWrapper_create(callback);
-        return thread.suspend(function() {
-            try {
-                jl_Thread_sleep0(var$1, callback);
-            } catch($e) {
-                callback.$error($rt_exception($e));
-            }
-        });
-    }
-    function jl_Thread_sleep0($millis, $callback) {
-        var $current, $handler;
-        jl_Thread_$callClinit();
-        $current = jl_Thread_currentThread();
-        $handler = new jl_Thread$SleepHandler;
-        $handler.$thread = $current;
-        $handler.$callback = $callback;
-        $handler.$scheduleId = otp_Platform_schedule($handler, Long_ge($millis, Long_fromInt(2147483647)) ? 2147483647 : Long_lo($millis));
-        $current.$interruptHandler = $handler;
-    }
-    function jl_Thread__clinit_() {
-        var var$1, var$2, var$3;
-        var$1 = new jl_Thread;
-        jl_Thread_$callClinit();
-        var$2 = null;
-        var$1.$finishedLock = new jl_Object;
-        var$1.$alive = 1;
-        var$1.$name17 = $rt_s(280);
-        var$1.$target = var$2;
-        var$3 = jl_Thread_nextId;
-        jl_Thread_nextId = var$3 + 1 | 0;
-        var$1.$id = Long_fromInt(var$3);
-        jl_Thread_mainThread = var$1;
-        jl_Thread_currentThread0 = var$1;
-        jl_Thread_nextId = 1;
-        jl_Thread_activeCount = 1;
-        jl_Thread_defaultUncaughtExceptionHandler = new jl_DefaultUncaughtExceptionHandler;
-    }
-    var ju_Objects = $rt_classWithoutFields();
-    function tj_IntVar() {
-        var a = this; jl_Object.call(a);
-        a.$value3 = null;
-        a.$name4 = null;
-    }
-    function tj_FloatVar() {
-        var a = this; jl_Object.call(a);
-        a.$value0 = null;
-        a.$name1 = null;
-    }
-    function tj_BoolVar() {
-        var a = this; jl_Object.call(a);
-        a.$value1 = null;
-        a.$name2 = null;
-    }
-    function tj_StringVar() {
-        var a = this; jl_Object.call(a);
-        a.$value2 = null;
-        a.$name3 = null;
-    }
-    function tj_StringList() {
-        var a = this; jl_Object.call(a);
-        a.$value8 = null;
-        a.$name8 = null;
-    }
-    function tj_BoolList() {
-        var a = this; jl_Object.call(a);
-        a.$value6 = null;
-        a.$name7 = null;
-    }
-    function tj_FloatList() {
-        var a = this; jl_Object.call(a);
-        a.$value4 = null;
-        a.$name6 = null;
-    }
-    function tj_IntList() {
-        var a = this; jl_Object.call(a);
-        a.$value10 = null;
-        a.$name9 = null;
-    }
-    function tj_FunctionVar() {
-        var a = this; jl_Object.call(a);
-        a.$name5 = null;
-        a.$body0 = null;
-        a.$args = null;
-    }
-    var oti_AsyncCallback = $rt_classWithoutFields(0);
-    function otpp_AsyncCallbackWrapper() {
-        jl_Object.call(this);
-        this.$realAsyncCallback = null;
-    }
-    function otpp_AsyncCallbackWrapper_create($realAsyncCallback) {
-        var var$2;
-        var$2 = new otpp_AsyncCallbackWrapper;
-        var$2.$realAsyncCallback = $realAsyncCallback;
-        return var$2;
-    }
-    function otpp_AsyncCallbackWrapper_complete($this, $result) {
-        $this.$realAsyncCallback.$complete($result);
-    }
-    function otpp_AsyncCallbackWrapper_error($this, $e) {
-        $this.$realAsyncCallback.$error($e);
-    }
-    var otp_PlatformRunnable = $rt_classWithoutFields(0);
-    var otr_EventQueue$Event = $rt_classWithoutFields(0);
-    var jl_ThreadInterruptHandler = $rt_classWithoutFields(0);
-    function jl_Thread$SleepHandler() {
-        var a = this; jl_Object.call(a);
-        a.$thread = null;
-        a.$callback = null;
-        a.$isInterrupted = 0;
-        a.$scheduleId = 0;
-    }
-    function jur_AbstractSet() {
-        var a = this; jl_Object.call(a);
-        a.$next2 = null;
-        a.$isSecondPassVisited = 0;
-        a.$index2 = null;
-        a.$type11 = 0;
-    }
-    var jur_AbstractSet_counter = 0;
-    function jur_AbstractSet__init_($this) {
-        var var$1;
-        var$1 = jur_AbstractSet_counter;
-        jur_AbstractSet_counter = var$1 + 1 | 0;
-        $this.$index2 = jl_Integer_toString(var$1);
-    }
-    function jur_AbstractSet__init_0($this, $n) {
-        var var$2;
-        var$2 = jur_AbstractSet_counter;
-        jur_AbstractSet_counter = var$2 + 1 | 0;
-        $this.$index2 = jl_Integer_toString(var$2);
-        $this.$next2 = $n;
-    }
-    function jur_AbstractSet_find($this, $stringIndex, $testString, $matchResult) {
-        var $length;
-        $length = $matchResult.$rightBound0;
-        while (true) {
-            if ($stringIndex > $length)
-                return (-1);
-            if ($this.$matches($stringIndex, $testString, $matchResult) >= 0)
-                break;
-            $stringIndex = $stringIndex + 1 | 0;
-        }
-        return $stringIndex;
-    }
-    function jur_AbstractSet_findBack($this, $stringIndex, $startSearch, $testString, $matchResult) {
-        while (true) {
-            if ($startSearch < $stringIndex)
-                return (-1);
-            if ($this.$matches($startSearch, $testString, $matchResult) >= 0)
-                break;
-            $startSearch = $startSearch + (-1) | 0;
-        }
-        return $startSearch;
-    }
-    function jur_AbstractSet_setType($this, $type) {
-        $this.$type11 = $type;
-    }
-    function jur_AbstractSet_getType($this) {
-        return $this.$type11;
-    }
-    function jur_AbstractSet_getNext($this) {
-        return $this.$next2;
-    }
-    function jur_AbstractSet_setNext($this, $next) {
-        $this.$next2 = $next;
-    }
-    function jur_AbstractSet_first($this, $set) {
-        return 1;
-    }
-    function jur_AbstractSet_processBackRefReplacement($this) {
-        return null;
-    }
-    function jur_AbstractSet_processSecondPass($this) {
-        var $set;
-        $this.$isSecondPassVisited = 1;
-        $set = $this.$next2;
-        if ($set !== null) {
-            if (!$set.$isSecondPassVisited) {
-                $set = $set.$processBackRefReplacement();
-                if ($set !== null) {
-                    $this.$next2.$isSecondPassVisited = 1;
-                    $this.$next2 = $set;
-                }
-                $this.$next2.$processSecondPass();
-            } else if ($set instanceof jur_SingleSet && $set.$fSet.$isBackReferenced)
-                $this.$next2 = $set.$next2;
-        }
-    }
-    function jur_AbstractSet__clinit_() {
-        jur_AbstractSet_counter = 1;
-    }
-    function jn_Buffer() {
-        var a = this; jl_Object.call(a);
-        a.$capacity = 0;
-        a.$position = 0;
-        a.$limit = 0;
-        a.$mark = 0;
-    }
-    function jn_Buffer__init_($this, $capacity) {
-        $this.$mark = (-1);
-        $this.$capacity = $capacity;
-        $this.$limit = $capacity;
-    }
-    function jn_Buffer_position($this) {
-        return $this.$position;
-    }
-    function jn_Buffer_remaining($this) {
-        return $this.$limit - $this.$position | 0;
-    }
-    function jn_Buffer_hasRemaining($this) {
-        return $this.$position >= $this.$limit ? 0 : 1;
-    }
-    var jl_Readable = $rt_classWithoutFields(0);
-    var jn_CharBuffer = $rt_classWithoutFields(jn_Buffer);
-    function jn_CharBuffer_position($this, $newPosition) {
-        var var$2, var$3, var$4;
-        if ($newPosition >= 0 && $newPosition <= $this.$limit) {
-            $this.$position = $newPosition;
-            if ($newPosition < $this.$mark)
-                $this.$mark = 0;
-            return $this;
-        }
-        var$2 = new jl_IllegalArgumentException;
-        var$3 = $this.$limit;
-        var$4 = new jl_StringBuilder;
-        jl_AbstractStringBuilder__init_(var$4);
-        jl_AbstractStringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(281)), $newPosition), $rt_s(282)), var$3), 93);
-        jl_Throwable__init_0(var$2, jl_AbstractStringBuilder_toString(var$4));
-        $rt_throw(var$2);
-    }
-    function jn_ByteBuffer() {
-        var a = this; jn_Buffer.call(a);
-        a.$start4 = 0;
-        a.$array1 = null;
-        a.$order = null;
-    }
-    function jn_ByteBuffer_put($this, $src, $offset, $length) {
-        var var$4, var$5, var$6, var$7, var$8, var$9, $pos, $i, var$12;
-        if (!$length)
-            return $this;
-        if ($this.$readOnly0) {
-            var$4 = new jn_ReadOnlyBufferException;
-            jl_Exception__init_(var$4);
-            $rt_throw(var$4);
-        }
-        if (jn_Buffer_remaining($this) < $length) {
-            var$4 = new jn_BufferOverflowException;
-            jl_Exception__init_(var$4);
-            $rt_throw(var$4);
-        }
-        if ($offset >= 0) {
-            var$5 = $src.data;
-            var$6 = var$5.length;
-            if ($offset <= var$6) {
-                var$7 = $offset + $length | 0;
-                if (var$7 > var$6) {
-                    var$8 = new jl_IndexOutOfBoundsException;
-                    var$9 = new jl_StringBuilder;
-                    jl_AbstractStringBuilder__init_(var$9);
-                    jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$9, $rt_s(283)), var$7), $rt_s(284)), var$6);
-                    jl_Throwable__init_0(var$8, jl_AbstractStringBuilder_toString(var$9));
-                    $rt_throw(var$8);
-                }
-                if ($length < 0) {
-                    var$4 = new jl_IndexOutOfBoundsException;
-                    var$8 = new jl_StringBuilder;
-                    jl_AbstractStringBuilder__init_(var$8);
-                    jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$8, $rt_s(285)), $length), $rt_s(286));
-                    jl_Throwable__init_0(var$4, jl_AbstractStringBuilder_toString(var$8));
-                    $rt_throw(var$4);
-                }
-                var$7 = $this.$position;
-                $pos = var$7 + $this.$start4 | 0;
-                $i = 0;
-                while ($i < $length) {
-                    $src = $this.$array1.data;
-                    var$12 = $pos + 1 | 0;
-                    var$6 = $offset + 1 | 0;
-                    $src[$pos] = var$5[$offset];
-                    $i = $i + 1 | 0;
-                    $pos = var$12;
-                    $offset = var$6;
-                }
-                $this.$position = var$7 + $length | 0;
-                return $this;
-            }
-        }
-        $src = $src.data;
-        var$4 = new jl_IndexOutOfBoundsException;
-        $length = $src.length;
-        var$8 = new jl_StringBuilder;
-        jl_AbstractStringBuilder__init_(var$8);
-        jl_AbstractStringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$8, $rt_s(287)), $offset), $rt_s(282)), $length), 41);
-        jl_Throwable__init_0(var$4, jl_AbstractStringBuilder_toString(var$8));
-        $rt_throw(var$4);
-    }
-    function jn_ByteBuffer_clear($this) {
-        $this.$position = 0;
-        $this.$limit = $this.$capacity;
-        $this.$mark = (-1);
-        return $this;
-    }
-    function jnc_CodingErrorAction() {
-        jl_Object.call(this);
-        this.$name18 = null;
-    }
-    var jnc_CodingErrorAction_IGNORE = null;
-    var jnc_CodingErrorAction_REPLACE = null;
-    var jnc_CodingErrorAction_REPORT = null;
-    function jnc_CodingErrorAction_$callClinit() {
-        jnc_CodingErrorAction_$callClinit = $rt_eraseClinit(jnc_CodingErrorAction);
-        jnc_CodingErrorAction__clinit_();
-    }
-    function jnc_CodingErrorAction__init_(var_0) {
-        var var_1 = new jnc_CodingErrorAction();
-        jnc_CodingErrorAction__init_0(var_1, var_0);
-        return var_1;
-    }
-    function jnc_CodingErrorAction__init_0($this, $name) {
-        jnc_CodingErrorAction_$callClinit();
-        $this.$name18 = $name;
-    }
-    function jnc_CodingErrorAction__clinit_() {
-        jnc_CodingErrorAction_IGNORE = jnc_CodingErrorAction__init_($rt_s(288));
-        jnc_CodingErrorAction_REPLACE = jnc_CodingErrorAction__init_($rt_s(289));
-        jnc_CodingErrorAction_REPORT = jnc_CodingErrorAction__init_($rt_s(290));
-    }
-    var jl_Thread$UncaughtExceptionHandler = $rt_classWithoutFields(0);
-    var jl_DefaultUncaughtExceptionHandler = $rt_classWithoutFields();
-    function jur_FSet() {
-        var a = this; jur_AbstractSet.call(a);
-        a.$isBackReferenced = 0;
-        a.$groupIndex = 0;
-    }
-    var jur_FSet_posFSet = null;
-    function jur_FSet_$callClinit() {
-        jur_FSet_$callClinit = $rt_eraseClinit(jur_FSet);
-        jur_FSet__clinit_();
-    }
-    function jur_FSet__init_0(var_0) {
-        var var_1 = new jur_FSet();
-        jur_FSet__init_(var_1, var_0);
-        return var_1;
-    }
-    function jur_FSet__init_($this, $groupIndex) {
-        jur_FSet_$callClinit();
-        jur_AbstractSet__init_($this);
-        $this.$groupIndex = $groupIndex;
-    }
-    function jur_FSet_matches($this, $stringIndex, $testString, $matchResult) {
-        var $end, $shift;
-        $end = jur_MatchResultImpl_getEnd($matchResult, $this.$groupIndex);
-        jur_MatchResultImpl_setEnd($matchResult, $this.$groupIndex, $stringIndex);
-        $shift = $this.$next2.$matches($stringIndex, $testString, $matchResult);
-        if ($shift < 0)
-            jur_MatchResultImpl_setEnd($matchResult, $this.$groupIndex, $end);
-        return $shift;
-    }
-    function jur_FSet_getGroupIndex($this) {
-        return $this.$groupIndex;
-    }
-    function jur_FSet_hasConsumed($this, $mr) {
-        return 0;
-    }
-    function jur_FSet__clinit_() {
-        var var$1;
-        var$1 = new jur_FSet$PossessiveFSet;
-        jur_AbstractSet__init_(var$1);
-        jur_FSet_posFSet = var$1;
-    }
-    function jur_Lexer() {
-        var a = this; jl_Object.call(a);
-        a.$pattern = null;
-        a.$flags = 0;
-        a.$mode = 0;
-        a.$savedMode = 0;
-        a.$lookBack = 0;
-        a.$ch = 0;
-        a.$lookAhead = 0;
-        a.$patternFullLength = 0;
-        a.$curST = null;
-        a.$lookAheadST = null;
-        a.$index1 = 0;
-        a.$prevNW = 0;
-        a.$curToc = 0;
-        a.$lookAheadToc = 0;
-        a.$orig = null;
-    }
-    var jur_Lexer_decompTable = null;
-    var jur_Lexer_singleDecompTable = null;
-    var jur_Lexer_singleDecompTableSize = 0;
-    function jur_Lexer_setMode($this, $mode) {
-        if ($mode > 0 && $mode < 3)
-            $this.$mode = $mode;
-        if ($mode == 1) {
-            $this.$lookAhead = $this.$ch;
-            $this.$lookAheadST = $this.$curST;
-            $this.$index1 = $this.$lookAheadToc;
-            $this.$lookAheadToc = $this.$curToc;
-            jur_Lexer_movePointer($this);
-        }
-    }
-    function jur_Lexer_isSpecial($this) {
-        return $this.$curST === null ? 0 : 1;
-    }
-    function jur_Lexer_isNextSpecial($this) {
-        return $this.$lookAheadST === null ? 0 : 1;
-    }
-    function jur_Lexer_next($this) {
-        jur_Lexer_movePointer($this);
-        return $this.$lookBack;
-    }
-    function jur_Lexer_nextSpecial($this) {
-        var $res;
-        $res = $this.$curST;
-        jur_Lexer_movePointer($this);
-        return $res;
-    }
-    function jur_Lexer_movePointer($this) {
-        var $reread, $nonCap, var$3, $behind, $mod, $cs, $negative, $$je;
-        $this.$lookBack = $this.$ch;
-        $this.$ch = $this.$lookAhead;
-        $this.$curST = $this.$lookAheadST;
-        $this.$curToc = $this.$lookAheadToc;
-        $this.$lookAheadToc = $this.$index1;
-        while (true) {
-            $reread = 0;
-            $nonCap = $this.$index1 >= $this.$pattern.data.length ? 0 : jur_Lexer_nextCodePoint($this);
-            $this.$lookAhead = $nonCap;
-            $this.$lookAheadST = null;
-            if ($this.$mode == 4) {
-                if ($nonCap != 92)
-                    return;
-                $nonCap = $this.$index1;
-                var$3 = $this.$pattern.data;
-                $nonCap = $nonCap >= var$3.length ? 0 : var$3[jur_Lexer_nextIndex($this)];
-                $this.$lookAhead = $nonCap;
-                switch ($nonCap) {
-                    case 69:
-                        break;
-                    default:
-                        $this.$lookAhead = 92;
-                        $this.$index1 = $this.$prevNW;
-                        return;
-                }
-                $this.$mode = $this.$savedMode;
-                $this.$lookAhead = $this.$index1 > ($this.$pattern.data.length - 2 | 0) ? 0 : jur_Lexer_nextCodePoint($this);
-            }
-            a: {
-                $nonCap = $this.$lookAhead;
-                if ($nonCap != 92) {
-                    $behind = $this.$mode;
-                    if ($behind == 1)
-                        switch ($nonCap) {
-                            case 36:
-                                $this.$lookAhead = (-536870876);
-                                break a;
-                            case 40:
-                                if ($this.$pattern.data[$this.$index1] != 63) {
-                                    $this.$lookAhead = (-2147483608);
-                                    break a;
-                                }
-                                jur_Lexer_nextIndex($this);
-                                $nonCap = $this.$pattern.data[$this.$index1];
-                                $behind = 0;
-                                while (true) {
-                                    b: {
-                                        if ($behind) {
-                                            $behind = 0;
-                                            switch ($nonCap) {
-                                                case 33:
-                                                    break;
-                                                case 61:
-                                                    $this.$lookAhead = (-134217688);
-                                                    jur_Lexer_nextIndex($this);
-                                                    break b;
-                                                default:
-                                                    $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), jur_Lexer_toString($this), $this.$index1));
-                                            }
-                                            $this.$lookAhead = (-67108824);
-                                            jur_Lexer_nextIndex($this);
-                                        } else {
-                                            switch ($nonCap) {
-                                                case 33:
-                                                    break;
-                                                case 60:
-                                                    jur_Lexer_nextIndex($this);
-                                                    $nonCap = $this.$pattern.data[$this.$index1];
-                                                    $behind = 1;
-                                                    break b;
-                                                case 61:
-                                                    $this.$lookAhead = (-536870872);
-                                                    jur_Lexer_nextIndex($this);
-                                                    break b;
-                                                case 62:
-                                                    $this.$lookAhead = (-33554392);
-                                                    jur_Lexer_nextIndex($this);
-                                                    break b;
-                                                default:
-                                                    $mod = jur_Lexer_readFlags($this);
-                                                    $this.$lookAhead = $mod;
-                                                    if ($mod < 256) {
-                                                        $this.$flags = $mod;
-                                                        $mod = $mod << 16;
-                                                        $this.$lookAhead = $mod;
-                                                        $this.$lookAhead = (-1073741784) | $mod;
-                                                        break b;
-                                                    }
-                                                    $mod = $mod & 255;
-                                                    $this.$lookAhead = $mod;
-                                                    $this.$flags = $mod;
-                                                    $mod = $mod << 16;
-                                                    $this.$lookAhead = $mod;
-                                                    $this.$lookAhead = (-16777176) | $mod;
-                                                    break b;
-                                            }
-                                            $this.$lookAhead = (-268435416);
-                                            jur_Lexer_nextIndex($this);
-                                        }
-                                    }
-                                    if (!$behind)
-                                        break;
-                                }
-                                break a;
-                            case 41:
-                                $this.$lookAhead = (-536870871);
-                                break a;
-                            case 42:
-                            case 43:
-                            case 63:
-                                $behind = $this.$index1;
-                                var$3 = $this.$pattern.data;
-                                switch ($behind >= var$3.length ? 42 : var$3[$behind]) {
-                                    case 43:
-                                        $this.$lookAhead = $nonCap | (-2147483648);
-                                        jur_Lexer_nextIndex($this);
-                                        break a;
-                                    case 63:
-                                        $this.$lookAhead = $nonCap | (-1073741824);
-                                        jur_Lexer_nextIndex($this);
-                                        break a;
-                                    default:
-                                }
-                                $this.$lookAhead = $nonCap | (-536870912);
-                                break a;
-                            case 46:
-                                $this.$lookAhead = (-536870866);
-                                break a;
-                            case 91:
-                                $this.$lookAhead = (-536870821);
-                                jur_Lexer_setMode($this, 2);
-                                break a;
-                            case 93:
-                                if ($behind != 2)
-                                    break a;
-                                $this.$lookAhead = (-536870819);
-                                break a;
-                            case 94:
-                                $this.$lookAhead = (-536870818);
-                                break a;
-                            case 123:
-                                $this.$lookAheadST = jur_Lexer_processQuantifier($this, $nonCap);
-                                break a;
-                            case 124:
-                                $this.$lookAhead = (-536870788);
-                                break a;
-                            default:
-                        }
-                    else if ($behind == 2)
-                        switch ($nonCap) {
-                            case 38:
-                                $this.$lookAhead = (-536870874);
-                                break a;
-                            case 45:
-                                $this.$lookAhead = (-536870867);
-                                break a;
-                            case 91:
-                                $this.$lookAhead = (-536870821);
-                                break a;
-                            case 93:
-                                $this.$lookAhead = (-536870819);
-                                break a;
-                            case 94:
-                                $this.$lookAhead = (-536870818);
-                                break a;
-                            default:
-                        }
-                } else {
-                    $nonCap = $this.$index1 >= ($this.$pattern.data.length - 2 | 0) ? (-1) : jur_Lexer_nextCodePoint($this);
-                    c: {
-                        $this.$lookAhead = $nonCap;
-                        switch ($nonCap) {
-                            case -1:
-                                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), jur_Lexer_toString($this), $this.$index1));
-                            case 0:
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 8:
-                            case 9:
-                            case 10:
-                            case 11:
-                            case 12:
-                            case 13:
-                            case 14:
-                            case 15:
-                            case 16:
-                            case 17:
-                            case 18:
-                            case 19:
-                            case 20:
-                            case 21:
-                            case 22:
-                            case 23:
-                            case 24:
-                            case 25:
-                            case 26:
-                            case 27:
-                            case 28:
-                            case 29:
-                            case 30:
-                            case 31:
-                            case 32:
-                            case 33:
-                            case 34:
-                            case 35:
-                            case 36:
-                            case 37:
-                            case 38:
-                            case 39:
-                            case 40:
-                            case 41:
-                            case 42:
-                            case 43:
-                            case 44:
-                            case 45:
-                            case 46:
-                            case 47:
-                            case 58:
-                            case 59:
-                            case 60:
-                            case 61:
-                            case 62:
-                            case 63:
-                            case 64:
-                            case 91:
-                            case 92:
-                            case 93:
-                            case 94:
-                            case 95:
-                            case 96:
-                            case 118:
-                                break;
-                            case 48:
-                                $this.$lookAhead = jur_Lexer_readOctals($this);
-                                break a;
-                            case 49:
-                            case 50:
-                            case 51:
-                            case 52:
-                            case 53:
-                            case 54:
-                            case 55:
-                            case 56:
-                            case 57:
-                                if ($this.$mode != 1)
-                                    break a;
-                                $this.$lookAhead = (-2147483648) | $nonCap;
-                                break a;
-                            case 65:
-                                $this.$lookAhead = (-2147483583);
-                                break a;
-                            case 66:
-                                $this.$lookAhead = (-2147483582);
-                                break a;
-                            case 67:
-                            case 69:
-                            case 70:
-                            case 72:
-                            case 73:
-                            case 74:
-                            case 75:
-                            case 76:
-                            case 77:
-                            case 78:
-                            case 79:
-                            case 82:
-                            case 84:
-                            case 85:
-                            case 86:
-                            case 88:
-                            case 89:
-                            case 103:
-                            case 104:
-                            case 105:
-                            case 106:
-                            case 107:
-                            case 108:
-                            case 109:
-                            case 111:
-                            case 113:
-                            case 121:
-                                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), jur_Lexer_toString($this), $this.$index1));
-                            case 68:
-                            case 83:
-                            case 87:
-                            case 100:
-                            case 115:
-                            case 119:
-                                $this.$lookAheadST = jur_AbstractCharClass_getPredefinedClass(jl_String__init_1($this.$pattern, $this.$prevNW, 1), 0);
-                                $this.$lookAhead = 0;
-                                break a;
-                            case 71:
-                                $this.$lookAhead = (-2147483577);
-                                break a;
-                            case 80:
-                            case 112:
-                                break c;
-                            case 81:
-                                $this.$savedMode = $this.$mode;
-                                $this.$mode = 4;
-                                $reread = 1;
-                                break a;
-                            case 90:
-                                $this.$lookAhead = (-2147483558);
-                                break a;
-                            case 97:
-                                $this.$lookAhead = 7;
-                                break a;
-                            case 98:
-                                $this.$lookAhead = (-2147483550);
-                                break a;
-                            case 99:
-                                $nonCap = $this.$index1;
-                                var$3 = $this.$pattern.data;
-                                if ($nonCap >= (var$3.length - 2 | 0))
-                                    $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), jur_Lexer_toString($this), $this.$index1));
-                                $this.$lookAhead = var$3[jur_Lexer_nextIndex($this)] & 31;
-                                break a;
-                            case 101:
-                                $this.$lookAhead = 27;
-                                break a;
-                            case 102:
-                                $this.$lookAhead = 12;
-                                break a;
-                            case 110:
-                                $this.$lookAhead = 10;
-                                break a;
-                            case 114:
-                                $this.$lookAhead = 13;
-                                break a;
-                            case 116:
-                                $this.$lookAhead = 9;
-                                break a;
-                            case 117:
-                                $this.$lookAhead = jur_Lexer_readHex($this, 4);
-                                break a;
-                            case 120:
-                                $this.$lookAhead = jur_Lexer_readHex($this, 2);
-                                break a;
-                            case 122:
-                                $this.$lookAhead = (-2147483526);
-                                break a;
-                            default:
-                        }
-                        break a;
-                    }
-                    $cs = jur_Lexer_parseCharClassName($this);
-                    $negative = 0;
-                    if ($this.$lookAhead == 80)
-                        $negative = 1;
-                    try {
-                        $this.$lookAheadST = jur_AbstractCharClass_getPredefinedClass($cs, $negative);
-                    } catch ($$e) {
-                        $$je = $rt_wrapException($$e);
-                        if ($$je instanceof ju_MissingResourceException) {
-                            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), jur_Lexer_toString($this), $this.$index1));
-                        } else {
-                            throw $$e;
-                        }
-                    }
-                    $this.$lookAhead = 0;
-                }
-            }
-            if ($reread)
-                continue;
-            else
-                break;
-        }
-    }
-    function jur_Lexer_parseCharClassName($this) {
-        var $sb, $ch, var$3, var$4, $res, var$6;
-        $sb = new jl_StringBuilder;
-        jl_AbstractStringBuilder__init_2($sb, 10);
-        $ch = $this.$index1;
-        var$3 = $this.$pattern;
-        var$4 = var$3.data;
-        if ($ch < (var$4.length - 2 | 0)) {
-            if (var$4[$ch] != 123) {
-                $sb = jl_String__init_1(var$3, jur_Lexer_nextIndex($this), 1);
-                $res = new jl_StringBuilder;
-                jl_AbstractStringBuilder__init_($res);
-                jl_StringBuilder_append(jl_StringBuilder_append($res, $rt_s(291)), $sb);
-                return jl_AbstractStringBuilder_toString($res);
-            }
-            jur_Lexer_nextIndex($this);
-            $ch = 0;
-            a: {
-                while (true) {
-                    var$6 = $this.$index1;
-                    var$3 = $this.$pattern.data;
-                    if (var$6 >= (var$3.length - 2 | 0))
-                        break;
-                    $ch = var$3[jur_Lexer_nextIndex($this)];
-                    if ($ch == 125)
-                        break a;
-                    jl_AbstractStringBuilder_append($sb, $ch);
-                }
-            }
-            if ($ch != 125)
-                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, $this.$index1));
-        }
-        if (!$sb.$length0)
-            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, $this.$index1));
-        $res = jl_AbstractStringBuilder_toString($sb);
-        if (jl_String_length($res) == 1) {
-            $sb = new jl_StringBuilder;
-            jl_AbstractStringBuilder__init_($sb);
-            jl_StringBuilder_append(jl_StringBuilder_append($sb, $rt_s(291)), $res);
-            return jl_AbstractStringBuilder_toString($sb);
-        }
-        b: {
-            c: {
-                if (jl_String_length($res) > 3) {
-                    if (jl_String_startsWith0($res, $rt_s(291)))
-                        break c;
-                    if (jl_String_startsWith0($res, $rt_s(292)))
-                        break c;
-                }
-                break b;
-            }
-            $res = jl_String_substring0($res, 2);
-        }
-        return $res;
-    }
-    function jur_Lexer_processQuantifier($this, $ch) {
-        var $sb, $min, $max, $mod, var$6, $$je;
-        $sb = new jl_StringBuilder;
-        jl_AbstractStringBuilder__init_2($sb, 4);
-        $min = (-1);
-        $max = 2147483647;
-        a: {
-            while (true) {
-                $mod = $this.$index1;
-                var$6 = $this.$pattern.data;
-                if ($mod >= var$6.length)
-                    break a;
-                $ch = var$6[jur_Lexer_nextIndex($this)];
-                if ($ch == 125)
-                    break a;
-                if ($ch == 44 && $min < 0)
-                    try {
-                        $min = jl_Integer_parseInt(jl_StringBuilder_toString($sb), 10);
-                        jl_StringBuilder_delete($sb, 0, jl_StringBuilder_length($sb));
-                        continue;
-                    } catch ($$e) {
-                        $$je = $rt_wrapException($$e);
-                        if ($$je instanceof jl_NumberFormatException) {
-                            break;
-                        } else {
-                            throw $$e;
-                        }
-                    }
-                jl_AbstractStringBuilder_append($sb, $ch & 65535);
-            }
-            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, $this.$index1));
-        }
-        if ($ch != 125)
-            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, $this.$index1));
-        if ($sb.$length0 > 0)
-            b: {
-                try {
-                    $max = jl_Integer_parseInt(jl_StringBuilder_toString($sb), 10);
-                    if ($min >= 0)
-                        break b;
-                    $min = $max;
-                    break b;
-                } catch ($$e) {
-                    $$je = $rt_wrapException($$e);
-                    if ($$je instanceof jl_NumberFormatException) {
-                    } else {
-                        throw $$e;
-                    }
-                }
-                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, $this.$index1));
-            }
-        else if ($min < 0)
-            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, $this.$index1));
-        if (($min | $max | ($max - $min | 0)) < 0)
-            $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, $this.$index1));
-        $ch = $this.$index1;
-        var$6 = $this.$pattern.data;
-        $mod = $ch >= var$6.length ? 42 : var$6[$ch];
-        c: {
-            switch ($mod) {
-                case 43:
-                    $this.$lookAhead = (-2147483525);
-                    jur_Lexer_nextIndex($this);
-                    break c;
-                case 63:
-                    $this.$lookAhead = (-1073741701);
-                    jur_Lexer_nextIndex($this);
-                    break c;
-                default:
-            }
-            $this.$lookAhead = (-536870789);
-        }
-        $sb = new jur_Quantifier;
-        $sb.$min0 = $min;
-        $sb.$max0 = $max;
-        return $sb;
-    }
-    function jur_Lexer_toString($this) {
-        return $this.$orig;
-    }
-    function jur_Lexer_isEmpty($this) {
-        return !$this.$ch && !$this.$lookAhead && $this.$index1 == $this.$patternFullLength && !jur_Lexer_isSpecial($this) ? 1 : 0;
-    }
-    function jur_Lexer_isLetter0($ch) {
-        return $ch < 0 ? 0 : 1;
-    }
-    function jur_Lexer_isLetter($this) {
-        return !jur_Lexer_isEmpty($this) && !jur_Lexer_isSpecial($this) && jur_Lexer_isLetter0($this.$ch) ? 1 : 0;
-    }
-    function jur_Lexer_isHighSurrogate($this) {
-        var var$1;
-        var$1 = $this.$ch;
-        return var$1 <= 56319 && var$1 >= 55296 ? 1 : 0;
-    }
-    function jur_Lexer_isLowSurrogate($this) {
-        var var$1;
-        var$1 = $this.$ch;
-        return var$1 <= 57343 && var$1 >= 56320 ? 1 : 0;
-    }
-    function jur_Lexer_isHighSurrogate0($ch) {
-        return $ch <= 56319 && $ch >= 55296 ? 1 : 0;
-    }
-    function jur_Lexer_isLowSurrogate0($ch) {
-        return $ch <= 57343 && $ch >= 56320 ? 1 : 0;
-    }
-    function jur_Lexer_readHex($this, $max) {
-        var $st, $length, $i, var$5, $$je;
-        $st = new jl_StringBuilder;
-        jl_AbstractStringBuilder__init_2($st, $max);
-        $length = $this.$pattern.data.length - 2 | 0;
-        $i = 0;
-        while (true) {
-            var$5 = $rt_compare($i, $max);
-            if (var$5 >= 0)
-                break;
-            if ($this.$index1 >= $length)
-                break;
-            jl_AbstractStringBuilder_append($st, $this.$pattern.data[jur_Lexer_nextIndex($this)]);
-            $i = $i + 1 | 0;
-        }
-        if (!var$5)
-            a: {
-                try {
-                    $max = jl_Integer_parseInt(jl_StringBuilder_toString($st), 16);
-                } catch ($$e) {
-                    $$je = $rt_wrapException($$e);
-                    if ($$je instanceof jl_NumberFormatException) {
-                        break a;
-                    } else {
-                        throw $$e;
-                    }
-                }
-                return $max;
-            }
-        $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, $this.$index1));
-    }
-    function jur_Lexer_readOctals($this) {
-        var $max, $i, var$3, $length, $res, var$6;
-        $max = 3;
-        $i = 1;
-        var$3 = $this.$pattern.data;
-        $length = var$3.length - 2 | 0;
-        $res = jl_Character_digit(var$3[$this.$index1], 8);
-        switch ($res) {
-            case -1:
-                break;
-            default:
-                if ($res > 3)
-                    $max = 2;
-                jur_Lexer_nextIndex($this);
-                a: {
-                    while (true) {
-                        if ($i >= $max)
-                            break a;
-                        var$6 = $this.$index1;
-                        if (var$6 >= $length)
-                            break a;
-                        var$6 = jl_Character_digit($this.$pattern.data[var$6], 8);
-                        if (var$6 < 0)
-                            break;
-                        $res = ($res * 8 | 0) + var$6 | 0;
-                        jur_Lexer_nextIndex($this);
-                        $i = $i + 1 | 0;
-                    }
-                }
-                return $res;
-        }
-        $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, $this.$index1));
-    }
-    function jur_Lexer_readFlags($this) {
-        var $pos, $res, var$3, var$4;
-        $pos = 1;
-        $res = $this.$flags;
-        a: while (true) {
-            var$3 = $this.$index1;
-            var$4 = $this.$pattern.data;
-            if (var$3 >= var$4.length)
-                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, var$3));
-            b: {
-                c: {
-                    switch (var$4[var$3]) {
-                        case 41:
-                            jur_Lexer_nextIndex($this);
-                            return $res | 256;
-                        case 45:
-                            if (!$pos)
-                                $rt_throw(jur_PatternSyntaxException__init_0($rt_s(8), $this.$orig, var$3));
-                            $pos = 0;
-                            break b;
-                        case 58:
-                            break a;
-                        case 100:
-                            break c;
-                        case 105:
-                            $res = $pos ? $res | 2 : ($res ^ 2) & $res;
-                            break b;
-                        case 109:
-                            $res = $pos ? $res | 8 : ($res ^ 8) & $res;
-                            break b;
-                        case 115:
-                            $res = $pos ? $res | 32 : ($res ^ 32) & $res;
-                            break b;
-                        case 117:
-                            $res = $pos ? $res | 64 : ($res ^ 64) & $res;
-                            break b;
-                        case 120:
-                            $res = $pos ? $res | 4 : ($res ^ 4) & $res;
-                            break b;
-                        default:
-                    }
-                    break b;
-                }
-                $res = $pos ? $res | 1 : ($res ^ 1) & $res;
-            }
-            jur_Lexer_nextIndex($this);
-        }
-        jur_Lexer_nextIndex($this);
-        return $res;
-    }
-    function jur_Lexer_nextIndex($this) {
-        var var$1, var$2, var$3, var$4, var$5;
-        var$1 = $this.$index1;
-        $this.$prevNW = var$1;
-        if (!($this.$flags & 4))
-            $this.$index1 = var$1 + 1 | 0;
-        else {
-            var$2 = $this.$pattern.data.length - 2 | 0;
-            $this.$index1 = var$1 + 1 | 0;
-            a: while (true) {
-                var$3 = $this.$index1;
-                if (var$3 < var$2 && jl_Character_isWhitespace($this.$pattern.data[var$3])) {
-                    $this.$index1 = $this.$index1 + 1 | 0;
-                    continue;
-                }
-                var$3 = $this.$index1;
-                if (var$3 >= var$2)
-                    break;
-                var$4 = $this.$pattern.data;
-                if (var$4[var$3] != 35)
-                    break;
-                $this.$index1 = var$3 + 1 | 0;
-                while (true) {
-                    var$5 = $this.$index1;
-                    if (var$5 >= var$2)
-                        continue a;
-                    var$1 = var$4[var$5];
-                    if (var$1 != 10 && var$1 != 13 && var$1 != 133 && (var$1 | 1) != 8233 ? 0 : 1)
-                        continue a;
-                    $this.$index1 = var$5 + 1 | 0;
-                }
-            }
-        }
-        return $this.$prevNW;
-    }
-    function jur_Lexer_getDecomposition($ch) {
-        return jur_Lexer_decompTable.$get2($ch);
-    }
-    function jur_Lexer_nextCodePoint($this) {
-        var $high, $lowExpectedIndex, var$3, $low;
-        $high = $this.$pattern.data[jur_Lexer_nextIndex($this)];
-        if (jl_Character_isHighSurrogate($high)) {
-            $lowExpectedIndex = $this.$prevNW + 1 | 0;
-            var$3 = $this.$pattern.data;
-            if ($lowExpectedIndex < var$3.length) {
-                $low = var$3[$lowExpectedIndex];
-                if (jl_Character_isLowSurrogate($low)) {
-                    jur_Lexer_nextIndex($this);
-                    return jl_Character_toCodePoint($high, $low);
-                }
-            }
-        }
-        return $high;
-    }
-    function jur_Lexer_getIndex($this) {
-        return $this.$curToc;
-    }
-    function jur_PatternSyntaxException() {
-        var a = this; jl_IllegalArgumentException.call(a);
-        a.$desc = null;
-        a.$pattern1 = null;
-        a.$index3 = 0;
-    }
-    function jur_PatternSyntaxException__init_0(var_0, var_1, var_2) {
-        var var_3 = new jur_PatternSyntaxException();
-        jur_PatternSyntaxException__init_(var_3, var_0, var_1, var_2);
-        return var_3;
-    }
-    function jur_PatternSyntaxException__init_($this, $description, $pattern, $index) {
-        jl_Exception__init_($this);
-        $this.$index3 = (-1);
-        $this.$desc = $description;
-        $this.$pattern1 = $pattern;
-        $this.$index3 = $index;
-    }
-    var jn_CharBufferImpl = $rt_classWithoutFields(jn_CharBuffer);
-    function jn_CharBufferOverArray() {
-        var a = this; jn_CharBufferImpl.call(a);
-        a.$readOnly = 0;
-        a.$start3 = 0;
-        a.$array0 = null;
-    }
-    function jnc_CharsetEncoder() {
-        var a = this; jl_Object.call(a);
-        a.$charset0 = null;
-        a.$replacement = null;
-        a.$averageBytesPerChar = 0.0;
-        a.$maxBytesPerChar = 0.0;
-        a.$malformedAction = null;
-        a.$unmappableAction = null;
-        a.$status = 0;
-    }
-    function jnc_CoderResult() {
-        var a = this; jl_Object.call(a);
-        a.$kind = 0;
-        a.$length1 = 0;
-    }
-    var jnc_CoderResult_UNDERFLOW = null;
-    var jnc_CoderResult_OVERFLOW = null;
-    function jnc_CoderResult__init_(var_0, var_1) {
-        var var_2 = new jnc_CoderResult();
-        jnc_CoderResult__init_0(var_2, var_0, var_1);
-        return var_2;
-    }
-    function jnc_CoderResult__init_0($this, $kind, $length) {
-        $this.$kind = $kind;
-        $this.$length1 = $length;
-    }
-    function jnc_CoderResult_isOverflow($this) {
-        return $this.$kind != 1 ? 0 : 1;
-    }
-    function jnc_CoderResult_isMalformed($this) {
-        return $this.$kind != 2 ? 0 : 1;
-    }
-    function jnc_CoderResult_isUnmappable($this) {
-        return $this.$kind != 3 ? 0 : 1;
-    }
-    function jnc_CoderResult_malformedForLength($length) {
-        return jnc_CoderResult__init_(2, $length);
-    }
-    function jnc_CoderResult__clinit_() {
-        jnc_CoderResult_UNDERFLOW = jnc_CoderResult__init_(0, 0);
-        jnc_CoderResult_OVERFLOW = jnc_CoderResult__init_(1, 0);
-    }
     var jur_NonCapFSet = $rt_classWithoutFields(jur_FSet);
     function jur_NonCapFSet_matches($this, $stringIndex, $testString, $matchResult) {
         var $gr;
@@ -19364,13 +18833,13 @@
     }
     function jur_AtomicFSet() {
         jur_FSet.call(this);
-        this.$index4 = 0;
+        this.$index3 = 0;
     }
     function jur_AtomicFSet_matches($this, $stringIndex, $testString, $matchResult) {
         var $gr;
         $gr = $this.$groupIndex;
         jur_MatchResultImpl_setConsumed($matchResult, $gr, $stringIndex - jur_MatchResultImpl_getConsumed($matchResult, $gr) | 0);
-        $this.$index4 = $stringIndex;
+        $this.$index3 = $stringIndex;
         return $stringIndex;
     }
     function jur_AtomicFSet_hasConsumed($this, $mr) {
@@ -19418,7 +18887,7 @@
     function jur_EmptySet__init_0($this, $next) {
         jur_AbstractSet__init_0($this, $next);
         $this.$charCount = 1;
-        $this.$type11 = 1;
+        $this.$type2 = 1;
         $this.$charCount = 0;
     }
     function jur_EmptySet_accepts($this, $stringIndex, $testString) {
@@ -19605,7 +19074,7 @@
         $i = 0;
         while ($i < $size) {
             if ((ju_ArrayList_get($this.$children, $i)).$matches($stringIndex, $testString, $matchResult) >= 0)
-                return $this.$next2.$matches($this.$fSet.$index4, $testString, $matchResult);
+                return $this.$next2.$matches($this.$fSet.$index3, $testString, $matchResult);
             $i = $i + 1 | 0;
         }
         jur_MatchResultImpl_setConsumed($matchResult, $this.$groupIndex0, $start);
@@ -19755,10 +19224,64 @@
             $this.$kid.$processSecondPass();
         }
     }
-    function jn_ByteBufferImpl() {
-        var a = this; jn_ByteBuffer.call(a);
-        a.$direct = 0;
-        a.$readOnly0 = 0;
+    var jl_CloneNotSupportedException = $rt_classWithoutFields(jl_Exception);
+    var jl_NumberFormatException = $rt_classWithoutFields(jl_IllegalArgumentException);
+    var otcit_FloatSynthesizer = $rt_classWithoutFields();
+    var otcit_FloatSynthesizer_mantissa10Table = null;
+    var otcit_FloatSynthesizer_exp10Table = null;
+    function otcit_FloatSynthesizer_synthesizeFloat($mantissa, $exp, $negative) {
+        var $indexInTable, var$5, $binMantissa, $binExp, $binMantissaShift, $iee754;
+        $indexInTable = 50 + $exp | 0;
+        if ($mantissa) {
+            var$5 = otcit_FloatSynthesizer_mantissa10Table.data;
+            if ($indexInTable <= var$5.length && $indexInTable >= 0) {
+                $binMantissa = otcit_FloatAnalyzer_mulAndShiftRight($mantissa, var$5[$indexInTable], 0);
+                $binExp = otcit_FloatSynthesizer_exp10Table.data[$indexInTable] - 1 | 0;
+                $binMantissaShift = (32 - jl_Integer_numberOfLeadingZeros($binMantissa) | 0) - 30 | 0;
+                $mantissa = $binMantissaShift >= 0 ? $binMantissa >>> $binMantissaShift | 0 : $binMantissa << ( -$binMantissaShift | 0);
+                $exp = $binExp + $binMantissaShift | 0;
+                if ($exp >= 255)
+                    return !$negative ? Infinity : (-Infinity);
+                $mantissa = $mantissa + 32 | 0;
+                if ($mantissa & (-1073741824)) {
+                    $mantissa = $mantissa >>> 1 | 0;
+                    $exp = $exp + 1 | 0;
+                }
+                if ($exp <= 0) {
+                    $mantissa = $mantissa >> jl_Math_min(( -$exp | 0) + 1 | 0, 32);
+                    $exp = 0;
+                }
+                $iee754 = ($mantissa >>> 6 | 0) & 8388607 | $exp << 23;
+                if ($negative)
+                    $iee754 = $iee754 ^ (-2147483648);
+                return $rt_intBitsToFloat($iee754);
+            }
+        }
+        return $rt_intBitsToFloat(!$negative ? 0 : (-2147483648));
+    }
+    function otcit_FloatSynthesizer__clinit_() {
+        otcit_FloatSynthesizer_mantissa10Table = $rt_createIntArrayFromData([(-1598972629), (-924973963), (-82475629), (-1662160004), (-1003958181), (-181205903), (-1723866425), (-1081091207), (-277622185), (-1784126602), (-1156416428), (-371778711), (-1842974431), (-1229976214), (-463728444), (-1900443013), (-1301811943), (-553523104), (-1956564676), (-1371964021), (-641213203), (-2011370988), (-1440471911), (-726848064), (-2064892776), (-1507374146), (-810475859), (-2117160148), (-1572708361), (-892143627),
+        (-41437709), (-1636511304), (-971897307), (-141129809), (-1698818867), (-1049781759), (-238485375), (-1759666096), (-1125840795), (-333559170), (-1819087217), (-1200117198), (-426404673), (-1877115657), (-1272652747), (-517074110), (-1933784055), (-1343488244), (-605618481), (-1989124287), (-1412663534), (-692087594), (-2043167482), (-1480217529), (-776530087), (-2095944040), (-1546188227), (-858993459), (-2147483648), (-1610612736), (-939524096), (-100663296), (-1673527296), (-1018167296), (-198967296),
+        (-1734967296), (-1094967296), (-294967296), (-1794967296), (-1169967296), (-388717296), (-1853561046), (-1243209483), (-480270030), (-1910781505), (-1314735057), (-569676998), (-1966660859), (-1384584250), (-656988489), (-2021230542), (-1452796353), (-742253617), (-2074521247), (-1519409734), (-825520344), (-2126562951), (-1584461865), (-906835507), (-59802560), (-1647989336), (-986244846), (-159064233), (-1710027882), (-1063793028), (-255999461), (-1770612399), (-1139523675), (-350662770), (-1829776967)]);
+        otcit_FloatSynthesizer_exp10Table = $rt_createIntArrayFromData([(-35), (-32), (-29), (-25), (-22), (-19), (-15), (-12), (-9), (-5), (-2), 1, 5, 8, 11, 15, 18, 21, 25, 28, 31, 35, 38, 41, 45, 48, 51, 55, 58, 61, 64, 68, 71, 74, 78, 81, 84, 88, 91, 94, 98, 101, 104, 108, 111, 114, 118, 121, 124, 128, 131, 134, 138, 141, 144, 148, 151, 154, 158, 161, 164, 167, 171, 174, 177, 181, 184, 187, 191, 194, 197, 201, 204, 207, 211, 214, 217, 221, 224, 227, 231, 234, 237, 241, 244, 247, 251, 254, 257, 260, 264,
+        267, 270, 274, 277, 280, 284, 287, 290, 294]);
+    }
+    var jl_Math = $rt_classWithoutFields();
+    function jl_Math_round($a) {
+        return $a + jl_Math_sign($a) * 0.5 | 0;
+    }
+    function jl_Math_min($a, $b) {
+        if ($a < $b)
+            $b = $a;
+        return $b;
+    }
+    function jl_Math_max($a, $b) {
+        if ($a > $b)
+            $b = $a;
+        return $b;
+    }
+    function jl_Math_sign(var$1) {
+        return Math.sign(var$1);
     }
     var jur_SpecialToken = $rt_classWithoutFields();
     function jur_AbstractCharClass() {
@@ -19906,8 +19429,8 @@
             var$4 = jur_AbstractCharClass$PredefinedCharacterClasses_contents.data;
             if (var$3 >= var$4.length) {
                 var$5 = new ju_MissingResourceException;
-                jl_Throwable__init_0(var$5, $rt_s(8));
-                var$5.$className = $rt_s(8);
+                jl_Throwable__init_0(var$5, $rt_s(10));
+                var$5.$className = $rt_s(10);
                 var$5.$key0 = $name;
                 $rt_throw(var$5);
             }
@@ -20365,7 +19888,7 @@
     function jur_QuantifierSet__init_($this, $innerSet, $next, $type) {
         jur_AbstractSet__init_0($this, $next);
         $this.$innerSet = $innerSet;
-        $this.$type11 = $type;
+        $this.$type2 = $type;
     }
     function jur_QuantifierSet_getInnerSet($this) {
         return $this.$innerSet;
@@ -20534,6 +20057,129 @@
         }
         return $startSearch;
     }
+    var otcit_FloatAnalyzer = $rt_classWithoutFields();
+    var otcit_FloatAnalyzer_MAX_MANTISSA = 0;
+    var otcit_FloatAnalyzer_mantissa10Table = null;
+    var otcit_FloatAnalyzer_exp10Table = null;
+    function otcit_FloatAnalyzer_analyze($d, $result) {
+        var $bits, $mantissa, $exponent, var$6, $decExponent, $upperPos, $upperPos_0, $mantissaShift, $decMantissa, $decMantissaHi, $decMantissaLow, $lowerPos, $lowerPos_0, $posCmp;
+        $bits = ($rt_globals.isNaN($d) ? 1 : 0) ? 2143289344 : $rt_floatToRawIntBits($d);
+        $result.$sign = !($bits & (-2147483648)) ? 0 : 1;
+        $mantissa = $bits & 8388607;
+        $exponent = $bits >> 23 & 255;
+        if (!$mantissa && !$exponent) {
+            $result.$mantissa = 0;
+            $result.$exponent = 0;
+            return;
+        }
+        if ($exponent)
+            $bits = $mantissa | 8388608;
+        else {
+            $bits = $mantissa << 1;
+            while (Long_eq(Long_and(Long_fromInt($bits), Long_fromInt(8388608)), Long_ZERO)) {
+                $bits = $bits << 1;
+                $exponent = $exponent + (-1) | 0;
+            }
+        }
+        var$6 = otcit_FloatAnalyzer_exp10Table.data;
+        $mantissa = 0;
+        $decExponent = var$6.length;
+        $upperPos = $rt_compare($mantissa, $decExponent);
+        if ($upperPos > 0) {
+            $result = new jl_IllegalArgumentException;
+            jl_Exception__init_($result);
+            $rt_throw($result);
+        }
+        a: {
+            if (!$upperPos)
+                $decExponent = (-1);
+            else {
+                $upperPos = $decExponent - 1 | 0;
+                while (true) {
+                    $decExponent = ($mantissa + $upperPos | 0) / 2 | 0;
+                    $upperPos_0 = var$6[$decExponent];
+                    if ($upperPos_0 == $exponent)
+                        break;
+                    if ($exponent >= $upperPos_0) {
+                        $mantissa = $decExponent + 1 | 0;
+                        if ($mantissa > $upperPos) {
+                            $decExponent = ( -$decExponent | 0) - 2 | 0;
+                            break a;
+                        }
+                    } else {
+                        $upperPos = $decExponent - 1 | 0;
+                        if ($upperPos < $mantissa) {
+                            $decExponent = ( -$decExponent | 0) - 1 | 0;
+                            break a;
+                        }
+                    }
+                }
+            }
+        }
+        if ($decExponent < 0)
+            $decExponent =  -$decExponent | 0;
+        $mantissa = $decExponent + 1 | 0;
+        $mantissaShift = 9 + ($exponent - var$6[$mantissa] | 0) | 0;
+        $decMantissa = otcit_FloatAnalyzer_mulAndShiftRight($bits, otcit_FloatAnalyzer_mantissa10Table.data[$mantissa], $mantissaShift);
+        if ($decMantissa < otcit_FloatAnalyzer_MAX_MANTISSA) {
+            while ($rt_ucmp($decMantissa, otcit_FloatAnalyzer_MAX_MANTISSA) <= 0) {
+                $decExponent = $decExponent + (-1) | 0;
+                $decMantissa = ($decMantissa * 10 | 0) + 9 | 0;
+            }
+            var$6 = otcit_FloatAnalyzer_exp10Table.data;
+            $mantissa = $decExponent + 1 | 0;
+            $mantissaShift = 9 + ($exponent - var$6[$mantissa] | 0) | 0;
+            $decMantissa = otcit_FloatAnalyzer_mulAndShiftRight($bits, otcit_FloatAnalyzer_mantissa10Table.data[$mantissa], $mantissaShift);
+        }
+        $mantissa = $bits << 1;
+        $bits = $mantissa + 1 | 0;
+        var$6 = otcit_FloatAnalyzer_mantissa10Table.data;
+        $exponent = $decExponent + 1 | 0;
+        $upperPos = var$6[$exponent];
+        $upperPos_0 = $mantissaShift - 1 | 0;
+        $decMantissaHi = otcit_FloatAnalyzer_mulAndShiftRight($bits, $upperPos, $upperPos_0);
+        $decMantissaLow = otcit_FloatAnalyzer_mulAndShiftRight($mantissa - 1 | 0, otcit_FloatAnalyzer_mantissa10Table.data[$exponent], $upperPos_0);
+        $lowerPos = 1;
+        while (true) {
+            $lowerPos_0 = $lowerPos * 10 | 0;
+            if ($rt_ucmp($rt_udiv($decMantissa, $lowerPos_0), $rt_udiv($decMantissaLow, $lowerPos_0)) <= 0)
+                break;
+            $lowerPos = $lowerPos_0;
+        }
+        $upperPos = 1;
+        while (true) {
+            $upperPos_0 = $upperPos * 10 | 0;
+            if ($rt_ucmp($rt_udiv($decMantissa, $upperPos_0), $rt_udiv($decMantissaHi, $upperPos_0)) >= 0)
+                break;
+            $upperPos = $upperPos_0;
+        }
+        $posCmp = $rt_ucmp($lowerPos, $upperPos);
+        $mantissa = $posCmp > 0 ? $rt_imul($rt_udiv($decMantissa, $lowerPos), $lowerPos) : $posCmp < 0 ? $rt_imul($rt_udiv($decMantissa, $upperPos), $upperPos) + $upperPos | 0 : $rt_imul($rt_udiv(($decMantissa + ($upperPos / 2 | 0) | 0), $upperPos), $upperPos);
+        if (jl_Long_compareUnsigned(Long_fromInt($mantissa), Long_fromInt(1000000000)) >= 0)
+            while (true) {
+                $decExponent = $decExponent + 1 | 0;
+                $mantissa = $rt_udiv($mantissa, 10);
+                if ($rt_ucmp($mantissa, 1000000000) < 0)
+                    break;
+            }
+        else if ($rt_ucmp($mantissa, 100000000) < 0) {
+            $decExponent = $decExponent + (-1) | 0;
+            $mantissa = $mantissa * 10 | 0;
+        }
+        $result.$mantissa = $mantissa;
+        $result.$exponent = $decExponent - 50 | 0;
+    }
+    function otcit_FloatAnalyzer_mulAndShiftRight($a, $b, $shift) {
+        return Long_lo(Long_shru(Long_mul(Long_and(Long_fromInt($a), Long_create(4294967295, 0)), Long_and(Long_fromInt($b), Long_create(4294967295, 0))), 32 - $shift | 0));
+    }
+    function otcit_FloatAnalyzer__clinit_() {
+        otcit_FloatAnalyzer_MAX_MANTISSA = $rt_udiv((-1), 10);
+        otcit_FloatAnalyzer_mantissa10Table = $rt_createIntArrayFromData([(-18543760), (-873828468), (-1558056233), (-2105438446), (-791721136), (-1492370368), (-2052889754), (-707643228), (-1425108042), (-1999079893), (-621547450), (-1356231419), (-1943978595), (-533385374), (-1285701758), (-1887554866), (-443107408), (-1213479385), (-1829776968), (-350662770), (-1139523676), (-1770612400), (-255999462), (-1063793029), (-1710027882), (-159064234), (-986244846), (-1647989336), (-59802560), (-906835507), (-1584461865),
+        (-2126562952), (-825520345), (-1519409735), (-2074521247), (-742253618), (-1452796353), (-2021230542), (-656988489), (-1384584251), (-1966660860), (-569676998), (-1314735058), (-1910781505), (-480270031), (-1243209484), (-1853561046), (-388717296), (-1169967296), (-1794967296), (-294967296), (-1094967296), (-1734967296), (-198967296), (-1018167296), (-1673527296), (-100663296), (-939524096), (-1610612736), (-2147483648), (-858993460), (-1546188227), (-2095944041), (-776530088), (-1480217529), (-2043167483),
+        (-692087595), (-1412663535), (-1989124287), (-605618482), (-1343488245), (-1933784055), (-517074110), (-1272652747), (-1877115657), (-426404674), (-1200117198), (-1819087218), (-333559171), (-1125840796), (-1759666096), (-238485376), (-1049781760), (-1698818867), (-141129810), (-971897307), (-1636511305), (-41437710), (-892143627), (-1572708361), (-2117160148), (-810475859), (-1507374147), (-2064892777), (-726848065), (-1440471911), (-2011370988), (-641213203), (-1371964022), (-1956564688)]);
+        otcit_FloatAnalyzer_exp10Table = $rt_createIntArrayFromData([(-37), (-34), (-31), (-28), (-24), (-21), (-18), (-14), (-11), (-8), (-4), (-1), 2, 6, 9, 12, 16, 19, 22, 26, 29, 32, 36, 39, 42, 46, 49, 52, 56, 59, 62, 65, 69, 72, 75, 79, 82, 85, 89, 92, 95, 99, 102, 105, 109, 112, 115, 119, 122, 125, 129, 132, 135, 139, 142, 145, 149, 152, 155, 158, 162, 165, 168, 172, 175, 178, 182, 185, 188, 192, 195, 198, 202, 205, 208, 212, 215, 218, 222, 225, 228, 232, 235, 238, 242, 245, 248, 252, 255, 258, 261, 265,
+        268, 271, 275, 278, 281, 285, 288, 291]);
+    }
     function jur_AbstractCharClass$LazyCharClass() {
         var a = this; jl_Object.call(a);
         a.$posValue = null;
@@ -20557,7 +20203,7 @@
         var var$1, var$2, var$3, var$4, var$5;
         var$1 = $this.$min0;
         var$2 = $this.$max0;
-        var$3 = var$2 != 2147483647 ? jl_Integer_toString(var$2) : $rt_s(8);
+        var$3 = var$2 != 2147483647 ? jl_Integer_toString(var$2) : $rt_s(10);
         var$4 = new jl_StringBuilder;
         jl_AbstractStringBuilder__init_(var$4);
         jl_AbstractStringBuilder_append(var$4, 123);
@@ -22323,29 +21969,6 @@
         }
         return (-1);
     }
-    function jn_ByteOrder() {
-        jl_Object.call(this);
-        this.$name19 = null;
-    }
-    var jn_ByteOrder_BIG_ENDIAN = null;
-    var jn_ByteOrder_LITTLE_ENDIAN = null;
-    function jn_ByteOrder_$callClinit() {
-        jn_ByteOrder_$callClinit = $rt_eraseClinit(jn_ByteOrder);
-        jn_ByteOrder__clinit_();
-    }
-    function jn_ByteOrder__init_(var_0) {
-        var var_1 = new jn_ByteOrder();
-        jn_ByteOrder__init_0(var_1, var_0);
-        return var_1;
-    }
-    function jn_ByteOrder__init_0($this, $name) {
-        jn_ByteOrder_$callClinit();
-        $this.$name19 = $name;
-    }
-    function jn_ByteOrder__clinit_() {
-        jn_ByteOrder_BIG_ENDIAN = jn_ByteOrder__init_($rt_s(293));
-        jn_ByteOrder_LITTLE_ENDIAN = jn_ByteOrder__init_($rt_s(294));
-    }
     var jur_AbstractCharClass$PredefinedCharacterClasses = $rt_classWithoutFields();
     var jur_AbstractCharClass$PredefinedCharacterClasses_space = null;
     var jur_AbstractCharClass$PredefinedCharacterClasses_digit = null;
@@ -22754,7 +22377,62 @@
         }
         return $this.$size2;
     }
+    function jnc_IllegalCharsetNameException() {
+        jl_IllegalArgumentException.call(this);
+        this.$charsetName = null;
+    }
+    function jnc_IllegalCharsetNameException__init_(var_0) {
+        var var_1 = new jnc_IllegalCharsetNameException();
+        jnc_IllegalCharsetNameException__init_0(var_1, var_0);
+        return var_1;
+    }
+    function jnc_IllegalCharsetNameException__init_0($this, $charsetName) {
+        jl_Exception__init_($this);
+        $this.$charsetName = $charsetName;
+    }
+    function otciu_UnicodeHelper$Range() {
+        var a = this; jl_Object.call(a);
+        a.$start2 = 0;
+        a.$end0 = 0;
+        a.$data = null;
+    }
+    function otciu_UnicodeHelper$Range__init_(var_0, var_1, var_2) {
+        var var_3 = new otciu_UnicodeHelper$Range();
+        otciu_UnicodeHelper$Range__init_0(var_3, var_0, var_1, var_2);
+        return var_3;
+    }
+    function otciu_UnicodeHelper$Range__init_0($this, $start, $end, $data) {
+        $this.$start2 = $start;
+        $this.$end0 = $end;
+        $this.$data = $data;
+    }
     var jur_IntHash = $rt_classWithoutFields();
+    var otpp_ResourceAccessor = $rt_classWithoutFields();
+    var otciu_UnicodeHelper = $rt_classWithoutFields();
+    function otciu_UnicodeHelper_decodeCaseMapping($text) {
+        var $flow, $sz, $data, var$5, $last, $i, var$8;
+        $flow = otci_CharFlow__init_(jl_String_toCharArray($text));
+        $sz = otci_Base46_decodeUnsigned($flow);
+        $data = $rt_createIntArray($sz * 2 | 0);
+        var$5 = $data.data;
+        $last = 0;
+        $i = 0;
+        while ($i < $sz) {
+            $last = $last + otci_Base46_decodeUnsigned($flow) | 0;
+            var$8 = $i * 2 | 0;
+            var$5[var$8] = $last;
+            var$5[var$8 + 1 | 0] = otci_Base46_decode($flow);
+            $i = $i + 1 | 0;
+        }
+        return $data;
+    }
+    function otciu_UnicodeHelper_decodeByte($c) {
+        if ($c > 92)
+            return (($c - 32 | 0) - 2 | 0) << 24 >> 24;
+        if ($c <= 34)
+            return ($c - 32 | 0) << 24 >> 24;
+        return (($c - 32 | 0) - 1 | 0) << 24 >> 24;
+    }
     var jur_AbstractCharClass$LazySpace = $rt_classWithoutFields(jur_AbstractCharClass$LazyCharClass);
     function jur_AbstractCharClass$LazySpace__init_() {
         var var_0 = new jur_AbstractCharClass$LazySpace();
@@ -23264,198 +22942,264 @@
         $chCl.$mayContainSupplCodepoints = $this.$mayContainSupplCodepoints1;
         return $chCl;
     }
-    function jnci_BufferedEncoder() {
-        var a = this; jnc_CharsetEncoder.call(a);
-        a.$inArray = null;
-        a.$outArray = null;
-    }
-    function jnci_BufferedEncoder_encodeLoop($this, $in, $out) {
-        var $inArray, $inPos, $inSize, $outArray, $i, var$8, $outPos, $outSize, $result, var$12, var$13, var$14, $controller;
-        $inArray = $this.$inArray;
-        $inPos = 0;
-        $inSize = 0;
-        $outArray = $this.$outArray;
-        a: {
-            b: {
-                while (true) {
-                    if (($inPos + 32 | 0) > $inSize && jn_Buffer_hasRemaining($in)) {
-                        $i = $inPos;
-                        while ($i < $inSize) {
-                            var$8 = $inArray.data;
-                            var$8[$i - $inPos | 0] = var$8[$i];
-                            $i = $i + 1 | 0;
-                        }
-                        var$8 = $inArray.data;
-                        $outPos = $inSize - $inPos | 0;
-                        $outSize = jn_Buffer_remaining($in) + $outPos | 0;
-                        $i = var$8.length;
-                        $inSize = jl_Math_min($outSize, $i);
-                        $inPos = $inSize - $outPos | 0;
-                        if ($outPos < 0)
-                            break b;
-                        if ($outPos > $i)
-                            break b;
-                        $outSize = $outPos + $inPos | 0;
-                        if ($outSize > $i) {
-                            $result = new jl_IndexOutOfBoundsException;
-                            $in = new jl_StringBuilder;
-                            jl_AbstractStringBuilder__init_($in);
-                            jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append($in, $rt_s(489)), $outSize), $rt_s(284)), $i);
-                            jl_Throwable__init_0($result, jl_AbstractStringBuilder_toString($in));
-                            $rt_throw($result);
-                        }
-                        if (jn_Buffer_remaining($in) < $inPos)
-                            break;
-                        if ($inPos < 0) {
-                            $in = new jl_IndexOutOfBoundsException;
-                            $out = new jl_StringBuilder;
-                            jl_AbstractStringBuilder__init_($out);
-                            jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append($out, $rt_s(285)), $inPos), $rt_s(286));
-                            jl_Throwable__init_0($in, jl_AbstractStringBuilder_toString($out));
-                            $rt_throw($in);
-                        }
-                        $i = $in.$position;
-                        var$12 = 0;
-                        var$13 = $i;
-                        while (var$12 < $inPos) {
-                            var$14 = $outPos + 1 | 0;
-                            $outSize = var$13 + 1 | 0;
-                            var$8[$outPos] = $in.$array0.data[var$13 + $in.$start3 | 0];
-                            var$12 = var$12 + 1 | 0;
-                            $outPos = var$14;
-                            var$13 = $outSize;
-                        }
-                        $in.$position = $i + $inPos | 0;
-                        $inPos = 0;
-                    }
-                    if (!jn_Buffer_hasRemaining($out)) {
-                        $result = !jn_Buffer_hasRemaining($in) && $inPos >= $inSize ? jnc_CoderResult_UNDERFLOW : jnc_CoderResult_OVERFLOW;
-                        break a;
-                    }
-                    var$8 = $outArray.data;
-                    $outSize = jl_Math_min(jn_Buffer_remaining($out), var$8.length);
-                    $controller = new jnci_BufferedEncoder$Controller;
-                    $controller.$in = $in;
-                    $controller.$out1 = $out;
-                    $result = jnci_UTF8Encoder_arrayEncode($this, $inArray, $inPos, $inSize, $outArray, 0, $outSize, $controller);
-                    $inPos = $controller.$inPosition;
-                    $outPos = $controller.$outPosition;
-                    if ($result === null) {
-                        if (!jn_Buffer_hasRemaining($in) && $inPos >= $inSize)
-                            $result = jnc_CoderResult_UNDERFLOW;
-                        else if (!jn_Buffer_hasRemaining($out) && $inPos >= $inSize)
-                            $result = jnc_CoderResult_OVERFLOW;
-                    }
-                    jn_ByteBuffer_put($out, $outArray, 0, $outPos);
-                    if ($result !== null)
-                        break a;
-                }
-                $in = new jn_BufferUnderflowException;
-                jl_Exception__init_($in);
-                $rt_throw($in);
-            }
-            $controller = new jl_IndexOutOfBoundsException;
-            $result = new jl_StringBuilder;
-            jl_AbstractStringBuilder__init_($result);
-            jl_AbstractStringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append($result, $rt_s(287)), $outPos), $rt_s(282)), $i), 41);
-            jl_Throwable__init_0($controller, jl_AbstractStringBuilder_toString($result));
-            $rt_throw($controller);
+    var ju_Arrays = $rt_classWithoutFields();
+    function ju_Arrays_copyOf($array, $length) {
+        var $result, var$4, $sz, $i;
+        $array = $array.data;
+        $result = $rt_createCharArray($length);
+        var$4 = $result.data;
+        $sz = jl_Math_min($length, $array.length);
+        $i = 0;
+        while ($i < $sz) {
+            var$4[$i] = $array[$i];
+            $i = $i + 1 | 0;
         }
-        jn_CharBuffer_position($in, $in.$position - ($inSize - $inPos | 0) | 0);
         return $result;
     }
-    var jnci_UTF8Encoder = $rt_classWithoutFields(jnci_BufferedEncoder);
-    function jnci_UTF8Encoder_arrayEncode($this, $inArray, $inPos, $inSize, $outArray, $outPos, $outSize, $controller) {
-        var $result, var$9, var$10, $ch, $low, var$13, $codePoint;
-        $result = null;
-        a: {
-            while ($inPos < $inSize) {
-                if ($outPos >= $outSize) {
-                    var$9 = $inPos;
-                    break a;
-                }
-                var$10 = $inArray.data;
-                var$9 = $inPos + 1 | 0;
-                $ch = var$10[$inPos];
-                if ($ch < 128) {
-                    var$10 = $outArray.data;
-                    $low = $outPos + 1 | 0;
-                    var$10[$outPos] = $ch << 24 >> 24;
-                } else if ($ch < 2048) {
-                    if (($outPos + 2 | 0) > $outSize) {
-                        var$9 = var$9 + (-1) | 0;
-                        if (jnci_BufferedEncoder$Controller_hasMoreOutput($controller, 2))
-                            break a;
-                        $result = jnc_CoderResult_OVERFLOW;
-                        break a;
-                    }
-                    var$10 = $outArray.data;
-                    $inPos = $outPos + 1 | 0;
-                    var$10[$outPos] = (192 | $ch >> 6) << 24 >> 24;
-                    $low = $inPos + 1 | 0;
-                    var$10[$inPos] = (128 | $ch & 63) << 24 >> 24;
-                } else if (!jl_Character_isSurrogate($ch)) {
-                    if (($outPos + 3 | 0) > $outSize) {
-                        var$9 = var$9 + (-1) | 0;
-                        if (jnci_BufferedEncoder$Controller_hasMoreOutput($controller, 3))
-                            break a;
-                        $result = jnc_CoderResult_OVERFLOW;
-                        break a;
-                    }
-                    var$10 = $outArray.data;
-                    var$13 = $outPos + 1 | 0;
-                    var$10[$outPos] = (224 | $ch >> 12) << 24 >> 24;
-                    $inPos = var$13 + 1 | 0;
-                    var$10[var$13] = (128 | $ch >> 6 & 63) << 24 >> 24;
-                    $low = $inPos + 1 | 0;
-                    var$10[$inPos] = (128 | $ch & 63) << 24 >> 24;
-                } else {
-                    if (!jl_Character_isHighSurrogate($ch)) {
-                        $result = jnc_CoderResult_malformedForLength(1);
-                        break a;
-                    }
-                    if (var$9 >= $inSize) {
-                        if (jn_Buffer_hasRemaining($controller.$in))
-                            break a;
-                        $result = jnc_CoderResult_UNDERFLOW;
-                        break a;
-                    }
-                    $inPos = var$9 + 1 | 0;
-                    $low = var$10[var$9];
-                    if (!jl_Character_isLowSurrogate($low)) {
-                        var$9 = $inPos + (-2) | 0;
-                        $result = jnc_CoderResult_malformedForLength(1);
-                        break a;
-                    }
-                    if (($outPos + 4 | 0) > $outSize) {
-                        var$9 = $inPos + (-2) | 0;
-                        if (jnci_BufferedEncoder$Controller_hasMoreOutput($controller, 4))
-                            break a;
-                        $result = jnc_CoderResult_OVERFLOW;
-                        break a;
-                    }
-                    var$10 = $outArray.data;
-                    $codePoint = jl_Character_toCodePoint($ch, $low);
-                    $low = $outPos + 1 | 0;
-                    var$10[$outPos] = (240 | $codePoint >> 18) << 24 >> 24;
-                    var$13 = $low + 1 | 0;
-                    var$10[$low] = (128 | $codePoint >> 12 & 63) << 24 >> 24;
-                    $outPos = var$13 + 1 | 0;
-                    var$10[var$13] = (128 | $codePoint >> 6 & 63) << 24 >> 24;
-                    $low = $outPos + 1 | 0;
-                    var$10[$outPos] = (128 | $codePoint & 63) << 24 >> 24;
-                    var$9 = $inPos;
-                }
-                $inPos = var$9;
-                $outPos = $low;
-            }
-            var$9 = $inPos;
+    function ju_Arrays_copyOf0($array, $length) {
+        var $result, var$4, $sz, $i;
+        $array = $array.data;
+        $result = $rt_createByteArray($length);
+        var$4 = $result.data;
+        $sz = jl_Math_min($length, $array.length);
+        $i = 0;
+        while ($i < $sz) {
+            var$4[$i] = $array[$i];
+            $i = $i + 1 | 0;
         }
-        $controller.$inPosition = var$9;
-        $controller.$outPosition = $outPos;
         return $result;
     }
-    var ji_IOException = $rt_classWithoutFields(jl_Exception);
+    function ju_Arrays_copyOf1($original, $newLength) {
+        var var$3, $result, $sz, $i;
+        var$3 = $original.data;
+        $result = jlr_Array_newInstance(jl_Class_getComponentType(jl_Object_getClass($original)), $newLength);
+        $sz = jl_Math_min($newLength, var$3.length);
+        $i = 0;
+        while ($i < $sz) {
+            $result.data[$i] = var$3[$i];
+            $i = $i + 1 | 0;
+        }
+        return $result;
+    }
+    function ju_Arrays_fill($a, $val) {
+        var var$3, var$4, var$5, var$6;
+        $a = $a.data;
+        var$3 = 0;
+        var$4 = $a.length;
+        if (var$3 > var$4) {
+            var$5 = new jl_IllegalArgumentException;
+            jl_Exception__init_(var$5);
+            $rt_throw(var$5);
+        }
+        while (var$3 < var$4) {
+            var$6 = var$3 + 1 | 0;
+            $a[var$3] = $val;
+            var$3 = var$6;
+        }
+    }
+    function otci_CharFlow() {
+        var a = this; jl_Object.call(a);
+        a.$characters0 = null;
+        a.$pointer = 0;
+    }
+    function otci_CharFlow__init_(var_0) {
+        var var_1 = new otci_CharFlow();
+        otci_CharFlow__init_0(var_1, var_0);
+        return var_1;
+    }
+    function otci_CharFlow__init_0($this, $characters) {
+        $this.$characters0 = $characters;
+    }
+    var otci_Base46 = $rt_classWithoutFields();
+    function otci_Base46_decodeUnsigned($seq) {
+        var $number, $pos, var$4, $hasMore, $digit;
+        $number = 0;
+        $pos = 1;
+        while (true) {
+            var$4 = $seq.$characters0.data;
+            $hasMore = $seq.$pointer;
+            $seq.$pointer = $hasMore + 1 | 0;
+            $digit = var$4[$hasMore];
+            $digit = $digit < 34 ? $digit - 32 | 0 : $digit >= 92 ? ($digit - 32 | 0) - 2 | 0 : ($digit - 32 | 0) - 1 | 0;
+            $hasMore = ($digit % 2 | 0) != 1 ? 0 : 1;
+            $number = $number + $rt_imul($pos, $digit / 2 | 0) | 0;
+            $pos = $pos * 46 | 0;
+            if (!$hasMore)
+                break;
+        }
+        return $number;
+    }
+    function otci_Base46_decode($seq) {
+        var $number, $result;
+        $number = otci_Base46_decodeUnsigned($seq);
+        $result = $number / 2 | 0;
+        if ($number % 2 | 0)
+            $result =  -$result | 0;
+        return $result;
+    }
+    var jl_NegativeArraySizeException = $rt_classWithoutFields(jl_RuntimeException);
+    var ju_Iterator = $rt_classWithoutFields(0);
+    function ju_AbstractList$1() {
+        var a = this; jl_Object.call(a);
+        a.$index4 = 0;
+        a.$modCount1 = 0;
+        a.$size1 = 0;
+        a.$removeIndex = 0;
+        a.$this$0 = null;
+    }
+    function ju_AbstractList$1_hasNext($this) {
+        return $this.$index4 >= $this.$size1 ? 0 : 1;
+    }
+    function ju_AbstractList$1_next($this) {
+        var var$1, var$2, var$3;
+        var$1 = $this.$modCount1;
+        var$2 = $this.$this$0;
+        if (var$1 < var$2.$modCount0) {
+            var$2 = new ju_ConcurrentModificationException;
+            jl_Exception__init_(var$2);
+            $rt_throw(var$2);
+        }
+        var$3 = $this.$index4;
+        $this.$removeIndex = var$3;
+        $this.$index4 = var$3 + 1 | 0;
+        return ju_ArrayList_get(var$2, var$3);
+    }
+    var jl_Runnable = $rt_classWithoutFields(0);
+    function jl_Thread() {
+        var a = this; jl_Object.call(a);
+        a.$id = Long_ZERO;
+        a.$timeSliceStart = Long_ZERO;
+        a.$finishedLock = null;
+        a.$interruptHandler = null;
+        a.$name17 = null;
+        a.$alive = 0;
+        a.$target = null;
+    }
+    var jl_Thread_mainThread = null;
+    var jl_Thread_currentThread0 = null;
+    var jl_Thread_nextId = 0;
+    var jl_Thread_activeCount = 0;
+    var jl_Thread_defaultUncaughtExceptionHandler = null;
+    function jl_Thread_$callClinit() {
+        jl_Thread_$callClinit = $rt_eraseClinit(jl_Thread);
+        jl_Thread__clinit_();
+    }
+    function jl_Thread_setCurrentThread($thread_0) {
+        jl_Thread_$callClinit();
+        if (jl_Thread_currentThread0 !== $thread_0)
+            jl_Thread_currentThread0 = $thread_0;
+        jl_Thread_currentThread0.$timeSliceStart = jl_System_currentTimeMillis();
+    }
+    function jl_Thread_currentThread() {
+        jl_Thread_$callClinit();
+        return jl_Thread_currentThread0;
+    }
+    function jl_Thread_sleep(var$1) {
+        var thread = $rt_nativeThread();
+        var javaThread = $rt_getThread();
+        if (thread.isResuming()) {
+            thread.status = 0;
+            var result = thread.attribute;
+            if (result instanceof Error) {
+                throw result;
+            }
+            return result;
+        }
+        var callback = function() {};
+        callback.$complete = function(val) {
+            thread.attribute = val;
+            $rt_setThread(javaThread);
+            thread.resume();
+        };
+        callback.$error = function(e) {
+            thread.attribute = $rt_exception(e);
+            $rt_setThread(javaThread);
+            thread.resume();
+        };
+        callback = otpp_AsyncCallbackWrapper_create(callback);
+        return thread.suspend(function() {
+            try {
+                jl_Thread_sleep0(var$1, callback);
+            } catch($e) {
+                callback.$error($rt_exception($e));
+            }
+        });
+    }
+    function jl_Thread_sleep0($millis, $callback) {
+        var $current, $handler;
+        jl_Thread_$callClinit();
+        $current = jl_Thread_currentThread();
+        $handler = new jl_Thread$SleepHandler;
+        $handler.$thread = $current;
+        $handler.$callback = $callback;
+        $handler.$scheduleId = otp_Platform_schedule($handler, Long_ge($millis, Long_fromInt(2147483647)) ? 2147483647 : Long_lo($millis));
+        $current.$interruptHandler = $handler;
+    }
+    function jl_Thread__clinit_() {
+        var var$1, var$2, var$3;
+        var$1 = new jl_Thread;
+        jl_Thread_$callClinit();
+        var$2 = null;
+        var$1.$finishedLock = new jl_Object;
+        var$1.$alive = 1;
+        var$1.$name17 = $rt_s(489);
+        var$1.$target = var$2;
+        var$3 = jl_Thread_nextId;
+        jl_Thread_nextId = var$3 + 1 | 0;
+        var$1.$id = Long_fromInt(var$3);
+        jl_Thread_mainThread = var$1;
+        jl_Thread_currentThread0 = var$1;
+        jl_Thread_nextId = 1;
+        jl_Thread_activeCount = 1;
+        jl_Thread_defaultUncaughtExceptionHandler = new jl_DefaultUncaughtExceptionHandler;
+    }
+    var ju_Objects = $rt_classWithoutFields();
+    function tj_IntVar() {
+        var a = this; jl_Object.call(a);
+        a.$value3 = null;
+        a.$name4 = null;
+    }
+    function tj_FloatVar() {
+        var a = this; jl_Object.call(a);
+        a.$value0 = null;
+        a.$name1 = null;
+    }
+    function tj_BoolVar() {
+        var a = this; jl_Object.call(a);
+        a.$value1 = null;
+        a.$name2 = null;
+    }
+    function tj_StringVar() {
+        var a = this; jl_Object.call(a);
+        a.$value2 = null;
+        a.$name3 = null;
+    }
+    function tj_StringList() {
+        var a = this; jl_Object.call(a);
+        a.$value8 = null;
+        a.$name8 = null;
+    }
+    function tj_BoolList() {
+        var a = this; jl_Object.call(a);
+        a.$value6 = null;
+        a.$name7 = null;
+    }
+    function tj_FloatList() {
+        var a = this; jl_Object.call(a);
+        a.$value4 = null;
+        a.$name6 = null;
+    }
+    function tj_IntList() {
+        var a = this; jl_Object.call(a);
+        a.$value10 = null;
+        a.$name9 = null;
+    }
+    function tj_FunctionVar() {
+        var a = this; jl_Object.call(a);
+        a.$name5 = null;
+        a.$body0 = null;
+        a.$args = null;
+    }
     function jur_AbstractCharClass$1() {
         var a = this; jur_AbstractCharClass.call(a);
         a.$val$lHS = null;
@@ -23655,7 +23399,248 @@
     function jur_CharClass$16_contains($this, $ch) {
         return $this.$val$curAlt8 ^ $this.$val$nb4.$contains1($ch) && jur_CharClass_contains($this.$val$clazz6, $ch) ? 0 : 1;
     }
-    var ju_ConcurrentModificationException = $rt_classWithoutFields(jl_RuntimeException);
+    var oti_AsyncCallback = $rt_classWithoutFields(0);
+    function otpp_AsyncCallbackWrapper() {
+        jl_Object.call(this);
+        this.$realAsyncCallback = null;
+    }
+    function otpp_AsyncCallbackWrapper_create($realAsyncCallback) {
+        var var$2;
+        var$2 = new otpp_AsyncCallbackWrapper;
+        var$2.$realAsyncCallback = $realAsyncCallback;
+        return var$2;
+    }
+    function otpp_AsyncCallbackWrapper_complete($this, $result) {
+        $this.$realAsyncCallback.$complete($result);
+    }
+    function otpp_AsyncCallbackWrapper_error($this, $e) {
+        $this.$realAsyncCallback.$error($e);
+    }
+    var otp_PlatformRunnable = $rt_classWithoutFields(0);
+    var otr_EventQueue$Event = $rt_classWithoutFields(0);
+    var jl_ThreadInterruptHandler = $rt_classWithoutFields(0);
+    function jl_Thread$SleepHandler() {
+        var a = this; jl_Object.call(a);
+        a.$thread = null;
+        a.$callback = null;
+        a.$isInterrupted = 0;
+        a.$scheduleId = 0;
+    }
+    function jn_Buffer() {
+        var a = this; jl_Object.call(a);
+        a.$capacity = 0;
+        a.$position = 0;
+        a.$limit = 0;
+        a.$mark = 0;
+    }
+    function jn_Buffer__init_($this, $capacity) {
+        $this.$mark = (-1);
+        $this.$capacity = $capacity;
+        $this.$limit = $capacity;
+    }
+    function jn_Buffer_position($this) {
+        return $this.$position;
+    }
+    function jn_Buffer_remaining($this) {
+        return $this.$limit - $this.$position | 0;
+    }
+    function jn_Buffer_hasRemaining($this) {
+        return $this.$position >= $this.$limit ? 0 : 1;
+    }
+    var jl_Readable = $rt_classWithoutFields(0);
+    var jn_CharBuffer = $rt_classWithoutFields(jn_Buffer);
+    function jn_CharBuffer_position($this, $newPosition) {
+        var var$2, var$3, var$4;
+        if ($newPosition >= 0 && $newPosition <= $this.$limit) {
+            $this.$position = $newPosition;
+            if ($newPosition < $this.$mark)
+                $this.$mark = 0;
+            return $this;
+        }
+        var$2 = new jl_IllegalArgumentException;
+        var$3 = $this.$limit;
+        var$4 = new jl_StringBuilder;
+        jl_AbstractStringBuilder__init_(var$4);
+        jl_AbstractStringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$4, $rt_s(490)), $newPosition), $rt_s(491)), var$3), 93);
+        jl_Throwable__init_0(var$2, jl_AbstractStringBuilder_toString(var$4));
+        $rt_throw(var$2);
+    }
+    function jn_ByteBuffer() {
+        var a = this; jn_Buffer.call(a);
+        a.$start4 = 0;
+        a.$array1 = null;
+        a.$order = null;
+    }
+    function jn_ByteBuffer_put($this, $src, $offset, $length) {
+        var var$4, var$5, var$6, var$7, var$8, var$9, $pos, $i, var$12;
+        if (!$length)
+            return $this;
+        if ($this.$readOnly0) {
+            var$4 = new jn_ReadOnlyBufferException;
+            jl_Exception__init_(var$4);
+            $rt_throw(var$4);
+        }
+        if (jn_Buffer_remaining($this) < $length) {
+            var$4 = new jn_BufferOverflowException;
+            jl_Exception__init_(var$4);
+            $rt_throw(var$4);
+        }
+        if ($offset >= 0) {
+            var$5 = $src.data;
+            var$6 = var$5.length;
+            if ($offset <= var$6) {
+                var$7 = $offset + $length | 0;
+                if (var$7 > var$6) {
+                    var$8 = new jl_IndexOutOfBoundsException;
+                    var$9 = new jl_StringBuilder;
+                    jl_AbstractStringBuilder__init_(var$9);
+                    jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$9, $rt_s(492)), var$7), $rt_s(493)), var$6);
+                    jl_Throwable__init_0(var$8, jl_AbstractStringBuilder_toString(var$9));
+                    $rt_throw(var$8);
+                }
+                if ($length < 0) {
+                    var$4 = new jl_IndexOutOfBoundsException;
+                    var$8 = new jl_StringBuilder;
+                    jl_AbstractStringBuilder__init_(var$8);
+                    jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$8, $rt_s(494)), $length), $rt_s(495));
+                    jl_Throwable__init_0(var$4, jl_AbstractStringBuilder_toString(var$8));
+                    $rt_throw(var$4);
+                }
+                var$7 = $this.$position;
+                $pos = var$7 + $this.$start4 | 0;
+                $i = 0;
+                while ($i < $length) {
+                    $src = $this.$array1.data;
+                    var$12 = $pos + 1 | 0;
+                    var$6 = $offset + 1 | 0;
+                    $src[$pos] = var$5[$offset];
+                    $i = $i + 1 | 0;
+                    $pos = var$12;
+                    $offset = var$6;
+                }
+                $this.$position = var$7 + $length | 0;
+                return $this;
+            }
+        }
+        $src = $src.data;
+        var$4 = new jl_IndexOutOfBoundsException;
+        $length = $src.length;
+        var$8 = new jl_StringBuilder;
+        jl_AbstractStringBuilder__init_(var$8);
+        jl_AbstractStringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(var$8, $rt_s(496)), $offset), $rt_s(491)), $length), 41);
+        jl_Throwable__init_0(var$4, jl_AbstractStringBuilder_toString(var$8));
+        $rt_throw(var$4);
+    }
+    function jn_ByteBuffer_clear($this) {
+        $this.$position = 0;
+        $this.$limit = $this.$capacity;
+        $this.$mark = (-1);
+        return $this;
+    }
+    function jnc_CodingErrorAction() {
+        jl_Object.call(this);
+        this.$name18 = null;
+    }
+    var jnc_CodingErrorAction_IGNORE = null;
+    var jnc_CodingErrorAction_REPLACE = null;
+    var jnc_CodingErrorAction_REPORT = null;
+    function jnc_CodingErrorAction_$callClinit() {
+        jnc_CodingErrorAction_$callClinit = $rt_eraseClinit(jnc_CodingErrorAction);
+        jnc_CodingErrorAction__clinit_();
+    }
+    function jnc_CodingErrorAction__init_(var_0) {
+        var var_1 = new jnc_CodingErrorAction();
+        jnc_CodingErrorAction__init_0(var_1, var_0);
+        return var_1;
+    }
+    function jnc_CodingErrorAction__init_0($this, $name) {
+        jnc_CodingErrorAction_$callClinit();
+        $this.$name18 = $name;
+    }
+    function jnc_CodingErrorAction__clinit_() {
+        jnc_CodingErrorAction_IGNORE = jnc_CodingErrorAction__init_($rt_s(497));
+        jnc_CodingErrorAction_REPLACE = jnc_CodingErrorAction__init_($rt_s(498));
+        jnc_CodingErrorAction_REPORT = jnc_CodingErrorAction__init_($rt_s(499));
+    }
+    var jl_Thread$UncaughtExceptionHandler = $rt_classWithoutFields(0);
+    var jl_DefaultUncaughtExceptionHandler = $rt_classWithoutFields();
+    var jn_CharBufferImpl = $rt_classWithoutFields(jn_CharBuffer);
+    function jn_CharBufferOverArray() {
+        var a = this; jn_CharBufferImpl.call(a);
+        a.$readOnly = 0;
+        a.$start3 = 0;
+        a.$array0 = null;
+    }
+    function jnc_CharsetEncoder() {
+        var a = this; jl_Object.call(a);
+        a.$charset0 = null;
+        a.$replacement = null;
+        a.$averageBytesPerChar = 0.0;
+        a.$maxBytesPerChar = 0.0;
+        a.$malformedAction = null;
+        a.$unmappableAction = null;
+        a.$status = 0;
+    }
+    function jnc_CoderResult() {
+        var a = this; jl_Object.call(a);
+        a.$kind = 0;
+        a.$length1 = 0;
+    }
+    var jnc_CoderResult_UNDERFLOW = null;
+    var jnc_CoderResult_OVERFLOW = null;
+    function jnc_CoderResult__init_(var_0, var_1) {
+        var var_2 = new jnc_CoderResult();
+        jnc_CoderResult__init_0(var_2, var_0, var_1);
+        return var_2;
+    }
+    function jnc_CoderResult__init_0($this, $kind, $length) {
+        $this.$kind = $kind;
+        $this.$length1 = $length;
+    }
+    function jnc_CoderResult_isOverflow($this) {
+        return $this.$kind != 1 ? 0 : 1;
+    }
+    function jnc_CoderResult_isMalformed($this) {
+        return $this.$kind != 2 ? 0 : 1;
+    }
+    function jnc_CoderResult_isUnmappable($this) {
+        return $this.$kind != 3 ? 0 : 1;
+    }
+    function jnc_CoderResult_malformedForLength($length) {
+        return jnc_CoderResult__init_(2, $length);
+    }
+    function jnc_CoderResult__clinit_() {
+        jnc_CoderResult_UNDERFLOW = jnc_CoderResult__init_(0, 0);
+        jnc_CoderResult_OVERFLOW = jnc_CoderResult__init_(1, 0);
+    }
+    function jn_ByteBufferImpl() {
+        var a = this; jn_ByteBuffer.call(a);
+        a.$direct = 0;
+        a.$readOnly0 = 0;
+    }
+    function jn_ByteOrder() {
+        jl_Object.call(this);
+        this.$name19 = null;
+    }
+    var jn_ByteOrder_BIG_ENDIAN = null;
+    var jn_ByteOrder_LITTLE_ENDIAN = null;
+    function jn_ByteOrder_$callClinit() {
+        jn_ByteOrder_$callClinit = $rt_eraseClinit(jn_ByteOrder);
+        jn_ByteOrder__clinit_();
+    }
+    function jn_ByteOrder__init_(var_0) {
+        var var_1 = new jn_ByteOrder();
+        jn_ByteOrder__init_0(var_1, var_0);
+        return var_1;
+    }
+    function jn_ByteOrder__init_0($this, $name) {
+        jn_ByteOrder_$callClinit();
+        $this.$name19 = $name;
+    }
+    function jn_ByteOrder__clinit_() {
+        jn_ByteOrder_BIG_ENDIAN = jn_ByteOrder__init_($rt_s(500));
+        jn_ByteOrder_LITTLE_ENDIAN = jn_ByteOrder__init_($rt_s(501));
+    }
     var jur_BackReferencedSingleSet = $rt_classWithoutFields(jur_SingleSet);
     function jur_BackReferencedSingleSet_find($this, $startSearch, $testString, $matchResult) {
         var $res, $lastIndex, $saveStart;
@@ -23701,7 +23686,199 @@
     function jur_BackReferencedSingleSet_processBackRefReplacement($this) {
         return null;
     }
-    var otcic_Console = $rt_classWithoutFields();
+    function jnci_BufferedEncoder() {
+        var a = this; jnc_CharsetEncoder.call(a);
+        a.$inArray = null;
+        a.$outArray = null;
+    }
+    function jnci_BufferedEncoder_encodeLoop($this, $in, $out) {
+        var $inArray, $inPos, $inSize, $outArray, $i, var$8, $outPos, $outSize, $result, var$12, var$13, var$14, $controller;
+        $inArray = $this.$inArray;
+        $inPos = 0;
+        $inSize = 0;
+        $outArray = $this.$outArray;
+        a: {
+            b: {
+                while (true) {
+                    if (($inPos + 32 | 0) > $inSize && jn_Buffer_hasRemaining($in)) {
+                        $i = $inPos;
+                        while ($i < $inSize) {
+                            var$8 = $inArray.data;
+                            var$8[$i - $inPos | 0] = var$8[$i];
+                            $i = $i + 1 | 0;
+                        }
+                        var$8 = $inArray.data;
+                        $outPos = $inSize - $inPos | 0;
+                        $outSize = jn_Buffer_remaining($in) + $outPos | 0;
+                        $i = var$8.length;
+                        $inSize = jl_Math_min($outSize, $i);
+                        $inPos = $inSize - $outPos | 0;
+                        if ($outPos < 0)
+                            break b;
+                        if ($outPos > $i)
+                            break b;
+                        $outSize = $outPos + $inPos | 0;
+                        if ($outSize > $i) {
+                            $result = new jl_IndexOutOfBoundsException;
+                            $in = new jl_StringBuilder;
+                            jl_AbstractStringBuilder__init_($in);
+                            jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append($in, $rt_s(502)), $outSize), $rt_s(493)), $i);
+                            jl_Throwable__init_0($result, jl_AbstractStringBuilder_toString($in));
+                            $rt_throw($result);
+                        }
+                        if (jn_Buffer_remaining($in) < $inPos)
+                            break;
+                        if ($inPos < 0) {
+                            $in = new jl_IndexOutOfBoundsException;
+                            $out = new jl_StringBuilder;
+                            jl_AbstractStringBuilder__init_($out);
+                            jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append($out, $rt_s(494)), $inPos), $rt_s(495));
+                            jl_Throwable__init_0($in, jl_AbstractStringBuilder_toString($out));
+                            $rt_throw($in);
+                        }
+                        $i = $in.$position;
+                        var$12 = 0;
+                        var$13 = $i;
+                        while (var$12 < $inPos) {
+                            var$14 = $outPos + 1 | 0;
+                            $outSize = var$13 + 1 | 0;
+                            var$8[$outPos] = $in.$array0.data[var$13 + $in.$start3 | 0];
+                            var$12 = var$12 + 1 | 0;
+                            $outPos = var$14;
+                            var$13 = $outSize;
+                        }
+                        $in.$position = $i + $inPos | 0;
+                        $inPos = 0;
+                    }
+                    if (!jn_Buffer_hasRemaining($out)) {
+                        $result = !jn_Buffer_hasRemaining($in) && $inPos >= $inSize ? jnc_CoderResult_UNDERFLOW : jnc_CoderResult_OVERFLOW;
+                        break a;
+                    }
+                    var$8 = $outArray.data;
+                    $outSize = jl_Math_min(jn_Buffer_remaining($out), var$8.length);
+                    $controller = new jnci_BufferedEncoder$Controller;
+                    $controller.$in = $in;
+                    $controller.$out1 = $out;
+                    $result = jnci_UTF8Encoder_arrayEncode($this, $inArray, $inPos, $inSize, $outArray, 0, $outSize, $controller);
+                    $inPos = $controller.$inPosition;
+                    $outPos = $controller.$outPosition;
+                    if ($result === null) {
+                        if (!jn_Buffer_hasRemaining($in) && $inPos >= $inSize)
+                            $result = jnc_CoderResult_UNDERFLOW;
+                        else if (!jn_Buffer_hasRemaining($out) && $inPos >= $inSize)
+                            $result = jnc_CoderResult_OVERFLOW;
+                    }
+                    jn_ByteBuffer_put($out, $outArray, 0, $outPos);
+                    if ($result !== null)
+                        break a;
+                }
+                $in = new jn_BufferUnderflowException;
+                jl_Exception__init_($in);
+                $rt_throw($in);
+            }
+            $controller = new jl_IndexOutOfBoundsException;
+            $result = new jl_StringBuilder;
+            jl_AbstractStringBuilder__init_($result);
+            jl_AbstractStringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append($result, $rt_s(496)), $outPos), $rt_s(491)), $i), 41);
+            jl_Throwable__init_0($controller, jl_AbstractStringBuilder_toString($result));
+            $rt_throw($controller);
+        }
+        jn_CharBuffer_position($in, $in.$position - ($inSize - $inPos | 0) | 0);
+        return $result;
+    }
+    var jnci_UTF8Encoder = $rt_classWithoutFields(jnci_BufferedEncoder);
+    function jnci_UTF8Encoder_arrayEncode($this, $inArray, $inPos, $inSize, $outArray, $outPos, $outSize, $controller) {
+        var $result, var$9, var$10, $ch, $low, var$13, $codePoint;
+        $result = null;
+        a: {
+            while ($inPos < $inSize) {
+                if ($outPos >= $outSize) {
+                    var$9 = $inPos;
+                    break a;
+                }
+                var$10 = $inArray.data;
+                var$9 = $inPos + 1 | 0;
+                $ch = var$10[$inPos];
+                if ($ch < 128) {
+                    var$10 = $outArray.data;
+                    $low = $outPos + 1 | 0;
+                    var$10[$outPos] = $ch << 24 >> 24;
+                } else if ($ch < 2048) {
+                    if (($outPos + 2 | 0) > $outSize) {
+                        var$9 = var$9 + (-1) | 0;
+                        if (jnci_BufferedEncoder$Controller_hasMoreOutput($controller, 2))
+                            break a;
+                        $result = jnc_CoderResult_OVERFLOW;
+                        break a;
+                    }
+                    var$10 = $outArray.data;
+                    $inPos = $outPos + 1 | 0;
+                    var$10[$outPos] = (192 | $ch >> 6) << 24 >> 24;
+                    $low = $inPos + 1 | 0;
+                    var$10[$inPos] = (128 | $ch & 63) << 24 >> 24;
+                } else if (!jl_Character_isSurrogate($ch)) {
+                    if (($outPos + 3 | 0) > $outSize) {
+                        var$9 = var$9 + (-1) | 0;
+                        if (jnci_BufferedEncoder$Controller_hasMoreOutput($controller, 3))
+                            break a;
+                        $result = jnc_CoderResult_OVERFLOW;
+                        break a;
+                    }
+                    var$10 = $outArray.data;
+                    var$13 = $outPos + 1 | 0;
+                    var$10[$outPos] = (224 | $ch >> 12) << 24 >> 24;
+                    $inPos = var$13 + 1 | 0;
+                    var$10[var$13] = (128 | $ch >> 6 & 63) << 24 >> 24;
+                    $low = $inPos + 1 | 0;
+                    var$10[$inPos] = (128 | $ch & 63) << 24 >> 24;
+                } else {
+                    if (!jl_Character_isHighSurrogate($ch)) {
+                        $result = jnc_CoderResult_malformedForLength(1);
+                        break a;
+                    }
+                    if (var$9 >= $inSize) {
+                        if (jn_Buffer_hasRemaining($controller.$in))
+                            break a;
+                        $result = jnc_CoderResult_UNDERFLOW;
+                        break a;
+                    }
+                    $inPos = var$9 + 1 | 0;
+                    $low = var$10[var$9];
+                    if (!jl_Character_isLowSurrogate($low)) {
+                        var$9 = $inPos + (-2) | 0;
+                        $result = jnc_CoderResult_malformedForLength(1);
+                        break a;
+                    }
+                    if (($outPos + 4 | 0) > $outSize) {
+                        var$9 = $inPos + (-2) | 0;
+                        if (jnci_BufferedEncoder$Controller_hasMoreOutput($controller, 4))
+                            break a;
+                        $result = jnc_CoderResult_OVERFLOW;
+                        break a;
+                    }
+                    var$10 = $outArray.data;
+                    $codePoint = jl_Character_toCodePoint($ch, $low);
+                    $low = $outPos + 1 | 0;
+                    var$10[$outPos] = (240 | $codePoint >> 18) << 24 >> 24;
+                    var$13 = $low + 1 | 0;
+                    var$10[$low] = (128 | $codePoint >> 12 & 63) << 24 >> 24;
+                    $outPos = var$13 + 1 | 0;
+                    var$10[var$13] = (128 | $codePoint >> 6 & 63) << 24 >> 24;
+                    $low = $outPos + 1 | 0;
+                    var$10[$outPos] = (128 | $codePoint & 63) << 24 >> 24;
+                    var$9 = $inPos;
+                }
+                $inPos = var$9;
+                $outPos = $low;
+            }
+            var$9 = $inPos;
+        }
+        $controller.$inPosition = var$9;
+        $controller.$outPosition = $outPos;
+        return $result;
+    }
+    var ji_IOException = $rt_classWithoutFields(jl_Exception);
+    var ju_ConcurrentModificationException = $rt_classWithoutFields(jl_RuntimeException);
     var jur_MatchResult = $rt_classWithoutFields(0);
     function jur_Matcher() {
         var a = this; jl_Object.call(a);
@@ -23756,35 +23933,6 @@
     function jur_Matcher_hasTransparentBounds($this) {
         return $this.$matchResult.$transparentBounds;
     }
-    var jl_AbstractStringBuilder$Constants = $rt_classWithoutFields();
-    var jl_AbstractStringBuilder$Constants_intPowersOfTen = null;
-    var jl_AbstractStringBuilder$Constants_longPowersOfTen = null;
-    var jl_AbstractStringBuilder$Constants_longLogPowersOfTen = null;
-    var jl_AbstractStringBuilder$Constants_doubleAnalysisResult = null;
-    var jl_AbstractStringBuilder$Constants_floatAnalysisResult = null;
-    function jl_AbstractStringBuilder$Constants__clinit_() {
-        jl_AbstractStringBuilder$Constants_intPowersOfTen = $rt_createIntArrayFromData([1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000]);
-        jl_AbstractStringBuilder$Constants_longPowersOfTen = $rt_createLongArrayFromData([Long_fromInt(1), Long_fromInt(10), Long_fromInt(100), Long_fromInt(1000), Long_fromInt(10000), Long_fromInt(100000), Long_fromInt(1000000), Long_fromInt(10000000), Long_fromInt(100000000), Long_fromInt(1000000000), Long_create(1410065408, 2), Long_create(1215752192, 23), Long_create(3567587328, 232), Long_create(1316134912, 2328), Long_create(276447232, 23283), Long_create(2764472320, 232830), Long_create(1874919424, 2328306),
-        Long_create(1569325056, 23283064), Long_create(2808348672, 232830643)]);
-        jl_AbstractStringBuilder$Constants_longLogPowersOfTen = $rt_createLongArrayFromData([Long_fromInt(1), Long_fromInt(10), Long_fromInt(100), Long_fromInt(10000), Long_fromInt(100000000), Long_create(1874919424, 2328306)]);
-        jl_AbstractStringBuilder$Constants_doubleAnalysisResult = new otcit_DoubleAnalyzer$Result;
-        jl_AbstractStringBuilder$Constants_floatAnalysisResult = new otcit_FloatAnalyzer$Result;
-    }
-    function otcit_FloatAnalyzer$Result() {
-        var a = this; jl_Object.call(a);
-        a.$mantissa = 0;
-        a.$exponent = 0;
-        a.$sign = 0;
-    }
-    var jl_Long = $rt_classWithoutFields(jl_Number);
-    var jl_Long_TYPE = null;
-    function jl_Long_compareUnsigned(var$1, var$2) {
-        return Long_ucompare(var$1, var$2);
-    }
-    function jl_Long__clinit_() {
-        jl_Long_TYPE = $rt_cls($rt_longcls());
-    }
-    var otcit_DoubleAnalyzer$Result = $rt_classWithoutFields();
     function jur_AbstractCharClass$LazyJavaLowerCase$1() {
         jur_AbstractCharClass.call(this);
         this.$this$020 = null;
@@ -24067,6 +24215,7 @@
     function jur_UnicodeCategoryScope_contains($this, $ch) {
         return $this.$alt0 ^ (!($this.$category1 >> jl_Character_getType($ch & 65535) & 1) ? 0 : 1);
     }
+    var otcic_Console = $rt_classWithoutFields();
     function jur_MatchResultImpl() {
         var a = this; jl_Object.call(a);
         a.$groupBounds = null;
@@ -24152,6 +24301,35 @@
     function jur_MatchResultImpl_mode($this) {
         return $this.$mode1;
     }
+    var jl_AbstractStringBuilder$Constants = $rt_classWithoutFields();
+    var jl_AbstractStringBuilder$Constants_intPowersOfTen = null;
+    var jl_AbstractStringBuilder$Constants_longPowersOfTen = null;
+    var jl_AbstractStringBuilder$Constants_longLogPowersOfTen = null;
+    var jl_AbstractStringBuilder$Constants_doubleAnalysisResult = null;
+    var jl_AbstractStringBuilder$Constants_floatAnalysisResult = null;
+    function jl_AbstractStringBuilder$Constants__clinit_() {
+        jl_AbstractStringBuilder$Constants_intPowersOfTen = $rt_createIntArrayFromData([1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000]);
+        jl_AbstractStringBuilder$Constants_longPowersOfTen = $rt_createLongArrayFromData([Long_fromInt(1), Long_fromInt(10), Long_fromInt(100), Long_fromInt(1000), Long_fromInt(10000), Long_fromInt(100000), Long_fromInt(1000000), Long_fromInt(10000000), Long_fromInt(100000000), Long_fromInt(1000000000), Long_create(1410065408, 2), Long_create(1215752192, 23), Long_create(3567587328, 232), Long_create(1316134912, 2328), Long_create(276447232, 23283), Long_create(2764472320, 232830), Long_create(1874919424, 2328306),
+        Long_create(1569325056, 23283064), Long_create(2808348672, 232830643)]);
+        jl_AbstractStringBuilder$Constants_longLogPowersOfTen = $rt_createLongArrayFromData([Long_fromInt(1), Long_fromInt(10), Long_fromInt(100), Long_fromInt(10000), Long_fromInt(100000000), Long_create(1874919424, 2328306)]);
+        jl_AbstractStringBuilder$Constants_doubleAnalysisResult = new otcit_DoubleAnalyzer$Result;
+        jl_AbstractStringBuilder$Constants_floatAnalysisResult = new otcit_FloatAnalyzer$Result;
+    }
+    function otcit_FloatAnalyzer$Result() {
+        var a = this; jl_Object.call(a);
+        a.$mantissa = 0;
+        a.$exponent = 0;
+        a.$sign = 0;
+    }
+    var jl_Long = $rt_classWithoutFields(jl_Number);
+    var jl_Long_TYPE = null;
+    function jl_Long_compareUnsigned(var$1, var$2) {
+        return Long_ucompare(var$1, var$2);
+    }
+    function jl_Long__clinit_() {
+        jl_Long_TYPE = $rt_cls($rt_longcls());
+    }
+    var otcit_DoubleAnalyzer$Result = $rt_classWithoutFields();
     var jl_IllegalStateException = $rt_classWithoutFields(jl_RuntimeException);
     var jnc_CoderMalfunctionError = $rt_classWithoutFields(jl_Error);
     function jnc_CoderMalfunctionError__init_(var_0) {
@@ -24263,6 +24441,8 @@
     jl_IllegalArgumentException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
     otjc_JSObjects, 0, jl_Object, [], 4, 3, 0, 0, 0,
     jl_StringIndexOutOfBoundsException, 0, jl_IndexOutOfBoundsException, [], 0, 3, 0, 0, 0,
+    jur_Pattern, 0, jl_Object, [ji_Serializable], 4, 3, 0, 0, 0,
+    tj_CommentStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_CommentStmt_getLine)],
     tj_Expression$ExpressionReturnType, 0, jl_Enum, [], 12, 0, 0, tj_Expression$ExpressionReturnType_$callClinit, 0,
     tj_Parser$1, 0, jl_Object, [], 32, 0, 0, tj_Parser$1_$callClinit, 0,
     tj_Expression, 0, jl_Object, [], 0, 3, 0, 0, ["$toString", $rt_wrapFunction0(tj_Expression_toString)],
@@ -24279,10 +24459,10 @@
     tj_PrintStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_PrintStmt_getLine)],
     tj_CallStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_CallStmt_getLine)],
     tj_ShowMsgBoxStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_ShowMsgBoxStmt_getLine)],
-    tj_Argument, 0, jl_Object, [], 0, 3, 0, 0, 0,
-    tj_FunctionStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_FunctionStmt_getLine)],
-    tj_ForWhenStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_ForWhenStmt_getLine)]]);
-    $rt_metadata([tj_ForEachStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_ForEachStmt_getLine)],
+    tj_Argument, 0, jl_Object, [], 0, 3, 0, 0, 0]);
+    $rt_metadata([tj_FunctionStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_FunctionStmt_getLine)],
+    tj_ForWhenStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_ForWhenStmt_getLine)],
+    tj_ForEachStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_ForEachStmt_getLine)],
     tj_ElseStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_ElseStmt_getLine)],
     tj_ElseIfStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_ElseIfStmt_getLine)],
     tj_DeclarationStmt, 0, tj_Statements, [], 0, 0, 0, 0, ["$getLine", $rt_wrapFunction0(tj_DeclarationStmt_getLine)],
@@ -24301,6 +24481,7 @@
     tj_Translator$1, 0, jl_Object, [], 32, 0, 0, tj_Translator$1_$callClinit, 0,
     tj_Result, 0, jl_Object, [], 0, 0, 0, 0, 0,
     tj_Return, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    jur_AbstractSet, 0, jl_Object, [], 1, 0, 0, 0, ["$find0", $rt_wrapFunction3(jur_AbstractSet_find), "$findBack", $rt_wrapFunction4(jur_AbstractSet_findBack), "$getType3", $rt_wrapFunction0(jur_AbstractSet_getType), "$setNext", $rt_wrapFunction1(jur_AbstractSet_setNext), "$first", $rt_wrapFunction1(jur_AbstractSet_first), "$processBackRefReplacement", $rt_wrapFunction0(jur_AbstractSet_processBackRefReplacement), "$processSecondPass", $rt_wrapFunction0(jur_AbstractSet_processSecondPass)],
     jnc_Charset, 0, jl_Object, [jl_Comparable], 1, 3, 0, 0, 0,
     jnci_UTF8Charset, 0, jnc_Charset, [], 0, 3, 0, jnci_UTF8Charset_$callClinit, 0,
     tj_Element, 0, jl_Object, [], 0, 3, 0, 0, 0,
@@ -24320,19 +24501,22 @@
     tj_ListElmt, "ListElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_ListElmt_toString)],
     otjc_JSArray, 0, jl_Object, [otjc_JSArrayReader], 1, 3, 0, 0, ["$get$exported$0", $rt_wrapFunction1(otjc_JSArray_get$exported$0), "$getLength$exported$1", $rt_wrapFunction0(otjc_JSArray_getLength$exported$1)],
     otjc_JSString, 0, jl_Object, [otj_JSObject], 1, 3, 0, 0, 0,
+    jur_FSet, 0, jur_AbstractSet, [], 0, 0, 0, jur_FSet_$callClinit, ["$matches", $rt_wrapFunction3(jur_FSet_matches), "$hasConsumed", $rt_wrapFunction1(jur_FSet_hasConsumed)],
+    jur_Lexer, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    jur_PatternSyntaxException, 0, jl_IllegalArgumentException, [], 0, 3, 0, 0, 0,
     tj_Element$ElementType, 0, jl_Enum, [], 12, 3, 0, tj_Element$ElementType_$callClinit, 0,
     tj_IntElmt, "IntElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_IntElmt_toString)],
     tj_FloatElmt, "FloatElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_FloatElmt_toString)],
     jl_Float, "Float", 3, jl_Number, [jl_Comparable], 0, 3, 0, 0, ["$toString", $rt_wrapFunction0(jl_Float_toString0)],
     tj_BoolElmt, "BoolElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_BoolElmt_toString)],
-    jl_Boolean, "Boolean", 3, jl_Object, [ji_Serializable, jl_Comparable], 0, 3, 0, 0, ["$toString", $rt_wrapFunction0(jl_Boolean_toString0)],
-    tj_EqualElmt, "EqualElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_EqualElmt_toString)],
+    jl_Boolean, "Boolean", 3, jl_Object, [ji_Serializable, jl_Comparable], 0, 3, 0, 0, ["$toString", $rt_wrapFunction0(jl_Boolean_toString0)]]);
+    $rt_metadata([tj_EqualElmt, "EqualElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_EqualElmt_toString)],
     tj_AndElmt, "AndElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_AndElmt_toString)],
     tj_OrElmt, "OrElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_OrElmt_toString)],
     tj_PlusElmt, "PlusElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_PlusElmt_toString)],
     tj_MinusElmt, "MinusElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_MinusElmt_toString)],
-    tj_MultiplyElmt, "MultiplyElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_MultiplyElmt_toString)]]);
-    $rt_metadata([tj_DivideElmt, "DivideElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_DivideElmt_toString)],
+    tj_MultiplyElmt, "MultiplyElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_MultiplyElmt_toString)],
+    tj_DivideElmt, "DivideElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_DivideElmt_toString)],
     tj_VariableElmt, "VariableElmt", 5, tj_Element, [], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(tj_VariableElmt_toString)],
     tj_Expression$1, 0, jl_Object, [], 32, 0, 0, tj_Expression$1_$callClinit, 0,
     tj_Translator$Operator, 0, jl_Enum, [], 12, 0, 0, tj_Translator$Operator_$callClinit, 0,
@@ -24350,55 +24534,6 @@
     tj_Interpreter$Operator, 0, jl_Enum, [], 12, 0, 0, tj_Interpreter$Operator_$callClinit, 0,
     juc_TimeUnit, 0, jl_Enum, [], 12, 3, 0, juc_TimeUnit_$callClinit, 0,
     jl_InterruptedException, 0, jl_Exception, [], 0, 3, 0, 0, 0,
-    jl_CloneNotSupportedException, 0, jl_Exception, [], 0, 3, 0, 0, 0,
-    jl_NumberFormatException, 0, jl_IllegalArgumentException, [], 0, 3, 0, 0, 0,
-    otcit_FloatSynthesizer, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    jl_Math, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    otcit_FloatAnalyzer, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    jnc_IllegalCharsetNameException, 0, jl_IllegalArgumentException, [], 0, 3, 0, 0, 0,
-    otciu_UnicodeHelper$Range, 0, jl_Object, [], 0, 3, 0, 0, 0,
-    otpp_ResourceAccessor, 0, jl_Object, [], 4, 0, 0, 0, 0,
-    otciu_UnicodeHelper, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    ju_Arrays, 0, jl_Object, [], 0, 3, 0, 0, 0,
-    otci_CharFlow, 0, jl_Object, [], 0, 3, 0, 0, 0,
-    otci_Base46, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    jl_NegativeArraySizeException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
-    ju_Iterator, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    ju_AbstractList$1, 0, jl_Object, [ju_Iterator], 0, 0, 0, 0, 0,
-    jur_Pattern, 0, jl_Object, [ji_Serializable], 4, 3, 0, 0, 0,
-    jl_Runnable, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    jl_Thread, 0, jl_Object, [jl_Runnable], 0, 3, 0, jl_Thread_$callClinit, 0,
-    ju_Objects, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    tj_IntVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    tj_FloatVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    tj_BoolVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    tj_StringVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    tj_StringList, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    tj_BoolList, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    tj_FloatList, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    tj_IntList, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    tj_FunctionVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    oti_AsyncCallback, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    otpp_AsyncCallbackWrapper, 0, jl_Object, [oti_AsyncCallback], 0, 0, 0, 0, ["$complete", $rt_wrapFunction1(otpp_AsyncCallbackWrapper_complete), "$error", $rt_wrapFunction1(otpp_AsyncCallbackWrapper_error)],
-    otp_PlatformRunnable, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    otr_EventQueue$Event, 0, jl_Object, [], 3, 3, 0, 0, 0]);
-    $rt_metadata([jl_ThreadInterruptHandler, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    jl_Thread$SleepHandler, 0, jl_Object, [otp_PlatformRunnable, otr_EventQueue$Event, jl_ThreadInterruptHandler], 0, 0, 0, 0, 0,
-    jur_AbstractSet, 0, jl_Object, [], 1, 0, 0, 0, ["$find0", $rt_wrapFunction3(jur_AbstractSet_find), "$findBack", $rt_wrapFunction4(jur_AbstractSet_findBack), "$getType3", $rt_wrapFunction0(jur_AbstractSet_getType), "$setNext", $rt_wrapFunction1(jur_AbstractSet_setNext), "$first", $rt_wrapFunction1(jur_AbstractSet_first), "$processBackRefReplacement", $rt_wrapFunction0(jur_AbstractSet_processBackRefReplacement), "$processSecondPass", $rt_wrapFunction0(jur_AbstractSet_processSecondPass)],
-    jn_Buffer, 0, jl_Object, [], 1, 3, 0, 0, 0,
-    jl_Readable, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    jn_CharBuffer, 0, jn_Buffer, [jl_Comparable, jl_Appendable, jl_CharSequence, jl_Readable], 1, 3, 0, 0, 0,
-    jn_ByteBuffer, 0, jn_Buffer, [jl_Comparable], 1, 3, 0, 0, 0,
-    jnc_CodingErrorAction, 0, jl_Object, [], 0, 3, 0, jnc_CodingErrorAction_$callClinit, 0,
-    jl_Thread$UncaughtExceptionHandler, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    jl_DefaultUncaughtExceptionHandler, 0, jl_Object, [jl_Thread$UncaughtExceptionHandler], 0, 3, 0, 0, 0,
-    jur_FSet, 0, jur_AbstractSet, [], 0, 0, 0, jur_FSet_$callClinit, ["$matches", $rt_wrapFunction3(jur_FSet_matches), "$hasConsumed", $rt_wrapFunction1(jur_FSet_hasConsumed)],
-    jur_Lexer, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    jur_PatternSyntaxException, 0, jl_IllegalArgumentException, [], 0, 3, 0, 0, 0,
-    jn_CharBufferImpl, 0, jn_CharBuffer, [], 1, 0, 0, 0, 0,
-    jn_CharBufferOverArray, 0, jn_CharBufferImpl, [], 0, 0, 0, 0, 0,
-    jnc_CharsetEncoder, 0, jl_Object, [], 1, 3, 0, 0, 0,
-    jnc_CoderResult, 0, jl_Object, [], 0, 3, 0, 0, 0,
     jur_NonCapFSet, 0, jur_FSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_NonCapFSet_matches), "$hasConsumed", $rt_wrapFunction1(jur_NonCapFSet_hasConsumed)],
     jur_AheadFSet, 0, jur_FSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_AheadFSet_matches)],
     jur_BehindFSet, 0, jur_FSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_BehindFSet_matches)],
@@ -24414,25 +24549,29 @@
     jur_PositiveLookBehind, 0, jur_AtomicJointSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_PositiveLookBehind_matches), "$hasConsumed", $rt_wrapFunction1(jur_PositiveLookBehind_hasConsumed)],
     jur_NegativeLookBehind, 0, jur_AtomicJointSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_NegativeLookBehind_matches), "$hasConsumed", $rt_wrapFunction1(jur_NegativeLookBehind_hasConsumed)],
     jur_SingleSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_SingleSet_matches), "$find0", $rt_wrapFunction3(jur_SingleSet_find), "$findBack", $rt_wrapFunction4(jur_SingleSet_findBack), "$first", $rt_wrapFunction1(jur_SingleSet_first), "$processBackRefReplacement", $rt_wrapFunction0(jur_SingleSet_processBackRefReplacement), "$processSecondPass", $rt_wrapFunction0(jur_SingleSet_processSecondPass)],
-    jn_ByteBufferImpl, 0, jn_ByteBuffer, [], 0, 0, 0, 0, 0,
+    jl_CloneNotSupportedException, 0, jl_Exception, [], 0, 3, 0, 0, 0,
+    jl_NumberFormatException, 0, jl_IllegalArgumentException, [], 0, 3, 0, 0, 0,
+    otcit_FloatSynthesizer, 0, jl_Object, [], 4, 3, 0, 0, 0,
+    jl_Math, 0, jl_Object, [], 4, 3, 0, 0, 0,
     jur_SpecialToken, 0, jl_Object, [], 1, 0, 0, 0, 0,
     jur_AbstractCharClass, 0, jur_SpecialToken, [], 1, 0, 0, jur_AbstractCharClass_$callClinit, ["$getBits", $rt_wrapFunction0(jur_AbstractCharClass_getBits), "$getLowHighSurrogates", $rt_wrapFunction0(jur_AbstractCharClass_getLowHighSurrogates), "$getInstance0", $rt_wrapFunction0(jur_AbstractCharClass_getInstance), "$hasUCI", $rt_wrapFunction0(jur_AbstractCharClass_hasUCI)],
     jur_CharClass, "CharClass", 2, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass_contains), "$getBits", $rt_wrapFunction0(jur_CharClass_getBits), "$getLowHighSurrogates", $rt_wrapFunction0(jur_CharClass_getLowHighSurrogates), "$getInstance0", $rt_wrapFunction0(jur_CharClass_getInstance), "$toString", $rt_wrapFunction0(jur_CharClass_toString), "$hasUCI", $rt_wrapFunction0(jur_CharClass_hasUCI)],
     ju_MissingResourceException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
     jur_QuantifierSet, 0, jur_AbstractSet, [], 1, 0, 0, 0, ["$first", $rt_wrapFunction1(jur_QuantifierSet_first), "$hasConsumed", $rt_wrapFunction1(jur_QuantifierSet_hasConsumed), "$processSecondPass", $rt_wrapFunction0(jur_QuantifierSet_processSecondPass)],
     jur_LeafQuantifierSet, 0, jur_QuantifierSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_LeafQuantifierSet_matches)],
-    jur_CompositeQuantifierSet, 0, jur_LeafQuantifierSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_CompositeQuantifierSet_matches)],
-    jur_GroupQuantifierSet, 0, jur_QuantifierSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_GroupQuantifierSet_matches)],
+    jur_CompositeQuantifierSet, 0, jur_LeafQuantifierSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_CompositeQuantifierSet_matches)]]);
+    $rt_metadata([jur_GroupQuantifierSet, 0, jur_QuantifierSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_GroupQuantifierSet_matches)],
     jur_AltQuantifierSet, 0, jur_LeafQuantifierSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_AltQuantifierSet_matches), "$setNext", $rt_wrapFunction1(jur_AltQuantifierSet_setNext)],
     jur_UnifiedQuantifierSet, 0, jur_LeafQuantifierSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_UnifiedQuantifierSet_matches), "$find0", $rt_wrapFunction3(jur_UnifiedQuantifierSet_find)],
+    otcit_FloatAnalyzer, 0, jl_Object, [], 4, 3, 0, 0, 0,
     jur_AbstractCharClass$LazyCharClass, 0, jl_Object, [], 1, 0, 0, 0, 0,
     jur_Quantifier, "Quantifier", 2, jur_SpecialToken, [jl_Cloneable], 0, 0, 0, 0, ["$toString", $rt_wrapFunction0(jur_Quantifier_toString)],
     jur_FSet$PossessiveFSet, 0, jur_AbstractSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_FSet$PossessiveFSet_matches), "$hasConsumed", $rt_wrapFunction1(jur_FSet$PossessiveFSet_hasConsumed)],
     ju_BitSet, 0, jl_Object, [jl_Cloneable, ji_Serializable], 0, 3, 0, 0, 0,
     jur_LowHighSurrogateRangeSet, 0, jur_JointSet, [], 0, 0, 0, 0, 0,
     jur_CompositeRangeSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_CompositeRangeSet_matches), "$setNext", $rt_wrapFunction1(jur_CompositeRangeSet_setNext), "$hasConsumed", $rt_wrapFunction1(jur_CompositeRangeSet_hasConsumed), "$first", $rt_wrapFunction1(jur_CompositeRangeSet_first)],
-    jur_SupplRangeSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_SupplRangeSet_matches), "$contains1", $rt_wrapFunction1(jur_SupplRangeSet_contains), "$first", $rt_wrapFunction1(jur_SupplRangeSet_first), "$setNext", $rt_wrapFunction1(jur_SupplRangeSet_setNext), "$hasConsumed", $rt_wrapFunction1(jur_SupplRangeSet_hasConsumed)]]);
-    $rt_metadata([jur_UCISupplRangeSet, 0, jur_SupplRangeSet, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_UCISupplRangeSet_contains)],
+    jur_SupplRangeSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_SupplRangeSet_matches), "$contains1", $rt_wrapFunction1(jur_SupplRangeSet_contains), "$first", $rt_wrapFunction1(jur_SupplRangeSet_first), "$setNext", $rt_wrapFunction1(jur_SupplRangeSet_setNext), "$hasConsumed", $rt_wrapFunction1(jur_SupplRangeSet_hasConsumed)],
+    jur_UCISupplRangeSet, 0, jur_SupplRangeSet, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_UCISupplRangeSet_contains)],
     jur_UCIRangeSet, 0, jur_LeafSet, [], 0, 0, 0, 0, ["$accepts", $rt_wrapFunction2(jur_UCIRangeSet_accepts)],
     jur_RangeSet, 0, jur_LeafSet, [], 0, 0, 0, 0, ["$accepts", $rt_wrapFunction2(jur_RangeSet_accepts), "$first", $rt_wrapFunction1(jur_RangeSet_first)],
     jur_HangulDecomposedCharSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$setNext", $rt_wrapFunction1(jur_HangulDecomposedCharSet_setNext), "$matches", $rt_wrapFunction3(jur_HangulDecomposedCharSet_matches), "$first", $rt_wrapFunction1(jur_HangulDecomposedCharSet_first), "$hasConsumed", $rt_wrapFunction1(jur_HangulDecomposedCharSet_hasConsumed)],
@@ -24470,24 +24609,27 @@
     jur_DotSet, 0, jur_JointSet, [], 4, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_DotSet_matches), "$setNext", $rt_wrapFunction1(jur_DotSet_setNext), "$getType3", $rt_wrapFunction0(jur_DotSet_getType), "$hasConsumed", $rt_wrapFunction1(jur_DotSet_hasConsumed)],
     jur_UEOLSet, 0, jur_AbstractSet, [], 4, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_UEOLSet_matches), "$hasConsumed", $rt_wrapFunction1(jur_UEOLSet_hasConsumed)],
     jur_UMultiLineEOLSet, 0, jur_AbstractSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_UMultiLineEOLSet_matches), "$hasConsumed", $rt_wrapFunction1(jur_UMultiLineEOLSet_hasConsumed)],
-    jur_MultiLineEOLSet, 0, jur_AbstractSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_MultiLineEOLSet_matches), "$hasConsumed", $rt_wrapFunction1(jur_MultiLineEOLSet_hasConsumed)],
-    jur_CIBackReferenceSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_CIBackReferenceSet_matches), "$setNext", $rt_wrapFunction1(jur_CIBackReferenceSet_setNext), "$hasConsumed", $rt_wrapFunction1(jur_CIBackReferenceSet_hasConsumed)],
+    jur_MultiLineEOLSet, 0, jur_AbstractSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_MultiLineEOLSet_matches), "$hasConsumed", $rt_wrapFunction1(jur_MultiLineEOLSet_hasConsumed)]]);
+    $rt_metadata([jur_CIBackReferenceSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_CIBackReferenceSet_matches), "$setNext", $rt_wrapFunction1(jur_CIBackReferenceSet_setNext), "$hasConsumed", $rt_wrapFunction1(jur_CIBackReferenceSet_hasConsumed)],
     jur_BackReferenceSet, 0, jur_CIBackReferenceSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_BackReferenceSet_matches), "$find0", $rt_wrapFunction3(jur_BackReferenceSet_find), "$findBack", $rt_wrapFunction4(jur_BackReferenceSet_findBack), "$first", $rt_wrapFunction1(jur_BackReferenceSet_first)],
     jur_UCIBackReferenceSet, 0, jur_CIBackReferenceSet, [], 0, 0, 0, 0, ["$matches", $rt_wrapFunction3(jur_UCIBackReferenceSet_matches)],
     jl_StringBuffer, 0, jl_AbstractStringBuilder, [jl_Appendable], 0, 3, 0, 0, ["$insert1", $rt_wrapFunction4(jl_StringBuffer_insert), "$append3", $rt_wrapFunction3(jl_StringBuffer_append), "$ensureCapacity", $rt_wrapFunction1(jl_StringBuffer_ensureCapacity), "$insert0", $rt_wrapFunction2(jl_StringBuffer_insert0)],
     jur_SequenceSet, 0, jur_LeafSet, [], 0, 0, 0, 0, ["$accepts", $rt_wrapFunction2(jur_SequenceSet_accepts), "$find0", $rt_wrapFunction3(jur_SequenceSet_find), "$findBack", $rt_wrapFunction4(jur_SequenceSet_findBack), "$first", $rt_wrapFunction1(jur_SequenceSet_first)],
     jur_UCISequenceSet, 0, jur_LeafSet, [], 0, 0, 0, 0, ["$accepts", $rt_wrapFunction2(jur_UCISequenceSet_accepts)],
     jur_CISequenceSet, 0, jur_LeafSet, [], 0, 0, 0, 0, ["$accepts", $rt_wrapFunction2(jur_CISequenceSet_accepts)],
-    jn_ByteOrder, 0, jl_Object, [], 4, 3, 0, jn_ByteOrder_$callClinit, 0,
     jur_AbstractCharClass$PredefinedCharacterClasses, 0, jl_Object, [], 4, 0, 0, jur_AbstractCharClass$PredefinedCharacterClasses_$callClinit, 0,
     jur_UCISupplCharSet, 0, jur_LeafSet, [], 0, 0, 0, 0, ["$accepts", $rt_wrapFunction2(jur_UCISupplCharSet_accepts)],
-    jur_LowSurrogateCharSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$setNext", $rt_wrapFunction1(jur_LowSurrogateCharSet_setNext), "$matches", $rt_wrapFunction3(jur_LowSurrogateCharSet_matches), "$find0", $rt_wrapFunction3(jur_LowSurrogateCharSet_find), "$findBack", $rt_wrapFunction4(jur_LowSurrogateCharSet_findBack), "$first", $rt_wrapFunction1(jur_LowSurrogateCharSet_first), "$hasConsumed", $rt_wrapFunction1(jur_LowSurrogateCharSet_hasConsumed)]]);
-    $rt_metadata([jur_HighSurrogateCharSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$setNext", $rt_wrapFunction1(jur_HighSurrogateCharSet_setNext), "$matches", $rt_wrapFunction3(jur_HighSurrogateCharSet_matches), "$find0", $rt_wrapFunction3(jur_HighSurrogateCharSet_find), "$findBack", $rt_wrapFunction4(jur_HighSurrogateCharSet_findBack), "$first", $rt_wrapFunction1(jur_HighSurrogateCharSet_first), "$hasConsumed", $rt_wrapFunction1(jur_HighSurrogateCharSet_hasConsumed)],
+    jur_LowSurrogateCharSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$setNext", $rt_wrapFunction1(jur_LowSurrogateCharSet_setNext), "$matches", $rt_wrapFunction3(jur_LowSurrogateCharSet_matches), "$find0", $rt_wrapFunction3(jur_LowSurrogateCharSet_find), "$findBack", $rt_wrapFunction4(jur_LowSurrogateCharSet_findBack), "$first", $rt_wrapFunction1(jur_LowSurrogateCharSet_first), "$hasConsumed", $rt_wrapFunction1(jur_LowSurrogateCharSet_hasConsumed)],
+    jur_HighSurrogateCharSet, 0, jur_JointSet, [], 0, 0, 0, 0, ["$setNext", $rt_wrapFunction1(jur_HighSurrogateCharSet_setNext), "$matches", $rt_wrapFunction3(jur_HighSurrogateCharSet_matches), "$find0", $rt_wrapFunction3(jur_HighSurrogateCharSet_find), "$findBack", $rt_wrapFunction4(jur_HighSurrogateCharSet_findBack), "$first", $rt_wrapFunction1(jur_HighSurrogateCharSet_first), "$hasConsumed", $rt_wrapFunction1(jur_HighSurrogateCharSet_hasConsumed)],
     jur_SupplCharSet, 0, jur_LeafSet, [], 0, 0, 0, 0, ["$accepts", $rt_wrapFunction2(jur_SupplCharSet_accepts), "$find0", $rt_wrapFunction3(jur_SupplCharSet_find), "$findBack", $rt_wrapFunction4(jur_SupplCharSet_findBack), "$first", $rt_wrapFunction1(jur_SupplCharSet_first)],
     jur_AbstractLineTerminator$1, 0, jur_AbstractLineTerminator, [], 0, 0, 0, 0, ["$isLineTerminator", $rt_wrapFunction1(jur_AbstractLineTerminator$1_isLineTerminator), "$isAfterLineTerminator", $rt_wrapFunction2(jur_AbstractLineTerminator$1_isAfterLineTerminator)],
     jur_AbstractLineTerminator$2, 0, jur_AbstractLineTerminator, [], 0, 0, 0, 0, ["$isLineTerminator", $rt_wrapFunction1(jur_AbstractLineTerminator$2_isLineTerminator), "$isAfterLineTerminator", $rt_wrapFunction2(jur_AbstractLineTerminator$2_isAfterLineTerminator)],
     jur_SequenceSet$IntHash, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    jnc_IllegalCharsetNameException, 0, jl_IllegalArgumentException, [], 0, 3, 0, 0, 0,
+    otciu_UnicodeHelper$Range, 0, jl_Object, [], 0, 3, 0, 0, 0,
     jur_IntHash, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    otpp_ResourceAccessor, 0, jl_Object, [], 4, 0, 0, 0, 0,
+    otciu_UnicodeHelper, 0, jl_Object, [], 4, 3, 0, 0, 0,
     jur_AbstractCharClass$LazySpace, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazySpace_computeValue)],
     jur_AbstractCharClass$LazyDigit, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyDigit_computeValue)],
     jur_AbstractCharClass$LazyLower, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyLower_computeValue)],
@@ -24517,22 +24659,37 @@
     jur_AbstractCharClass$LazyJavaTitleCase, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyJavaTitleCase_computeValue)],
     jur_AbstractCharClass$LazyJavaUnicodeIdentifierPart, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyJavaUnicodeIdentifierPart_computeValue)],
     jur_AbstractCharClass$LazyJavaUnicodeIdentifierStart, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyJavaUnicodeIdentifierStart_computeValue)],
-    jur_AbstractCharClass$LazyWord, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyWord_computeValue)],
-    jur_AbstractCharClass$LazyNonWord, 0, jur_AbstractCharClass$LazyWord, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyNonWord_computeValue)],
+    jur_AbstractCharClass$LazyWord, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyWord_computeValue)]]);
+    $rt_metadata([jur_AbstractCharClass$LazyNonWord, 0, jur_AbstractCharClass$LazyWord, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyNonWord_computeValue)],
     jur_AbstractCharClass$LazyNonSpace, 0, jur_AbstractCharClass$LazySpace, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyNonSpace_computeValue)],
     jur_AbstractCharClass$LazyNonDigit, 0, jur_AbstractCharClass$LazyDigit, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyNonDigit_computeValue)],
     jur_AbstractCharClass$LazyRange, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyRange_computeValue)],
     jur_AbstractCharClass$LazySpecialsBlock, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazySpecialsBlock_computeValue)],
     jur_AbstractCharClass$LazyCategory, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyCategory_computeValue)],
     jur_AbstractCharClass$LazyCategoryScope, 0, jur_AbstractCharClass$LazyCharClass, [], 0, 0, 0, 0, ["$computeValue", $rt_wrapFunction0(jur_AbstractCharClass$LazyCategoryScope_computeValue)],
-    jnci_BufferedEncoder, 0, jnc_CharsetEncoder, [], 1, 3, 0, 0, 0,
-    jnci_UTF8Encoder, 0, jnci_BufferedEncoder, [], 0, 3, 0, 0, 0,
-    ji_IOException, 0, jl_Exception, [], 0, 3, 0, 0, 0,
+    ju_Arrays, 0, jl_Object, [], 0, 3, 0, 0, 0,
+    otci_CharFlow, 0, jl_Object, [], 0, 3, 0, 0, 0,
+    otci_Base46, 0, jl_Object, [], 4, 3, 0, 0, 0,
+    jl_NegativeArraySizeException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
+    ju_Iterator, 0, jl_Object, [], 3, 3, 0, 0, 0,
+    ju_AbstractList$1, 0, jl_Object, [ju_Iterator], 0, 0, 0, 0, 0,
+    jl_Runnable, 0, jl_Object, [], 3, 3, 0, 0, 0,
+    jl_Thread, 0, jl_Object, [jl_Runnable], 0, 3, 0, jl_Thread_$callClinit, 0,
+    ju_Objects, 0, jl_Object, [], 4, 3, 0, 0, 0,
+    tj_IntVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    tj_FloatVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    tj_BoolVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    tj_StringVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    tj_StringList, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    tj_BoolList, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    tj_FloatList, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    tj_IntList, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    tj_FunctionVar, 0, jl_Object, [], 0, 0, 0, 0, 0,
     jur_AbstractCharClass$1, "AbstractCharClass$1", 2, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_AbstractCharClass$1_contains)],
     jur_AbstractCharClass$2, "AbstractCharClass$2", 2, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_AbstractCharClass$2_contains)],
     jur_CharClass$18, "CharClass$18", 2, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$18_contains), "$toString", $rt_wrapFunction0(jur_CharClass$18_toString)],
-    jur_CharClass$1, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$1_contains)]]);
-    $rt_metadata([jur_CharClass$3, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$3_contains)],
+    jur_CharClass$1, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$1_contains)],
+    jur_CharClass$3, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$3_contains)],
     jur_CharClass$2, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$2_contains)],
     jur_CharClass$5, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$5_contains)],
     jur_CharClass$4, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$4_contains)],
@@ -24548,15 +24705,32 @@
     jur_CharClass$14, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$14_contains)],
     jur_CharClass$17, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$17_contains)],
     jur_CharClass$16, 0, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_CharClass$16_contains)],
-    ju_ConcurrentModificationException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
+    oti_AsyncCallback, 0, jl_Object, [], 3, 3, 0, 0, 0,
+    otpp_AsyncCallbackWrapper, 0, jl_Object, [oti_AsyncCallback], 0, 0, 0, 0, ["$complete", $rt_wrapFunction1(otpp_AsyncCallbackWrapper_complete), "$error", $rt_wrapFunction1(otpp_AsyncCallbackWrapper_error)],
+    otp_PlatformRunnable, 0, jl_Object, [], 3, 3, 0, 0, 0,
+    otr_EventQueue$Event, 0, jl_Object, [], 3, 3, 0, 0, 0,
+    jl_ThreadInterruptHandler, 0, jl_Object, [], 3, 3, 0, 0, 0]);
+    $rt_metadata([jl_Thread$SleepHandler, 0, jl_Object, [otp_PlatformRunnable, otr_EventQueue$Event, jl_ThreadInterruptHandler], 0, 0, 0, 0, 0,
+    jn_Buffer, 0, jl_Object, [], 1, 3, 0, 0, 0,
+    jl_Readable, 0, jl_Object, [], 3, 3, 0, 0, 0,
+    jn_CharBuffer, 0, jn_Buffer, [jl_Comparable, jl_Appendable, jl_CharSequence, jl_Readable], 1, 3, 0, 0, 0,
+    jn_ByteBuffer, 0, jn_Buffer, [jl_Comparable], 1, 3, 0, 0, 0,
+    jnc_CodingErrorAction, 0, jl_Object, [], 0, 3, 0, jnc_CodingErrorAction_$callClinit, 0,
+    jl_Thread$UncaughtExceptionHandler, 0, jl_Object, [], 3, 3, 0, 0, 0,
+    jl_DefaultUncaughtExceptionHandler, 0, jl_Object, [jl_Thread$UncaughtExceptionHandler], 0, 3, 0, 0, 0,
+    jn_CharBufferImpl, 0, jn_CharBuffer, [], 1, 0, 0, 0, 0,
+    jn_CharBufferOverArray, 0, jn_CharBufferImpl, [], 0, 0, 0, 0, 0,
+    jnc_CharsetEncoder, 0, jl_Object, [], 1, 3, 0, 0, 0,
+    jnc_CoderResult, 0, jl_Object, [], 0, 3, 0, 0, 0,
+    jn_ByteBufferImpl, 0, jn_ByteBuffer, [], 0, 0, 0, 0, 0,
+    jn_ByteOrder, 0, jl_Object, [], 4, 3, 0, jn_ByteOrder_$callClinit, 0,
     jur_BackReferencedSingleSet, 0, jur_SingleSet, [], 0, 0, 0, 0, ["$find0", $rt_wrapFunction3(jur_BackReferencedSingleSet_find), "$findBack", $rt_wrapFunction4(jur_BackReferencedSingleSet_findBack), "$processBackRefReplacement", $rt_wrapFunction0(jur_BackReferencedSingleSet_processBackRefReplacement)],
-    otcic_Console, 0, jl_Object, [], 4, 3, 0, 0, 0,
+    jnci_BufferedEncoder, 0, jnc_CharsetEncoder, [], 1, 3, 0, 0, 0,
+    jnci_UTF8Encoder, 0, jnci_BufferedEncoder, [], 0, 3, 0, 0, 0,
+    ji_IOException, 0, jl_Exception, [], 0, 3, 0, 0, 0,
+    ju_ConcurrentModificationException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
     jur_MatchResult, 0, jl_Object, [], 3, 3, 0, 0, 0,
     jur_Matcher, 0, jl_Object, [jur_MatchResult], 4, 3, 0, 0, 0,
-    jl_AbstractStringBuilder$Constants, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    otcit_FloatAnalyzer$Result, 0, jl_Object, [], 0, 3, 0, 0, 0,
-    jl_Long, 0, jl_Number, [jl_Comparable], 0, 3, 0, 0, 0,
-    otcit_DoubleAnalyzer$Result, 0, jl_Object, [], 0, 3, 0, 0, 0,
     jur_AbstractCharClass$LazyJavaLowerCase$1, "AbstractCharClass$LazyJavaLowerCase$1", 2, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_AbstractCharClass$LazyJavaLowerCase$1_contains)],
     jur_AbstractCharClass$LazyJavaUpperCase$1, "AbstractCharClass$LazyJavaUpperCase$1", 2, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_AbstractCharClass$LazyJavaUpperCase$1_contains)],
     jur_AbstractCharClass$LazyJavaWhitespace$1, "AbstractCharClass$LazyJavaWhitespace$1", 2, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_AbstractCharClass$LazyJavaWhitespace$1_contains)],
@@ -24575,14 +24749,19 @@
     jur_AbstractCharClass$LazyJavaUnicodeIdentifierStart$1, "AbstractCharClass$LazyJavaUnicodeIdentifierStart$1", 2, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_AbstractCharClass$LazyJavaUnicodeIdentifierStart$1_contains)],
     jur_UnicodeCategory, "UnicodeCategory", 2, jur_AbstractCharClass, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_UnicodeCategory_contains)],
     jur_UnicodeCategoryScope, "UnicodeCategoryScope", 2, jur_UnicodeCategory, [], 0, 0, 0, 0, ["$contains1", $rt_wrapFunction1(jur_UnicodeCategoryScope_contains)],
+    otcic_Console, 0, jl_Object, [], 4, 3, 0, 0, 0,
     jur_MatchResultImpl, 0, jl_Object, [jur_MatchResult], 0, 0, 0, 0, 0,
+    jl_AbstractStringBuilder$Constants, 0, jl_Object, [], 0, 0, 0, 0, 0,
+    otcit_FloatAnalyzer$Result, 0, jl_Object, [], 0, 3, 0, 0, 0,
+    jl_Long, 0, jl_Number, [jl_Comparable], 0, 3, 0, 0, 0,
+    otcit_DoubleAnalyzer$Result, 0, jl_Object, [], 0, 3, 0, 0, 0,
     jl_IllegalStateException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
     jnc_CoderMalfunctionError, 0, jl_Error, [], 0, 3, 0, 0, 0,
     jl_UnsupportedOperationException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
     jnci_BufferedEncoder$Controller, 0, jl_Object, [], 0, 3, 0, 0, 0,
-    jn_ReadOnlyBufferException, 0, jl_UnsupportedOperationException, [], 0, 3, 0, 0, 0,
-    jn_BufferOverflowException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0]);
-    $rt_metadata([jn_BufferUnderflowException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
+    jn_ReadOnlyBufferException, 0, jl_UnsupportedOperationException, [], 0, 3, 0, 0, 0]);
+    $rt_metadata([jn_BufferOverflowException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
+    jn_BufferUnderflowException, 0, jl_RuntimeException, [], 0, 3, 0, 0, 0,
     jur_IntArrHash, 0, jl_Object, [], 0, 0, 0, 0, 0]);
     function $rt_array(cls, data) {
         this.$monitor = null;
@@ -24615,20 +24794,20 @@
         }
         return new $rt_array(this.type, dataCopy);
     });
-    $rt_stringPool(["0", "Running Code\n", "run", "$main", "public class Code {", "\tpublic static void main(String[] args) {", "\t}", "}", "", "null", "Patter is null", "String is null", "String is empty", "String contains invalid digits: ", "String contains digits out of radix ", ": ", "The value is too big for int type: ", "Illegal radix: ", "false", "true", "Either src or dest is null", "STRING", "INT", "FLOAT", "BOOLEAN", "Function ", " already exists!", "Float", "Boolean", "String", "Int", "INTLIST", "STRINGLIST",
-    "BOOLEANLIST", "FLOATLIST", "FloatList", "BooleanList", "StringList", "IntList", "\n", "//", " ", "subtract", "divide", "remove", "return", "removeAt", "if", "add", "for", "let", "while", "}else", "multiply", "return.", "removeAll", "function", "Expression: ", "else", "when", "each", "ForCondition: ", ",", ":", "Invalid argument declaration. Full Arg", " Line: ", "equals", "=", "print", "showMessageDialog", "from", "sub", "(", "\\(", "in", "increment", "by", "to", "equal", "Unclosed string at line ", "bool[]",
-    "float[]", "int", "bool", "float", "int[]", "String[]", "public static void ", ", ", ") {", "public static ", " = ", "),", ");", " else {", " else if(", "){", "System.out.println(", "Parsing INT ", "List", "Number or String", "Number or Bool", "Number", " && ", " !", "CastExpr: ", "(float)", "Float.parseFloat(", "(int)", "Integer.parseInt(", "String.valueOf(", "Boolean.parseBoolean(", " / ", " == ", " > ", " >= ", " < ", " <= ", " - ", " * ", " != ", " || ", " + ", ".get(", "new ArrayList<", ">(Arrays.asList(",
-    "import java.util.ArrayList;", "import java.util.Arrays;", "))", ".size()", "Declaration: Type:", " Name: ", " Value:", "ArrayList<", "if(", "while(", "for(String ", " : ", "for(boolean ", "for(int ", "for(float ", "; ", "int ", " = 0;", "for(", " += ", "import javax.swing.JOptionPane;", "JOptionPane.showMessageDialog(null, ", "ShowInputBox", "JOptionPane.showInputDialog(", "LIST: ", "REMOVE FROM: ", "boolean", "FUNCTION", "RETURN", "IF", "CALL", "ELSE", "FOREACH", "FORWHEN", "PRINT", "WHILE", "DECLARATION",
-    "REMOVEAT", "ASSIGNMENT", "REMOVEFROM", "MUTATION", "REMOVEALLFROM", "SHOWMSGBOX", "ELSEIF", "EVAL ELSE IF: ", " PASSED: ", "INTEGER", "LESS_THAN_EQUAL", "EXPRESSION", "LESS_THAN", "ARRAYLENGTH", "VARIABLE", "OR", "AND", "NOT", "BOOL", "CAST", "LIST", "PLUS", "EQUAL", "MINUS", "GREATER_THAN_EQUAL", "LISTVAL", "GREATER_THAN", "NOT_EQUAL", "MULTIPLY", "SHOWINPUTBOX", "DIVIDE", "SUBTRACT", "ADD", "object", "string", "number", "END", "CLASS", "NUMBER", "EXPRESSION: ", "ARRAY ARG EXPR: ", "READING NOT", "showInputDialog",
-    "ORIGINAL EXPR: ", " PARSING(", ")FUNCTION ARG: ", "toString", "CAST TO STRING: ", "toFloat", "toInt", "toBool", "Adding NOT", "call", "not", "greater", "than", "or", "less", "length", "LENGTH NEXT WORD: ", "of", "==", "!=", ">", "<", ">=", "<=", "and", "&&", "||", "+", "-", "times", "*", "/", "Unknown element at line ", " column ", "Unknown statement at line ", "Type mismatch at line ", ": Expected ", ", got ", "Variable ", "Unable to parse ", " to ", " at line ", " not declared at line ", "Can\'t perform mutation on ",
-    "Argument length mismatch at line ", "Argument type mismatch at line ", " not global at line ", "Can\'t perform operation ", " on ", "Index bigger than array length at line ", ": Got:", ", Max: ", "Unclosed parenthesis at line ", "Missing period at end of statement at line ", "Unclosed bracket at line ", "List ", " empty at line ", "Index out of bounds", "Action must be non-null", "Replacement preconditions do not hold", "UTF-8", "EXPRESSION(", "CAST(", ".length", "[", "VAR(", "boolean[]", "NANOSECONDS",
-    "MICROSECONDS", "MILLISECONDS", "SECONDS", "MINUTES", "HOURS", "DAYS", "main", "New position ", " is outside of range [0;", "The last byte in src ", " is outside of array of size ", "Length ", " must be non-negative", "Offset ", "IGNORE", "REPLACE", "REPORT", "Is", "In", "BIG_ENDIAN", "LITTLE_ENDIAN", "Lower", "Upper", "ASCII", "Alpha", "Digit", "Alnum", "Punct", "Graph", "Print", "Blank", "Cntrl", "XDigit", "javaLowerCase", "javaUpperCase", "javaWhitespace", "javaMirrored", "javaDefined", "javaDigit", "javaIdentifierIgnorable",
-    "javaISOControl", "javaJavaIdentifierPart", "javaJavaIdentifierStart", "javaLetter", "javaLetterOrDigit", "javaSpaceChar", "javaTitleCase", "javaUnicodeIdentifierPart", "javaUnicodeIdentifierStart", "Space", "w", "W", "s", "S", "d", "D", "BasicLatin", "Latin-1Supplement", "LatinExtended-A", "LatinExtended-B", "IPAExtensions", "SpacingModifierLetters", "CombiningDiacriticalMarks", "Greek", "Cyrillic", "CyrillicSupplement", "Armenian", "Hebrew", "Arabic", "Syriac", "ArabicSupplement", "Thaana", "Devanagari",
-    "Bengali", "Gurmukhi", "Gujarati", "Oriya", "Tamil", "Telugu", "Kannada", "Malayalam", "Sinhala", "Thai", "Lao", "Tibetan", "Myanmar", "Georgian", "HangulJamo", "Ethiopic", "EthiopicSupplement", "Cherokee", "UnifiedCanadianAboriginalSyllabics", "Ogham", "Runic", "Tagalog", "Hanunoo", "Buhid", "Tagbanwa", "Khmer", "Mongolian", "Limbu", "TaiLe", "NewTaiLue", "KhmerSymbols", "Buginese", "PhoneticExtensions", "PhoneticExtensionsSupplement", "CombiningDiacriticalMarksSupplement", "LatinExtendedAdditional", "GreekExtended",
-    "GeneralPunctuation", "SuperscriptsandSubscripts", "CurrencySymbols", "CombiningMarksforSymbols", "LetterlikeSymbols", "NumberForms", "Arrows", "MathematicalOperators", "MiscellaneousTechnical", "ControlPictures", "OpticalCharacterRecognition", "EnclosedAlphanumerics", "BoxDrawing", "BlockElements", "GeometricShapes", "MiscellaneousSymbols", "Dingbats", "MiscellaneousMathematicalSymbols-A", "SupplementalArrows-A", "BraillePatterns", "SupplementalArrows-B", "MiscellaneousMathematicalSymbols-B", "SupplementalMathematicalOperators",
-    "MiscellaneousSymbolsandArrows", "Glagolitic", "Coptic", "GeorgianSupplement", "Tifinagh", "EthiopicExtended", "SupplementalPunctuation", "CJKRadicalsSupplement", "KangxiRadicals", "IdeographicDescriptionCharacters", "CJKSymbolsandPunctuation", "Hiragana", "Katakana", "Bopomofo", "HangulCompatibilityJamo", "Kanbun", "BopomofoExtended", "CJKStrokes", "KatakanaPhoneticExtensions", "EnclosedCJKLettersandMonths", "CJKCompatibility", "CJKUnifiedIdeographsExtensionA", "YijingHexagramSymbols", "CJKUnifiedIdeographs",
-    "YiSyllables", "YiRadicals", "ModifierToneLetters", "SylotiNagri", "HangulSyllables", "HighSurrogates", "HighPrivateUseSurrogates", "LowSurrogates", "PrivateUseArea", "CJKCompatibilityIdeographs", "AlphabeticPresentationForms", "ArabicPresentationForms-A", "VariationSelectors", "VerticalForms", "CombiningHalfMarks", "CJKCompatibilityForms", "SmallFormVariants", "ArabicPresentationForms-B", "HalfwidthandFullwidthForms", "all", "Specials", "Cn", "IsL", "Lu", "Ll", "Lt", "Lm", "Lo", "IsM", "Mn", "Me", "Mc",
-    "N", "Nd", "Nl", "No", "IsZ", "Zs", "Zl", "Zp", "IsC", "Cc", "Cf", "Co", "Cs", "IsP", "Pd", "Ps", "Pe", "Pc", "Po", "IsS", "Sm", "Sc", "Sk", "So", "Pi", "Pf", "The last char in dst "]);
+    $rt_stringPool(["0", "Running Code\n", "run", "\\.", "$main", "public class ", " {", "\tpublic static void main(String[] args) {", "\t}", "}", "", "null", "Patter is null", "String is null", "String is empty", "String contains invalid digits: ", "String contains digits out of radix ", ": ", "The value is too big for int type: ", "Illegal radix: ", "false", "true", "Either src or dest is null", "STRING", "INT", "FLOAT", "BOOLEAN", "Function ", " already exists!", "Float", "Boolean", "String", "Int", "INTLIST",
+    "STRINGLIST", "BOOLEANLIST", "FLOATLIST", "FloatList", "BooleanList", "StringList", "IntList", "\n", "//", " ", "subtract", "divide", "remove", "return", "removeAt", "if", "add", "for", "let", "while", "}else", "multiply", "return.", "removeAll", "function", "Expression: ", "else", "when", "each", "ForCondition: ", ",", ":", "Invalid argument declaration. Full Arg", " Line: ", "equals", "=", "print", "showMessageDialog", "from", "sub", "(", "\\(", "in", "increment", "by", "to", "equal", "Unclosed string at line ",
+    "bool[]", "float[]", "int", "bool", "float", "int[]", "String[]", "public static void ", ", ", ") {", "public static ", " = ", "),", ");", " else {", " else if(", "){", "System.out.println(", "Parsing INT ", "List", "Number or String", "Number or Bool", "Number", " && ", " !", "CastExpr: ", "(float)", "Float.parseFloat(", "(int)", "Integer.parseInt(", "String.valueOf(", "Boolean.parseBoolean(", " / ", " == ", " > ", " >= ", " < ", " <= ", " - ", " * ", " != ", " || ", " + ", ".get(", "new ArrayList<", ">(Arrays.asList(",
+    "import java.util.ArrayList;", "import java.util.Arrays;", "))", ".size()", "Declaration: Type:", " Name: ", " Value:", "ArrayList<", "if(", "while(", "for(String ", " : ", "for(boolean ", "for(int ", "for(float ", "; ", "int ", " = 0;", "for(", " += ", "import javax.swing.JOptionPane;", "JOptionPane.showMessageDialog(null, ", "ShowInputBox", "JOptionPane.showInputDialog(", "++;", "--;", " -= ", " *= ", " /= ", ".add(", ".remove(", "LIST: ", ".remove(Integer.valueOf(", "));", ".removeAll(Arrays.asList(",
+    "REMOVE FROM: ", "boolean", "FUNCTION", "RETURN", "IF", "CALL", "ELSE", "FOREACH", "FORWHEN", "PRINT", "WHILE", "DECLARATION", "REMOVEAT", "ASSIGNMENT", "REMOVEFROM", "MUTATION", "COMMENT", "REMOVEALLFROM", "SHOWMSGBOX", "ELSEIF", "EVAL ELSE IF: ", " PASSED: ", "INTEGER", "LESS_THAN_EQUAL", "EXPRESSION", "LESS_THAN", "ARRAYLENGTH", "VARIABLE", "OR", "AND", "NOT", "BOOL", "CAST", "LIST", "PLUS", "EQUAL", "MINUS", "GREATER_THAN_EQUAL", "LISTVAL", "GREATER_THAN", "NOT_EQUAL", "MULTIPLY", "SHOWINPUTBOX", "DIVIDE",
+    "SUBTRACT", "ADD", "object", "string", "number", "END", "CLASS", "NUMBER", "EXPRESSION: ", "ARRAY ARG EXPR: ", "READING NOT", "showInputDialog", "ORIGINAL EXPR: ", " PARSING(", ")FUNCTION ARG: ", "toString", "CAST TO STRING: ", "toFloat", "toInt", "toBool", "Adding NOT", "call", "not", "greater", "than", "or", "less", "length", "LENGTH NEXT WORD: ", "of", "==", "!=", ">", "<", ">=", "<=", "and", "&&", "||", "+", "-", "times", "*", "/", "Unknown element at line ", " column ", "Unknown statement at line ",
+    "Type mismatch at line ", ": Expected ", ", got ", "Variable ", "Unable to parse ", " to ", " at line ", " not declared at line ", "Can\'t perform mutation on ", "Argument length mismatch at line ", "Argument type mismatch at line ", " not global at line ", "Can\'t perform operation ", " on ", "Index bigger than array length at line ", ": Got:", ", Max: ", "Unclosed parenthesis at line ", "Missing period at end of statement at line ", "Unclosed bracket at line ", "List ", " empty at line ", "Index out of bounds",
+    "Action must be non-null", "Replacement preconditions do not hold", "UTF-8", "EXPRESSION(", "CAST(", ".length", "[", "Is", "In", "VAR(", "boolean[]", "NANOSECONDS", "MICROSECONDS", "MILLISECONDS", "SECONDS", "MINUTES", "HOURS", "DAYS", "Lower", "Upper", "ASCII", "Alpha", "Digit", "Alnum", "Punct", "Graph", "Print", "Blank", "Cntrl", "XDigit", "javaLowerCase", "javaUpperCase", "javaWhitespace", "javaMirrored", "javaDefined", "javaDigit", "javaIdentifierIgnorable", "javaISOControl", "javaJavaIdentifierPart",
+    "javaJavaIdentifierStart", "javaLetter", "javaLetterOrDigit", "javaSpaceChar", "javaTitleCase", "javaUnicodeIdentifierPart", "javaUnicodeIdentifierStart", "Space", "w", "W", "s", "S", "d", "D", "BasicLatin", "Latin-1Supplement", "LatinExtended-A", "LatinExtended-B", "IPAExtensions", "SpacingModifierLetters", "CombiningDiacriticalMarks", "Greek", "Cyrillic", "CyrillicSupplement", "Armenian", "Hebrew", "Arabic", "Syriac", "ArabicSupplement", "Thaana", "Devanagari", "Bengali", "Gurmukhi", "Gujarati", "Oriya",
+    "Tamil", "Telugu", "Kannada", "Malayalam", "Sinhala", "Thai", "Lao", "Tibetan", "Myanmar", "Georgian", "HangulJamo", "Ethiopic", "EthiopicSupplement", "Cherokee", "UnifiedCanadianAboriginalSyllabics", "Ogham", "Runic", "Tagalog", "Hanunoo", "Buhid", "Tagbanwa", "Khmer", "Mongolian", "Limbu", "TaiLe", "NewTaiLue", "KhmerSymbols", "Buginese", "PhoneticExtensions", "PhoneticExtensionsSupplement", "CombiningDiacriticalMarksSupplement", "LatinExtendedAdditional", "GreekExtended", "GeneralPunctuation", "SuperscriptsandSubscripts",
+    "CurrencySymbols", "CombiningMarksforSymbols", "LetterlikeSymbols", "NumberForms", "Arrows", "MathematicalOperators", "MiscellaneousTechnical", "ControlPictures", "OpticalCharacterRecognition", "EnclosedAlphanumerics", "BoxDrawing", "BlockElements", "GeometricShapes", "MiscellaneousSymbols", "Dingbats", "MiscellaneousMathematicalSymbols-A", "SupplementalArrows-A", "BraillePatterns", "SupplementalArrows-B", "MiscellaneousMathematicalSymbols-B", "SupplementalMathematicalOperators", "MiscellaneousSymbolsandArrows",
+    "Glagolitic", "Coptic", "GeorgianSupplement", "Tifinagh", "EthiopicExtended", "SupplementalPunctuation", "CJKRadicalsSupplement", "KangxiRadicals", "IdeographicDescriptionCharacters", "CJKSymbolsandPunctuation", "Hiragana", "Katakana", "Bopomofo", "HangulCompatibilityJamo", "Kanbun", "BopomofoExtended", "CJKStrokes", "KatakanaPhoneticExtensions", "EnclosedCJKLettersandMonths", "CJKCompatibility", "CJKUnifiedIdeographsExtensionA", "YijingHexagramSymbols", "CJKUnifiedIdeographs", "YiSyllables", "YiRadicals",
+    "ModifierToneLetters", "SylotiNagri", "HangulSyllables", "HighSurrogates", "HighPrivateUseSurrogates", "LowSurrogates", "PrivateUseArea", "CJKCompatibilityIdeographs", "AlphabeticPresentationForms", "ArabicPresentationForms-A", "VariationSelectors", "VerticalForms", "CombiningHalfMarks", "CJKCompatibilityForms", "SmallFormVariants", "ArabicPresentationForms-B", "HalfwidthandFullwidthForms", "all", "Specials", "Cn", "IsL", "Lu", "Ll", "Lt", "Lm", "Lo", "IsM", "Mn", "Me", "Mc", "N", "Nd", "Nl", "No", "IsZ",
+    "Zs", "Zl", "Zp", "IsC", "Cc", "Cf", "Co", "Cs", "IsP", "Pd", "Ps", "Pe", "Pc", "Po", "IsS", "Sm", "Sc", "Sk", "So", "Pi", "Pf", "main", "New position ", " is outside of range [0;", "The last byte in src ", " is outside of array of size ", "Length ", " must be non-negative", "Offset ", "IGNORE", "REPLACE", "REPORT", "BIG_ENDIAN", "LITTLE_ENDIAN", "The last char in dst "]);
     jl_String.prototype.toString = function() {
         return $rt_ustr(this);
     };

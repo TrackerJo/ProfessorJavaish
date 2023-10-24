@@ -7,9 +7,11 @@ import backwardIcon from '../assets/backward_icon.png'
 import backIcon from '../assets/back_icon.png'
 function FilesWindow({handleSelectFile, files, addFile, projName, setProjName, exitProj, canCloudSave, cloudSave}){
     const [mini, setMini] = useState(false)
+            
     useEffect(() => {
         console.log('files changed')
         console.log(files)
+       
     }
     , [files])
     
@@ -20,8 +22,7 @@ function FilesWindow({handleSelectFile, files, addFile, projName, setProjName, e
     async function handleBackButton(){
         setMini(false)
         await exitProj()
-    }
-     
+    } 
     
     return (
         <>

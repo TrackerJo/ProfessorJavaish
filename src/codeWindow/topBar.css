@@ -66,3 +66,16 @@
     
 
 }
+
+.HelpIcon{
+    width: 15px;
+    height: 15px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.TopBarRight{
+    display: flex;
+    align-items: center;
+    
+}

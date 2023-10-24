@@ -5,7 +5,7 @@ import stopIcon from '../assets/stop_icon.png'
 import saveIcon from '../assets/save_icon.png'
 import convertIcon from '../assets/convert_icon.png'
 import account from '../assets/account.png'
-
+import helpIcon from '../assets/help_icon.png'
 import AccountPopup from '../AccountPopup/accountPopup'
 import callMain from '../javaish.mjs'
 
@@ -65,28 +65,28 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         console.log('canSave:', canSave)
        
     
-      }, [canSave])
-    
-      function saveShortcut(){
+    }, [canSave])
+
+    function saveShortcut(){
         document.addEventListener('keydown', (e) => {
-          if(e.metaKey && e.key == "s"){
+            if(e.metaKey && e.key == "s"){
             e.preventDefault()
             console.log('save shortcut')
             if(canSave){
                 handleSaveFile()
             }
-          }
+            }
         }
         )
-      }
+    }
 
-      function handleAccClick() {
-        console.log('Clicked Acc Popup: ' + !showAccPopup)
-        setShowAccPopup(!showAccPopup)
-        
-      }
+    function handleAccClick() {
+    console.log('Clicked Acc Popup: ' + !showAccPopup)
+    setShowAccPopup(!showAccPopup)
+    
+    }
 
-      function handleConvert(){
+    function handleConvert(){
         if(canSave){
             handleSaveFile()
         }
@@ -95,16 +95,21 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         
         setConvertedCode(convertedCode)
         setShowConvertedWindow(true)
-      }
+    }
 
-      function unescapeHTML(escapedHTML) {
+    function unescapeHTML(escapedHTML) {
         return escapedHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
-      }
+    }
 
-      function hideAccPopup(show){
+    function hideAccPopup(show){
         console.log('hide acc popup')
         setShowAccPopup(show)
-        }
+    }
+
+    function showHelp(){
+        let helpWindow = document.querySelector('.CodeWindowHelp')
+        helpWindow.showModal()
+    }
     
     return (
         <>
@@ -118,6 +123,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
                 {selectedFile != "" ? <img src={convertIcon} alt='convert' className='ConvertIcon' onClick={handleConvert}/> : null}
             </div>
             <div className='TopBarRight'>
+                {projName != "" ? <img src={helpIcon} alt="help" className='HelpIcon' onClick={showHelp}/> : null}
                 <div className='AccountDiv'>
                     <img src={account} alt="Account" className='AccountIcon' onClick={handleAccClick}/>
                     {showAccPopup ? <AccountPopup setShowAccPopup={hideAccPopup} loadUser={loadUser}/> : null}

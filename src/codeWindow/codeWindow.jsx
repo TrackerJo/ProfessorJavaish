@@ -6,6 +6,7 @@ import 'highlight.js/styles/atom-one-dark.css';
 import { example } from '../CodeMirror/JavaishLangauge';
 import Editor from '../CodeMirror/JavaishEditor';
 import CodeTopBar from './topbar';
+import CodeWindowHelp from './codeWindowHelp';
 
 function CodeWindow({startingCode, setCanSave, savedCode, run, selectedFile, canSave, projName, setRun, setSavedCode, loadUser, gettingCode, setCanCloudSave, setConvertedCode, setShowConvertedWindow, loadingFiles}){
    const [code, setCode] = useState(startingCode)
@@ -40,6 +41,7 @@ function CodeWindow({startingCode, setCanSave, savedCode, run, selectedFile, can
             
             
         </div>
+        <CodeWindowHelp/>
         </>
     )
 }
