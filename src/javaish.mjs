@@ -6763,32 +6763,23 @@
         a.$globalVariables0 = null;
     }
     function tj_Interpreter_interpretFunction($this, $statements, $args, $params, $name, $isGlobal) {
-        var $localVariables, var$7, var$8, var$9, $i, $val, $arg, $ptr, $tmp;
+        var $localVariables, $i, var$8, $val, $arg, $returnVal, $ptr, $tmp;
         $ptr = 0;
         if ($rt_resuming()) {
             var $thread = $rt_nativeThread();
-            $ptr = $thread.pop();$arg = $thread.pop();$val = $thread.pop();$i = $thread.pop();var$9 = $thread.pop();var$8 = $thread.pop();var$7 = $thread.pop();$localVariables = $thread.pop();$isGlobal = $thread.pop();$name = $thread.pop();$params = $thread.pop();$args = $thread.pop();$statements = $thread.pop();$this = $thread.pop();
+            $ptr = $thread.pop();$returnVal = $thread.pop();$arg = $thread.pop();$val = $thread.pop();var$8 = $thread.pop();$i = $thread.pop();$localVariables = $thread.pop();$isGlobal = $thread.pop();$name = $thread.pop();$params = $thread.pop();$args = $thread.pop();$statements = $thread.pop();$this = $thread.pop();
         }
         main: while (true) { switch ($ptr) {
         case 0:
             a: {
                 $localVariables = tj_Variables__init_();
                 if ($args !== null && $params !== null) {
-                    b: {
-                        $args = $args.data;
-                        $params = $params.data;
-                        var$7 = $args.length;
-                        var$8 = $params.length;
-                        if (var$7 != var$8) {
-                            tj_Error_ArgumentLengthMismatch($name, $this.$lineNumber0, var$7, var$8);
-                            var$9 = 0;
-                            while (true) {
-                                if (var$9 >= var$7)
-                                    break b;
-                                var$9 = var$9 + 1 | 0;
-                            }
-                        }
-                    }
+                    $args = $args.data;
+                    $params = $params.data;
+                    $i = $args.length;
+                    var$8 = $params.length;
+                    if ($i != var$8)
+                        tj_Error_ArgumentLengthMismatch($name, $this.$lineNumber0, $i, var$8);
                     $i = 0;
                     while (true) {
                         if ($i >= var$8)
@@ -6806,14 +6797,17 @@
             }
             $ptr = 1;
         case 1:
-            tj_Interpreter_interpretBody($this, $statements, $localVariables, $isGlobal);
+            $tmp = tj_Interpreter_interpretBody($this, $statements, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
+            $returnVal = $tmp;
+            if ($returnVal !== null)
+                return $returnVal;
             return null;
         default: $rt_invalidPointer();
         }}
-        $rt_nativeThread().push($this, $statements, $args, $params, $name, $isGlobal, $localVariables, var$7, var$8, var$9, $i, $val, $arg, $ptr);
+        $rt_nativeThread().push($this, $statements, $args, $params, $name, $isGlobal, $localVariables, $i, var$8, $val, $arg, $returnVal, $ptr);
     }
     function tj_Interpreter_interpretBody($this, $statements, $funcVariables, $isGlobal) {
         var $pastResult, $localVariables, $returnVal, $statement, $ptr, $tmp;
@@ -6856,108 +6850,108 @@
         $rt_nativeThread().push($this, $statements, $funcVariables, $isGlobal, $pastResult, $localVariables, $returnVal, $statement, $ptr);
     }
     function tj_Interpreter_interpretStmt($this, $stmt, $localVariables, $isGlobal, $pastResult, $returnVal) {
-        var $assignment, var$7, $call, var$9, var$10, var$11, $declaration, $elseifStmt, $mutationStmt, $returnStmt, $function, $ifStmt, $whileStmt, $foreachStmt, $forwhenStmt, $printStmt, $showMsgBoxStmt, $removeAtStmt, $removeFromStmt, $removeAllFromStmt, $ptr, $tmp;
+        var $call, var$7, $assignment, var$9, var$10, var$11, var$12, $declaration, $elseifStmt, $elseStmt, $mutationStmt, $returnStmt, $function, $ifStmt, $whileStmt, $foreachStmt, $forwhenStmt, $printStmt, $showMsgBoxStmt, $removeAtStmt, $removeFromStmt, $removeAllFromStmt, $ptr, $tmp;
         $ptr = 0;
         if ($rt_resuming()) {
             var $thread = $rt_nativeThread();
-            $ptr = $thread.pop();$removeAllFromStmt = $thread.pop();$removeFromStmt = $thread.pop();$removeAtStmt = $thread.pop();$showMsgBoxStmt = $thread.pop();$printStmt = $thread.pop();$forwhenStmt = $thread.pop();$foreachStmt = $thread.pop();$whileStmt = $thread.pop();$ifStmt = $thread.pop();$function = $thread.pop();$returnStmt = $thread.pop();$mutationStmt = $thread.pop();$elseifStmt = $thread.pop();$declaration = $thread.pop();var$11 = $thread.pop();var$10 = $thread.pop();var$9 = $thread.pop();$call
-            = $thread.pop();var$7 = $thread.pop();$assignment = $thread.pop();$returnVal = $thread.pop();$pastResult = $thread.pop();$isGlobal = $thread.pop();$localVariables = $thread.pop();$stmt = $thread.pop();$this = $thread.pop();
+            $ptr = $thread.pop();$removeAllFromStmt = $thread.pop();$removeFromStmt = $thread.pop();$removeAtStmt = $thread.pop();$showMsgBoxStmt = $thread.pop();$printStmt = $thread.pop();$forwhenStmt = $thread.pop();$foreachStmt = $thread.pop();$whileStmt = $thread.pop();$ifStmt = $thread.pop();$function = $thread.pop();$returnStmt = $thread.pop();$mutationStmt = $thread.pop();$elseStmt = $thread.pop();$elseifStmt = $thread.pop();$declaration = $thread.pop();var$12 = $thread.pop();var$11 = $thread.pop();var$10
+            = $thread.pop();var$9 = $thread.pop();$assignment = $thread.pop();var$7 = $thread.pop();$call = $thread.pop();$returnVal = $thread.pop();$pastResult = $thread.pop();$isGlobal = $thread.pop();$localVariables = $thread.pop();$stmt = $thread.pop();$this = $thread.pop();
         }
         main: while (true) { switch ($ptr) {
         case 0:
             a: {
                 $this.$lineNumber0 = $stmt.$getLine();
                 tj_Statements_getTypeT($stmt);
-                $assignment = tj_Statements_getTypeT($stmt);
+                $call = tj_Statements_getTypeT($stmt);
                 var$7 = (-1);
-                switch (jl_String_hashCode($assignment)) {
+                switch (jl_String_hashCode($call)) {
                     case -2131401768:
-                        if (!jl_String_equals($assignment, $rt_s(165)))
+                        if (!jl_String_equals($call, $rt_s(165)))
                             break a;
                         var$7 = 8;
                         break a;
                     case -1881067216:
-                        if (!jl_String_equals($assignment, $rt_s(166)))
+                        if (!jl_String_equals($call, $rt_s(166)))
                             break a;
                         var$7 = 7;
                         break a;
                     case 2333:
-                        if (!jl_String_equals($assignment, $rt_s(167)))
+                        if (!jl_String_equals($call, $rt_s(167)))
                             break a;
                         var$7 = 9;
                         break a;
                     case 2060894:
-                        if (!jl_String_equals($assignment, $rt_s(168)))
+                        if (!jl_String_equals($call, $rt_s(168)))
                             break a;
                         var$7 = 2;
                         break a;
                     case 2131257:
-                        if (!jl_String_equals($assignment, $rt_s(169)))
+                        if (!jl_String_equals($call, $rt_s(169)))
                             break a;
                         var$7 = 4;
                         break a;
                     case 40300074:
-                        if (!jl_String_equals($assignment, $rt_s(170)))
+                        if (!jl_String_equals($call, $rt_s(170)))
                             break a;
                         var$7 = 11;
                         break a;
                     case 40843107:
-                        if (!jl_String_equals($assignment, $rt_s(171)))
+                        if (!jl_String_equals($call, $rt_s(171)))
                             break a;
                         var$7 = 12;
                         break a;
                     case 76397197:
-                        if (!jl_String_equals($assignment, $rt_s(172)))
+                        if (!jl_String_equals($call, $rt_s(172)))
                             break a;
                         var$7 = 13;
                         break a;
                     case 82563857:
-                        if (!jl_String_equals($assignment, $rt_s(173)))
+                        if (!jl_String_equals($call, $rt_s(173)))
                             break a;
                         var$7 = 10;
                         break a;
                     case 124455258:
-                        if (!jl_String_equals($assignment, $rt_s(174)))
+                        if (!jl_String_equals($call, $rt_s(174)))
                             break a;
                         var$7 = 3;
                         break a;
                     case 269804471:
-                        if (!jl_String_equals($assignment, $rt_s(175)))
+                        if (!jl_String_equals($call, $rt_s(175)))
                             break a;
                         var$7 = 15;
                         break a;
                     case 1511355085:
-                        if (!jl_String_equals($assignment, $rt_s(176)))
+                        if (!jl_String_equals($call, $rt_s(176)))
                             break a;
                         var$7 = 1;
                         break a;
                     case 1584208430:
-                        if (!jl_String_equals($assignment, $rt_s(177)))
+                        if (!jl_String_equals($call, $rt_s(177)))
                             break a;
                         var$7 = 16;
                         break a;
                     case 1648263849:
-                        if (!jl_String_equals($assignment, $rt_s(178)))
+                        if (!jl_String_equals($call, $rt_s(178)))
                             break a;
                         var$7 = 6;
                         break a;
                     case 1668381247:
-                        if (!jl_String_equals($assignment, $rt_s(179)))
+                        if (!jl_String_equals($call, $rt_s(179)))
                             break a;
                         var$7 = 0;
                         break a;
                     case 1735465895:
-                        if (!jl_String_equals($assignment, $rt_s(180)))
+                        if (!jl_String_equals($call, $rt_s(180)))
                             break a;
                         var$7 = 17;
                         break a;
                     case 2011295719:
-                        if (!jl_String_equals($assignment, $rt_s(181)))
+                        if (!jl_String_equals($call, $rt_s(181)))
                             break a;
                         var$7 = 14;
                         break a;
                     case 2048140310:
-                        if (!jl_String_equals($assignment, $rt_s(182)))
+                        if (!jl_String_equals($call, $rt_s(182)))
                             break a;
                         var$7 = 5;
                         break a;
@@ -6969,38 +6963,40 @@
                     case 0:
                         break;
                     case 1:
-                        $stmt = $stmt.$value13;
+                        $assignment = $stmt;
+                        $pastResult = $assignment.$name11;
+                        $stmt = $assignment.$value13;
                         $ptr = 1;
                         continue main;
                     case 2:
                         $call = $stmt;
-                        $assignment = $call.$name12;
+                        $pastResult = $call.$name12;
                         var$9 = $call.$params;
                         if (var$9 === null)
                             var$9 = $rt_createArray(tj_Expression, 0);
                         if (var$9.data[0] === null)
                             var$9 = $rt_createArray(tj_Expression, 0);
-                        if (!ju_HashMap_containsKey($this.$globalVariables0.$functions, $assignment))
-                            tj_Error_FunctionNotDeclared($assignment, $this.$lineNumber0);
+                        if (!ju_HashMap_containsKey($this.$globalVariables0.$functions, $pastResult))
+                            tj_Error_FunctionNotDeclared($pastResult, $this.$lineNumber0);
                         else {
-                            var$10 = tj_Variables_getFunctionArgs($this.$globalVariables0, $assignment);
-                            $stmt = tj_Variables_getFunctionBody($this.$globalVariables0, $assignment);
+                            var$10 = tj_Variables_getFunctionArgs($this.$globalVariables0, $pastResult);
+                            $returnVal = tj_Variables_getFunctionBody($this.$globalVariables0, $pastResult);
                             if (var$10 !== null) {
                                 var$9 = var$9.data;
-                                $pastResult = ju_ArrayList__init_();
-                                var$7 = var$9.length;
-                                var$11 = 0;
-                                if (var$11 < var$7) {
-                                    $returnVal = var$9[var$11];
+                                $call = ju_ArrayList__init_();
+                                var$11 = var$9.length;
+                                var$12 = 0;
+                                if (var$12 < var$11) {
+                                    $stmt = var$9[var$12];
                                     $ptr = 19;
                                     continue main;
                                 }
-                                var$9 = ju_AbstractCollection_toArray($pastResult, $rt_createArray(tj_JavaishVal, $pastResult.$size0));
+                                var$9 = ju_AbstractCollection_toArray($call, $rt_createArray(tj_JavaishVal, $call.$size0));
                                 $isGlobal = 0;
                                 $ptr = 18;
                                 continue main;
                             }
-                            tj_Error_FunctionNotDeclared($assignment, $this.$lineNumber0);
+                            tj_Error_FunctionNotDeclared($pastResult, $this.$lineNumber0);
                         }
                         break b;
                     case 3:
@@ -7016,8 +7012,8 @@
                         continue main;
                     case 5:
                         $elseifStmt = $stmt;
-                        $returnVal = $elseifStmt.$condition;
-                        $stmt = $elseifStmt.$body;
+                        $stmt = $elseifStmt.$condition;
+                        $elseStmt = $elseifStmt.$body;
                         $ptr = 3;
                         continue main;
                     case 6:
@@ -7037,18 +7033,18 @@
                         continue main;
                     case 8:
                         $function = $stmt;
-                        $localVariables = $function.$name14;
-                        var$9 = $function.$args0;
-                        $stmt = $function.$body;
+                        $stmt = $function.$name14;
+                        var$10 = $function.$args0;
+                        $pastResult = $function.$body;
                         if (!$isGlobal)
-                            tj_Error_FunctionNotGlobal($localVariables, $this.$lineNumber0);
+                            tj_Error_FunctionNotGlobal($stmt, $this.$lineNumber0);
                         else
-                            tj_Variables_addFunction($this.$globalVariables0, $localVariables, $stmt, var$9, $this.$lineNumber0);
+                            tj_Variables_addFunction($this.$globalVariables0, $stmt, $pastResult, var$10, $this.$lineNumber0);
                         break b;
                     case 9:
                         $ifStmt = $stmt;
-                        $returnVal = $ifStmt.$condition0;
-                        $stmt = $ifStmt.$body;
+                        $stmt = $ifStmt.$condition0;
+                        $returnVal = $ifStmt.$body;
                         $ptr = 5;
                         continue main;
                     case 10:
@@ -7089,10 +7085,15 @@
             }
             return;
         case 1:
-            tj_Interpreter_evalExpression($this, $stmt, $localVariables, $isGlobal);
+            $tmp = tj_Interpreter_evalExpression($this, $stmt, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
+            $stmt = $tmp;
+            if (tj_Variables_isVariable($localVariables, $pastResult))
+                tj_Variables_setVariableValue($localVariables, $pastResult, $stmt, $this.$lineNumber0);
+            else
+                tj_Variables_setVariableValue($this.$globalVariables0, $pastResult, $stmt, $this.$lineNumber0);
             return;
         case 2:
             tj_Interpreter_evalDeclaration($this, $declaration, $localVariables, $isGlobal);
@@ -7101,20 +7102,20 @@
             }
             return;
         case 3:
-            $tmp = tj_Interpreter_evalExpression($this, $returnVal, $localVariables, $isGlobal);
+            $tmp = tj_Interpreter_evalExpression($this, $stmt, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
-            $returnVal = $tmp;
-            $returnVal = $returnVal;
-            $assignment = jl_System_out();
-            $elseifStmt = $returnVal.$value23;
+            $stmt = $tmp;
+            $stmt = $stmt;
+            $returnVal = jl_System_out();
+            $declaration = $stmt.$value23;
             $isGlobal = $pastResult.$pastResult;
             $call = new jl_StringBuilder;
             jl_AbstractStringBuilder__init_($call);
-            jl_StringBuilder_append3(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($call, $rt_s(183)), $elseifStmt), $rt_s(184)), $isGlobal);
-            ji_PrintStream_println($assignment, jl_AbstractStringBuilder_toString($call));
-            if ($pastResult.$pastResult != 1 && $returnVal.$value23.$value24 == 1) {
+            jl_StringBuilder_append3(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($call, $rt_s(183)), $declaration), $rt_s(184)), $isGlobal);
+            ji_PrintStream_println($returnVal, jl_AbstractStringBuilder_toString($call));
+            if ($pastResult.$pastResult != 1 && $stmt.$value23.$value24 == 1) {
                 $pastResult.$pastResult = 1;
                 $isGlobal = 0;
                 $ptr = 17;
@@ -7128,12 +7129,12 @@
             }
             return;
         case 5:
-            $tmp = tj_Interpreter_evalExpression($this, $returnVal, $localVariables, $isGlobal);
+            $tmp = tj_Interpreter_evalExpression($this, $stmt, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
-            $returnVal = $tmp;
-            if ($returnVal.$value23.$value24 != 1) {
+            $stmt = $tmp;
+            if ($stmt.$value23.$value24 != 1) {
                 $pastResult.$pastResult = 0;
                 return;
             }
@@ -7205,42 +7206,42 @@
             $returnVal.$value12 = $stmt;
             return;
         case 16:
-            tj_Interpreter_interpretBody($this, $stmt, $localVariables, $isGlobal);
+            tj_Interpreter_interpretBody($this, $returnVal, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
             return;
         case 17:
-            tj_Interpreter_interpretBody($this, $stmt, $localVariables, $isGlobal);
+            tj_Interpreter_interpretBody($this, $elseStmt, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
             return;
         case 18:
-            tj_Interpreter_interpretFunction($this, $stmt, var$10, var$9, $assignment, $isGlobal);
+            tj_Interpreter_interpretFunction($this, $returnVal, var$10, var$9, $pastResult, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
             return;
         case 19:
-            $tmp = tj_Interpreter_evalExpression($this, $returnVal, $localVariables, $isGlobal);
+            $tmp = tj_Interpreter_evalExpression($this, $stmt, $localVariables, $isGlobal);
             if ($rt_suspending()) {
                 break main;
             }
-            $returnVal = $tmp;
-            ju_ArrayList_add($pastResult, $returnVal);
-            var$11 = var$11 + 1 | 0;
-            if (var$11 < var$7) {
-                $returnVal = var$9[var$11];
+            $stmt = $tmp;
+            ju_ArrayList_add($call, $stmt);
+            var$12 = var$12 + 1 | 0;
+            if (var$12 < var$11) {
+                $stmt = var$9[var$12];
                 continue main;
             }
-            var$9 = ju_AbstractCollection_toArray($pastResult, $rt_createArray(tj_JavaishVal, $pastResult.$size0));
+            var$9 = ju_AbstractCollection_toArray($call, $rt_createArray(tj_JavaishVal, $call.$size0));
             $isGlobal = 0;
             $ptr = 18;
             continue main;
         default: $rt_invalidPointer();
         }}
-        $rt_nativeThread().push($this, $stmt, $localVariables, $isGlobal, $pastResult, $returnVal, $assignment, var$7, $call, var$9, var$10, var$11, $declaration, $elseifStmt, $mutationStmt, $returnStmt, $function, $ifStmt, $whileStmt, $foreachStmt, $forwhenStmt, $printStmt, $showMsgBoxStmt, $removeAtStmt, $removeFromStmt, $removeAllFromStmt, $ptr);
+        $rt_nativeThread().push($this, $stmt, $localVariables, $isGlobal, $pastResult, $returnVal, $call, var$7, $assignment, var$9, var$10, var$11, var$12, $declaration, $elseifStmt, $elseStmt, $mutationStmt, $returnStmt, $function, $ifStmt, $whileStmt, $foreachStmt, $forwhenStmt, $printStmt, $showMsgBoxStmt, $removeAtStmt, $removeFromStmt, $removeAllFromStmt, $ptr);
     }
     function tj_Interpreter_evalExpression($this, $expression, $localVariables, $isGlobal) {
         var $total, $operation, $comparison, $compVal, $isComp, var$9, var$10, var$11, $elmt, $listLength, $result, $bool, $valB, $cast, $floatElmt, $valF, $integer, $valI, $string, $valS, $function, $body, $args, $params, $paramVals, var$29, $param, $paramValsArr, $showInputBox, $listVal, $arrayName, $listL, $length, $resultO, $variable, $list, $type, $listExpressions, $listVals, $val, $listExpression, $intList, $listValI, $intListVal, $floatList, $floatListVal, $stringList, $stringListVal, $booleanList, $booleanListVal,

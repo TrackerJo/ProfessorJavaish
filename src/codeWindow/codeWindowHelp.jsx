@@ -16,7 +16,7 @@ function CodeWindowHelp({}){
     
     return (
         <dialog className='CodeWindowHelp' id='CodeWindowHelp'>
-            <h1>Icons Help</h1>
+            <h1>Help</h1>
             <div className='IconHelp'>
                 <img src={playIcon} alt="play icon" className='PlayIcon'/>
                 <label htmlFor=""> - Runs the code in the file</label>
@@ -37,8 +37,8 @@ function CodeWindowHelp({}){
                 <img src={plusIcon} alt="plus icon" className='PlusIcon'/>
                 <label htmlFor=""> - Adds a file to the project</label>
             </div>
-            
-            
+            <label htmlFor="">Select a file and hit CMD+Delete to delete a file</label>
+            <br />
             <button onClick={handleClose}>Close</button>
         </dialog>
     )

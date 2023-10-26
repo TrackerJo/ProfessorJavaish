@@ -292,7 +292,7 @@ function App() {
     return msgs
   }
 
-  function addFile() {
+  async function addFile() {
     let fileName = prompt("Enter file name:")
 
     if(fileName){
@@ -303,10 +303,28 @@ function App() {
         alert("File already exists")
         return
       }
+     
+
       setSelectedFile(fileName)
       let nFiles = [...files, fileName]
       setFiles(nFiles)
       saveFileLocally(fileName, "")
+      setGettingCode(true)
+     
+      let filePath = projName + "/" + fileName
+      //Check if file exists locally
+      let localProj = localStorage.getItem("projects-" + projName)
+      //console.log(localProj)
+      if(localProj == null || localProj.firebase){
+        let fileTxt = await getFileCode(filePath)
+        setStartingCode(fileTxt)
+        setSavedCode(fileTxt)
+      } else {
+        let fileTxt = readFileTxtLocally(fileName)
+        setStartingCode(fileTxt)
+        setSavedCode(fileTxt)
+      }
+      setGettingCode(false)
       
     }
   }
@@ -581,7 +599,7 @@ function App() {
   return (
     <>
       <div className='Windows'> 
-        <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj} canCloudSave={canCloudSave} cloudSave={syncProj}/>
+        <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj} canCloudSave={canCloudSave} cloudSave={syncProj} selectedFile={selectedFile}/>
         <div className='RightWindows'>
           {showInfoWindow ?  <InfoWindow closeInfoWinow={closeInfoWinow}/> : showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadProjects} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles} showInfoWindow={handleShowInfoWindow}/> : showConvertWindow ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles}/>}
           

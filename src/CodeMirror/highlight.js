@@ -17,7 +17,7 @@ export const highlighting = styleTags({
    
    
    "LetKW": tags.keyword,
-   "Equal": tags.logicOperator,
+   "Declaration/Equal": tags.arithmeticOperator,
    "Condition": tags.operator,
    "IfKW": tags.keyword,
    "OpenBracket": tags.bracket,
@@ -54,9 +54,12 @@ export const highlighting = styleTags({
   "VarName": tags.variableName,
   "FunctionCall/VarName": tags.name,
   "FunctionDeclaration/VarName": tags.name,
+  "FunctionDeclaration/FunctionCall/VarName": tags.name,
   "Arguments/FunctionCall/VarName": tags.name,
-  "FunctionCall/FunctionCall/VarName": tags.name,
+  "FunctionCall": tags.name,
   "Bang": tags.operator,
+  "Assignment/VarName": tags.variableName,
+  
 
 
   

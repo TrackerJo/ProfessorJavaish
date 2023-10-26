@@ -59,6 +59,25 @@ function removeTabs(text){
   return newText
 }
 
+function countTabs(text){
+  let newText = ""
+  let count = 0
+  let readText = false
+  for(let i = 0; i < text.length; i++){
+    console.log(text[i] + " text[i]")
+    if(text[i] == "" && !readText){
+      newText += text[i]
+    }
+    else if(text[i] != " "){
+      newText += text[i]
+      readText = true
+    } else {
+      count++
+    }
+  }
+  return count
+}
+
 function wordsMatch(word, text){
   for (let I = 0; I < word.length; I++) {
     const element = word[I];
@@ -92,6 +111,8 @@ function Completions(context) {
   // console.log(nodeBefore.name + " nodeBefore")
   // console.log(currentNode.name + " currentNode")
   // console.log(firstNode.name + " firstNode")
+  //Get all text before nodeBefore
+  console.log(nodeBefore.name + " nodeBefore")
   if (nodeBefore.name == "LetKW"){
     return DeclarationCompletions(context)
   }
@@ -118,16 +139,17 @@ function KeywordCompletions(context) {
   let wordLength = word.to - word.from
   let nodeBefore = syntaxTree(context.state).resolveInner(context.pos - wordLength, -1)
   let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
-  //Get all text before nodeBefore
   
   //See if made new line
   console.log(textBefore.split("\n") + " Split")
+
   let textBeforeLines = textBefore.split("\n")
   textBefore = textBeforeLines[textBeforeLines.length - 1]
+  console.log(countTabs(textBefore) + " textBeforeTabs")
   console.log(word.to - textBefore.length + " textCBefore " + word.from + " word")
   let tagBefore = /@\w*$/.exec(textBefore)
   return {
-    from: word.to - textBefore.length,
+    from: word.to - textBefore.length + countTabs(textBefore),
     options: KeywordOptions,
     validFor: /^(@\w*)?$/
   }

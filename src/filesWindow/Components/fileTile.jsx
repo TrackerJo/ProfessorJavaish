@@ -1,14 +1,14 @@
 import './fileTile.css'
 
-function FileTile({fileName, handleSelectFile}){
+function FileTile({fileName, handleSelectFile, selectedFile}){
 
     function handleClick(e){
         if(document.querySelector('.selected') != null){
             document.querySelector('.selected').onkeydown = null
-            document.querySelector('.selected').classList.remove('selected')
+            
         }
         
-        e.target.classList.add('selected')
+     
         e.target.addEventListener('keydown', handleKeyClick  )
         handleSelectFile(fileName)
         
@@ -21,7 +21,7 @@ function FileTile({fileName, handleSelectFile}){
           }
     }
     return (
-        <div className='FileTile' onClick={handleClick}>
+        <div className={'FileTile ' + (selectedFile == fileName ? 'selected' : '')} onClick={handleClick}>
             {fileName}
         </div>
     )

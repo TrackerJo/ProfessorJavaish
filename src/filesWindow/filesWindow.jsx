@@ -5,7 +5,7 @@ import FilesTopBar from './topBar'
 import forwardIcon from '../assets/forward_icon.png'
 import backwardIcon from '../assets/backward_icon.png'
 import backIcon from '../assets/back_icon.png'
-function FilesWindow({handleSelectFile, files, addFile, projName, setProjName, exitProj, canCloudSave, cloudSave}){
+function FilesWindow({handleSelectFile, files, addFile, projName, setProjName, exitProj, canCloudSave, cloudSave, selectedFile}){
     const [mini, setMini] = useState(false)
             
     useEffect(() => {
@@ -38,7 +38,7 @@ function FilesWindow({handleSelectFile, files, addFile, projName, setProjName, e
                 <div className='Files'>
                     {files.map((file, index) => {
                         return (
-                        <FileTile fileName={file} key={index} handleSelectFile={handleSelectFile}/>
+                        <FileTile fileName={file} key={index} handleSelectFile={handleSelectFile} selectedFile={selectedFile}/>
                         )
                     })}
                 </div>
