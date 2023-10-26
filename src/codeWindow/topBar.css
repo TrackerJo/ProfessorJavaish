@@ -74,6 +74,13 @@
     cursor: pointer;
 }
 
+.DicIcon{
+    width: 16px;
+    height: 18px;
+    margin: 0 0px;
+    cursor: pointer;
+}
+
 .TopBarRight{
     display: flex;
     align-items: center;

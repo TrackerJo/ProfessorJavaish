@@ -1,0 +1,56 @@
+.DicWindow{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #21252b;
+    cursor: text;
+    flex-direction: column;
+    overflow: scroll;
+    
+}
+
+.CodeArea{
+    width: 100%;
+    /*Remove all styling*/
+    border: none;
+    outline: none;
+    resize: none;
+    background-color: #21252b;
+    font-size: small;
+    text-wrap: nowrap;
+
+   
+   
+}
+
+.Code{
+    width: 100%;
+    display: flex;
+    overflow: scroll;
+}
+
+.Line{
+    font-size: small;
+    margin: 0;
+    color: #4a5162;
+}
+
+.Lines{
+    width: 2%;
+    height: 100%;
+    /* Make text start from right */
+    text-align: right;
+    padding-right: 5px;
+}
+
+.Code {
+    display: none;
+}
+
+.DicColumn{
+    display: flex;
+    flex-direction: column;
+    width: 30em;
+    height: 100%;
+
+}

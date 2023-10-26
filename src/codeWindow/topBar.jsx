@@ -8,11 +8,11 @@ import account from '../assets/account.png'
 import helpIcon from '../assets/help_icon.png'
 import AccountPopup from '../AccountPopup/accountPopup'
 import callMain from '../javaish.mjs'
+import dicIcon from '../assets/dic_icon.png'
 
 
 
-
-function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave, setConvertedCode, setShowConvertedWindow}){
+function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave, setConvertedCode, setShowConvertedWindow, showDicWindow, setShowDicWindow}){
     const [showAccPopup, setShowAccPopup] = useState(false)
     
    
@@ -81,8 +81,8 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
     }
 
     function handleAccClick() {
-    console.log('Clicked Acc Popup: ' + !showAccPopup)
-    setShowAccPopup(!showAccPopup)
+        console.log('Clicked Acc Popup: ' + !showAccPopup)
+        setShowAccPopup(!showAccPopup)
     
     }
 
@@ -111,6 +111,10 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         helpWindow.showModal()
     }
     
+    function handleDicClick(){
+        setShowDicWindow(!showDicWindow)
+    }
+
     return (
         <>
         
@@ -121,6 +125,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
                 
                 {selectedFile != "" ? <p className='FileName'>Editting: {selectedFile}</p> : null}
                 {selectedFile != "" ? <img src={convertIcon} alt='convert' className='ConvertIcon' onClick={handleConvert}/> : null}
+                {selectedFile != "" ? <img src={dicIcon} alt='dictionary' className='DicIcon' onClick={handleDicClick}/> : null}
             </div>
             <div className='TopBarRight'>
                 {projName != "" ? <img src={helpIcon} alt="help" className='HelpIcon' onClick={showHelp}/> : null}

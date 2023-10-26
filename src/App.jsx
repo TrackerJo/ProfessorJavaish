@@ -14,6 +14,7 @@ import { isLoggedIn } from './firebase/auth'
 import { getFileCode, setFileCode } from './firebase/storage'
 import ConvertWindow from './convertWindow/convertWindow'
 import InfoWindow from './infoWindow/infoWindow'
+import DicWindow from './dictionaryWindow/dicWindow'
 
 
 
@@ -38,6 +39,7 @@ function App() {
   const [showConvertWindow, setShowConvertWindow] = useState(false)
   const [loadingFiles, setLoadingFiles] = useState(false)
   const [showInfoWindow, setShowInfoWindow] = useState(false)
+  const [showDicWindow, setShowDicWindow] = useState(false)
 
   useEffect(() => {
    
@@ -596,15 +598,23 @@ function App() {
     setShowInfoWindow(true)
   }
 
+  function handleCloseDicWindow(){
+    setShowDicWindow(false)
+  }
+
   return (
     <>
       <div className='Windows'> 
         <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj} canCloudSave={canCloudSave} cloudSave={syncProj} selectedFile={selectedFile}/>
-        <div className='RightWindows'>
-          {showInfoWindow ?  <InfoWindow closeInfoWinow={closeInfoWinow}/> : showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadProjects} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles} showInfoWindow={handleShowInfoWindow}/> : showConvertWindow ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles}/>}
-          
-          {!showWelcome && !showConvertWindow ? <ConsoleWindow consoleMsgs={consoleMsgs}/> : null}
+        <div className='ColumnWindows'>
+          <div className='RightWindows'>
+            {showInfoWindow ?  <InfoWindow closeInfoWinow={closeInfoWinow}/> : showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadProjects} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles} showInfoWindow={handleShowInfoWindow}/> : showConvertWindow ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles} showDicWindow={showDicWindow} setShowDicWindow={setShowDicWindow}/>}
+            
+            {!showWelcome && !showConvertWindow ? <ConsoleWindow consoleMsgs={consoleMsgs}/> : null}
+          </div>
+          {showDicWindow ? <DicWindow closeDicWindow={handleCloseDicWindow}/> : null}
         </div>
+        
          
       </div>
       

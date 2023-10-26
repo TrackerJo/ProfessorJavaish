@@ -8,7 +8,7 @@ import Editor from '../CodeMirror/JavaishEditor';
 import CodeTopBar from './topbar';
 import CodeWindowHelp from './codeWindowHelp';
 
-function CodeWindow({startingCode, setCanSave, savedCode, run, selectedFile, canSave, projName, setRun, setSavedCode, loadUser, gettingCode, setCanCloudSave, setConvertedCode, setShowConvertedWindow, loadingFiles}){
+function CodeWindow({startingCode, setCanSave, savedCode, run, selectedFile, canSave, projName, setRun, setSavedCode, loadUser, gettingCode, setCanCloudSave, setConvertedCode, setShowConvertedWindow, loadingFiles,showDicWindow, setShowDicWindow}){
    const [code, setCode] = useState(startingCode)
 
     useEffect(() => {
@@ -32,7 +32,7 @@ function CodeWindow({startingCode, setCanSave, savedCode, run, selectedFile, can
     
     return (
         <>
-        <CodeTopBar projName={projName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={code} loadUser={loadUser} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertedWindow}/>
+        <CodeTopBar projName={projName} selectedFile={selectedFile} canSave={canSave} setCanSave={setCanSave} run={run} setRun={setRun} setSavedCode={setSavedCode} currentCode={code} loadUser={loadUser} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertedWindow} showDicWindow={showDicWindow} setShowDicWindow={setShowDicWindow}/>
         <div className='CodeWindow'>
                 
                 {gettingCode ? <p>Getting code...</p> : loadingFiles ? <p>Loading Files...</p> : selectedFile != "" ? <Editor startingCode={startingCode} codeChanged={codeChanged} savedCode={savedCode} canEdit={!run}/> : <p>Please select a file to edit</p>}

@@ -3,38 +3,45 @@
     align-items: center;
 }
 
-.PlayIcon{
+.PlayIconHelp{
     width: 15px;
     height: 15px;
     margin: 0 10px;
-    cursor: pointer;
+    cursor: default;
 }
 
-.ConvertIcon{
+.ConvertIconHelp{
     width: 15px;
     height: 15px;
     margin: 0 10px;
-    cursor: pointer;
+    cursor: default;
 }
 
-.SaveIcon{
+.SaveIconHelp{
     width: 15px;
     height: 15px;
     margin: 0 10px;
-    cursor: pointer;
+    cursor: default;
     color: white;
 }
 
-.CloudSaveIcon{
+.CloudSaveIconHelp{
     width: 20px;
     height: 20px;
     margin: 0 10px;
-    cursor: pointer;
+    cursor: default;
 }
 
-.PlusIcon{
+.PlusIconHelp{
     width: 15px;
     height: 15px;
     margin: 0 10px;
-    cursor: pointer;
+    cursor: default;
+}
+
+.DicIconHelp{
+    width: 15px;
+    height: 15px;
+    margin: 0 10px;
+    cursor: default;
 }
