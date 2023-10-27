@@ -10,3 +10,6 @@ Highlighted code to make code prettier and easier to read
 
 #### Code autocomplete
 Some basic autocomplete for keywords and data types to make coding faster
+
+#### Javaish Dictionary
+All you need to learn the syntax for javaish
