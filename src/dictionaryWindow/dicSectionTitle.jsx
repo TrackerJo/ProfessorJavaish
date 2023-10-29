@@ -18,9 +18,9 @@ function DicSectionTitle({connectedSection, sectionTitle}){
     }
     
     return (
-        <div className='DicSectionTitle'>
+        <div className='DicSectionTitle' onClick={handleClick}>
             <h1>{sectionTitle}</h1>
-            <img src={open ? minusIcon : plusIcon} alt="open" className={open ? 'CloseIcon' : 'OpenIcon'} onClick={handleClick}/>
+            <img src={open ? minusIcon : plusIcon} alt="open" className={open ? 'CloseIcon' : 'OpenIcon'} />
         </div>
     )
 }

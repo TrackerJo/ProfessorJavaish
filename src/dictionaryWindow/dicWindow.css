@@ -70,6 +70,7 @@ code{
     align-items: center;
     border: #333a44 solid 1px;
     width: 90%;
+    cursor: pointer;
   
 }
 
