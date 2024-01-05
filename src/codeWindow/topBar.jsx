@@ -7,7 +7,7 @@ import convertIcon from '../assets/convert_icon.png'
 import account from '../assets/account.png'
 import helpIcon from '../assets/help_icon.png'
 import AccountPopup from '../AccountPopup/accountPopup'
-import callMain from '../javaish.mjs'
+// import { callMain } from '../javaish.mjs'
 import dicIcon from '../assets/dic_icon.png'
 
 
@@ -27,8 +27,9 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         document.querySelector('.ConsoleArea').innerHTML = ""
         //Wait 1 second for the server to start
         document.getElementById("root").classList.add("run")
-       callMain(true)
-       document.getElementById("root").classList.remove("run")
+        // callMain(true)
+        main()
+        document.getElementById("root").classList.remove("run")
        
        
         
@@ -90,7 +91,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         if(canSave){
             handleSaveFile()
         }
-        callMain(true)
+        main(true)
         let convertedCode = document.querySelector('.ConvertedCode').textContent
         
         setConvertedCode(convertedCode)
@@ -123,7 +124,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
                 { selectedFile != "" ? <img src={run ? stopIcon : playIcon} alt="run" className={run ? 'StopIcon' : 'RunIcon'} onClick={handleRun}/> : null}
                 {canSave ? <img src={saveIcon} alt="save" className='SaveIcon' onClick={handleSaveFile}/> : null}
                 
-                {selectedFile != "" ? <p className='FileName'>Editting: {selectedFile}</p> : null}
+                {selectedFile != "" ? <p className='FileName'>Editing: {selectedFile}</p> : null}
                 {selectedFile != "" ? <img src={convertIcon} alt='convert' className='ConvertIcon' onClick={handleConvert}/> : null}
                 {selectedFile != "" ? <img src={dicIcon} alt='dictionary' className='DicIcon' onClick={handleDicClick}/> : null}
             </div>

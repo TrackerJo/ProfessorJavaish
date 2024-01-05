@@ -1,13 +1,19 @@
 "use strict";
+// const log = (msg) => console.log(msg);
 (function(root, module) {
+    // console.log("loading")
+    // module(window, window);
     module(root, root);
     // if (typeof define === 'function' && define.amd) {
+    //     console.log("define")
     //     define(['exports'], function(exports)  {
     //         module(root, exports);
     //     });
     // } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
+    //     console.log("export")
     //     module(global, exports);
     // } else {
+    //     console.log("other")
     //     module(root, root);
     // }
 }(typeof self !== 'undefined' ? self : this, function($rt_globals, $rt_exports) {
@@ -887,6 +893,7 @@
         if (str === null) {
             return null;
         }
+        console.log({str})
         var data = str.$characters.data;
         var result = "";
         for (var i = 0; i < data.length; i = (i + 1) | 0) {
@@ -1014,7 +1021,8 @@
             jnc_CoderResult__clinit_();
             jl_AbstractStringBuilder$Constants__clinit_();
             jl_Long__clinit_();
-            $rt_globals.console.log("Running Code");
+            $args = $args.data;
+            t_Client_onLoad$js_body$_3();
             $body = $rt_globals.window.document.body;
             $root = $body.querySelector("#root");
             $code = $rt_str($body.querySelector(".Code").textContent);
@@ -1022,6 +1030,7 @@
             jl_AbstractStringBuilder__init_($CodeArea);
             jl_StringBuilder_append(jl_StringBuilder_append($CodeArea, $rt_s(1)), $code);
             $rt_globals.console.log($rt_ustr(jl_AbstractStringBuilder_toString($CodeArea)));
+            $rt_globals.console.log($rt_ustr($args[0]));
             if (!jl_String_contains($rt_str($root.className), $rt_s(2))) {
                 $projName = $rt_str($body.querySelector(".FileTile.selected").textContent);
                 $rt_globals.console.log($rt_ustr((jl_String_split($projName, $rt_s(3))).data[0]));
@@ -1046,10 +1055,10 @@
                     ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
                 }
                 $root = $projName.$projName;
-                $code = new jl_StringBuilder;
-                jl_AbstractStringBuilder__init_($code);
-                jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($code, $rt_s(5)), $root), $rt_s(6));
-                ju_ArrayList_add($CodeArea, jl_AbstractStringBuilder_toString($code));
+                $result = new jl_StringBuilder;
+                jl_AbstractStringBuilder__init_($result);
+                jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder_append($result, $rt_s(5)), $root), $rt_s(6));
+                ju_ArrayList_add($CodeArea, jl_AbstractStringBuilder_toString($result));
                 $root = ju_AbstractList_iterator($projName.$publicVarDeclarations);
                 while (ju_AbstractList$1_hasNext($root)) {
                     ju_ArrayList_add($CodeArea, ju_AbstractList$1_next($root));
@@ -1102,6 +1111,11 @@
         default: $rt_invalidPointer();
         }}
         $rt_nativeThread().push($args, $body, $root, $code, $CodeArea, $projName, $result, var$8, $ptr);
+    }
+    function t_Client_onLoad$js_body$_3() {
+        $rt_globals.document.addEventListener("DOMContentLoaded", function() {
+            $rt_globals.console.log("DOM loaded");
+        });
     }
     var jlr_AnnotatedElement = $rt_classWithoutFields(0);
     var jlr_Type = $rt_classWithoutFields(0);
@@ -25537,7 +25551,12 @@
         throw new $rt_globals.Error("Invalid recorded state");
     }
     $rt_exports.main = $rt_mainStarter(t_Client_main);
+    // window.main = $rt_mainStarter(t_Client_main);
     $rt_exports.main.javaException = $rt_javaException;
+    // window.main.javaException = $rt_javaException;
+    // log("loaded");
+    // log($rt_exports);
+    // log($rt_exports.main);
     (function() {
         var c;
         c = otjb_Window.prototype;

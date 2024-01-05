@@ -7,7 +7,7 @@ import editIcon from '../assets/edit_icon.png'
 import saveIcon from '../assets/save_icon.png'
 import backIcon from '../assets/back_icon.png'
 import account from '../assets/account.png'
-import callMain from '../javaish.mjs'
+
 
 
 
@@ -28,7 +28,7 @@ function TopBar({addFile, projName, setProjName, selectedFile, canSave, setCanSa
         //Wait 1 second for the server to start
         setTimeout(() => {
 
-            callMain();
+            main();
             //setRun(false)
         }, 50)
 

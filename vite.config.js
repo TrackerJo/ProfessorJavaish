@@ -17,7 +17,7 @@ const outDir = resolve(__dirname, 'dist')
 export default defineConfig({
   root,
   plugins: [react()],
-  
+  // minify: false,
   base: '/ProfessorJava/',
   build: {
     outDir,
