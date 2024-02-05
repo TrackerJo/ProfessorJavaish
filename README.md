@@ -1,4 +1,4 @@
-# ProfessorJava
+# ProfessorJavaish
 Custom IDE for my language Javaish (https://github.com/TrackerJo/Javaish). Made to look like VS Code but simpler. Beginner IDE to introduce people to what coding is like.
 ## Features
 
