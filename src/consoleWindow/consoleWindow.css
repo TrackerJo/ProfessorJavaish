@@ -7,4 +7,9 @@
 
 .ConsoleArea{
     overflow: scroll;
+    height: 80%;
+}
+
+.Console{
+    height: 100%;
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+
 import './codeWindowHelp.css'
 import playIcon from '../assets/play_icon.png'
 import saveIcon from '../assets/save_icon.png'
@@ -8,7 +8,7 @@ import plusIcon from '../assets/add_icon.png'
 import dicIcon from '../assets/dic_icon.png'
 
 
-function CodeWindowHelp({}){
+function CodeWindowHelp(){
    function handleClose(){
         document.getElementById('CodeWindowHelp').close()
    }

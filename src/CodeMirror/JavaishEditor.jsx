@@ -86,8 +86,7 @@ function Editor({startingCode, codeChanged, savedCode, canEdit})  {
     }, [syncVal])
 
     //Disable editting
-  
-   
+ 
 
     return <div ref={editor} className='CodeEditor'></div>;
   }

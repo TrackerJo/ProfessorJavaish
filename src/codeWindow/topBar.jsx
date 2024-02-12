@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './topBar.css'
 import playIcon from '../assets/play_icon.png'
 import stopIcon from '../assets/stop_icon.png'
@@ -9,11 +9,14 @@ import helpIcon from '../assets/help_icon.png'
 import AccountPopup from '../AccountPopup/accountPopup'
 // import { callMain } from '../javaish.mjs'
 import dicIcon from '../assets/dic_icon.png'
+import debugIcon from '../assets/debug_icon.png'
 
 
 
-function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave, setConvertedCode, setShowConvertedWindow, showDicWindow, setShowDicWindow}){
+function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave, setConvertedCode, setShowConvertedWindow, showDicWindow, setShowDicWindow, setIsDebugging}){
     const [showAccPopup, setShowAccPopup] = useState(false)
+    const convertToDialogRef = useRef()
+    const [convertType, setConvertType] = useState("java")
     
    
     
@@ -87,15 +90,30 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
     
     }
 
-    function handleConvert(){
+    function handleConvert(type){
         if(canSave){
             handleSaveFile()
         }
+        document.getElementById("root").classList.add("convert-" + type)
+        
         main(true)
+        document.getElementById("root").classList.remove("convert-" + type)
+
         let convertedCode = document.querySelector('.ConvertedCode').textContent
         
         setConvertedCode(convertedCode)
-        setShowConvertedWindow(true)
+
+        setShowConvertedWindow(type)
+    }
+
+    function handleDebug(){
+        if(canSave){
+            handleSaveFile()
+        }
+        document.querySelector('.ConsoleArea').innerHTML = ""
+        setIsDebugging(true)
+       
+
     }
 
     function unescapeHTML(escapedHTML) {
@@ -119,23 +137,37 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
     return (
         <>
         
-        <div className='CodeTopBar'>
-            <div className='CodeBarLeft'>
-                { selectedFile != "" ? <img src={run ? stopIcon : playIcon} alt="run" className={run ? 'StopIcon' : 'RunIcon'} onClick={handleRun}/> : null}
-                {canSave ? <img src={saveIcon} alt="save" className='SaveIcon' onClick={handleSaveFile}/> : null}
-                
-                {selectedFile != "" ? <p className='FileName'>Editing: {selectedFile}</p> : null}
-                {selectedFile != "" ? <img src={convertIcon} alt='convert' className='ConvertIcon' onClick={handleConvert}/> : null}
-                {selectedFile != "" ? <img src={dicIcon} alt='dictionary' className='DicIcon' onClick={handleDicClick}/> : null}
-            </div>
-            <div className='TopBarRight'>
-                {projName != "" ? <img src={helpIcon} alt="help" className='HelpIcon' onClick={showHelp}/> : null}
-                <div className='AccountDiv'>
-                    <img src={account} alt="Account" className='AccountIcon' onClick={handleAccClick}/>
-                    {showAccPopup ? <AccountPopup setShowAccPopup={hideAccPopup} loadUser={loadUser}/> : null}
+            <div className='CodeTopBar'>
+                <div className='CodeBarLeft'>
+                    { selectedFile != "" ? <img src={run ? stopIcon : playIcon} alt="run" className={run ? 'StopIcon' : 'RunIcon'} onClick={handleRun}/> : null}
+                    {canSave ? <img src={saveIcon} alt="save" className='SaveIcon' onClick={handleSaveFile}/> : null}
+                    
+                    {selectedFile != "" ? <p className='FileName'>Editing: {selectedFile}</p> : null}
+                    {selectedFile != "" ? <img src={convertIcon} alt='convert' className='ConvertIcon' onClick={() => convertToDialogRef.current.show()}/> : null}
+                    {selectedFile != "" ? <img src={debugIcon} alt='debug' className='DebugIcon' onClick={handleDebug}/> : null}
+
+                    {selectedFile != "" ? <img src={dicIcon} alt='dictionary' className='DicIcon' onClick={handleDicClick}/> : null}
+                    
+                </div>
+                <div className='TopBarRight'>
+                    {projName != "" ? <img src={helpIcon} alt="help" className='HelpIcon' onClick={showHelp}/> : null}
+                    <div className='AccountDiv'>
+                        <img src={account} alt="Account" className='AccountIcon' onClick={handleAccClick}/>
+                        {showAccPopup ? <AccountPopup setShowAccPopup={hideAccPopup} loadUser={loadUser}/> : null}
+                    </div>
                 </div>
             </div>
-        </div>
+            <dialog className='ConvertToDialog' ref={convertToDialogRef}>
+                <p className='ConvertToTitle'>Convert to:</p>
+                <div className='ConvertToOptions'>
+                    <button className='ConvertToOption' onClick={() => { convertToDialogRef.current.close(); handleConvert("java")}}>Java</button>
+                    <br />
+                    <br />
+                    <button className='ConvertToOption' onClick={() => {convertToDialogRef.current.close(); handleConvert("python")}}>Python</button>
+                    
+                </div>
+            </dialog>
+
         </>
     )
 }

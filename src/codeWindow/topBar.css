@@ -34,6 +34,14 @@
     color: white;
 }
 
+.DebugIcon{
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    color: white;
+}
+
 .FileName{
     font-size: 10px;
 }
@@ -85,4 +93,34 @@
     display: flex;
     align-items: center;
     
+}
+
+.ConvertToDialog{
+
+    position: absolute;
+    width: 200px;
+    /* Center */
+     top: 30%;
+
+    /* transform: translate(-50%, -50%); */
+
+    z-index: 100;
+    border: 1px solid black;
+}
+
+.ConvertToOptions{
+    padding: 10px;
+    cursor: pointer;
+    background-color: #282c34;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.ConvertToTitle{
+    font-size: 20px;
+    margin: 0;
+
 }

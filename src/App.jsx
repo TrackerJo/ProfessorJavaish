@@ -1,20 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import './App.css'
 
 import FilesWindow from './filesWindow/filesWindow'
 import CodeWindow from './codeWindow/codeWindow'
-import TopBar from './topBar/topBar'
-import ConsoleWindow from './consoleWindow/consoleWindow'
 
-import SelectProject from './SelectProject/SelectProject'
+import ConsoleWindow from './consoleWindow/consoleWindow'
 import WelcomeWindow from './welcomeWindow/welcomeWindow'
-import { createProject, createUserData, getUserProject, getUserProjects, updateProjFiles } from './firebase/database'
+import { createProject, getUserProject, getUserProjects, updateProjFiles } from './firebase/database'
 import { isLoggedIn } from './firebase/auth'
 import { getFileCode, setFileCode } from './firebase/storage'
 import ConvertWindow from './convertWindow/convertWindow'
 import InfoWindow from './infoWindow/infoWindow'
 import DicWindow from './dictionaryWindow/dicWindow'
+import DebugWindow from './debugWindow/debugWindow'
 
 
 
@@ -22,24 +21,25 @@ function App() {
   const [selectedFile, setSelectedFile] = useState("")
   const [projName, setProjName] = useState("")
   const [files, setFiles] = useState([])
-  const [fileTxt, setFileTxt] = useState("")
+
   const [canSave, setCanSave] = useState(false)
   const [startingCode, setStartingCode] = useState("")
   const [run, setRun] = useState(false)
   const [consoleMsgs, setConsoleMsgs] = useState([])
-  const [alertMsg, setAlertMsg] = useState("")
-  const [alertOpen, setAlertOpen] = useState(false)
+
+
   const [savedCode, setSavedCode] = useState("")
   const [showWelcome, setShowWelcome] = useState(true)
   const [projects, setProjects] = useState([])
-  const [loadedProjs, setLoadedProjs] = useState(false)
   const [gettingCode, setGettingCode] = useState(false)
   const [canCloudSave, setCanCloudSave] = useState(false)
   const [convertedCode, setConvertedCode] = useState("")
-  const [showConvertWindow, setShowConvertWindow] = useState(false)
+  const [showConvertWindow, setShowConvertWindow] = useState("")
   const [loadingFiles, setLoadingFiles] = useState(false)
   const [showInfoWindow, setShowInfoWindow] = useState(false)
   const [showDicWindow, setShowDicWindow] = useState(false)
+  const [isDebugging, setIsDebugging] = useState(false)
+  const notLoggedInRef = useRef()
 
   useEffect(() => {
    
@@ -77,7 +77,6 @@ function App() {
       //console.log(sProjects)
       //console.log(projects)
       setProjects([...fbProjects, ...sProjects])
-      let newProj = [...fbProjects, ...sProjects]
       //console.log(newProj)
 
       
@@ -106,7 +105,7 @@ function App() {
       //console.log(JSON.stringify(project))
       localStorage.setItem("projects-" + selectedProj, JSON.stringify(project))
     } else if(localProj.firebase){
-      alert("You are not logged in. Please log in to access your cloud projects")
+      notLoggedInRef.current.showModal()
     }
     
           
@@ -155,20 +154,6 @@ function App() {
      
     
   }
-    
-  
-
-  function closeAlert(){
-    let alert = document.querySelector('.Alert')
-    alert.close("animalNotChosen")
-    setAlertMsg("")
-    setAlertOpen(false)
-  }
-
-  function hasClosedAlert(){
-    return !alertOpen ? 1 : 0
-  }
-  window.hasClosedAlert = hasClosedAlert;
 
   async function addConsoleLog(message){
    //console.log("Adding console log - " + message)
@@ -192,7 +177,10 @@ function App() {
     consoleMsgLine.innerHTML = "Line: " + message[1]
     //console.log("Adding click event")
     consoleMsgLine.onclick = () => {
+      
+      // alert("Click")
       let code = document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content')
+      code.scrollTo({top: 100, behavior: 'smooth'});
       //console.log("CLICK")
       let lines = code.children
       //console.log(lines)
@@ -201,6 +189,8 @@ function App() {
         //console.log(i + 1 == parseInt(message[1]))
        if(i + 1 == parseInt(message[1])){
           //console.log("Scrolling to line " + i)
+
+          // scrollToElm(code, lines[i], 1000)
           lines[i].scrollIntoView()
           
           document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content .cm-activeLine').classList.remove('cm-activeLine')
@@ -220,6 +210,9 @@ function App() {
     await setConsoleMsgs(nConsoleMsgs)
   }
   window.addConsoleLog = addConsoleLog;
+
+ 
+      
 
   async function addConsoleError(message){
     //console.log("Adding console log - " + message)
@@ -242,6 +235,7 @@ function App() {
     consoleMsgLine.className = 'ConsoleMsgLine'
     consoleMsgLine.innerHTML = "Line: " + message[1]
     consoleMsgLine.onclick = () => {
+      alert("Click")
       let code = document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content')
       //console.log("CLICK")
       let lines = code.children
@@ -605,15 +599,19 @@ function App() {
   return (
     <>
       <div className='Windows'> 
-        <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj} canCloudSave={canCloudSave} cloudSave={syncProj} selectedFile={selectedFile}/>
-        <div className='ColumnWindows'>
+      {isDebugging ? <DebugWindow setIsDebugging={setIsDebugging}/> : <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj} canCloudSave={canCloudSave} cloudSave={syncProj} selectedFile={selectedFile}/>}        
+      <div className='ColumnWindows'>
           <div className='RightWindows'>
-            {showInfoWindow ?  <InfoWindow closeInfoWinow={closeInfoWinow}/> : showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadProjects} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles} showInfoWindow={handleShowInfoWindow}/> : showConvertWindow ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow}/> : <CodeWindow projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles} showDicWindow={showDicWindow} setShowDicWindow={setShowDicWindow}/>}
+            {showInfoWindow ?  <InfoWindow closeInfoWinow={closeInfoWinow}/> : showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadProjects} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles} showInfoWindow={handleShowInfoWindow}/> : showConvertWindow == "java" || showConvertWindow == "python" ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow} convertType={showConvertWindow}/> : <CodeWindow setIsDebugging={setIsDebugging}  projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles} showDicWindow={showDicWindow} setShowDicWindow={setShowDicWindow}/>}
             
             {!showWelcome && !showConvertWindow ? <ConsoleWindow consoleMsgs={consoleMsgs}/> : null}
           </div>
           {showDicWindow ? <DicWindow closeDicWindow={handleCloseDicWindow}/> : null}
         </div>
+        <dialog className="Alert" ref={notLoggedInRef}>
+          <p>You are not logged in. Please log in to access your cloud projects</p>
+          <button onClick={() => {notLoggedInRef.current.close()}}>Close</button>
+        </dialog>
         
          
       </div>

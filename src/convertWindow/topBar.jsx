@@ -25,7 +25,7 @@ function ConvertTopBar({closeConvertCodeWindow, code}){
             <div className='ConvertBarLeft'>
                <img src={backIcon} alt="back" onClick={handleBack} className='BackIcon'/>
                <img src={copyIcon} alt="copy" onClick={handleCopy} className='CopyIcon'/>
-               <label htmlFor="">Java Code</label>
+               <label htmlFor="">Converted Code</label>
             </div>
             
         </div>

@@ -18,7 +18,7 @@ export default defineConfig({
   root,
   plugins: [react()],
   // minify: false,
-  base: '/ProfessorJava/',
+  base: '/ProfessorJavaish/',
   build: {
     outDir,
 

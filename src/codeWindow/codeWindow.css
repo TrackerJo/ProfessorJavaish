@@ -43,7 +43,7 @@
     padding-right: 5px;
 }
 
-.Code {
+.Code, .State {
     display: none;
 }
 
