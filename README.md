@@ -13,3 +13,6 @@ Some basic autocomplete for keywords and data types to make coding faster
 
 #### Javaish Dictionary
 All you need to learn the syntax for javaish
+
+#### Custom line-by-line debugger
+Run code line by line to find and fix bugs without running the code a thousand times. It helps visualize  the effects of variables on the program
