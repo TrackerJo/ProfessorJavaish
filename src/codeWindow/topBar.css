@@ -124,3 +124,22 @@
     margin: 0;
 
 }
+
+.RobotIcon{
+    width: 30px;
+    height: 20px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.RobotIPDialog{
+    position: absolute;
+    width: 200px;
+    /* Center */
+     top: 30%;
+
+    /* transform: translate(-50%, -50%); */
+
+    z-index: 100;
+    border: 1px solid black;
+}

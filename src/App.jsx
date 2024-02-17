@@ -40,6 +40,8 @@ function App() {
   const [showDicWindow, setShowDicWindow] = useState(false)
   const [isDebugging, setIsDebugging] = useState(false)
   const notLoggedInRef = useRef()
+  const [robotIP, setRobotIP] = useState("")
+
 
   useEffect(() => {
    
@@ -125,7 +127,7 @@ function App() {
   }, [selectedFile])
 
   function deleteSelectedFile(e){
-    if(e.keyCode == 8 && e.metaKey){
+    if(e.keyCode == 8 && e.shiftKey){
       let proj = localStorage.getItem("currentProj")
       let project = JSON.parse(localStorage.getItem("projects-" + proj))
       let files = project.files
@@ -598,11 +600,12 @@ function App() {
 
   return (
     <>
+      <div className={'robot-ip ' + robotIP}></div>
       <div className='Windows'> 
       {isDebugging ? <DebugWindow setIsDebugging={setIsDebugging}/> : <FilesWindow handleSelectFile={handleSelectedFile} files={files} addFile={addFile} projName={projName} setProjName={setProjName} exitProj={exitProj} canCloudSave={canCloudSave} cloudSave={syncProj} selectedFile={selectedFile}/>}        
       <div className='ColumnWindows'>
           <div className='RightWindows'>
-            {showInfoWindow ?  <InfoWindow closeInfoWinow={closeInfoWinow}/> : showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadProjects} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles} showInfoWindow={handleShowInfoWindow}/> : showConvertWindow == "java" || showConvertWindow == "python" ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow} convertType={showConvertWindow}/> : <CodeWindow setIsDebugging={setIsDebugging}  projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles} showDicWindow={showDicWindow} setShowDicWindow={setShowDicWindow}/>}
+            {showInfoWindow ?  <InfoWindow closeInfoWinow={closeInfoWinow}/> : showWelcome ? <WelcomeWindow setProjName={setProjName} setFiles={setFiles} readFiles={readFiles} setShowWelcome={setShowWelcome} loadUser={loadProjects} projects={projects} readFBFiles={readFBFiles} setLoadingFiles={setLoadingFiles} showInfoWindow={handleShowInfoWindow}/> : showConvertWindow == "java" || showConvertWindow == "python" ?  <ConvertWindow convertedCode={convertedCode} closeConvertCodeWindow={closeConvertedCodeWindow} convertType={showConvertWindow}/> : <CodeWindow setIsDebugging={setIsDebugging}  projName={projName} setRun={setRun} setSavedCode={setSavedCode} setCanSave={setCanSave} startingCode={startingCode} canSave={canSave} savedCode={savedCode} run={run} selectedFile={selectedFile} loadUser={loadFBUser} gettingCode={gettingCode} setCanCloudSave={setCanCloudSave} setConvertedCode={setConvertedCode} setShowConvertedWindow={setShowConvertWindow} loadingFiles={loadingFiles} showDicWindow={showDicWindow} setShowDicWindow={setShowDicWindow} setRobotIP={setRobotIP} robotIP={robotIP}/>}
             
             {!showWelcome && !showConvertWindow ? <ConsoleWindow consoleMsgs={consoleMsgs}/> : null}
           </div>

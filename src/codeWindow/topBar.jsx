@@ -10,14 +10,15 @@ import AccountPopup from '../AccountPopup/accountPopup'
 // import { callMain } from '../javaish.mjs'
 import dicIcon from '../assets/dic_icon.png'
 import debugIcon from '../assets/debug_icon.png'
+import robotIcon from '../assets/robot_icon.png'
 
 
 
-function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave, setConvertedCode, setShowConvertedWindow, showDicWindow, setShowDicWindow, setIsDebugging}){
+function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave, setConvertedCode, setShowConvertedWindow, showDicWindow, setShowDicWindow, setIsDebugging, setRobotIP, robotIP}){
     const [showAccPopup, setShowAccPopup] = useState(false)
     const convertToDialogRef = useRef()
     const [convertType, setConvertType] = useState("java")
-    
+    const robotIPDialogRef = useRef()
    
     
  
@@ -33,6 +34,23 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         // callMain(true)
         main()
         document.getElementById("root").classList.remove("run")
+       
+       
+        
+    }
+
+    async function handleRunRobot(){
+        await setRun(!run)
+
+        if(run){
+            return
+        }
+        document.querySelector('.ConsoleArea').innerHTML = ""
+        //Wait 1 second for the server to start
+        document.getElementById("root").classList.add("run-robot")
+        // callMain(true)
+        main()
+        document.getElementById("root").classList.remove("run-robot")
        
        
         
@@ -61,6 +79,12 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         project.files = files
         localStorage.setItem("projects-" + projName, JSON.stringify(project))
         setCanCloudSave(true)
+        document.querySelector('.ConsoleArea').innerHTML = ""
+        //Wait 1 second for the server to start
+        document.getElementById("root").classList.add("parse")
+        // callMain(true)
+        main()
+        document.getElementById("root").classList.remove("parse")
 
     }
 
@@ -69,16 +93,16 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
         console.log('canSave:', canSave)
        
     
-    }, [canSave])
+    }, [canSave, currentCode])
 
     function saveShortcut(){
         document.addEventListener('keydown', (e) => {
             if(e.metaKey && e.key == "s"){
-            e.preventDefault()
-            console.log('save shortcut')
-            if(canSave){
-                handleSaveFile()
-            }
+                e.preventDefault()
+                console.log('save shortcut')
+                if(canSave){
+                    handleSaveFile()
+                }
             }
         }
         )
@@ -147,6 +171,7 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
                     {selectedFile != "" ? <img src={debugIcon} alt='debug' className='DebugIcon' onClick={handleDebug}/> : null}
 
                     {selectedFile != "" ? <img src={dicIcon} alt='dictionary' className='DicIcon' onClick={handleDicClick}/> : null}
+                    {selectedFile != "" ? <img src={robotIcon} alt='robot' className='RobotIcon' onClick={() => robotIPDialogRef.current.show()}/> : null}
                     
                 </div>
                 <div className='TopBarRight'>
@@ -166,6 +191,17 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
                     <button className='ConvertToOption' onClick={() => {convertToDialogRef.current.close(); handleConvert("python")}}>Python</button>
                     
                 </div>
+            </dialog>
+            <dialog className='RobotIPDialog' ref={robotIPDialogRef}>
+                <p className='RobotIPTitle'>Enter Robot IP:</p>
+                <input type='text' className='RobotIPInput' value={robotIP} onChange={(e) => setRobotIP(e.target.value)}/>
+                <br />
+                <br />
+                <button className='RobotIPButton' onClick={() => {
+                    
+                    robotIPDialogRef.current.close()
+                    handleRunRobot()
+                }}>Run</button>
             </dialog>
 
         </>

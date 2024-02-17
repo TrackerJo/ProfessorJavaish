@@ -6,6 +6,7 @@ import convertIcon from '../assets/convert_icon.png'
 import cloudSaveIcon from '../assets/cloud_save_icon.png'
 import plusIcon from '../assets/add_icon.png'
 import dicIcon from '../assets/dic_icon.png'
+import robotIcon from '../assets/robot_icon.png'
 
 
 function CodeWindowHelp(){
@@ -42,7 +43,13 @@ function CodeWindowHelp(){
                 <img src={dicIcon} alt="dictionary icon" className='DicIconHelp'/>
                 <label htmlFor=""> - Opens the Javaish Dictionary</label>
             </div>
-            <label htmlFor="">Select a file and hit CMD+Delete to delete a file</label>
+            <div className='IconHelp'>
+                <img src={robotIcon} alt="robot icon" className='RobotIconHelp'/>
+                <label htmlFor=""> - Runs the code on a server connected to a NAO robot</label>
+
+            </div>
+            <br />
+            <label htmlFor="">Select a file and hit Shift+Delete to delete a file</label>
             <br />
             <button onClick={handleClose}>Close</button>
         </dialog>

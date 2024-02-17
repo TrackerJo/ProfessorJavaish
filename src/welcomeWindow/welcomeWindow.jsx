@@ -81,8 +81,8 @@ function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUs
         <>
         <CodeTopBar projName={""} selectedFile={""} canSave={false} setCanSave={() => {}} run={false} setRun={() => {}} setSavedCode={() => {}} currentCode={""} loadUser={loadUser}/>
         <div className='WelcomeWindow'>
-                <h1>Welcome to Professor Java!</h1>
-                <p>Professor Java is a simple IDE for a custom language Javaish.
+                <h1>Welcome to Professor Javaish!</h1>
+                <p>Professor Javaish is a simple IDE for a custom language Javaish.
                     It is designed to be a simple way to learn the basics of programming.
                     To get started, create a new project or open an existing one.
                     If you want to learn more about the language, click <a className='InfoLink' onClick={showInfoWindow}>here</a>

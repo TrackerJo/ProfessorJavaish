@@ -11,11 +11,12 @@ export const highlighting = styleTags({
   "OpenParenthesis": tags.paren,
   "ClosedParenthesis": tags.paren,
   "Plus": tags.arithmeticOperator,
+  "WordOperator": tags.arithmeticOperator,
    "Minus": tags.arithmeticOperator,
    "Multiply": tags.arithmeticOperator,
    "Divide": tags.arithmeticOperator,
-   
-   
+   "RobotKW": tags.typeName,
+   "ImportKW": tags.keyword,
    "LetKW": tags.keyword,
    "Declaration/Equal": tags.arithmeticOperator,
    "Condition": tags.operator,
