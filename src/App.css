@@ -33,6 +33,6 @@ body{
   overflow: hidden;
 }
 
-.robot-ip{
+.robot-ip, .server-ip{
   display: none;
 }

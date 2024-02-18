@@ -14,7 +14,7 @@ import robotIcon from '../assets/robot_icon.png'
 
 
 
-function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave, setConvertedCode, setShowConvertedWindow, showDicWindow, setShowDicWindow, setIsDebugging, setRobotIP, robotIP}){
+function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, setSavedCode, currentCode, loadUser, setCanCloudSave, setConvertedCode, setShowConvertedWindow, showDicWindow, setShowDicWindow, setIsDebugging, setRobotIP, robotIP, setServerIP, serverIP}){
     const [showAccPopup, setShowAccPopup] = useState(false)
     const convertToDialogRef = useRef()
     const [convertType, setConvertType] = useState("java")
@@ -195,6 +195,9 @@ function CodeTopBar({projName, selectedFile, canSave, setCanSave, run, setRun, s
             <dialog className='RobotIPDialog' ref={robotIPDialogRef}>
                 <p className='RobotIPTitle'>Enter Robot IP:</p>
                 <input type='text' className='RobotIPInput' value={robotIP} onChange={(e) => setRobotIP(e.target.value)}/>
+                <br />
+                <p className='RobotIPTitle'>Enter Python Server IP:</p>
+                <input type='text' className='RobotIPInput' value={serverIP} onChange={(e) => setServerIP(e.target.value)}/>
                 <br />
                 <br />
                 <button className='RobotIPButton' onClick={() => {

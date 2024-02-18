@@ -52,6 +52,7 @@ function DebugWindow({setIsDebugging}){
         // let consoleArea = document.querySelector('.ConsoleArea')
         // consoleArea.scrollTop = consoleArea.scrollHeight;
         console.log(newStates)
+        console.log("current line", currentLine)
     }
 
     function getVariables(StateJSON){
@@ -240,7 +241,7 @@ function DebugWindow({setIsDebugging}){
         <>
             <div className='DebugWindow'>
                 <DebugTopBar runNext={runNext} runPrev={runPrev} currentLine={currentLine} reachedEnd={reachedEnd} stopDebugging={stopDebugging}/>
-                <h3 className='Title'>Global Variables</h3>
+                <h3 className='Title'>Variables</h3>
                 <div className='GlobalVariables'>
                     {globalVariables.length > 0 ? globalVariables.map((variable, index) => {
                         if(variable.type == "FUNCTION"){
@@ -262,7 +263,7 @@ function DebugWindow({setIsDebugging}){
                                 </>
                             )
                         }
-                    }) : <p>No global variables</p>}
+                    }) : <p>No variables</p>}
                     </div>
                     
                 
