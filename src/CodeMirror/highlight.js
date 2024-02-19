@@ -1,9 +1,11 @@
 import {styleTags, tags} from "@lezer/highlight"
 
+
 export const highlighting = styleTags({
   
   "Comment": tags.lineComment,
   "Number": tags.number,
+  "Bool": tags.number,
   "String": tags.string,
   "BinaryExpression": tags.comment,
   "ListElement": tags.list,
@@ -47,6 +49,9 @@ export const highlighting = styleTags({
   "ForEachKW": tags.keyword,
   "ForWhen": tags.keyword,
   "ForEach": tags.keyword,
+  "LengthKW": tags.keyword,
+  "OfKW": tags.keyword,
+  "ForStatement": tags.keyword,
   "FunctionKW": tags.keyword,
   "ToKW": tags.keyword,
   "ByKW": tags.keyword,

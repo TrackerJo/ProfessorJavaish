@@ -18,12 +18,16 @@ function DicTopBar({closeDicWindow}){
     return (
         <>
         
-        <div className='ConvertTopBar'>
-            <div className='ConvertBarLeft'>
+        <div className='DicTopBar'>
+            
                <img src={closeIcon} alt="back" onClick={handleBack} className='CloseIconDic'/>
+
                
-               <label htmlFor="">Javaish Dictionary</label>
-            </div>
+
+
+                
+                <h2 className='DicTitle'>Javaish Dictionary</h2>
+
             
         </div>
         </>

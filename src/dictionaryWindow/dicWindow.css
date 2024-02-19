@@ -71,11 +71,16 @@ code{
     border: #333a44 solid 1px;
     width: 90%;
     cursor: pointer;
+    padding: 5px;
   
 }
 
 .DicSectionText{
     margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 .DicSectionClosed {
@@ -94,4 +99,9 @@ code{
     height: 3px;
     margin: 0 10px;
     cursor: pointer;
+}
+
+.DicSectionText label{
+   /* padding: 5px; */
+   /* margin-bottom: 5px; */
 }

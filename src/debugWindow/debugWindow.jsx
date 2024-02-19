@@ -14,6 +14,7 @@ function DebugWindow({setIsDebugging}){
     const [globalVariables, setGlobalVariables] = useState([])
     const [loadedVariables, setLoadedVariables] = useState([])
     function runNext(){
+        setGlobalVariables([])
         if(reachedEnd) return
         let line = currentLine + 1
         setCurrentLine(line)
@@ -37,7 +38,7 @@ function DebugWindow({setIsDebugging}){
         let loadedVars = checkIfVariablesLoaded(globalVariables)
         console.log(loadedVars, "loaded variables")
         globalVariables = sortArrayByLoadedVars(globalVariables, loadedVars)
-        setGlobalVariables(globalVariables)
+        setGlobalVariables([...globalVariables])
         checkIfVariablesLoaded(globalVariables)
         
         console.log(globalVariables, "global variables")
@@ -55,10 +56,19 @@ function DebugWindow({setIsDebugging}){
         console.log("current line", currentLine)
     }
 
+    const getVariablesList = () => {
+        let globalVariables = getVariables(states[currentLine])
+        
+        let loadedVars = checkIfVariablesLoaded(globalVariables)
+        // console.log(loadedVars, "loaded variables")
+        globalVariables = sortArrayByLoadedVars(globalVariables, loadedVars)
+        return globalVariables
+    }
+
     function getVariables(StateJSON){
         let variables = []
-        let globalVariables = objectToArray(StateJSON.globalVariables)
-        variables = [...variables, ...globalVariables]
+        
+        variables = [...variables]
         if(StateJSON.states.length > 0){
             for(let i = 0; i < StateJSON.states.length; i++){
                 let state = StateJSON.states[i]
@@ -75,7 +85,27 @@ function DebugWindow({setIsDebugging}){
                 }
                 variables = [...variables, ...localVariables]
             }
+            let lastState = StateJSON.states[StateJSON.states.length - 1]
+            let globalVariables = objectToArray(lastState.globalVariables)
+            //Remove duplicates
+            for(let i = 0; i < globalVariables.length; i++){
+                let globalVariable = globalVariables[i]
+                for(let j = 0; j < variables.length; j++){
+                    let variable = variables[j]
+                    if(globalVariable.name == variable.name){
+                        variables.splice(j, 1)
+                    }
+                }
+            }
+            variables = [...variables, ...globalVariables]
+        } else {
+            let globalVariables = objectToArray(StateJSON.globalVariables)
+            variables = [...variables, ...globalVariables]
         }
+
+        
+
+        
         return variables
     }
 
@@ -224,6 +254,31 @@ function DebugWindow({setIsDebugging}){
         console.log("new states", newStates)
     }
 
+    const addListElement = (index) => () =>{
+        let newGlobalVariables = [...globalVariables]
+        newGlobalVariables[index].value.value.push("")
+        setGlobalVariables(newGlobalVariables)
+        let state = states[currentLine]
+        state.globalVariables[newGlobalVariables[index].name].value.value.push("")
+        let newStates = [...states]
+        newStates[currentLine] = state
+        setStates(newStates)
+    }
+
+    const removeListElement = (index) => (eIndex) => {
+        let newGlobalVariables = [...globalVariables]
+        newGlobalVariables[index].value.value.splice(eIndex, 1)
+        setGlobalVariables(newGlobalVariables)
+        let state = states[currentLine]
+        state.globalVariables[newGlobalVariables[index].name].value.value.splice(eIndex, 1)
+        let newStates = [...states]
+        newStates[currentLine] = state
+        setStates(newStates)
+        console.log("new states", newStates)
+        console.log("new global variables", newGlobalVariables)
+    }
+
+
     const sortArrayByLoadedVars = (arr, loadedVars) => {
         let sortedArr = []
         for(let i = 0; i < loadedVars.length; i++){
@@ -235,6 +290,24 @@ function DebugWindow({setIsDebugging}){
         }
         console.log(sortedArr, "sorted arr")
         return sortedArr
+    }
+
+    const convertTypeToString = (type) => {
+        if(type == "INT"){
+            return "int"
+        } else if(type == "STRING"){
+            return "String"
+        } else if(type == "BOOLEAN"){
+            return "bool"
+        } else if(type == "INTLIST"){
+            return "int[]"
+        } else if(type == "STRINGLIST"){
+            return "string[]"
+        } else if(type == "BOOLEANLIST"){
+            return "boolean[]"
+        } else if(type == "FUNCTION"){
+            return "function"
+        }
     }
     
     return (
@@ -251,14 +324,14 @@ function DebugWindow({setIsDebugging}){
                             // console.log("list variable", variable.value.value, "value")
                             return (
                                 <>
-                                <ListVariableTile key={variable.name} name={variable.name} type={variable.type} elements={variable.value.value} setValue={setListValue(index)}/>
+                                <ListVariableTile key={variable.value.value} name={variable.name} type={convertTypeToString(variable.type)} elements={variable.value.value} setValue={setListValue(index)} removeElement={removeListElement(index)} addElement={addListElement(index)}/>
                                 <br />
                                 </>
                                 )
                         } else {
                             return (
                                 <>
-                                <VariableTile key={variable.name} name={variable.name} type={variable.type} value={variable.value} setValue={setVariableValue(index)}/>
+                                <VariableTile key={variable.value} name={variable.name} type={convertTypeToString(variable.type)} value={variable.value} setValue={setVariableValue(index)}/>
                                 <br />
                                 </>
                             )

@@ -1,6 +1,7 @@
 import "./list_variable_tile.css"
+import trashIcon from "../assets/trash_icon.png"
 
-function ListVariableTile({name, type, elements, setValue}){
+function ListVariableTile({name, type, elements, setValue, removeElement, addElement}){
     
     return(
         <div className="list-variable-tile">
@@ -17,6 +18,7 @@ function ListVariableTile({name, type, elements, setValue}){
                             <option value="false">false</option>
                         </select>
                     :<input type={type == "INTLIST" ? "number" : "text"} defaultValue={element} onChange={(e) => setValue(e.target.value, index)} />}
+                            <img src={trashIcon} alt="remove" className="remove-element" onClick={() => {removeElement(index); console.log("Click")}}/>
                         </div>
                     )
             }
