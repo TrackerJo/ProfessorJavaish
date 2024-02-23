@@ -24,6 +24,7 @@ function ListVariableTile({name, type, elements, setValue, removeElement, addEle
             }
             )}
             </div>
+            <button onClick={() => addElement()} className="add-element">Add Element</button>
 
         </div>
     )

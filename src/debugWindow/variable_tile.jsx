@@ -3,7 +3,8 @@ function VariableTile({name, type, value, setValue}){
         <div className="variable-tile">
             <div className="variable-tile__name">Name: {name}</div>
             <div className="variable-tile__type">Type: {type}</div>
-            <div className="variable-tile__value">Value:
+            <div className="variable-tile__value">Value</div>
+            <div className="variable-tile__value">
                 {type == "BOOLEAN" ? 
                     <select onChange={(e) => setValue(e.target.value)} defaultValue={value}>
                         <option value="true">true</option>

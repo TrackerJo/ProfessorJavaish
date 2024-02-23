@@ -56,6 +56,8 @@ function DicWindow({closeDicWindow}){
                         <label><code>removeAll :expression: from :varName:.</code> - Removes all values from list</label>
                         <br />
                         <label><code>removeAt :expression: from :varName:.</code> - Removes value at index from list</label>
+                        <br />
+                        <label><code>set :listName: sub :index: to :expression:.</code> - Set value at index in list</label>
 
                         <h3>List Accessing</h3>
                         <label><code>:listName: sub :index:</code> - Accesses element in list at index</label>

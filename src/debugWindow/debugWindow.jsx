@@ -56,23 +56,17 @@ function DebugWindow({setIsDebugging}){
         console.log("current line", currentLine)
     }
 
-    const getVariablesList = () => {
-        let globalVariables = getVariables(states[currentLine])
-        
-        let loadedVars = checkIfVariablesLoaded(globalVariables)
-        // console.log(loadedVars, "loaded variables")
-        globalVariables = sortArrayByLoadedVars(globalVariables, loadedVars)
-        return globalVariables
-    }
+
 
     function getVariables(StateJSON){
         let variables = []
         
         variables = [...variables]
         if(StateJSON.states.length > 0){
-            for(let i = 0; i < StateJSON.states.length; i++){
-                let state = StateJSON.states[i]
-                let localVariables = objectToArray(state.localVariables)
+            let currentState = StateJSON
+            while(currentState.states.length > 0){
+                
+                let localVariables = objectToArray(currentState.localVariables)
                 //Remove duplicates
                 for(let j = 0; j < localVariables.length; j++){
                     let localVariable = localVariables[j]
@@ -84,7 +78,21 @@ function DebugWindow({setIsDebugging}){
                     }
                 }
                 variables = [...variables, ...localVariables]
+                currentState = currentState.states[currentState.states.length - 1]
             }
+            let localVariables = objectToArray(currentState.localVariables)
+            //Remove duplicates
+            for(let j = 0; j < localVariables.length; j++){
+                let localVariable = localVariables[j]
+                for(let k = 0; k < variables.length; k++){
+                    let variable = variables[k]
+                    if(localVariable.name == variable.name){
+                        variables.splice(k, 1)
+                    }
+                }
+            }
+            variables = [...variables, ...localVariables]
+            currentState = currentState.states[currentState.states.length - 1]
             let lastState = StateJSON.states[StateJSON.states.length - 1]
             let globalVariables = objectToArray(lastState.globalVariables)
             //Remove duplicates
@@ -114,7 +122,12 @@ function DebugWindow({setIsDebugging}){
         if(StateJSON.states.length == 0){
             return StateJSON.currentRuntimeLine
         } else {
-            return StateJSON.states[StateJSON.states.length - 1].currentRuntimeLine
+            //Get Last state
+            let current = StateJSON.states[StateJSON.states.length - 1]
+            while (current.states.length > 0){
+                current = current.states[current.states.length - 1]
+            }
+            return current.currentRuntimeLine
         }
     }
 
@@ -245,7 +258,7 @@ function DebugWindow({setIsDebugging}){
     const setListValue = (index) => (value, eIndex) => {
         let newGlobalVariables = [...globalVariables]
         newGlobalVariables[index].value.value[eIndex] = value
-        setGlobalVariables(newGlobalVariables)
+        // setGlobalVariables(newGlobalVariables)
         let state = states[currentLine]
         state.globalVariables[newGlobalVariables[index].name].value.value[eIndex] = value
         let newStates = [...states]
@@ -259,7 +272,7 @@ function DebugWindow({setIsDebugging}){
         newGlobalVariables[index].value.value.push("")
         setGlobalVariables(newGlobalVariables)
         let state = states[currentLine]
-        state.globalVariables[newGlobalVariables[index].name].value.value.push("")
+        state.globalVariables[newGlobalVariables[index].name] = newGlobalVariables[index]
         let newStates = [...states]
         newStates[currentLine] = state
         setStates(newStates)
@@ -270,7 +283,7 @@ function DebugWindow({setIsDebugging}){
         newGlobalVariables[index].value.value.splice(eIndex, 1)
         setGlobalVariables(newGlobalVariables)
         let state = states[currentLine]
-        state.globalVariables[newGlobalVariables[index].name].value.value.splice(eIndex, 1)
+        state.globalVariables[newGlobalVariables[index].name] = newGlobalVariables[index]
         let newStates = [...states]
         newStates[currentLine] = state
         setStates(newStates)
