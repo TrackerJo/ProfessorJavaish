@@ -1,0 +1,111 @@
+Date : 2024-03-23 11:30:10
+Directory : /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src
+Total : 67 files,  80413 codes, 181 comments, 852 blanks, all 81446 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript     |         12 |     77,452 |         60 |        143 |     77,655 |
+| JavaScript JSX |         29 |      2,082 |         98 |        511 |      2,691 |
+| CSS            |         25 |        863 |         22 |        192 |      1,077 |
+| HTML           |          1 |         16 |          1 |          6 |         23 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                      | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                         |         67 |     80,413 |        181 |        852 |     81,446 |
+| . (Files)                                                                                                 |          9 |     77,578 |         84 |        177 |     77,839 |
+| AccountPopup                                                                                              |          2 |        173 |          6 |         27 |        206 |
+| CodeMirror                                                                                                |          8 |        464 |         28 |        103 |        595 |
+| Modals                                                                                                    |          2 |         12 |          0 |          4 |         16 |
+| SelectProject                                                                                             |          2 |         65 |          0 |         12 |         77 |
+| codeWindow                                                                                                |          6 |        443 |         14 |        120 |        577 |
+| consoleWindow                                                                                             |          4 |         54 |          1 |         13 |         68 |
+| convertWindow                                                                                             |          4 |        109 |          2 |         37 |        148 |
+| debugWindow                                                                                               |          7 |        516 |         20 |         92 |        628 |
+| dictionaryWindow                                                                                          |          5 |        325 |          6 |         80 |        411 |
+| filesWindow                                                                                               |          6 |        242 |          4 |         58 |        304 |
+| filesWindow (Files)                                                                                       |          4 |        206 |          2 |         47 |        255 |
+| filesWindow/Components                                                                                    |          2 |         36 |          2 |         11 |         49 |
+| firebase                                                                                                  |          4 |        120 |         11 |         35 |        166 |
+| infoWindow                                                                                                |          4 |         81 |          0 |         31 |        112 |
+| topBar                                                                                                    |          2 |         99 |          4 |         35 |        138 |
+| welcomeWindow                                                                                             |          2 |        132 |          1 |         28 |        161 |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                                  | language       | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/AccountPopup/accountPopup.css        | CSS            |         49 |          3 |          7 |         59 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/AccountPopup/accountPopup.jsx        | JavaScript JSX |        124 |          3 |         20 |        147 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/App.css                              | CSS            |         32 |          0 |          6 |         38 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/App.jsx                              | JavaScript JSX |        471 |         52 |        107 |        630 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/JavaEditor.jsx            | JavaScript JSX |         29 |          0 |         10 |         39 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/JavaishEditor.css         | CSS            |          7 |          0 |          1 |          8 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/JavaishEditor.jsx         | JavaScript JSX |         62 |         10 |         22 |         94 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/JavaishLangauge.js        | JavaScript     |        234 |         16 |         48 |        298 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/PythonEditor.jsx          | JavaScript JSX |         29 |          0 |         10 |         39 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/highlight.js              | JavaScript     |         69 |          0 |          8 |         77 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/old_parser.js             | JavaScript     |         17 |          1 |          3 |         21 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/parser.js                 | JavaScript     |         17 |          1 |          1 |         19 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/Modals/alert.css                     | CSS            |          0 |          0 |          1 |          1 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/Modals/alert.jsx                     | JavaScript JSX |         12 |          0 |          3 |         15 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/SelectProject/SelectProject.css      | CSS            |          0 |          0 |          1 |          1 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/SelectProject/SelectProject.jsx      | JavaScript JSX |         65 |          0 |         11 |         76 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/call.js                              | JavaScript     |          3 |          0 |          0 |          3 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/codeWindow.css            | CSS            |         40 |          2 |         10 |         52 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/codeWindow.jsx            | JavaScript JSX |         34 |          1 |         17 |         52 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/codeWindowHelp.css        | CSS            |         47 |          0 |          7 |         54 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/codeWindowHelp.jsx        | JavaScript JSX |         51 |          0 |          8 |         59 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/topBar.css                | CSS            |        111 |          4 |         31 |        146 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/topBar.jsx                | JavaScript JSX |        160 |          7 |         47 |        214 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/consoleWindow/consoleMsg.css         | CSS            |         16 |          1 |          4 |         21 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/consoleWindow/consoleMsg.jsx         | JavaScript JSX |          9 |          0 |          3 |         12 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/consoleWindow/consoleWindow.css      | CSS            |         13 |          0 |          2 |         15 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/consoleWindow/consoleWindow.jsx      | JavaScript JSX |         16 |          0 |          4 |         20 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/convertWindow/convertWindow.css      | CSS            |         37 |          2 |          9 |         48 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/convertWindow/convertWindow.jsx      | JavaScript JSX |         29 |          0 |         10 |         39 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/convertWindow/topBar.css             | CSS            |         18 |          0 |          7 |         25 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/convertWindow/topBar.jsx             | JavaScript JSX |         25 |          0 |         11 |         36 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/debugWindow.css          | CSS            |         58 |          0 |         10 |         68 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/debugWindow.jsx          | JavaScript JSX |        303 |         17 |         44 |        364 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/list_variable_tile.css   | CSS            |         27 |          0 |          5 |         32 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/list_variable_tile.jsx   | JavaScript JSX |         28 |          0 |          5 |         33 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/topBar.css               | CSS            |         60 |          2 |         13 |         75 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/topBar.jsx               | JavaScript JSX |         22 |          1 |         14 |         37 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/variable_tile.jsx        | JavaScript JSX |         18 |          0 |          1 |         19 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/dicSectionTitle.jsx | JavaScript JSX |         22 |          0 |          6 |         28 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/dicWindow.css       | CSS            |         85 |          3 |         19 |        107 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/dicWindow.jsx       | JavaScript JSX |        179 |          0 |         24 |        203 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/topBar.css          | CSS            |         21 |          3 |         12 |         36 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/topBar.jsx          | JavaScript JSX |         18 |          0 |         19 |         37 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/Components/fileTile.css  | CSS            |         14 |          2 |          3 |         19 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/Components/fileTile.jsx  | JavaScript JSX |         22 |          0 |          8 |         30 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/filesWindow.css          | CSS            |         40 |          0 |          7 |         47 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/filesWindow.jsx          | JavaScript JSX |         47 |          0 |         11 |         58 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/topBar.css               | CSS            |         55 |          0 |          9 |         64 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/topBar.jsx               | JavaScript JSX |         64 |          2 |         20 |         86 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/firebase/auth.js                     | JavaScript     |         33 |          0 |         16 |         49 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/firebase/database.js                 | JavaScript     |         60 |          0 |         12 |         72 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/firebase/init.js                     | JavaScript     |         12 |          6 |          3 |         21 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/firebase/storage.js                  | JavaScript     |         15 |          5 |          4 |         24 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/index.css                            | CSS            |         55 |          0 |          8 |         63 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/index.html                           | HTML           |         16 |          1 |          6 |         23 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/infoWindow/infoWindow.css            | CSS            |         15 |          0 |          3 |         18 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/infoWindow/infoWindow.jsx            | JavaScript JSX |         23 |          0 |         10 |         33 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/infoWindow/topBar.css                | CSS            |         24 |          0 |          7 |         31 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/infoWindow/topBar.jsx                | JavaScript JSX |         19 |          0 |         11 |         30 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/init.js                              | JavaScript     |          1 |          0 |          1 |          2 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/javaish.mjs                          | JavaScript     |     51,451 |         10 |         25 |     51,486 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/javaish_old.mjs                      | JavaScript     |     25,540 |         21 |         22 |     25,583 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/main.jsx                             | JavaScript JSX |          9 |          0 |          2 |         11 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/topBar/topBar.css                    | CSS            |          0 |          0 |          1 |          1 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/topBar/topBar.jsx                    | JavaScript JSX |         99 |          4 |         34 |        137 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/welcomeWindow/welcomeWindow.css      | CSS            |         39 |          0 |          9 |         48 |
+| /Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/welcomeWindow/welcomeWindow.jsx      | JavaScript JSX |         93 |          1 |         19 |        113 |
+| Total                                                                                                     |                |     80,413 |        181 |        852 |     81,446 |
++-----------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

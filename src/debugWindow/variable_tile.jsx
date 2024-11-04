@@ -6,13 +6,12 @@ function VariableTile({name, type, value, setValue}){
             <div className="variable-tile__value">Value</div>
             <div className="variable-tile__value">
                 {type == "BOOLEAN" ? 
-                    <select onChange={(e) => setValue(e.target.value)} defaultValue={value}>
+                    <select onChange={(e) => setValue(e.target.value)} value={value}>
                         <option value="true">true</option>
                         <option value="false">false</option>
                     </select>
-                 :<input type={type == "INT" ? "number" : "text"} defaultValue={value} onChange={(e) => setValue(e.target.value)} />}
+                 :<input type={type == "INT" ? "number" : "text"} value={value} onChange={(e) => setValue(e.target.value)} />}
             </div>
-
         </div>
     )
 }

@@ -78,7 +78,7 @@ function WelcomeWindow({setProjName, setFiles, readFiles, setShowWelcome, loadUs
 
     
     return (
-        <>
+    <>
         <CodeTopBar projName={""} selectedFile={""} canSave={false} setCanSave={() => {}} run={false} setRun={() => {}} setSavedCode={() => {}} currentCode={""} loadUser={loadUser}/>
         <div className='WelcomeWindow'>
                 <h1>Welcome to Professor Javaish!</h1>

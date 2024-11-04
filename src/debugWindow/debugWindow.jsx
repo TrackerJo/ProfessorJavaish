@@ -337,14 +337,14 @@ function DebugWindow({setIsDebugging}){
                             // console.log("list variable", variable.value.value, "value")
                             return (
                                 <>
-                                <ListVariableTile key={variable.value.value} name={variable.name} type={convertTypeToString(variable.type)} elements={variable.value.value} setValue={setListValue(index)} removeElement={removeListElement(index)} addElement={addListElement(index)}/>
+                                <ListVariableTile key={variable.name} name={variable.name} type={convertTypeToString(variable.type)} elements={variable.value.value} setValue={setListValue(index)} removeElement={removeListElement(index)} addElement={addListElement(index)}/>
                                 <br />
                                 </>
                                 )
                         } else {
                             return (
                                 <>
-                                <VariableTile key={variable.value} name={variable.name} type={convertTypeToString(variable.type)} value={variable.value} setValue={setVariableValue(index)}/>
+                                <VariableTile key={variable.name} name={variable.name} type={convertTypeToString(variable.type)} value={variable.value} setValue={setVariableValue(index)}/>
                                 <br />
                                 </>
                             )

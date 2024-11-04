@@ -1,0 +1,69 @@
+"filename", "language", "CSS", "JavaScript JSX", "JavaScript", "HTML", "comment", "blank", "total"
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/AccountPopup/accountPopup.css", "CSS", 49, 0, 0, 0, 3, 7, 59
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/AccountPopup/accountPopup.jsx", "JavaScript JSX", 0, 124, 0, 0, 3, 20, 147
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/App.css", "CSS", 32, 0, 0, 0, 0, 6, 38
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/App.jsx", "JavaScript JSX", 0, 471, 0, 0, 52, 107, 630
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/JavaEditor.jsx", "JavaScript JSX", 0, 29, 0, 0, 0, 10, 39
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/JavaishEditor.css", "CSS", 7, 0, 0, 0, 0, 1, 8
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/JavaishEditor.jsx", "JavaScript JSX", 0, 62, 0, 0, 10, 22, 94
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/JavaishLangauge.js", "JavaScript", 0, 0, 234, 0, 16, 48, 298
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/PythonEditor.jsx", "JavaScript JSX", 0, 29, 0, 0, 0, 10, 39
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/highlight.js", "JavaScript", 0, 0, 69, 0, 0, 8, 77
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/old_parser.js", "JavaScript", 0, 0, 17, 0, 1, 3, 21
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/CodeMirror/parser.js", "JavaScript", 0, 0, 17, 0, 1, 1, 19
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/Modals/alert.css", "CSS", 0, 0, 0, 0, 0, 1, 1
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/Modals/alert.jsx", "JavaScript JSX", 0, 12, 0, 0, 0, 3, 15
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/SelectProject/SelectProject.css", "CSS", 0, 0, 0, 0, 0, 1, 1
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/SelectProject/SelectProject.jsx", "JavaScript JSX", 0, 65, 0, 0, 0, 11, 76
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/call.js", "JavaScript", 0, 0, 3, 0, 0, 0, 3
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/codeWindow.css", "CSS", 40, 0, 0, 0, 2, 10, 52
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/codeWindow.jsx", "JavaScript JSX", 0, 34, 0, 0, 1, 17, 52
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/codeWindowHelp.css", "CSS", 47, 0, 0, 0, 0, 7, 54
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/codeWindowHelp.jsx", "JavaScript JSX", 0, 51, 0, 0, 0, 8, 59
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/topBar.css", "CSS", 111, 0, 0, 0, 4, 31, 146
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/codeWindow/topBar.jsx", "JavaScript JSX", 0, 160, 0, 0, 7, 47, 214
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/consoleWindow/consoleMsg.css", "CSS", 16, 0, 0, 0, 1, 4, 21
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/consoleWindow/consoleMsg.jsx", "JavaScript JSX", 0, 9, 0, 0, 0, 3, 12
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/consoleWindow/consoleWindow.css", "CSS", 13, 0, 0, 0, 0, 2, 15
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/consoleWindow/consoleWindow.jsx", "JavaScript JSX", 0, 16, 0, 0, 0, 4, 20
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/convertWindow/convertWindow.css", "CSS", 37, 0, 0, 0, 2, 9, 48
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/convertWindow/convertWindow.jsx", "JavaScript JSX", 0, 29, 0, 0, 0, 10, 39
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/convertWindow/topBar.css", "CSS", 18, 0, 0, 0, 0, 7, 25
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/convertWindow/topBar.jsx", "JavaScript JSX", 0, 25, 0, 0, 0, 11, 36
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/debugWindow.css", "CSS", 58, 0, 0, 0, 0, 10, 68
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/debugWindow.jsx", "JavaScript JSX", 0, 303, 0, 0, 17, 44, 364
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/list_variable_tile.css", "CSS", 27, 0, 0, 0, 0, 5, 32
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/list_variable_tile.jsx", "JavaScript JSX", 0, 28, 0, 0, 0, 5, 33
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/topBar.css", "CSS", 60, 0, 0, 0, 2, 13, 75
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/topBar.jsx", "JavaScript JSX", 0, 22, 0, 0, 1, 14, 37
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/debugWindow/variable_tile.jsx", "JavaScript JSX", 0, 18, 0, 0, 0, 1, 19
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/dicSectionTitle.jsx", "JavaScript JSX", 0, 22, 0, 0, 0, 6, 28
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/dicWindow.css", "CSS", 85, 0, 0, 0, 3, 19, 107
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/dicWindow.jsx", "JavaScript JSX", 0, 179, 0, 0, 0, 24, 203
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/topBar.css", "CSS", 21, 0, 0, 0, 3, 12, 36
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/dictionaryWindow/topBar.jsx", "JavaScript JSX", 0, 18, 0, 0, 0, 19, 37
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/Components/fileTile.css", "CSS", 14, 0, 0, 0, 2, 3, 19
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/Components/fileTile.jsx", "JavaScript JSX", 0, 22, 0, 0, 0, 8, 30
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/filesWindow.css", "CSS", 40, 0, 0, 0, 0, 7, 47
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/filesWindow.jsx", "JavaScript JSX", 0, 47, 0, 0, 0, 11, 58
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/topBar.css", "CSS", 55, 0, 0, 0, 0, 9, 64
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/filesWindow/topBar.jsx", "JavaScript JSX", 0, 64, 0, 0, 2, 20, 86
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/firebase/auth.js", "JavaScript", 0, 0, 33, 0, 0, 16, 49
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/firebase/database.js", "JavaScript", 0, 0, 60, 0, 0, 12, 72
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/firebase/init.js", "JavaScript", 0, 0, 12, 0, 6, 3, 21
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/firebase/storage.js", "JavaScript", 0, 0, 15, 0, 5, 4, 24
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/index.css", "CSS", 55, 0, 0, 0, 0, 8, 63
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/index.html", "HTML", 0, 0, 0, 16, 1, 6, 23
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/infoWindow/infoWindow.css", "CSS", 15, 0, 0, 0, 0, 3, 18
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/infoWindow/infoWindow.jsx", "JavaScript JSX", 0, 23, 0, 0, 0, 10, 33
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/infoWindow/topBar.css", "CSS", 24, 0, 0, 0, 0, 7, 31
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/infoWindow/topBar.jsx", "JavaScript JSX", 0, 19, 0, 0, 0, 11, 30
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/init.js", "JavaScript", 0, 0, 1, 0, 0, 1, 2
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/javaish.mjs", "JavaScript", 0, 0, 51451, 0, 10, 25, 51486
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/javaish_old.mjs", "JavaScript", 0, 0, 25540, 0, 21, 22, 25583
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/main.jsx", "JavaScript JSX", 0, 9, 0, 0, 0, 2, 11
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/topBar/topBar.css", "CSS", 0, 0, 0, 0, 0, 1, 1
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/topBar/topBar.jsx", "JavaScript JSX", 0, 99, 0, 0, 4, 34, 137
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/welcomeWindow/welcomeWindow.css", "CSS", 39, 0, 0, 0, 0, 9, 48
+"/Users/nathanielkemmenash/Desktop/VS Code Projects/ProfessorJava/src/welcomeWindow/welcomeWindow.jsx", "JavaScript JSX", 0, 93, 0, 0, 1, 19, 113
+"Total", "-", 863, 2082, 77452, 16, 181, 852, 81446

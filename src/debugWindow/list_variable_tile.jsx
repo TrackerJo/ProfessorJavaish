@@ -13,11 +13,11 @@ function ListVariableTile({name, type, elements, setValue, removeElement, addEle
                     return (
                         <div key={index} className="list-variable-tile_element">
                             {type == "BOOLEANLIST" ? 
-                        <select onChange={(e) => setValue(e.target.value)} defaultValue={element}>
+                        <select onChange={(e) => setValue(e.target.value)} value={element}>
                             <option value="true">true</option>
                             <option value="false">false</option>
                         </select>
-                    :<input type={type == "INTLIST" ? "number" : "text"} defaultValue={element} onChange={(e) => setValue(e.target.value, index)} />}
+                    :<input type={type == "INTLIST" ? "number" : "text"} value={element} onChange={(e) => setValue(e.target.value, index)} />}
                             <img src={trashIcon} alt="remove" className="remove-element" onClick={() => {removeElement(index); console.log("Click")}}/>
                         </div>
                     )

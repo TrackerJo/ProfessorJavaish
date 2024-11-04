@@ -238,7 +238,7 @@ function App() {
     consoleMsgLine.className = 'ConsoleMsgLine'
     consoleMsgLine.innerHTML = "Line: " + message[1]
     consoleMsgLine.onclick = () => {
-      alert("Click")
+      // alert("Click")
       let code = document.querySelector('.CodeEditor .cm-editor .cm-scroller .cm-content')
       //console.log("CLICK")
       let lines = code.children
